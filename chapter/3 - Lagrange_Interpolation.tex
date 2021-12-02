@@ -63,30 +63,29 @@ c_0(x_n)\cdot{y_0} + c_1(x_n)\cdot{y_1} + c_2(x_n)\cdot{y_2}
 Система уравнений совместна если выполняются условия:
 \begin{equation*}
 \label{uslovia_c}
-c_{i}(x_j)=\left\{
-\begin{matrix}
-	1, &x_j=x_{i}\\
-	0, &x_j\ne{x_{i}}
-\end{matrix}
-\right.
+c_{i}(x_j)=\left\{\begin{matrix}
+1, &x_j=x_{i}\\
+0, &x_j\ne{x_{i}}
+\end{matrix}\right.
 \end{equation*}
 
-Коэффициенты $c_{i}(x)$ будем искать в виде многочленов степени $n$:
+Коэффициенты $c_{i}(x)$ можно искать в виде 
+многочленов степени $n$:
 \begin{equation*}
 \label{eq_c}
-\left\{
-\begin{matrix}
+\left\{\begin{matrix}
 c_0(x)&=&\alpha_0\cdot(x-x_1)\cdot(x-x_2)\cdot& \hdotsfor{3} &\cdot(x-x_n)\\
 c_1(x)&=&\alpha_1\cdot(x-x_0)\cdot(x-x_2)\cdot& \hdotsfor{3} &\cdot(x-x_n)\\
 \hdotsfor{7}\\
 c_i(x)&=&\alpha_i\cdot(x-x_0)\cdot(x-x_1)\cdot &\ldots &\cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot &\ldots &\cdot(x-x_n)\\
 \hdotsfor{7}\\
 c_n(x)&=&\alpha_n\cdot(x-x_0)\cdot(x-x_1)\cdot &\hdotsfor{3}  &\cdot(x-x_{n-1})
-\end{matrix}
-\right.
+\end{matrix}\right.
 \end{equation*}
 
-Определим неизвестные $\alpha_0, \alpha_1, \ldots, \alpha_i, \ldots, \alpha_n$ из условия для коэффициентов $c_{i}(x)$:
+Определим неизвестные 
+$\alpha_0, \alpha_1, \alpha_2, \ldots, \alpha_n$ 
+из условия для коэффициентов $c_{i}(x)$:
 \begin{equation*}
 \left\{
 \begin{matrix}
