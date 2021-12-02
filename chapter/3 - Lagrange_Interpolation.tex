@@ -68,12 +68,12 @@ c_{i}(x_j)=\left\{
 \label{eq_c}
 \left\{
 \begin{matrix}
-	c_{0}(x)&=&\alpha_{0}\cdot(x-x_{1})\cdot(x-x_{2})\cdot& \hdotsfor{3} &\cdot(x-x_{n})\\
-	c_{1}(x)&=&\alpha_{1}\cdot(x-x_{0})\cdot(x-x_{2})\cdot& \hdotsfor{3} &\cdot(x-x_{n})\\
-	\hdotsfor{7}\\
-	c_{i}(x)&=&\alpha_{i}\cdot(x-x_{0})\cdot(x-x_{1})\cdot &\ldots &\cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot &\ldots &\cdot(x-x_{n})\\
-	\hdotsfor{7}\\
-	c_{n}(x)&=&\alpha_{n}\cdot(x-x_{0})\cdot(x-x_{1})\cdot &\hdotsfor{3}  &\cdot(x-x_{n-1})
+c_0(x)&=&\alpha_0\cdot(x-x_1)\cdot(x-x_2)\cdot& \hdotsfor{3} &\cdot(x-x_n)\\
+c_1(x)&=&\alpha_1\cdot(x-x_0)\cdot(x-x_2)\cdot& \hdotsfor{3} &\cdot(x-x_n)\\
+\hdotsfor{7}\\
+c_i(x)&=&\alpha_i\cdot(x-x_0)\cdot(x-x_1)\cdot &\ldots &\cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot &\ldots &\cdot(x-x_n)\\
+\hdotsfor{7}\\
+c_n(x)&=&\alpha_n\cdot(x-x_0)\cdot(x-x_1)\cdot &\hdotsfor{3}  &\cdot(x-x_{n-1})
 \end{matrix}
 \right.
 \end{equation*}
@@ -148,7 +148,7 @@ $f(x_i)$&0,08&1,84&0,40&0,96\\
 L_{3}(x) = \sum \limits_{i=0}^3 \dfrac{ \prod\limits_{j \ne i}^3 (x - x_j) } { \prod\limits_{j \ne i}^3 (x_i - x_j) }\cdot f(x_i)
 \end{gather*}
 
-\begin{enumerate}[leftmargin=0pt]
+\begin{enumerate}%[leftmargin=0pt]
 \item
 Распишем полином Лагранжа в развернутом виде:
 \begin{gather*}
@@ -163,7 +163,7 @@ L_{3}(x)=
 
 \item
 Воспользуемся численными данными об узлах интерполяции $\{x_i\}$ 
-и значения интерполируемой функции в этих узлах $\{f(x_i)\}$:
+и значения интерпретируемой функции в этих узлах $\{f(x_i)\}$:
 \begin{gather*}
 \begin{matrix}
 L_{3}(x)=
