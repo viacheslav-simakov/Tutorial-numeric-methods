@@ -1,0 +1,72 @@
+%\input{../../../preamble}
+%\begin{document}
+%	Если макрос \GraphShiftToRight не определен, то
+%	определить макрос \def\\GraphShiftToRight{3cm}
+%
+\ifx\GraphShiftToRight\undefined
+	% отступ правого графика от левого
+	\def\GraphShiftToRight{3cm}
+\fi
+% *******************************
+%
+%	ГРАФИК ФУНКЦИЙ u(x), w(x)
+%
+% *******************************
+\begin{tikzpicture}[framed]
+\pgfplotsset{set layers=standard}
+\pgfsetlayers{background,axis grid,main,axis ticks, axis lines, axis tick labels,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\def\xLeft{1}
+\def\x{5.5}
+\def\xRight{9}
+\def\xleft{(\x+\xLeft)/2}
+\def\xright{(\x+\xRight)/2}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	name=plot1, title={a)},
+	xlabel = {$x$},	% подпись оси x
+	ylabel = {$u(x)$},	% подпись оси y
+	xmin=0, xmax=10, 
+	xtick={\xLeft,\xleft,\x,\xright,\xRight}, 
+	xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_{i}$,$x_{i+\onehalf}$,$x_{i+1}$},
+	ymin=-1, ymax=12, ytick={1,6,9}, yticklabels={\empty},%yticklabels={$u(x_{i-1})$,$u(x_{i})$,$u(x_{i+1})$},
+	const plot mark mid,
+]
+\addplot[
+	thick, mark=*, mark size=4pt, mark options={fill=lime, draw=black, solid},
+	nodes near coords,
+	point meta=explicit symbolic,
+	node near coord style={midway,above,yshift=1ex,black,fill=olive!10},
+]
+coordinates {(\xLeft,6) [$u_{i-1}$] (\x,1) [$u_i$] (\xRight,9) [$u_{i+1}$]};
+\end{axis}
+% потоковая величина w(x)
+\begin{axis}
+[	width=7cm,
+	my graph style,
+%	график справа 	 
+	at={($(plot1.east)+(\GraphShiftToRight,0)$)},
+	anchor=west,
+	title={b)},
+% ************
+	xlabel={$x$},
+	ylabel={$w(x)$},	% подпись оси y
+	xmin=0, xmax=10, 
+	xtick={\xLeft,\xleft,\x,\xright,\xRight}, 
+	xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_{i}$,$x_{i+\onehalf}$,$x_{i+1}$},	
+	ymin=0, ymax=10, ytick={3,7}, yticklabels={\empty},%yticklabels={$w(x_{i-\onehalf})$,$w(x_{i+\onehalf})$},
+]
+\addplot[const plot,thick,blue,thick] coordinates {(\xLeft,3) ({\x},7) (\xRight,7)};
+\addplot[
+	only marks,mark=*,mark size=4pt,mark options={fill=blue!20,draw=blue,solid,thick},
+	nodes near coords,
+	point meta=explicit symbolic,
+	node near coord style={midway,above,yshift=1ex,blue,fill=olive!10},
+]
+coordinates {({\xleft},3) [$w_{i-\onehalf}$] ({\xright},7) [$w_{i+\onehalf}$]};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% *******************************************
+%\end{document}

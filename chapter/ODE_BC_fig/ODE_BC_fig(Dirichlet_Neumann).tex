@@ -1,0 +1,62 @@
+%\input{../../../preamble}
+%\begin{document}
+%	Если макрос \GraphShiftToRight не определен, то
+%	определить макрос \def\\GraphShiftToRight{3cm}
+%
+\ifx\GraphShiftToRight\undefined
+	% отступ правого графика от левого
+	\def\GraphShiftToRight{3cm}
+\fi
+% **************************************************
+%
+%	Краевые условия для обыкновенных дифференциальных уравнений
+%
+% **************************************************
+\begin{tikzpicture}[framed]
+%
+%	Задача Дирихле
+%
+\begin{axis}
+[	width=7cm,
+	name=plota,
+	my graph style,
+	title={a)},
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$y(x)$},	% подпись оси y
+	xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
+	ymin=0, ymax=9, ytick={3,6}, yticklabels={\empty},
+]
+\addplot[thick,black,domain=0:3,samples=50] {x^2-2*x+3};
+\addplot[
+	only marks, mark=*, mark size=4pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=0.5ex,color=red}%fill=olive!10},
+] coordinates {(0,3) [$y_a$] (3,6) [$y_b$]};
+\end{axis}
+%
+%	Задача Неймана
+%
+\begin{axis}
+[	width=7cm,
+	name=plotb, at={($(plota.east)+(\GraphShiftToRight,0)$)}, anchor=west,
+	my graph style,
+	title={b)},
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$y(x)$},	% подпись оси y
+	xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
+	ymin=0, ymax=9, ytick={\empty}, %yticklabels={$y_a$,$y_b$},
+]
+\addplot[thick,red,domain=0:3,samples=50] {x^2-2*x+3};
+\addplot[
+	only marks, mark=*, mark size=3pt, mark options={fill=white, draw=blue, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=1ex,color=blue}
+] coordinates {(0,3) [$y^{\prime}_a$] (3,6) [$y^{\prime}_b$]};
+% y'(a)
+\addplot[thick,blue,domain=-0.75:0.75,samples=2] {-2*x+3};
+% y'(b)
+\addplot[thick,blue,domain=2.5:3.5,samples=2] {4*x-6};
+\end{axis}
+\end{tikzpicture}
+% **************************************************
+%\end{document}

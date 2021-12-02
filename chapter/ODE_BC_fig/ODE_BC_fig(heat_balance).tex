@@ -1,0 +1,27 @@
+%\input{../../../preamble}
+%\begin{document}
+% *******************************
+%
+%	БАЛАНС ТЕПЛА
+%
+% *******************************
+\begin{tikzpicture}[framed]
+% контрольная область
+\draw[shape=rectangle, minimum height=2.5cm, minimum width=4.5cm] 
+(0,0) node[thick,color=black,draw,color=black,fill=orange!10,] (A)
+{$\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}g(x)dx$};
+% слагаемые уравнения баланса
+\draw[-Latex,ultra thick,blue] (A.east) -- +(3,0) node[above,midway] {$w(x_{i+\onehalf})$};
+\draw[Latex-,ultra thick,blue] (A.west) -- +(-3,0) node[above,midway] {$w(x_{i-\onehalf})$};
+\draw[-Latex,ultra thick,red] (A.north) -- +(0,3) node[right,midway] {$\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}r(x)\cdot u(x)dx$};
+% ось OX
+\draw[very thick,black] ($(A.south west)+(-4,-1em)$) -- ($(A.south west) + (0,-1em)$);
+\draw[ultra thick,orange] ($(A.south west)+(0,-1em)$) -- ($(A.south east) + (0,-1em)$);
+\draw[->,very thick,black] ($(A.south east)+(0,-1em)$) -- ($(A.south east) + (4,-1em)$) node[below,yshift=-1ex,xshift=-1em] {$x$};
+% границы отрезка (относительно границ прямоугольника)
+\draw[very thick,black] ($(A.south west)+(0,-0.75em)$) -- ($(A.south west) + (0,-1.25em)$) node[below] {$x_{i-\onehalf}$};
+\draw[ultra thick,orange] ($(A.south)+(0,-0.75em)$) -- ($(A.south) + (0,-1.25em)$) node[below,black] {$x_{i}$};
+\draw[very thick,black] ($(A.south east)+(0,-0.75em)$) -- ($(A.south east) + (0,-1.25em)$) node[below] {$x_{i+\onehalf}$};
+\end{tikzpicture}
+% *******************************************
+%\end{document}

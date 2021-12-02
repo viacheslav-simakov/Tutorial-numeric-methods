@@ -1,0 +1,248 @@
+\newpage
+\section{Интерполирование функций}
+%
+%	Интерполяция функций полиномами Лагранжа
+%
+\subsection{Интерполяция функций полиномами Лагранжа}
+
+Пусть на отрезке $x\in[a, b]$ выбраны узлы интерполирования 
+$x_{i}$ $(i=0, 1, \ldots, n)$, в которых известны значения функции 
+$f_{i}=f(x_{i})$.
+Задача интерполирования алгебраическими многочленами 
+состоит в том, чтобы построить многочлен степени $n$
+\begin{equation*}
+L_{n}(x)
+=a_{0} + a_{1}\cdot{x} + a_{2}\cdot{x^2} + \ldots + a_{n}\cdot{x^n}
+=\sum\limits_{i=0}^{n}a_ix^i
+\end{equation*}
+значения которого в заданных точках $x_{i}$, 
+совпадают со значениями функции $f(x)$ в этих точках.
+
+Многочлен $L_{n}(x)$ должен удовлетворять условиям:
+\begin{equation*}
+\label{inter}
+\left\{\begin{matrix}
+L_{n}(x_{0})&=&f_{0}\\
+L_{n}(x_{1})&=&f_{1}\\
+L_{n}(x_{2})&=&f_{2}\\
+\hdotsfor{3}\\
+L_{n}(x_{n})&=&f_{n}\\
+\end{matrix}\right.
+\end{equation*}
+
+Интерполяционная формула Лагранжа позволяет 
+представить многочлен $L_{n}(x)$ в виде 
+линейной комбинации значений функции $f(x)$ 
+в узлах интерполирования:
+\begin{equation*}
+\label{lagrang}
+L_{n}(x) = c_{0}(x)\cdot{f_{0}} + c_{1}(x)\cdot{f_{1}} + \ldots + c_{i}(x)\cdot{f_{i}} + \ldots + c_{n}(x)\cdot{f_{n}}
+\end{equation*}
+где $c_0(x), c_1(x), \ldots, c_{i}(x), \ldots, c_n(x)$ - неизвестные функции.
+
+Из условий интерполирования:
+\begin{equation*}
+\label{inter2}
+\left\{
+\begin{matrix}
+	c_{0}(x_{0})\cdot{f_{0}} + c_{1}(x_{0})\cdot{f_{1}} + \ldots + c_{i}(x_{0})\cdot{f_{i}} + \ldots + c_{n}(x_{0})\cdot{f_{n}}&=&f_{0}\\
+	c_{0}(x_{1})\cdot{f_{0}} + c_{1}(x_{1})\cdot{f_{1}} + \ldots + c_{i}(x_{1})\cdot{f_{i}} + \ldots + c_{n}(x_{1})\cdot{f_{n}}&=&f_{1}\\
+	c_{0}(x_{2})\cdot{f_{0}} + c_{1}(x_{2})\cdot{f_{1}} + \ldots + c_{i}(x_{2})\cdot{f_{i}} + \ldots + c_{n}(x_{2})\cdot{f_{n}}&=&f_{2}\\
+	\hdotsfor{3}\\
+	c_{0}(x_{n})\cdot{f_{0}} + c_{1}(x_{n})\cdot{f_{1}} + \ldots + c_{i}(x_{n})\cdot{f_{i}} + \ldots + c_{n}(x_{n})\cdot{f_{n}}&=&f_{n}\\
+\end{matrix}
+\right.
+\end{equation*}
+
+Система уравнений совместна если выполняются условия:
+\begin{equation*}
+\label{uslovia_c}
+c_{i}(x_j)=\left\{
+\begin{matrix}
+	1, &x_j=x_{i}\\
+	0, &x_j\ne{x_{i}}
+\end{matrix}
+\right.
+\end{equation*}
+
+Коэффициенты $c_{i}(x)$ будем искать в виде многочленов степени $n$:
+\begin{equation*}
+\label{eq_c}
+\left\{
+\begin{matrix}
+	c_{0}(x)&=&\alpha_{0}\cdot(x-x_{1})\cdot(x-x_{2})\cdot& \hdotsfor{3} &\cdot(x-x_{n})\\
+	c_{1}(x)&=&\alpha_{1}\cdot(x-x_{0})\cdot(x-x_{2})\cdot& \hdotsfor{3} &\cdot(x-x_{n})\\
+	\hdotsfor{7}\\
+	c_{i}(x)&=&\alpha_{i}\cdot(x-x_{0})\cdot(x-x_{1})\cdot &\ldots &\cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot &\ldots &\cdot(x-x_{n})\\
+	\hdotsfor{7}\\
+	c_{n}(x)&=&\alpha_{n}\cdot(x-x_{0})\cdot(x-x_{1})\cdot &\hdotsfor{3}  &\cdot(x-x_{n-1})
+\end{matrix}
+\right.
+\end{equation*}
+
+Определим неизвестные $\alpha_0, \alpha_1, \ldots, \alpha_i, \ldots, \alpha_n$ из условия для коэффициентов $c_{i}(x)$:
+\begin{equation*}
+\left\{
+\begin{matrix}
+	1&=&\alpha_{0}\cdot(x_{0}-x_{1})\cdot(x_{0}-x_{2})\cdot& \hdotsfor{3} &\cdot(x_{0}-x_{n})\\
+	1&=&\alpha_{1}\cdot(x_{1}-x_{0})\cdot(x_{1}-x_{2})\cdot& \hdotsfor{3} &\cdot(x_{1}-x_{n})\\
+	\hdotsfor{7}\\
+	1&=&\alpha_{i}\cdot(x_{i}-x_{0})\cdot(x_{i}-x_{1})\cdot &\ldots &\cdot(x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1})\cdot &\ldots &\cdot(x_{i}-x_{n})\\
+	\hdotsfor{7}\\
+	1&=&\alpha_{n}\cdot(x_{n}-x_{0})\cdot(x_{n}-x_{1})\cdot &\hdotsfor{3}  &\cdot(x_{n}-x_{n-1})
+\end{matrix}
+\right.
+\end{equation*}
+
+Таким образом, коэффициенты $c_{i}(x)$ интерполяционного многочлена находятся из соотношений:
+\begin{equation*}
+\left\{
+\begin{matrix}
+	c_{0}(x)&=&\dfrac
+		{ (x-x_{1})\cdot(x-x_{2})\cdot \ldots \cdot(x-x_{n}) }
+		{ (x_{0}-x_{1})\cdot(x_{0}-x_{2})\cdot \ldots \cdot(x_{0}-x_{n}) }\\
+	\\
+	c_{1}(x)&=&\dfrac
+		{ (x-x_{0})\cdot(x-x_{2})\cdot \ldots \cdot(x-x_{n}) }
+		{ (x_{1}-x_{0})\cdot(x_{1}-x_{2})\cdot \ldots \cdot(x_{1}-x_{n}) }\\
+	&\hdotsfor{2}\\
+	c_{i}(x)&=&\dfrac
+		{ (x-x_{0})\cdot(x-x_{1})\cdot \ldots \cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot \ldots \cdot(x-x_{n}) }
+		{ (x_{i}-x_{0})\cdot(x_{i}-x_{1})\cdot \ldots \cdot(x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1})\cdot \ldots \cdot(x_{i}-x_{n}) }\\
+	&\hdotsfor{2}\\
+	c_{n}(x)&=&\dfrac
+		{ (x-x_{0})\cdot(x-x_{2})\cdot \ldots \cdot(x-x_{n-1}) }
+		{ (x_{n}-x_{0})\cdot(x_{n}-x_{2})\cdot \ldots \cdot(x_{n}-x_{n-1}) }
+\end{matrix}
+\right.
+\end{equation*}
+
+Или в более компактной форме:
+\begin{equation*}
+c_{i}(x) = \dfrac{ \prod\limits_{j \ne i}^n (x - x_j) } { \prod\limits_{j \ne i}^n (x_i - x_j) }
+\end{equation*}
+
+Итак, интерполяционный многочлен Лагранжа имеет вид:
+\begin{equation*}
+L_{n}(x) = \sum \limits_{i=0}^n \dfrac{ \prod\limits_{j \ne i}^n (x - x_j) } { \prod\limits_{j \ne i}^n (x_i - x_j) }\cdot f(x_i)
+\end{equation*}
+
+%
+%	Интерполирование таблично заданной функции полином Лагранжа $L_3(x)$
+%
+\subsection{Интерполирование функции полином Лагранжа $L_3(x)$}.
+
+Известно множество данных (узлов интерполяции)
+$\{x_i\}$ ($i=0,1,2,3$), в которых определены значения функции $f(x)$:
+\begin{center}
+\begin{tabular}{ l *{4}{l}}
+\toprule
+$x_i$&-0,76&-0,09&0,22&0,55\\
+\midrule
+$f(x_i)$&0,08&1,84&0,40&0,96\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Построим интерполяционный полином Лагранжа $L_2(x)$ на основе данных 
+об узлах интерполяции $\{x_i\}$ и значений функции в этих точках $\{f(x_i)\}$:
+\begin{gather*}
+L_{3}(x) = \sum \limits_{i=0}^3 \dfrac{ \prod\limits_{j \ne i}^3 (x - x_j) } { \prod\limits_{j \ne i}^3 (x_i - x_j) }\cdot f(x_i)
+\end{gather*}
+
+\begin{enumerate}[leftmargin=0pt]
+\item
+Распишем полином Лагранжа в развернутом виде:
+\begin{gather*}
+\begin{matrix}
+L_{3}(x)=
+&&\dfrac{(x-x_1)(x-x_2)(x-x_3)}{(x_0-x_1)(x_0-x_2)(x_0-x_3)}\cdot{f({x_0})}&+\\[1em]
+&+&\dfrac{(x-x_0)(x-x_2)(x-x_3)}{(x_1-x_0)(x_1-x_2)(x_1-x_3)}\cdot{f({x_1})}&+\\[1em]
+&+&\dfrac{(x-x_0)(x-x_1)(x-x_3)}{(x_2-x_0)(x_2-x_1)(x_2-x_3)}\cdot{f({x_2})}&+\\[1em]
+&+&\dfrac{(x-x_0)(x-x_1)(x-x_2)}{(x_3-x_0)(x_3-x_1)(x_3-x_2)}\cdot{f({x_3})}&
+\end{matrix}
+\end{gather*}
+
+\item
+Воспользуемся численными данными об узлах интерполяции $\{x_i\}$ 
+и значения интерполируемой функции в этих узлах $\{f(x_i)\}$:
+\begin{gather*}
+\begin{matrix}
+L_{3}(x)=
+&&\dfrac{(x-(-0,09))(x-0,22)(x-0,55)}{(-0.76-(-0,09))(-0.76-0,22)(-0.76-0,55)}\cdot0,08&+\\[1em]
+&+&\dfrac{(x-(-0.76))(x-0,22)(x-0,55)}{(-0,09-(-0.76))(-0,09-0,22)(-0,09-0,55)}\cdot1,84&+\\[1em]
+&+&\dfrac{(x-(-0.76))(x-(-0,09))(x-0,55)}{(0,22-(-0.76))(0,22-(-0,09))(0,22-0,55)}\cdot0,40&+\\[1em]
+&+&\dfrac{(x-(-0.76))(x-(-0,09))(x-0,22)}{(0,55-(-0.76))(0,55-(-0,09))(0,55-0,22)}\cdot0,96&
+\end{matrix}
+\end{gather*}
+
+\item
+Проведем необходимые арифмитические действия:
+\begin{gather*}
+\begin{matrix}
+L_{3}(x)=
+&&\dfrac{(x+0,09)(x-0,22)(x-0,55)}{(-0,67)(-0,98)(-1,31)}\cdot0,08&+\\[1em]
+&+&\dfrac{(x+0.76)(x-0,22)(x-0,55)}{(0,67)(-0,31)(-0,64)}\cdot1,84&+\\[1em]
+&+&\dfrac{(x+0.76)(x+0,09)(x-0,55)}{(0,98)(0,31)(-0,33)}\cdot0,40&+\\[1em]
+&+&\dfrac{(x+0.76)(x+0,09)(x-0,22)}{(1,31)(0,64)(0,33)}\cdot0,96&
+\end{matrix}
+\end{gather*}
+
+или
+\begin{gather*}
+\begin{matrix}
+L_{3}(x)=
+&&\dfrac{(x+0,09)(x-0,22)(x-0,55)}{-0,86}\cdot0,08&+\\[1em]
+&+&\dfrac{(x+0.76)(x-0,22)(x-0,55)}{0,13}\cdot1,84&+\\[1em]
+&+&\dfrac{(x+0.76)(x+0,09)(x-0,55)}{-0,10}\cdot0,40&+\\[1em]
+&+&\dfrac{(x+0.76)(x+0,09)(x-0,22)}{0,28}\cdot0,96&
+\end{matrix}
+\end{gather*}
+
+Продолжая делать упрощения окончательно получим:
+\begin{gather*}
+\begin{matrix}
+L_{3}(x)=
+&&(x+0,09)(x-0,22)(x-0,55)\cdot(-0,09)&+\\
+&+&(x+0.76)(x-0,22)(x-0,55)\cdot13,84&+\\
+&+&(x+0.76)(x+0,09)(x-0,55)\cdot(-3,99)&+\\
+&+&(x+0.76)(x+0,09)(x-0,22)\cdot3,47&
+\end{matrix}
+\end{gather*}
+
+\item
+На одном графике представим диаграмму рассеяния (разброса) данных $f(x_i)$ (маркеры) 
+и интерполяционный полином Лагранжа $L_3(x)$ (\textcolor{red}{сплошная линия}).
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}[background rectangle/.style={fill=olive!10}, show background rectangle]
+\begin{axis}[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$f(x)$},	% подпись оси y
+	xmin=-0.9, xmax=0.7, xtick={-0.8,-0.4,0,0.4},
+	ymin=-1, ymax=3,
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=lime, draw=black, solid}] coordinates 
+{(-0.76,0.08) (-0.09,1.84) (0.22,0.40) (0.55,0.96)};
+\addplot[smooth, very thick, color=red, domain=-0.8:0.6] 
+{
+(x+0.09)*(x-0.22)*(x-0.55)*(-0.09)+
+(x+0.76)*(x-0.22)*(x-0.55)*13.84+
+(x+0.76)*(x+0.09)*(x-0.55)*(-3.99)+
+(x+0.76)*(x+0.09)*(x-0.22)*3.47
+};
+\draw[color=red] (axis cs:0,1.4) node [right] {$L_3(x)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *******************************
+\end{enumerate}
+
+%\end{document}

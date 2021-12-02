@@ -1,0 +1,39 @@
+%\input{../../../preamble}
+%\begin{document}
+
+% *******************************
+%
+%	СМЕШАННАЯ КРАЕВАЯ ЗАДАЧА
+%
+% *******************************
+\begin{center}
+\begin{tikzpicture}[framed]
+% контрольная область
+\draw[
+chamfered rectangle,
+chamfered rectangle xsep=4pt,
+chamfered rectangle angle=60,
+minimum height=3em,
+minimum width=10em
+] (0,0) node[thick,color=black,draw,color=black,fill=lime!10,] (G)
+{$\kappa\cdot y^{\prime}(a)+\lambda\cdot y(a)=\mu$};
+\node[above] at (G.north) {Смешанная задача};
+% Задача Дирихле
+\draw[shape=rectangle,minimum height=3em, minimum width=5em]
+($(G.south west)+(-3em,-5em)$)
+node[thick,red,draw=red,fill=red!10] (D) {$y(a)=y_a$};
+\node[below] at (D.south) {Задача Дирихле};
+\node[right] at (D.east) {$y_a=\dfrac{\mu}{\lambda}$};
+% Задача Неймана
+\draw[shape=rectangle, minimum height=3em, minimum width=5em]
+($(G.south east)+(3em,-5em)$)
+node[thick,blue,draw=blue,fill=blue!10] (N) {$y^{\prime}(a)=y^{\prime}_a$};
+\node[below] at (N.south) {Задача Неймана};
+\node[right] at (N.east) {$y^{\prime}_a=\dfrac{\mu}{\kappa}$};
+% стрелки
+\draw[-latex,very thick,red] (G.west) -| (D.north) node[left,midway] {$\kappa\equiv0$};
+\draw[-latex,very thick,blue] (G.east) -| (N.north) node[right,midway] {$\lambda\equiv0$};
+\end{tikzpicture}
+\end{center}
+% *******************************************
+%\end{document}

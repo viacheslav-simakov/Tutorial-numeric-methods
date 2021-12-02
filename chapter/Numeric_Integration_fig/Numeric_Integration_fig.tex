@@ -1,0 +1,84 @@
+% **************************************************
+%
+%	Приближенное значение интегралов: формула прямоугольника
+%
+% **************************************************
+\begin{figure}
+\begin{center}
+\begin{tabular}{c c}
+\begin{tikzpicture}[framed]
+% последовательность графических слоев
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$y(x)$},		% подпись оси y
+	y label style={yshift=0em,color=black},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_{i}$},
+	ymin=0, ymax=6.5, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\addplot[name path=A, thick,red,domain=0:4,samples=50] {-4*exp(-(x-0.5)^2/2)+5};
+\path[name path=B] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[orange!20] fill between [of=A and B, soft clip={domain=0:4}];
+\addplot[
+	only marks, mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=0ex,color=black,}%fill=olive!10},
+]
+coordinates {
+(0,{-4*exp(-(0-0.5)^2/2)+5}) [$y_{i-1}$] 
+(4,{-4*exp(-(4-0.5)^2/2)+5}) [$y_{i}$]
+};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% 
+&
+\begin{tikzpicture}[framed]
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$y(x)$},		% подпись оси y
+	y label style={yshift=0em,color=black},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_{i}$},
+	ymin=0, ymax=6.5, ytick={{-4*exp(-(2-0.5)^2/2)+5}}, yticklabels={\empty},
+]
+\addplot[thick,red,domain=0:4,samples=50] {-4*exp(-(x-0.5)^2/2)+5};
+\path[name path=A] 
+(axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- 
+(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\path[name path=B] 
+(axis cs: \pgfkeysvalueof{/pgfplots/xmin},{-4*exp(-(2-0.5)^2/2)+5}) -- 
+(axis cs:\pgfkeysvalueof{/pgfplots/xmax},{-4*exp(-(2-0.5)^2/2)+5});
+\addplot[blue!10] fill between [of=A and B, soft clip={domain=0:4}];
+\addplot[
+	only marks, mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=0ex,color=black,}%fill=olive!10},
+]
+coordinates {
+(0,{-4*exp(-(0-0.5)^2/2)+5}) [$y_{i-1}$] 
+(4,{-4*exp(-(4-0.5)^2/2)+5}) [$y_{i}$]
+};
+\draw[thick,blue,fill=white] (axis cs:2,{-4*exp(-(2-0.5)^2/2)+5}) 
+circle(3pt) node[right,yshift=-1em,blue] {$y_{i-\onehalf}$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+\\
+a)&b)\\
+\end{tabular}
+\caption{Иллюстрация вычисления 
+определенного интеграла с помощью формулы прямоугольников:
+a) точное значение; b) приближенное значение\\
+(площадь выделенной области соответствует численному значению определенного интеграла)
+}
+\label{eq:ODE_BC_INT}
+\end{center}
+\end{figure}
+% **************************************************

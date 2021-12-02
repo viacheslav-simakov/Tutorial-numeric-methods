@@ -1,0 +1,526 @@
+%\input{../../preamble}
+%\begin{document}
+
+%
+%	Задача Коши для систем дифференциальных уравнений
+%
+\newpage
+\section{Задача Коши для систем обыкновенных дифференциальных уравнений}
+
+Рассмотрим задачу Коши для системы обыкновенных дифференциальных уравнений вида:
+\begin{gather}\label{eq:ODE_SYS}
+\diff{\vec u}{t} = \vec f(t, \vec u),\quad \vec{u}(0)=\vec{\mathring u}
+,\end{gather}
+где $\vec u(t)$ -- неизвестные функции, которые подлежат определению;
+$\vec f(t, \vec u)$ -- известные функции, зависящие от времени и неизвестных функций $\vec u$;
+$\vec{\mathring u}$ -- \textit{начальные условия}, т.е. значения неизвестных функций в начальный момент времени $(t=0)$. 
+
+Запишем в развернутом виде систему \eqref{eq:ODE_SYS} линейных обыкновенных дифференциальных уравнений первого порядка 
+и начальные условия:
+\begin{gather}\label{eq:ODE_IC}
+\left\{\begin{matrix}
+\diff{u_1}{t}&=&f_1(t, u_1,u_2,\cdots,u_n),&u_1(0)&=&\mathring u_1\\[1em]
+\diff{u_2}{t}&=&f_2(t, u_1,u_2,\cdots,u_n),&u_2(0)&=&\mathring u_2\\[1em]
+\vdots&=&\ddots&\vdots&=&\vdots\\[1em]
+\diff{u_n}{t}&=&f_n(t, u_1,u_2,\cdots,u_n),&u_n(0)&=&\mathring u_n
+\end{matrix}\right.
+,\end{gather}
+где $n$ -- количество дифференциальных уравнений в системе.
+
+Будем полагать, что решение задачи Коши \eqref{eq:ODE_IC} существует, 
+единственно и обладает необходимыми свойствами гладкости.
+
+%
+% Метод Эйлера
+%
+\subsection{Метод Эйлера решения задачи Коши}
+
+Введем по переменной $t$ равномерную сетку с шагом $\tau>0$, т. е. рассмотрим множество точек:
+\begin{gather*}
+\omega_{\tau}=\{t_j=j\tau\},\quad j=0,1,2,\dots N
+,\end{gather*}
+где $j$ -- номер временного интервала;
+$\tau$ -- шаг сетки, т.е. временной интервал между двумя последовательными моментами времени;
+$N$ -- количество узлов временной сетки.
+
+Основная идея метода Эйлера заключается в предположении, о том что неизвестные функции
+в интервале между узлами временной сетки изменяются линейно. 
+Поэтому проводится аппроксимация производных по времени от неизвестных функций 
+соотношением вида:
+\begin{gather}
+\diff{\vec u}{t}\approx\dfrac{\vec u(t_{j+1})-\vec u(t_{j})}{\tau}
+.\end{gather}
+
+Тогда система дифференциальных уравнений первого порядка \eqref{eq:ODE_SYS} запишется в виде:
+\begin{gather}\label{eq:ODE_NUM}
+\dfrac{\vec u(t_{j+1})-\vec u(t_{j})}{\tau} = \vec f\left(t_j, \vec u(t_{j})\right)
+\end{gather}
+
+Относительно неизвестных $\vec u(t_{j+1})$ это система линейных алгебраических уравнений и 
+решение системы \eqref{eq:ODE_NUM} находится явным образом по рекуррентным формулам:
+\begin{gather}\label{eq:ODE_EULER}
+\vec u(t_{j+1})=\vec u(t_{j})+\tau\cdot\vec f\left(t_j, \vec u(t_{j})\right),
+\quad \vec u(0)=\vec{\mathring u},
+\quad j=1,2,\dots N
+\end{gather}
+
+Запишем полученные рекуррентные соотношения \eqref{eq:ODE_EULER} в развернутом виде:
+\begin{gather}\label{eq:ODE_EULER_SYS}
+\left\{\begin{matrix}
+u_1(t_{j+1})&=&u_1(t_{j})+\tau\cdot f_1\left(t_j, u_1(t_{j}),u_2(t_{j}),\cdots,u_n(t_{j})\right),&u_1(0)&=&\mathring u_1\\%[1em]
+u_2(t_{j+1})&=&u_2(t_{j})+\tau\cdot f_2\left(t_j, u_1(t_{j}),u_2(t_{j}),\cdots,u_n(t_{j})\right),&u_2(0)&=&\mathring u_2\\%[1em]
+\vdots&=&\ddots&&\vdots&\\[1em]
+u_n(t_{j+1})&=&u_n(t_{j})+\tau\cdot f_n\left(t_j, u_1(t_{j}),u_2(t_{j}),\cdots,u_n(t_{j})\right),&u_n(0)&=&\mathring u_n
+\end{matrix}\right.
+.\end{gather}
+
+Метод Эйлера является простейшим численным методом решения задачи Коши
+Недостатки метода являются: малая точность; систематическое накопление ошибок.
+
+Для простоты рассмотрим только одно дифференциальное уравнение с единственным начальным условием:
+\begin{gather*}
+y(t_{j+1})=y(t_{j})+\tau\cdot f\left(t_j, y(t_{j})\right),\quad y(0)=\mathring y,\quad j=1,2,\dots N
+\end{gather*}
+
+На рисунке \ref{fig:EULER} представлена графическая иллюстрация метода Эйлера 
+численного решения задачи Коши для одного дифференциального уравнения первого порядка:
+% *******************************
+%	Ломаная Эйлера
+%
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[background rectangle/.style={fill=olive!10}, show background rectangle]
+
+\begin{axis}[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {\empty},	% подпись оси y
+	xmin=-1, xmax=11, xtick={0,2,4,6,8,10}, xticklabels={$t_0$,$t_1$,,$t_j$,,$t_N$},
+	ymin=0.5, ymax=7, ytick={1,2,3.5,5,6,6.5}, yticklabels={$y(t_0)$,$y(t_1)$,,$y(t_j)$,,$y(t_N)$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[thick, mark=*, mark size=4pt, mark options={fill=lime, draw=black, solid}] coordinates 
+{(0,1) (2,2) (4,3.5) (6,5) (8,6) (10,6.5)};
+\draw (axis cs:2.2,2) node [right] {$y(t_1)=y(t_0)+\tau f(t_0,y(t_0))$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\caption{Ломаная Эйлера}\label{fig:EULER}
+\end{figure}
+% *******************************
+
+%
+%	Оценка погрешности решения задачи Коши
+%
+\subsection{Оценка погрешности решения задачи Коши}
+
+Интегрирование системы дифференциальных уравнений \eqref{eq:ODE_SYS}
+по временной переменной $t$ с учетом начальных условий:
+\begin{gather}\label{eq:ODE_SYS_INT}
+\hat{\vec u}(t)=\vec u(0)+\int\limits_{0}^{t}\vec f(\xi, \hat{\vec u})d\xi
+.\end{gather}
+
+Уравнение \eqref{eq:ODE_SYS_INT} является интегральным уравнением 
+для неизвестной функции $\hat{\vec u}(t)$, а его решение 
+эквивалентно решению задачи Коши \eqref{eq:ODE_SYS}.
+
+На временной сетке $\omega_\tau$ 
+интеграл в правой части равенства \eqref{eq:ODE_SYS_INT}
+приближенно вычисляется по формуле трапеций:
+\begin{gather}\label{eq:ODE_SYS_INT_TRAP}
+\int\limits_{0}^{t_{j+1}}\vec f(\xi, \hat{\vec u})d\xi\approx\sum\limits_{k=0}^{j}
+\dfrac{
+\vec f\left(t_{k},\hat{\vec u}(t_{k})\right)+
+\vec f\left(t_{k+1},\hat{\vec u}(t_{k+1})\right)
+}{2}\cdot\tau
+.\end{gather}
+
+Воспользовавшись \eqref{eq:ODE_SYS_INT_TRAP}, 
+выражением для решения интегрального уравнения \eqref{eq:ODE_SYS_INT} 
+можно записать в рекуррентной форме:
+\begin{gather}
+\hat{\vec u}(t_{j+1})=\hat{\vec u}(t_{j})+
+\dfrac{
+\vec f\left(t_{j},\hat{\vec u}(t_{j})\right)+
+\vec f\left(t_{j+1},\hat{\vec u}(t_{j+1})\right)
+}{2}\cdot\tau
+.\end{gather}
+
+Для определения приближенного значения решения интегрального уравнения 
+могут быть использованы значения неизвестных функций 
+${\vec u}(t_{j})$, 
+рассчитанные по методу Эйлера на $j$-ом временном слое:
+\begin{gather}
+\hat{\vec u}(t_{j+1})\approx\hat{\vec u}(t_{j})+
+\dfrac{
+\vec f\left(t_{j},{\vec u}(t_{j})\right)+
+\vec f\left(t_{j+1},{\vec u}(t_{j+1})\right)
+}{2}\cdot\tau
+.\end{gather}
+
+В качестве предельной абсолютной погрешности приближенного решения ${\vec u}(t_{j})$ 
+задачи Коши \eqref{eq:ODE_SYS} можно принять величину:
+\begin{gather}
+\epsilon_i(t_j)=|\hat{u}_i(t_j) - {u}_i(t_j)|,\quad i=1,2,\dots n
+\end{gather}
+
+%
+%	Численное решение задачи Коши методом Эйлера
+%
+\subsection{Численное решение задачи Коши методом Эйлера}
+
+Применяя метод Эйлера, найдем решение задачи Коши
+системы дифференциальных уравнений:
+\begin{gather}\label{eq:ODE_MY}
+\left\{\begin{matrix}
+\diff{u_1}{t}&=&{0,2}t+u_2,&u_1(0)&=&1\\[1em]
+\diff{u_2}{t}&=&-\dfrac{u_1}{2},&u_2(0)&=&0
+\end{matrix}\right.
+,\end{gather}
+в пределах отрезка $t\in[0, 10]$ на равномерной сетке с количеством временных интервалов $N=5$.
+
+Введем обозначения
+\begin{gather*}
+\left\{\begin{array}{rcl}
+f_1(t)&=&{0,2}\cdot{t}+u_2(t)\\[1em]
+f_2(t)&=&-\dfrac{u_1(t)}{2}
+\end{array}\right.
+.\end{gather*}
+где $f_1$ и $f_2$ -- функции, стоящие в правых частях 
+дифференциальных уравнений системы \eqref{eq:ODE_MY}:
+
+Рекуррентные соотношения \eqref{eq:ODE_EULER_SYS} 
+для решения задачи Коши \eqref{eq:ODE_MY} методом Эйлера:
+\begin{gather}\label{eq:ODE_SYS_RR}
+\left\{\begin{matrix}
+u_1(t_{j+1})&=&u_1(t_{j})+\tau\cdot f_1(t_j),&u_1(0)&=&1\\%[1em]
+u_2(t_{j+1})&=&u_2(t_{j})+\tau\cdot f_2(t_j),&u_2(0)&=&0
+\end{matrix}\right.
+,\end{gather}
+
+Решение системы интегральных уравнений \eqref{eq:ODE_SYS_INT} 
+определяется рекурретными соотношениями:
+\begin{gather}\label{eq:ODE_SYS_INT_RR}
+\left\{\begin{matrix}
+\hat{u}_1(t_{j+1})&=&\hat{u}_1(t_{j})+\tau\cdot\dfrac{f_1(t_{j})+f_1(t_{j+1})}{2},&\hat{u}_1(0)&=&1\\[1em]
+\hat{u}_2(t_{j+1})&=&\hat{u}_2(t_{j})+\tau\cdot\dfrac{f_2(t_{j})+f_2(t_{j+1})}{2},&\hat{u}_2(0)&=&0
+\end{matrix}\right.
+.\end{gather}
+
+Определим временной шаг метода Эйлера, зная длину временного отрезка (``время наблюдения``) 
+и количество интервалов:
+\begin{gather*}
+\tau=\dfrac{t_{max}-t_0}{N} = \dfrac{10-0}{5}=2
+,\end{gather*}
+где $t_0=0$ -- начальный момент времени;
+$t_{\max}$ -- максимальное время (``время наблюдения``).
+
+Введем по переменной $t$ равномерную сетку с шагом $\tau=2$:
+\begin{gather*}
+\{t_j\}=\{0,2,4,6,8,10\}
+\end{gather*}
+
+Последовательно определяем приближенное решение 
+задачи Коши \eqref{eq:ODE_MY} методом Эйлера,
+используя рекуррентные соотношения \eqref{eq:ODE_SYS_RR}.
+\begin{enumerate}[leftmargin = 1ex]
+\item
+Определим значения неизвестных функций $u_1$ и $u_2$ в точке $t_1=2$:
+\begin{gather*}\begin{array}{rcl}
+f_1(0)&=&{0,2}\cdot0+u_2(0)={0,2}\cdot0+0=0\\[1em]
+f_2(0)&=&-\dfrac{u_1(0)}{2}=-\dfrac{1}{2}=-0,5
+\end{array}\end{gather*}
+%
+\begin{gather*}
+\left\{\begin{array}{rcl}
+u_1(2)&=&u_1(0)+2\cdot{f_1(0)}=1+2\cdot0=1\\[1em]
+u_2(2)&=&u_2(0)+2\cdot{f_2(0)}=0+2\cdot(-0,5)=-1
+\end{array}\right.
+.\end{gather*}
+\item
+Определим значения неизвестных функций $u_1$ и $u_2$ в точке $t_2=4$:
+\begin{gather*}\begin{array}{rcl}
+f_1(2)&=&{0,2}\cdot2+u_2(2)={0,2}\cdot2+(-1)=-0,6\\[1em]
+f_2(2)&=&-\dfrac{u_1(2)}{2}=-\dfrac{1}{2}=-0,5
+\end{array}\end{gather*}
+%
+\begin{gather*}
+\left\{\begin{array}{rcl}
+u_1(4)&=&u_1(2)+2\cdot{f_1(2)}=1+2\cdot(-0,6)=-0,2\\[1em]
+u_2(4)&=&u_2(2)+2\cdot{f_2(2)}=-1+2\cdot(-0,5)=-2
+\end{array}\right.
+.\end{gather*}
+\item
+Определим значения неизвестных функций $u_1$ и $u_2$ в точке $t_3=6$:
+\begin{gather*}
+\begin{array}{rcl}
+f_1(4)&=&{0,2}\cdot4+u_2(4)={0,2}\cdot4+(-2)=-1,2\\[1em]
+f_2(4)&=&-\dfrac{u_1(4)}{2}=-\dfrac{-0,2}{2}=0,1
+\end{array}\end{gather*}
+%
+\begin{gather*}
+\left\{\begin{array}{rcl}
+u_1(6)&=&u_1(4)+2\cdot{f_1(4)}=-0,2+2\cdot(-1,2)=-2,6\\[1em]
+u_2(6)&=&u_2(4)+2\cdot{f_2(4)}=-2+2\cdot(0,1)=-1,8
+\end{array}\right.
+.\end{gather*}
+\item
+Определим значения неизвестных функций $u_1$ и $u_2$ в точке $t_4=8$:
+\begin{gather*}\begin{array}{rcl}
+f_1(6)&=&{0,2}\cdot6+u_2(6)={0,2}\cdot6+(-1,8)=-0,6\\[1em]
+f_2(6)&=&-\dfrac{u_1(6)}{2}=-\dfrac{-2,6}{2}=1,3
+\end{array}\end{gather*}
+%
+\begin{gather*}
+\left\{\begin{array}{rcl}
+u_1(8)&=&u_1(6)+2\cdot{f_1(4)}=-2,6+2\cdot(-0,6)=-3,8\\[1em]
+u_2(8)&=&u_2(6)+2\cdot{f_2(6)}=-1,8+2\cdot(1,3)=0,8
+\end{array}\right.
+.\end{gather*}
+\item
+Определим значения неизвестных функций $u_1$ и $u_2$ в точке $t_5=10$:
+\begin{gather*}\begin{array}{rcl}
+f_1(8)&=&{0,2}\cdot8+u_2(8)={0,2}\cdot8+0,8=2,4\\[1em]
+f_2(8)&=&-\dfrac{u_1(8)}{2}=-\dfrac{-3,8}{2}=1,9
+\end{array}\end{gather*}
+%
+\begin{gather*}
+\left\{\begin{array}{rcl}
+u_1(10)&=&u_1(10)+2\cdot{f_1(4)}=-3,8+2\cdot(2,4)=1\\[1em]
+u_2(10)&=&u_2(8)+2\cdot{f_2(8)}=0,8+2\cdot(1,9)=4,6
+\end{array}\right.
+.\end{gather*}
+\end{enumerate}
+
+На рисунке \ref{fig:u(t)} представлено решение задачи Коши 
+системы дифференциальных уравнений \eqref{eq:ODE_MY}.
+% *******************************
+%	График функций
+%
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[background rectangle/.style={fill=olive!10}, show background rectangle]
+\begin{axis}[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$t$},	% подпись оси x
+	ylabel = {$u_1, u_2$},	% подпись оси y
+	xmin=-0.5, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
+	ymin=-4, ymax=5, ytick={-4,-2,0,1,2,4,5}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+	legend pos={north west},
+]
+\addplot[thick, mark=*, mark size=4pt, mark options={fill=yellow, draw=black, solid}] coordinates 
+{(0,1) (2,1) (4,-0.2) (6,-2.6) (8,-3.8) (10,1)};
+\addlegendentry{$u_1$};
+\addplot[thick, mark=square*, mark size=3pt, mark options={fill=green, draw=black, solid}] coordinates 
+{(0,0) (2,-1) (4,-2) (6,-1.8) (8,0.8) (10,4.6)};
+\addlegendentry{$u_2$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\caption{Зависимость неизвестных функций от времени}
+\label{fig:u(t)}
+\end{figure}
+% *******************************
+
+%
+%	Приближенное решение интегрального уравнения
+%
+Последовательно определяем приближенное решение 
+интегрального уравнения \eqref{eq:ODE_MY},
+используя рекуррентные соотношения \eqref{eq:ODE_SYS_INT_RR}.
+\begin{enumerate}[leftmargin = 1ex]
+\item
+Определим значения неизвестных функций $\hat{u}_1$ и $\hat{u}_2$ в точке $t_1=2$:
+\begin{gather*}
+\left\{\begin{array}{rcl}
+\hat{u}_1(2)&=&\hat{u}_1(0)+\tau\cdot\dfrac{f_1(0)+f_1(2)}{2}
+=1+2\cdot\dfrac{0+(-0,6)}{2}=0,4\\[1em]
+\hat{u}_2(2)&=&\hat{u}_2(0)+\tau\cdot\dfrac{f_2(0)+f_2(2)}{2}
+=0+2\cdot\dfrac{-0,5+(-0,5)}{2}=-1
+\end{array}\right.
+.\end{gather*}
+\item
+Определим значения неизвестных функций $\hat{u}_1$ и $\hat{u}_2$ в точке $t_2=4$:
+\begin{gather*}
+\left\{\begin{array}{rcl}
+\hat{u}_1(4)&=&\hat{u}_1(2)+\tau\cdot\dfrac{f_1(2)+f_1(4)}{2}
+=0,4+2\cdot\dfrac{(-0,6)+(-1,2)}{2}=-2,4\\[1em]
+\hat{u}_2(4)&=&\hat{u}_2(2)+\tau\cdot\dfrac{f_2(2)+f_2(4)}{2}
+=-1+2\cdot\dfrac{-0,5+0,1}{2}=-1,4
+\end{array}\right.
+.\end{gather*}
+\item
+Определим значения неизвестных функций $\hat{u}_1$ и $\hat{u}_2$ в точке $t_3=6$:
+\begin{gather*}
+\left\{\begin{array}{rcl}
+\hat{u}_1(6)&=&\hat{u}_1(4)+\tau\cdot\dfrac{f_1(4)+f_1(6)}{2}
+=-2,4+2\cdot\dfrac{-1,2+(-0,6)}{2}=-4,2\\[1em]
+\hat{u}_2(6)&=&\hat{u}_2(4)+\tau\cdot\dfrac{f_2(4)+f_2(6)}{2}
+=-1,4+2\cdot\dfrac{0,1+1,3}{2}=0
+\end{array}\right.
+.\end{gather*}
+\item
+Определим значения неизвестных функций $\hat{u}_1$ и $\hat{u}_2$ в точке $t_4=8$:
+\begin{gather*}
+\left\{\begin{array}{rcl}
+\hat{u}_1(8)&=&\hat{u}_1(6)+\tau\cdot\dfrac{f_1(6)+f_1(8)}{2}
+=-4,2+2\cdot\dfrac{-0,6+2,4}{2}=-2,4\\[1em]
+\hat{u}_2(8)&=&\hat{u}_2(6)+\tau\cdot\dfrac{f_2(6)+f_2(8)}{2}
+=0+2\cdot\dfrac{1,3+1,9}{2}=3,2
+\end{array}\right.
+.\end{gather*}
+\item
+Определим значения неизвестных функций $\hat{u}_1$ и $\hat{u}_2$ в точке $t_5=10$:
+\begin{gather*}\begin{array}{rcl}
+f_1(10)&=&{0,2}\cdot10+u_2(10)={0,2}\cdot8+4,6=6,2\\[1em]
+f_2(10)&=&-\dfrac{u_1(10)}{2}=-\dfrac{1}{2}=-0,5
+\end{array}\end{gather*}
+%
+\begin{gather*}
+\left\{\begin{array}{rcl}
+\hat{u}_1(10)&=&\hat{u}_1(8)+\tau\cdot\dfrac{f_1(8)+f_1(10)}{2}
+=-2,4+2\cdot\dfrac{2,4+6,2}{2}=6,2\\[1em]
+\hat{u}_2(10)&=&\hat{u}_2(8)+\tau\cdot\dfrac{f_2(8)+f_2(10)}{2}
+=3,2+2\cdot\dfrac{1,9+(-0,5)}{2}=4,6
+\end{array}\right.
+.\end{gather*}
+\end{enumerate}
+
+На рисунке \ref{fig:uu(t)} представлены решения задачи Коши \eqref{eq:ODE_SYS} и
+интегрального уравнения \eqref{eq:ODE_SYS_INT}, 
+рассчитанные в различные моменты времени.
+
+В таблице \ref{tab:error} и на рисунке \ref{fig:error} представлены значения
+предельной абсолютной погрешности приближенного решения задачи Коши 
+для различных моментов времени.
+% *******************************
+%	График функций
+%
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$t$},	% подпись оси x
+	ylabel = {$u_1, \hat{u}_1$},	% подпись оси y
+	xmin=-0.5, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
+	ymin=-5, ymax=7, ytick={-4,-2,0,1,3,6}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+	legend pos={north west},
+]
+\addplot[thick, mark=*, mark size=4pt, mark options={fill=yellow, draw=black, solid}] coordinates 
+{(0,1) (2,1) (4,-0.2) (6,-2.6) (8,-3.8) (10,1)};
+\addlegendentry{$u_1$};
+\addplot[thick, mark=*, mark size=4pt, mark options={fill=white, draw=black, solid}] coordinates 
+{(0,1) (2,0.4) (4,-2.4) (6,-4.2) (8,-2.4) (10,6.2)};
+\addlegendentry{$\hat{u}_1$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$t$},	% подпись оси x
+	ylabel = {$u_2, \hat{u}_2$},	% подпись оси y
+	xmin=-0.5, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
+	ymin=-3, ymax=5, ytick={-2,0,2,4}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+	legend pos={north west},
+]
+\addplot[thick, mark=square*, mark size=3pt, mark options={fill=green, draw=black, solid}] coordinates 
+{(0,0) (2,-1) (4,-2) (6,-1.8) (8,0.8) (10,4.6)};
+\addlegendentry{$u_2$};
+\addplot[thick, mark=square*, mark size=3pt, mark options={fill=white, draw=black, solid}] coordinates 
+{(0,0) (2,-1) (4,-1.4) (6,0) (8,3.2) (10,4.6)};
+\addlegendentry{$\hat{u}_2$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\caption{Приближенное решение задачи Коши и соответствующего интегрального уравнения}
+\label{fig:uu(t)}
+\end{figure}
+
+\begin{table}
+\caption{Предельная абсолютная погрешность приближенного решения задачи Коши \eqref{eq:ODE_MY}}
+\label{tab:error}
+\begin{tabular}{p{3cm} *{6}{p{1.5cm}}}
+\toprule[1pt]
+Время&0&2&4&6&8&10\\
+\midrule
+\multicolumn{7}{l}{Задача Коши}\\
+\midrule
+$u_1$&1&1&-0,2&-2,6&-3,8&1\\
+$u_2$&0&-1&-2&-1,8&0,8&4,6\\
+\midrule
+\multicolumn{7}{l}{Интегральное уравнение}\\
+\midrule
+$\hat{u}_1$&1&0,4&-2,4&-4,2&-2,4&6,2\\
+$\hat{u}_2$&0&-1&-1,4&0&3,2&4,6\\
+\midrule
+\multicolumn{7}{l}{Абсолютная погрешность $\epsilon=|\hat{u}-u|$}\\
+\midrule
+$\epsilon_1$&0&0,6&2,2&1,6&1,4&5,2\\
+$\epsilon_2$&0&0&0,6&1,8&2,4&0\\
+\bottomrule[1pt]
+\end{tabular}
+\end{table}
+
+Из рисунка \ref{fig:error} видно, что максимальная 
+предельная абсолютная погрешность для $u_1(t)$ 
+составляет $\epsilon_1=5,1$, 
+а для функции $u_2(t)$ -- $\epsilon_2=2,4$.
+
+% *******************************
+%	График погрешности
+%
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+[background rectangle/.style={fill=olive!10}, show background rectangle]
+\begin{axis}[
+	ybar,
+	bar width=18pt,
+	nodes near coords,
+	every axis/.style={color=black, solid, thick},
+%	axis background/.style={fill=olive!10},
+	xlabel = {Время},	% подпись оси x
+	ylabel = {Абсолютная погрешность, $\epsilon$},	% подпись оси y
+	xmin=1, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
+	ymin=-0.5, ymax=6, ytick={0,2,4,6}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+	legend pos={north west},
+]
+\addplot[thin, blue, fill=blue!35] coordinates 
+{(2,0.6) (4,2.2) (6,1.6) (8,1.4) (10,5.2)};
+\addlegendentry{$\epsilon_1$};
+\addplot[thin, red, fill=red!35] coordinates 
+{(2,0) (4,0.6) (6,1.8) (8,2.4) (10,0)};
+\addlegendentry{$\epsilon_2$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\caption{Предельная абсолютная погрешность приближенного решения задачи Коши \eqref{eq:ODE_MY}}
+\label{fig:error}
+\end{figure}
+
+%\end{document}

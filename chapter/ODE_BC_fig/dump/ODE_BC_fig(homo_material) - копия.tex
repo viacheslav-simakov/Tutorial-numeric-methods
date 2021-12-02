@@ -1,0 +1,108 @@
+%\input{../../../preamble}
+%\begin{document}
+\def\GraphShift{3cm} % отступ правого графика от левого
+% **************************************************
+%
+%	ќƒЌќ–ќƒЌџ… —“≈–∆≈Ќ№
+%
+% **************************************************
+\begin{tikzpicture}[framed]
+\pgfplotsset{set layers=standard}
+\pgfsetlayers{background,axis grid,main,axis ticks,axis lines, axis tick labels,axis descriptions,axis foreground}
+\def\xbreak{2.5}
+\def\xxbreak{6.5}
+\def\kx{7}
+\def\rx{4}
+\begin{pgfonlayer}{main}
+%
+%	Ћокальна€ “≈ѕЋќ»«ќЋя÷»я
+%
+% ѕерва€ ось OY
+\begin{axis}
+[	width=7cm,
+	name=plot1,
+	my graph style,
+	title={a)},
+	const plot,
+	axis y line*=left,
+	ylabel = {$k(x)$},	% подпись оси y
+	xmin=-1, xmax=10, xtick={0,\xbreak,\xxbreak,9}, xticklabels={0,$a$,$b$,$\ell$},
+	ymin=-1, ymax=10, ytick={\kx}, yticklabels={\empty},
+	\axisYcolor{blue}
+]
+\addplot[draw=none,fill=blue!5] coordinates {(0,0) (0,\kx) (9,\kx) (9,0)}\closedcycle;
+\draw[very thick,draw=blue] (0,\kx) -- (9,\kx) node[midway,above,blue] {$k_1$};
+\end{axis}
+% втора€ ось OY
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	const plot,
+	axis y line*=right,
+	ylabel = {$r(x)$},	% подпись оси y
+	axis x line=none,
+	xmin=-1, xmax=10, xtick={\empty},
+	ymin=-1, ymax=10, ytick={0,\rx}, yticklabels={\empty},
+	\axisYcolor{red}
+]
+\addplot[draw=none,fill=orange!20] coordinates {
+(0,0) (0,\rx) (\xbreak,\rx) (\xbreak,0) (\xxbreak,0) (\xxbreak,\rx) (9,\rx) (9,0)}\closedcycle;
+\draw[very thick,draw=red] (0,\rx) -- (\xbreak,\rx) node[midway,above,red] {$r_1$};
+\draw[very thick,draw=red] (\xxbreak,\rx) -- (9,\rx) node[midway,above,red] {$r_1$};
+\draw[very thick,draw=red] (\xbreak,0) -- (\xxbreak,0) node[midway,above,red] {$r_1=0$};
+\end{axis}
+%
+%	Ћокальный Ќј√–≈¬
+%
+\def\xbreak{3}
+\def\xxbreak{6}
+\def\kx{7}
+\def\gx{4}
+%\begin{pgfonlayer}{main}
+% ¬тора€ ось OY
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	name=plot3,
+%	график справа 	 
+	at={($(plot1.east)+(\GraphShift,0)$)},
+	anchor=west,
+	title={b)},
+% ************
+	const plot,
+	axis y line*=left,
+	ylabel = {$k(x)$},	% подпись оси y
+	xmin=-1, xmax=10, xtick={0,\xbreak,\xxbreak,9}, xticklabels={0,$a$,$b$,$\ell$},
+	ymin=-1, ymax=10, ytick={\kx}, yticklabels={\empty},
+	\axisYcolor{blue}
+]
+\addplot[draw=none,fill=blue!5] coordinates {(0,0) (0,\kx) (9,\kx) (9,0)}\closedcycle;
+\draw[very thick,draw=blue] (0,\kx) -- (9,\kx) node[midway,above,blue] {$k_1$};
+\end{axis}
+% ¬тора€ ось OY
+\begin{axis}
+[	width=7cm,
+	my graph style,
+%	график справа
+	name=plot4, 
+	at={($(plot1.east)+(\GraphShift,0)$)}, 
+	anchor=west,
+%	************	
+	const plot,
+	axis y line*=right,
+	ylabel = {$g(x)$},	% подпись оси y
+	axis x line=none,
+	xmin=-1, xmax=10, xtick={\empty},
+	ymin=-1, ymax=10, ytick={0,\gx}, yticklabels={\empty},
+	\axisYcolor{black}
+]
+\addplot[draw=none,fill=black!20] coordinates {
+(0,0) (\xbreak,0) (\xbreak,\gx) (\xxbreak,\gx) (\xxbreak,0) (9,0)}\closedcycle;
+\draw[very thick,draw=black] (0,0) -- (\xbreak,0) node[midway,above,black] {$g_1=0$};
+\draw[very thick,draw=black] (\xxbreak,0) -- (9,0) node[midway,above,black] {$g_1=0$};
+\draw[very thick,draw=black] (\xbreak,\gx) -- (\xxbreak,\gx) node[midway,above,black] {$g_1>0$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% ************************************************** 
+%\end{document}

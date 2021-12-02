@@ -1,0 +1,1589 @@
+\input{../../preamble}
+\begin{document}
+
+%
+%	Краевые задачи для обыкновенных дифференциальных уравнений
+%
+\newpage
+\section{Краевые задачи для обыкновенных дифференциальных уравнений}
+
+Исследование большого круга естественно-научных и  
+инженерных проблем приводит к математическим задачам, относящимся к 
+решению дифференциальных уравнений и граничных проблем для них,
+интегральных и других функциональных уравнений.
+
+В практике чаще всего встречаются задачи, 
+для которых точное решение не может быть найдено или оно имеет 
+невысокую эффективность. 
+Поэтому приближенные методы решения задач граничных задач, например,
+задач математической физики, в особенности метод сеток 
+получили широкое распространение.
+
+Основные  \textit{достоинства приближенных методов} заключаются в том, 
+что они \textit{являются универсальными и эффективными},
+так как позволяют находить приближенное решение для широкого класса задач 
+новейших областей науки, техники и технологий.
+Как правило, такие задачи формулируются в виде основного 
+дифференциального уравнения (системы дифференциальный уравнений)
+и дополнительных (граничных) условий, которые
+обеспечивают существование и единственность решения.
+
+\begin{tcolorbox}[colback=orange!10]
+Под краевой (граничной) задачей понимают задачу о нахождении решения заданного 
+дифференциального уравнения (системы дифференциальных уравнений),
+удовлетворяющего краевым (граничным) условиям на границе рассматриваемой области.
+\end{tcolorbox}
+
+В каждой краевой задаче искомое решение должно 
+удовлетворять дифференциальному в области рассматриваемой области $\Omega$,
+а также некоторому дополнительному условию на границе $\Sigma$ области $\Omega$. 
+Например, для обыкновенного дифференциального уравнения второго порядка:
+\begin{gather}\label{eq:ODE_MAIN}
+\diffdiff{y(x)}{x}=f\left(x,y,\diff{y(x)}{x}\right)
+,\end{gather}
+где $y(x)$ -- искомая неизвестная функция;
+$x$ -- независимое переменное; 
+$f$ -- функция, определенная и непрерывная 
+в некоторой замкнутой области $D$ изменения своих аргументов.
+
+\subsection{Виды краевых задач}
+% **************************************
+%
+%	ВИДЫ КРАЕВЫХ ЗАДАЧ
+%
+В зависимости от вида краевого условия на границе $\Sigma=\{a,b\}$
+различают три основных типа граничных задач: 
+задачу Дирихле, Неймана и смешанную краевую задачу 
+(таблица \ref{tab:ODE_BC_TYPE}).
+Необходимо отметить, что в отличие от задачи Коши, для 
+которой при выполнении определенных условий 
+гарантируется существование и единственность решения,
+\textit{краевая задача} для того же дифференциального уравнения
+\textit{может не иметь решения} или иметь несколько решений 
+(в том числе и бесконечное множество решений). 
+
+% ******* begin table *******
+\begin{table}[H]
+\caption{
+Основные виды краевых задач
+для обыкновенных дифференциальных уравнений 
+второго порядка \eqref{eq:ODE_MAIN}
+}
+\label{tab:ODE_BC_TYPE}
+\begin{tabular}{l l l l}
+\toprule
+№&Краевая задача&Условия на границе $x=a$&Условия на границе $x=b$\\
+\midmidrule
+%\addlinespace[1em]
+1&Дирихле
+&$y(a)=y_a$
+&$y(b)=y_b$\\
+\addlinespace[1em]
+2&Неймана
+&$y^{\prime}(a)=y^{\prime}_a$
+&$y^{\prime}(b)=y^{\prime}_b$\\
+\addlinespace[1em]
+3&Смешанная
+&$\kappa_a\cdot y^{\prime}(a)+\lambda_a\cdot y(a)=\mu_a$
+&$\kappa_b\cdot y^{\prime}(b)+\lambda_b\cdot y(b)=\mu_b$\\
+\addlinespace[1em]
+\bottomrule
+\end{tabular}
+\end{table}
+% ******* end table *******
+
+С формальной точки зрения, задача Дирихле и Неймана являются
+частными случаями смешанной краевой задачи:
+например, если $\kappa_a\equiv0$, то смешанная краевая задача
+трансформируется в задачу Дирихле:
+\begin{gather*}
+0\cdot y^{\prime}(a)+\lambda_a\cdot y(a)=\mu_a,
+\quad \Rightarrow \quad 
+y(a) = \dfrac{\mu_a}{\lambda_a} =y_a
+,\end{gather*}
+а если полагать $\lambda_a\equiv0$, то формулируется 
+задача Неймана:
+\begin{gather*}
+\kappa_a\cdot y^{\prime}(a)+0\cdot y(a)=\mu_a,
+\quad \Rightarrow \quad 
+y^{\prime}(a) = \dfrac{\mu_a}{\kappa_a} =y^{\prime}_a
+.\end{gather*}
+
+Поэтому для общности, далее будем рассматривать 
+только смешанную краевую задачу.
+
+% ******* begin figure *******
+\begin{figure}
+\begin{center}
+\setlength{\tabcolsep}{12pt}
+\begin{tabular}{c c}
+%
+%	Задача Дирихле
+%
+\begin{tikzpicture}[framed]
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$y(x)$},	% подпись оси y
+	xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
+	ymin=0, ymax=9, ytick={3,6}, yticklabels={$y_a$,$y_b$},
+]
+\addplot[thick,red,domain=0:3,samples=50] {x^2-2*x+3};
+\addplot[only marks, mark=*, mark size=3pt, mark options={fill=lime, draw=red, solid, thick}]
+coordinates {(0,3) (3,6)};
+\draw[red] (axis cs:2,3.5) node[left] {$y(x)$};
+\end{axis}
+\end{tikzpicture}
+&
+%
+%	Задача Неймана
+%
+\begin{tikzpicture}[framed]
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$y(x)$},	% подпись оси y
+	xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
+	ymin=0, ymax=9, ytick={\empty}, %yticklabels={$y_a$,$y_b$},
+]
+\addplot[thick,red,domain=0:3,samples=50] {x^2-2*x+3};
+\addplot[only marks, mark=*, mark size=3pt, mark options={fill=white, draw=red, solid, thick}]
+coordinates {(0,3) (3,6)};
+\draw[red] (axis cs:2,3.5) node[left] {$y(x)$};
+% y'(a)
+\addplot[thin,blue,domain=-0.75:0.75,samples=2] {-2*x+3};
+\draw[blue] (axis cs:-0.5,3) node {$y^{\prime}_a$};
+% y'(b)
+\addplot[thin,blue,domain=2.5:3.5,samples=2] {4*x-6};
+\draw[blue] (axis cs:3.5,6.5) node {$y^{\prime}_b$};
+\end{axis}
+\end{tikzpicture}
+\\
+a)&b)\\
+\end{tabular}
+\caption{
+Графическая иллюстрация постановки краевых задач\\
+(a) -- Дирихле; (b) -- Неймана
+}
+\end{center}
+\end{figure}
+% ******* end figure *******
+
+%
+%	Построение разностных схем методом баланса
+%
+\subsection{Построение разностных схем методом баланса}
+
+Различные физические процессы (теплопроводности или диффузии,
+колебаний, газодинамики и т. д.) характеризуются некоторыми 
+интегральными законами сохранения (тепла, массы, количества движения, энергии и т. д.).
+При выводе дифференциальных уравнений различных математических моделей
+объектов или явлений отталкиваются от некоторого интегрального 
+соотношения (уравнения баланса), выражающего закон сохранения для малого объема.
+Дифференциальное уравнение получается из уравнения баланса 
+при стягивании рассматриваемого объема к нулю 
+в предположении существования непрерывных производных, 
+входящих в уравнение.
+
+Метод конечных разностей физически означает переход от непрерывной среды
+к некоторой ее дискретной модели. При таком переходе естественно требовать, 
+чтобы основные свойства физического процесса сохранялись, т.е.
+выполнялись законы сохранения различных физичеких субстанций
+(количестово тепла, массы, заряда, импульса и т.д.). 
+Разностные схемы, выражающие на сетке законы сохранения физических субстанций, 
+называют консервативными (или дивергентными). 
+Законы сохранения для всей сеточной области (``интегральные законы сохранения``)
+для консервативных схем должны быть алгебраическим следствием разностных уравнений.
+
+Для получения консервативных разностных схем естественно исходить из уравнений баланса,
+записанных для элементарных объемов (ячеек) сеточной области.
+Входящие в эти уравнения баланса интегралы и производные следует заменить 
+приближенными разностными выражениями.
+В результате получаем однородную разностную схему.
+Такой метод получения консервативных однородных разностных схем 
+называется интегро-интерполяционным методом (методом баланса).
+
+Рассмотрим краевую задачу, включающую 
+обыкновенное дифференциальное уравнение второго порядка
+и дополнительные (граничные) условия на концах отрезка $[0,\ell]$:
+\begin{gather}
+\left(k(x)\cdot u^{\prime}(x)\right)^{\prime}-r(x)\cdot u(x) + g(x)=0,\quad x\in[0,\ell]\label{eq:ODE_BC}\\
+\left\{\begin{matrix}\label{eq:ODE_BC2}
+-k(0)\cdot u^{\prime}(0)+\lambda_1\cdot u(0) = \mu_1\\
+-k(\ell)\cdot u^{\prime}(\ell)+\lambda_2\cdot u(\ell) = \mu_2
+\end{matrix}\right.
+,\end{gather}
+где $u(x)$ -- искомая неизвестная функция;
+$k(x)$, $r(x)$, $g(x)$ -- известные (заданные) функции,
+удовлетворяющие условиям $k(x)>0$, $r(x)\geqslant0$;
+$\lambda_1$, $\mu_1$ и $\lambda_2$, $\mu_2$ -- 
+заданные (известные) числа;
+$\ell$ -- размер области (длина отрезка).
+
+Будем полагать, что при сформулированных предположениях решение 
+$u(x)$ задачи \eqref{eq:ODE_BC}, \eqref{eq:ODE_BC2} существует и единственно,
+а также является достаточно гладким, т.е. 
+существуют производные высших порядков $u^{(n)}(x)$ (для $x\in[0,\ell]$).
+
+Уравнение \eqref{eq:ODE_BC} можно интерпретировать как уравнение 
+установившегося распределения температуры $u(x)$ в стержне длины $\ell$,
+а граничные условия \eqref{eq:ODE_BC2} определяют законы теплообмена 
+концов стержня с окружающей средой 
+(например, закон
+% закон конвекционного теплообмена Ньютона
+\href{https://en.wikipedia.org/wiki/Newton\%27s_law_of_cooling}
+{конвекционного теплообмена Ньютона}).
+
+В такой постановке краевую задачу 
+\eqref{eq:ODE_BC}, \eqref{eq:ODE_BC2} можно записать в виде:
+\begin{gather}
+w^{\prime}(x)+r(x)\cdot u(x)=g(x)\label{eq:ODE_BC0}\\
+\left\{\begin{matrix}\label{eq:ODE_BC20}
+w(0)+\lambda_1\cdot u(0) = \mu_1\\
+u(\ell) = \mu_2
+\end{matrix}\right.
+,\end{gather}
+где
+$w(x)$ -- тепловой поток, величина которого в соответствие с 
+\href{https://en.wikipedia.org/wiki/Thermal_conductivity}
+{законом теплопроводности Фурье} пропорциональна 
+градиенту температуры (неизвестной функции):
+% закон теплопроводности Фурье
+\begin{gather}\label{eq:FourierLaw}
+w(x)=-k(x)\cdot u^{\prime}(x)
+;\end{gather}
+$k(x)$ -- коэффициент температуропроводности материала стержня; 
+$r(x)$ -- темп внутреннего поглощения тепла, а
+$r(x)\cdot u(x)$ -- скорость внутреннего теплопоглощения;
+$g(x)$ -- скорость генерации тепла за счет внутренних источников.
+
+\begin{enumerate}
+\item
+Выделение тепла в стержне может быть обусловлено процессом 
+тепловыделения при пропускании электрического тока через стержень
+(закон Джоуля-Ленца), либо за счет протекания в стержне
+каких-либо экзотермических химических реакций. 
+\item
+Поглощение тепла возможно за счет 
+термоэлектрических явлений (например, эффект Пельтье), а также
+за счет протекания эндотермических химических реакций.
+\end{enumerate}
+
+\begin{tcolorbox}
+Численные методы решения краевых задач основаны 
+на замене дифференциальной задачи \eqref{eq:ODE_BC}, \eqref{eq:ODE_BC2}
+системой линейных алгебраических уравнений, т.е. разностной схемой.
+
+\textit{Разностная схема} это совокупность разностных алгебраических уравнений, 
+аппроксимирующих основное дифференциальное уравнение
+и дополнительные (граничные) условия исходной дифференциальной задачи.
+\end{tcolorbox}
+
+Для перехода от дифференциальной краевой задачи 
+к системе алгебраических уравнений воспользуемся 
+\textit{разностным методом}.
+%
+%	Сетка
+%
+Для этого на отрезке $[0,\ell]$ введем произвольную сетку 
+(рисунок \ref{fig:ODE_BC_MESH}) -- 
+конечное упорядоченное множество точек $\{x_i\}$, принадлежащих этому отрезку:
+\begin{gather*}
+0=x_0<x_1<x_2<\cdots<x_i<\cdots<x_{N-1}<x_N=\ell,
+\end{gather*}
+где $x_i\in[0,\ell]$ -- узлы сетки;
+$i=0,1,2\dots,N$ -- порядковый номер узла сетки;
+$N$ -- количество узлов сетки.
+
+%
+%	График сетки
+%
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[framed]
+\def\ymax{10}
+\def\dy{\ymax/2}
+\def\dx{0.2}
+\def\xs{-9.5}
+\def\xss{-7}
+\def\xxs{(\xs+\xss)/2}
+\def\xa{-4}
+\def\xb{-1}
+\def\xc{3}
+\def\xxab{(\xa+\xb)/2}
+\def\xxbc{(\xb+\xc)/2}
+\def\xee{6}
+\def\xe{9}
+\def\xxe{(\xe+\xee)/2}
+% точки разрыва оси OX
+\def\xsbreak{\xss+1.3}
+\def\xxssbreak{\xsbreak+\dx}
+\def\xxeebreak{\xee-1.5}
+\def\xebreak{\xxeebreak+\dx}
+\begin{axis}
+[	width=18cm, height=7cm,
+	axis lines = none,
+	xmin=-10, xmax=10,
+	ymin=-\ymax, ymax=\ymax,
+]
+% узлы сетки
+\addplot [
+	only marks, mark=*, mark size=4pt, mark options={fill=lime,draw=black,solid,thick},
+	nodes near coords,
+	point meta=explicit symbolic,
+	node near coord style={below,yshift=-1ex},
+]
+coordinates {
+(\xs,0) [$0$] (\xss,0) [$x_1$]
+(\xa,0) [$x_{i-1}$] (\xb,0) [$x_{i}$] (\xc,0) [$x_{i+1}$]
+(\xee,0) [$x_{N-1}$] (\xe,0) [$\ell$]
+};
+% вспомогательные узлы
+\addplot [
+	only marks, mark=otimes*, mark size=3pt, mark options={fill=white,draw=red,solid},
+	nodes near coords,	
+	point meta=explicit symbolic,
+	node near coord style={above,yshift=0.5ex,color=red},
+]
+coordinates { 
+(\xxs,0) [$x_{\onehalf}$] 
+(\xxab,0) [$x_{i-\onehalf}$] (\xxbc,0) [$x_{i+\onehalf}$] 
+(\xxe,0) [$x_{N-\onehalf}$]
+};
+% шаг сетки
+% i=0
+\addplot[const plot,fill=black!5,draw=black!50,
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,color=black},
+] 
+coordinates { 
+(\xs,0) (\xs,\dy) ((\xs+\xss)/2,\dy) [$h_{1}$] (\xss,\dy) (\xss,0)
+}\closedcycle;
+% i
+\addplot[const plot,fill=black!5,draw=black!50,
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,color=black},
+] 
+coordinates { 
+(\xa,0) (\xa,\dy) ((\xa+\xb)/2,\dy) [$h_i$] (\xb,\dy) (\xb,0)
+}\closedcycle;
+% i+1
+\addplot[const plot,fill=black!10,draw=black!50,
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,color=black},
+] 
+coordinates { 
+(\xb,0) (\xb,\dy) ((\xb+\xc)/2,\dy) [$h_{i+1}$] (\xc,\dy) (\xc,0)
+}\closedcycle;
+% i=N
+\addplot[const plot,fill=black!5,draw=black!50,
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,color=black},
+] 
+coordinates { 
+(\xee,0) (\xee,\dy) ((\xee+\xe)/2,\dy) [$h_{N}$] (\xe,\dy) (\xe,0)
+}\closedcycle;
+% шаг вспомогательной сетки
+\addplot[const plot,fill=red!5,draw=red!50,
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={below,color=red},
+] 
+coordinates { 
+(\xxab,0) (\xxab,-\dy) ((\xxab+\xxbc)/2,-\dy) [$\overline{h}_{i}$] (\xxbc,-\dy) (\xxbc,0)
+}\closedcycle;
+% ось OX
+\addplot[->,thick,black,
+	nodes near coords,
+	point meta=explicit symbolic,
+	node near coord style={below,yshift=-1ex},
+]
+coordinates {(\xebreak,0) (10,0) [$x$]};
+\addplot[thick,black] coordinates {(\xs,0) (\xsbreak,0)};
+\addplot[thick,black] coordinates {(\xxssbreak,0) (\xxeebreak,0)};
+% разрыв оси OX
+\addplot[thick,black,domain={\xsbreak-0.5*\dx}:{\xsbreak+0.5*\dx},samples=2]
+{-7*(\xsbreak-\x)};
+\addplot[thick,black,domain={\xxssbreak-0.5*\dx}:{\xxssbreak+0.5*\dx},samples=2]
+{-7*(\xxssbreak-\x)};
+% разрыв оси OX
+\addplot[thick,black,domain={\xxeebreak-0.5*\dx}:{\xxeebreak+0.5*\dx},samples=2]
+{-7*(\xxeebreak-\x)};
+\addplot[thick,black,domain={\xebreak-0.5*\dx}:{\xebreak+0.5*\dx},samples=2]
+{-7*(\xebreak-\x)};
+\end{axis}
+\end{tikzpicture}
+\caption{Схематическое изображение узлов расчетной сетки}
+\label{fig:ODE_BC_MESH}
+\end{center}
+\end{figure}
+
+Выделим на отрезке $[0,\ell]$ подмножество промежуточных узлов $\{x_{i\pm\onehalf}\}$:
+\begin{gather*}
+x_{i\pm\onehalf}=\dfrac{x_i+x_{i\pm1}}{2},\quad i=1,2,\dots,N-1
+,\end{gather*}
+где $x_{i\pm\onehalf}$ -- середины отрезков $[x_{i-1}, x_i]$ и $[x_i, x_{i+1}]$, соответственно.
+
+Расстояние между соседними узлами сетки $h_i$ (шаг сетки) зависит от номера узла $i$ сетки:
+\begin{gather*}h_i=x_i-x_{i-1},\end{gather*}
+как и расстояние между соседними промежуточными узлами 
+$\overline{h}_{i}$ (шаг промежуточной сетки):
+\begin{gather*}
+\overline{h}_{i}=x_{i+\onehalf}-x_{i-\onehalf}=\frac{h_{i+1}+h_i}{2}.
+\end{gather*}
+
+Значения неизвестной функции $u(x)$ (температуры) рассмотрим в узлах сетки $x_i$, 
+а потоковую величину $w(x)$ (тепловой поток) -- в промежуточных узлах $x_{i\pm\onehalf}$ 
+(рисунок \ref{fig:ODE_mesh}).
+
+% *******************************
+%	ГРАФИК ФУНКЦИЙ u(x), w(x)
+%
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[framed]
+\begin{axis}
+[
+	my graph style,
+	axis y line*=left,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {\empty},	% подпись оси y
+	xmin=0, xmax=10, xtick={1,3.5,6,7.5,9}, xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_{i}$,$x_{i+\onehalf}$,$x_{i+1}$},
+	ymin=0, ymax=10, ytick={6,1,9}, yticklabels={$u(x_{i-1})$,$u(x_{i})$,$u(x_{i+1})$},
+	const plot mark mid,
+]
+\addplot[thin, mark=*, mark size=5pt, mark options={fill=lime, draw=black, solid}]
+coordinates {(1,6) (6,1) (9,9)};
+\end{axis}
+\begin{axis}
+[
+	my graph style,
+	axis y line*=right,
+	axis x line=none,
+	ylabel = {\empty},	% подпись оси y
+	xmin=0, xmax=10, xtick={\empty},
+	ymin=0, ymax=10, ytick={3,7}, yticklabels={$w(x_{i-\onehalf})$,$w(x_{i+\onehalf})$},
+	y axis line style={red},	
+	ytick style={thick, red},
+	yticklabel style={color=red},
+	grid=major,		
+	major grid style={color=red!20, dashed, thin},
+]
+\addplot[thin, red, thick] coordinates {(1,3) (6,3) (6,7) (9,7)};
+\addplot[only marks, mark=*, mark size=5pt, mark options={fill=white, draw=red, solid}]
+coordinates {(3.5,3) (7.5,7)};
+\end{axis}
+\end{tikzpicture}
+\caption{
+Схематическое изображение распределения неизвестной функции $u(x)$
+и потоковой величины $w(x)$ в пределах контрольной области $x\in[x_{i-1},x_{i+1}]$
+}
+\label{fig:ODE_mesh}
+\end{center}
+\end{figure}
+% *******************************************
+
+Для построения разностной схемы для краевой задачи 
+\eqref{eq:ODE_BC0}, \eqref{eq:ODE_BC20}
+воспользуемся интегро-интерполяционным методом
+(или \textit{методом баланса}) построения разностных схем.
+
+%
+%	Разностная схема для дифференциального уравнения
+%
+\subsubsection{Разностная схема для дифференциального уравнения}
+Проинтегрируем \textit{дифференциальное уравнение} \eqref{eq:ODE_BC0}
+в пределах контрольной области $[x_{i-\onehalf},x_{i+\onehalf}]$:
+\begin{gather*}
+\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}w^{\prime}(x)dx
++\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}r(x)\cdot u(x)dx
+=\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}g(x)dx
+\end{gather*}
+
+Тогда уравнение теплового баланса 
+для контрольной области запишется в виде:
+\begin{gather}\label{eq:ODE_BC_CON}
+w(x_{i+\onehalf})-w(x_{i-\onehalf})
++\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}r(x)\cdot u(x)dx
+=\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}g(x)dx
+\end{gather}
+
+Определим тепловой поток, т.е. потоковую величину 
+(поток неизвестной функции) $w(x_{i\pm\onehalf})$ 
+в промежуточных узлах сетки.
+Для этого найдем изменение температуры $u(x)$
+в пределах области $[x_{i-1},x_{i}]$,
+используя закон теплопроводности Фурье \eqref{eq:FourierLaw}:
+\begin{gather*}
+u^{\prime}(x)=-\dfrac{w(x)}{k(x)}\quad \Rightarrow \quad
+\int\limits_{x_{i-1}}^{x_{i}}u^{\prime}(x)dx
+=-\int\limits_{x_{i-1}}^{x_{i}}\dfrac{w(x)}{k(x)}dx
+\end{gather*}
+
+Предполагая, что потоковая величина $w(x)$ в пределах области
+$[x_{i-1},x_{i}]$ постоянна, т.е. $w(x)\approx w(x_{i-\onehalf})$ 
+(рисунок \ref{fig:ODE_mesh}),
+определим изменение неизвестной функции $u(x)$ в этой области:
+\begin{gather*}
+u(x_{i})-u(x_{i-1})=-w(x_{i-\onehalf})\cdot\int\limits_{x_{i-1}}^{x_{i}}\dfrac{dx}{k(x)}
+\end{gather*}
+
+Из последнего соотношения выразим потоковую величину $w(x_{i-\onehalf})$
+в промежуточном узле сетки:
+\begin{gather*}
+w(x_{i-\onehalf})=-\overline{k}_i\cdot\dfrac{u(x_{i})-u(x_{i-1})}{h_i}
+,\end{gather*}
+где $\overline{k}_i$ -- среднее значение коэффициента $k(x)$ на отрезке $[x_{i-1},x_{i}]$:
+\begin{gather}\label{eq:ODE_BC_k}
+\overline{k}(x_i)=\left(\dfrac{1}{h_i}\cdot\int\limits_{x_{i-1}}^{x_{i}}\dfrac{dx}{k(x)}\right)^{-1}
+.\end{gather}
+
+Проводя аналогичные рассуждения, для области $[x_{i},x_{i+1}]$ получим:
+\begin{gather}\label{eq:ODE_BC_W}
+w(x_{i+\onehalf})=-\overline{k}_{i+1}\cdot\dfrac{u(x_{i+1})-u(x_{i})}{h_{i+1}}
+\end{gather}
+
+% **************************************************
+%
+%	СКОРОСТЬ ТЕПЛОПОГЛОЩЕНИЯ И ГЕНЕРАЦИИ ТЕПЛА
+%
+% **************************************************
+\begin{table}
+\begin{center}
+\begin{tabular}{c c}
+\begin{tikzpicture}[framed]
+% последовательность графических слоев
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$r(x)$},		% подпись оси y
+	y label style={yshift=0em,color=red},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$x_{i-\onehalf}$,$x_i$,$x_{i+\onehalf}$},
+	ymin=0, ymax=4, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\addplot[name path=A, thick,red,domain=0:4,samples=50] {2+cos(deg(x))};
+\path[name path=B] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[orange!20] fill between [of=A and B, soft clip={domain=0:4}];
+\addplot[
+	only marks, mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=0ex,color=red},
+]
+coordinates {
+(0,{2+cos(deg(0))}) [$r_{i-\onehalf}$] 
+(4,{2+cos(deg(4))}) [$r_{i+\onehalf}$]
+};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% 
+&
+\begin{tikzpicture}[framed]
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$g(x)$},		% подпись оси y
+	y label style={yshift=0em,color=blue},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$x_{i-\onehalf}$,$x_i$,$x_{i+\onehalf}$},
+	ymin=0, ymax=4, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\addplot[name path=A, thick,blue,domain=0:4,samples=50] {2+cos(2.7*deg(x))};
+\path[name path=B] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[blue!10] fill between [of=A and B, soft clip={domain=0:4}];
+\addplot[
+	only marks, mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=0ex,color=blue},
+]
+coordinates {
+(0,{2+cos(2.7*deg(0))}) [$g_{i-\onehalf}$] 
+(4,{2+cos(2.7*deg(4))}) [$g_{i+\onehalf}$]
+};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+\\
+a)&b)\\
+\end{tabular}
+\end{center}
+\end{table}
+% **************************************************
+
+Если в контрольной области неизвестная функция
+(температура) не изменяет своего значения, т.е. постоянна $u(x)\approx u(x_i)$
+(рисунок \ref{fig:ODE_mesh}), то:
+\begin{gather*}
+\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}r(x)\cdot u(x)dx\approx
+u(x_i)\cdot\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}r(x)dx
+=\tilde{r}_i\cdot u(x_i)
+,\end{gather*}
+где $\tilde{r}_i$ -- суммарный (интегральный) темп поглощения тепла
+на отрезке $[x_{i-\onehalf},x_{i+\onehalf}]$:
+\begin{gather}\label{eq:ODE_BC_r}
+\tilde{r}_i=\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}r(x)dx
+.\end{gather}
+ 
+Интегральная (суммарная) скорость генерации тепла 
+(правая часть уравнения баланса \eqref{eq:ODE_BC_CON}) 
+на отрезке $[x_{i-\onehalf},x_{i+\onehalf}]$:
+\begin{gather}\label{eq:ODE_BC_g}
+\tilde{g}_i=\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}g(x)dx
+.\end{gather}
+
+Подставляя полученные выражения в уравнение \eqref{eq:ODE_BC_CON},
+получим разностное уравнение, содержащее значения искомой функции $u(x)$
+в точках $x_{i-1}$, $x_i$, $x_{i+1}$:
+\begin{gather}\label{eq:ODE_BC_CON2}
+-\overline{k}_{i+1}\cdot\dfrac{u(x_{i+1})-u(x_{i})}{h_{i+1}}
++\overline{k}_i\cdot\dfrac{u(x_{i})-u(x_{i-1})}{h_i}
++\tilde{r}_i\cdot u(x_i)=\tilde{g}_{i}
+\end{gather} 
+ 
+\begin{tcolorbox}%[colback=blue!10]
+Уравнение \eqref{eq:ODE_BC_CON2} по своему построению является разностным аналогом 
+основного дифференциального уравнения \eqref{eq:ODE_BC0}.
+Записывая уравнение \eqref{eq:ODE_BC_CON2} во всех узлах сетки, в которых оно определено
+($i=1,2,\dots, N-1$), получим систему из $N-1$ линейных алгебраических уравнений 
+относительно $N+1$ неизвестных $u(0), u(x_1),\dots, u(x_i),\dots, u(x_N)$.
+Два недостающих уравнения получаются путем \textit{аппроксимации 
+граничных условий} \eqref{eq:ODE_BC20}. 
+\end{tcolorbox}
+
+%
+%	Разностная схема для дифференциального уравнения
+%
+\subsubsection{Разностная аппроксимация краевых условий}
+Воспользуемся \textit{интегро-интерноляционным методом} и 
+проинтегрируем основное уравнение \eqref{eq:ODE_BC0} 
+вблизи левой границы, т.е. на отрезке $x\in[0, x_{\onehalf}]$:
+\begin{gather*}
+\int\limits_{0}^{x_{\onehalf}}w^{\prime}(x)dx
++\int\limits_{0}^{x_{\onehalf}}r(x)\cdot u(x)dx
+=\int\limits_{0}^{x_{\onehalf}}g(x)dx
+\end{gather*}
+
+Рассуждая аналогично выше сказанному, запишем уравнение 
+теплового баланса на левой границе области:
+\begin{gather*}\label{eq:ODE_BC_LEFT}
+w(x_{\onehalf})-w(0)+\tilde{r}_0\cdot u(0)=\tilde{g}_0
+,\end{gather*}
+где $w(x_{\onehalf})$ -- потоковая величина в первом промежуточном узле $x_{\onehalf}$
+определяется из соотношения \eqref{eq:ODE_BC_W}:
+\begin{gather*}
+w(x_{\onehalf})=-\overline{k}_{1}\cdot\dfrac{u(x_{1})-u(0)}{h_{1}}
+,\end{gather*}
+$w(0)$ -- потоковая величина на левой границе области, 
+которую можно выразить из краевого условия \eqref{eq:ODE_BC20} на левой границе:
+\begin{gather*}
+w(0)=\mu_1-\lambda_1\cdot u(0)
+,\end{gather*}
+$\tilde{r}_0$ и $\tilde{g}_0$ -- интегральный темп теплопоглощения 
+и скорость генерации тепла вблизи левой границы:
+\begin{gather*}
+\tilde{r}_0=\int\limits_{0}^{\nicefrac{h_1}{2}}r(x)dx,
+\quad
+\tilde{g}_0=\int\limits_{0}^{\nicefrac{h_1}{2}}g(x)dx
+\end{gather*}
+
+Таким образом, условие на левой границе рассматриваемой области
+\eqref{eq:ODE_BC20} в разностном виде:
+\begin{gather}\label{eq:ODE_BC_LEFT2}
+-\overline{k}_{1}\cdot\dfrac{u(x_{1})-u(0)}{h_{1}}
+-\brackets{ \mu_1-\lambda_1\cdot u(0) }
++\tilde{r}_0\cdot u(0)=\tilde{g}_0
+,\end{gather}
+
+На правой границе $x=\ell$ задано значение 
+неизвестной функции $u(\ell)$, поэтому:
+\begin{gather}\label{eq:ODE_BC_RIGHT2}
+u(\ell)=\mu_2
+\end{gather}
+
+%
+%	РАЗНОСТНАЯ СХЕМА
+%
+Объединяя все разностные соотношения 
+для дифференциального уравнения \eqref{eq:ODE_BC_CON2} 
+и граничных условий \eqref{eq:ODE_BC_LEFT2}, \eqref{eq:ODE_BC_RIGHT2}
+получаем следующую разностную схему 
+для граничной задачи \eqref{eq:ODE_BC0}, \eqref{eq:ODE_BC20}:
+\begin{tcolorbox}
+\begin{gather*}
+\left\{\begin{array}{rcl}
+% x=0
+-\overline{k}_{1}\cdot\dfrac{u(x_{1})-u(0)}{h_{1}}
+-\brackets{ \mu_1-\lambda_1\cdot u(0) }
++\tilde{r}_0\cdot u(0)
+&=&\tilde{g}_0\\[1em]
+% уравнение
+-\overline{k}_{i+1}\cdot\dfrac{u(x_{i+1})-u(x_{i})}{h_{i+1}}
++\overline{k}_i\cdot\dfrac{u(x_{i})-u(x_{i-1})}{h_i}
++\tilde{r}_i\cdot u(x_i)
+&=&\tilde{g}_i\\[1em]
+% x=l
+u(\ell)&=&\mu_2
+\end{array}\right.
+.\end{gather*}
+\end{tcolorbox}
+
+%
+%	Вычисление коэффициентов k, q, f
+%
+Для определния коэффициентов разностной схемы
+$\overline{k}_i$, $\tilde{r}_i$ и $\tilde{g}_i$
+необходимо вычислять определенные интегралы
+\eqref{eq:ODE_BC_k}, \eqref{eq:ODE_BC_r}, \eqref{eq:ODE_BC_g}
+в областях между узлами сетки $[x_{i-1},x_i]$.
+Однако, во многих практически важных приложениях 
+первообразные подынтегральных функций 
+не могут быть выражены в элементарных функциях.
+Кроме того, коэффициенты разностной схемы краевой задачи
+могут быть заданы в табличной форме, т.е.
+значение коэффициентов определены только в узлах расчетной сетки
+$\{k_i\}$, $\{r_i\}$, $\{g_i\}$.
+В этом случае для вычислений определенных интегралов
+\eqref{eq:ODE_BC_k}, \eqref{eq:ODE_BC_r}, \eqref{eq:ODE_BC_g}
+необходимо пользоваться численным методом интегрирования, 
+например, применить формулу прямоугольников или трапеций:
+\begin{gather*}
+\int\limits_{x_{i-1}}^{x_i}y(x)dx\approx
+y_{i-\onehalf}\cdot h_i
+,\quad
+\int\limits_{x_{i-1}}^{x_i}y(x)dx\approx
+\dfrac{y_{i-1}+y_{i}}{2}\cdot h_{i}
+\end{gather*}
+
+%
+%	АППРОКСИМАЦИЯ СРЕДНИХ ЗНАЧЕНИЙ
+%
+\begin{figure}
+\begin{center}
+\begin{tabular}{c c}
+\begin{tikzpicture}[framed]
+% последовательность графических слоев
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$\frac{1}{k(x)}$},		% подпись оси y
+	y label style={yshift=0em,color=red},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_{i}$},
+	ymin=0, ymax=4, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\addplot[name path=A, thick,red,domain=0:4,samples=50] {2+cos(deg(x))};
+\path[name path=B] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[orange!20] fill between [of=A and B, soft clip={domain=0:4}];
+\addplot[
+	only marks,
+	mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=0ex,color=red},
+]
+coordinates {
+(0,{2+cos(deg(0))}) [$\nicefrac{1}{k_{i-1}}$] 
+(4,{2+cos(deg(4))}) [$\nicefrac{1}{k_{i}}$]
+};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% 
+&
+\begin{tikzpicture}[framed]
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$\frac{1}{k(x)}$},		% подпись оси y
+	y label style={yshift=0em,color=blue},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_{i}$},
+	ymin=0, ymax=4, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\path[name path=A] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[
+	name path=B,
+	color=black!50,thin,
+	mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=0ex,color=blue},
+]
+coordinates {
+(0,{2+cos(deg(0))}) [$\nicefrac{1}{k_{i-1}}$] 
+(4,{2+cos(deg(4))}) [$\nicefrac{1}{k_{i}}$]
+};
+\addplot[blue!10] fill between [of=A and B, soft clip={domain=0:4}];
+\addplot[thick,blue,domain=0:4,samples=50] {2+cos(deg(x))};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+\\
+a)&b)\\
+\end{tabular}
+\end{center}
+\caption{Иллюстрация вычисления 
+определенного интеграла в \eqref{eq:ODE_BC_k}:\\
+a) точное значение; b) приближенное значение\\
+(площадь выделенных области -- численное значение определенного интеграла)
+\label{fig:ODE_BC_k}
+}
+\end{figure}
+% **************************************************
+
+%	средние значения коэффициентов k
+Для определения средних значений коэффициентов 
+$\overline{k}_i$ воспользуемся формулой трапеций (рисунок \ref{fig:ODE_BC_k}~a),
+используя значения $k(x)$ только  в узлах расчетной сетки $\{k_i\}$:
+\begin{gather*}
+\overline{k}(x_i)=\bracketssquare{\dfrac{1}{h_i}\cdot\int\limits_{x_{i-1}}^{x_{i}}\dfrac{dx}{k(x)}}^{-1}
+\approx
+\bracketssquare{\dfrac{1}{h_i}\cdot\dfrac{h_i}{2}\brackets{ \dfrac{1}{k_{i-1}}+\dfrac{1}{k_i} }}^{-1}
+=\dfrac{2k_{i}k_{i-1}}{k_{i}+k_{i-1}}
+,\end{gather*}
+где $k_i=k(x_i)$ -- значение коэффициента в узле сетки $x_i$;
+
+% коэффициенты r,g
+Интегральный темп поглощения и выделения тепла 
+$\tilde{r}$ и $\tilde{g}$ определим, 
+воспользовавшись формулой прямоугольников
+для приближенного вычисления значений определенных интегралов 
+в выражениях \eqref{eq:ODE_BC_r} и \eqref{eq:ODE_BC_g}:
+\begin{gather*}
+\tilde{r}_i=\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}r(x)dx
+\approx r_i\cdot \overline{h_{i}},
+\quad
+\tilde{g}_i=\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}g(x)dx
+\approx g_i\cdot\overline{h}_{i}
+\end{gather*}
+где $r_i=r(x_i)$ -- значение коэффициента $r(x)$ и $п(x)$ 
+в узле сетки $x_i$, соответственно.
+
+%
+%	Интегрирование ДИФФЕРЕНЦИАЛЬНОГО УРАВНЕНИЯ
+%
+\begin{figure}
+\begin{center}
+\begin{tabular}{c c}
+\begin{tikzpicture}[framed]
+% последовательность графических слоев
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$r(x)$},		% подпись оси y
+	y label style={yshift=0em,color=red},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$x_{i-\onehalf}$,$x_{i}$,$x_{i+\onehalf}$},
+	ymin=0, ymax=4, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\addplot[name path=A, thick,red,domain=0:4,samples=50] {2+cos(2.7*deg(x))};
+\path[name path=B] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[orange!20] fill between [of=A and B, soft clip={domain=0:4}];
+\addplot[
+	only marks,
+	mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=0ex,color=red},
+]
+coordinates {
+(0,{2+cos(2.7*deg(0))}) [$r_{i-\onehalf}$] 
+(4,{2+cos(2.7*deg(4)}) [$r_{i+\onehalf}$]
+};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% 
+&
+\begin{tikzpicture}[framed]
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$r(x)$},		% подпись оси y
+	y label style={yshift=0em,color=blue},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$x_{i-\onehalf}$,$x_{i}$,$x_{i+\onehalf}$},
+	ymin=0, ymax=4, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\path[name path=A] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[
+	only marks,
+	mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=0ex,color=blue},
+]
+coordinates {
+(0,{2+cos(2.7*deg(0))}) [$r_{i-\onehalf}$] 
+(4,{2+cos(2.7*deg(4)}) [$r_{i+\onehalf}$]
+};
+\addplot[name path=B,black!50,thin,domain=0:4,samples=2] {2+cos(2.7*deg(2)};
+\addplot[blue!10] fill between [of=A and B, soft clip={domain=0:4}];
+\addplot[thick,blue,domain=0:4,samples=50] {2+cos(2.7*deg(x))};
+\draw[thick,fill=blue!20, draw=black] (axis cs:2,{2+cos(2.7*deg(2)}) circle(3pt) node[left,yshift=1ex,blue] {$r_i$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+\\
+a)&b)\\
+\end{tabular}
+\end{center}
+\caption{Иллюстрация вычисления 
+определенных интегралов
+\eqref{eq:ODE_BC_r} и \eqref{eq:ODE_BC_g}:\\
+a) точное значение; b) приближенное значение\\
+(площадь выделенных области -- численное значение определенного интеграла)
+\label{fig:ODE_BC_rg}
+}
+\end{figure}
+% **************************************************
+
+%
+%	Интегрирование ГРАНИЧНЫХ УСЛОВИЙ
+%
+Для нахождения интегрального темпа теплопоглощения и 
+скорости генерации тепла вблизи границы области $x=0$ 
+воспользуемся формулой прямоугольников 
+для несимметрично расположенных узлов:
+\begin{gather}\label{eq:ODE_BC_rg_left}
+\tilde{r}_0=\int\limits_{0}^{x_{\onehalf}}r(x)dx
+\approx r_0\cdot\dfrac{h_1}{2},
+\quad
+\tilde{g}_0=\int\limits_{0}^{x_{\onehalf}}g(x)dx
+\approx g_0\cdot\dfrac{h_1}{2}
+\end{gather}
+
+\begin{figure}
+\begin{center}
+\begin{tabular}{c c}
+\begin{tikzpicture}[framed]
+% последовательность графических слоев
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$r(x)$},		% подпись оси y
+	y label style={yshift=0em,color=red},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$0$,$x_{\onehalf}$,$x_{1}$},
+	ymin=0, ymax=4, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\addplot[name path=A, thick,red,domain=0:4,samples=50] {2-tanh(x-2)};
+\path[name path=B] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[orange!20] fill between [of=A and B, soft clip={domain=0:2}];
+\addplot[
+	only marks,
+	mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,xshift=0ex,color=red},
+]
+coordinates { (0,{2-tanh(0-2)}) [$r_{0}$] (4,{2-tanh(4-2)}) [$r_1$] };
+\path (axis cs: 0,0) -- (axis cs: 2,0) node[midway,above] {$\dfrac{h_1}{2}$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% 
+&
+\begin{tikzpicture}[framed]
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$r(x)$},		% подпись оси y
+	y label style={yshift=0em,color=blue},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$0$,$x_{\onehalf}$,$x_1$},
+	ymin=0, ymax=4, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\path[name path=A] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[
+	only marks,
+	mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,xshift=0ex,color=blue},
+]
+coordinates { (0,{2-tanh(0-2)}) [$r_{0}$] (4,{2-tanh(4-2)}) [$r_1$] };
+\addplot[name path=B,black!50,thin,domain=0:2,samples=2] {2-tanh(0-2)};
+\addplot[blue!10] fill between [of=A and B, soft clip={domain=0:2}];
+\addplot[thick,blue,domain=0:4,samples=50] {2-tanh(x-2)};
+\path (axis cs: 0,0) -- (axis cs: 2,0) node[midway,above] {$\dfrac{h_1}{2}$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+\\
+a)&b)\\
+\end{tabular}
+\end{center}
+\caption{Иллюстрация вычисления 
+определенных интегралов \eqref{eq:ODE_BC_rg_left}
+для краевого условия на левой границе $x=0$:\\
+a) точное значение; b) приближенное значение\\
+(площадь выделенной области -- численное значение определенного интеграла)
+\label{fig:ODE_BC_rg_left}
+}
+\end{figure}
+
+% Правая граница x=l
+\begin{figure}
+\begin{center}
+\begin{tabular}{c c}
+\begin{tikzpicture}[framed]
+% последовательность графических слоев
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	ytick pos=right,			% ось OY - справа
+	ylabel = {$r(x)$},		% подпись оси y
+	y label style={yshift=0em,color=red},
+	xlabel={\empty},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$x_{N-1}$,$x_{N-\onehalf}$,$\ell$},
+	ymin=0, ymax=4, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\addplot[name path=A, thick,red,domain=0:4,samples=50] {exp((x/3.75)^2))};
+\path[name path=B] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[orange!20] fill between [of=A and B, soft clip={domain=2:4}];
+\addplot[
+	only marks,
+	mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,xshift=0ex,color=red},
+]
+coordinates { (0,{exp((0/3.75)^2))}) [$r_{N-1}$] (4,{exp((4/3.75)^2))}) [$r_N$] };
+\path (axis cs: 2,0) -- (axis cs: 4,0) node[midway,above] {$\dfrac{h_N}{2}$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% 
+&
+\begin{tikzpicture}[framed]
+\pgfsetlayers{background,pre main,axis grid, axis ticks, axis lines, axis tick labels,main,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	ytick pos=right,			% ось OY - справа
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {$r(x)$},		% подпись оси y
+	y label style={yshift=0em,color=blue},
+	xmin=-1, xmax=5, xtick={0,2,4}, xticklabels={$x_{N-1}$,$x_{N-\onehalf}$,$\ell$},
+	ymin=0, ymax=4, ytick={\empty}, %yticklabels={$y_0$,$y_1$},
+]
+\path[name path=A] (axis cs: \pgfkeysvalueof{/pgfplots/xmin},0) -- (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[
+	only marks,
+	mark=*, mark size=3pt, mark options={fill=lime, draw=black, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,xshift=0ex,color=blue},
+]
+coordinates { (0,{exp((0/3.75)^2))}) [$r_{N-1}$] (4,{exp((4/3.75)^2))}) [$r_N$] };
+\addplot[name path=B,black!50,thin,domain=2:4,samples=2] {exp((4/3.75)^2))};
+\addplot[blue!10] fill between [of=A and B, soft clip={domain=2:4}];
+\addplot[thick,blue,domain=0:4,samples=50] {exp((x/3.75)^2))};
+\path (axis cs: 2,0) -- (axis cs: 4,0) node[midway,above] {$\dfrac{h_N}{2}$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+\\
+a)&b)\\
+\end{tabular}
+\end{center}
+\caption{Иллюстрация вычисления 
+определенных интегралов \eqref{eq:ODE_BC_rg_left}
+для краевого условия на правой границе $x=\ell$:\\
+a) точное значение; b) приближенное значение\\
+(площадь выделенной области -- численное значение определенного интеграла)
+\label{fig:ODE_BC_rg_left}
+}
+\end{figure}
+
+% **************************************************
+
+%
+%	Таблица коэффициентов системы разностных уравнений
+%
+\begin{table}[h]
+\caption{
+Выражения для коэффициентов системы разностных уравнений \eqref{eq:ODE_BC_FD}
+краевой задачи \eqref{eq:ODE_BC0}, \eqref{eq:ODE_BC20}
+}
+\label{tab:ODE_BC_FD}
+\begin{tabular}{p{1cm} p{5cm} p{6cm} p{3cm}}
+\toprule
+$i$&0&$1,2,3,\dots,N-1$&$N$\\
+\midmidrule
+$h_i$&&$(x_i-x_{i-1})$&$(x_{N}-x_{N-1})$\\
+\midrule
+% k
+$\overline{k}_i$&&$\dfrac{2k_{i}k_{i-1}}{k_{i}+k_{i-1}}$&\\[1em]
+% q
+$\tilde{v}_i$&$v_0\cdot\dfrac{h_1}{2}$&$v_i\cdot\overline{h_i}$&\\[1em]
+% f
+$\tilde{g}_i$&$g_0\cdot\dfrac{h_1}{2}$&$g_i\cdot\overline{h_i}$&\\
+\midrule
+$a_i$&&$\dfrac{\overline{k}_i}{h_i}$&0\\[1em]
+$b_i$&$a_1$&$a_{i+1}$&\\[1em]
+$c_i$
+&$a_1+\tilde{v}_0-\lambda_1$
+&$(a_i+b_i)+\tilde{v}_i$
+&1\\[1em]
+%f
+$f_i$
+&$\tilde{g}_0+\mu_1$
+&$\tilde{g}_i$
+&$\mu_2$\\
+\bottomrule
+\end{tabular}
+\end{table}
+% **************************************
+%
+%	Разностная схема в МАТРИЧНОЙ ФОРМЕ
+%
+Запишем разностную схему в матричной форме:
+\begin{gather}\label{eq:ODE_BC_FD}
+\left\{\begin{array}{lclclcll}
+&-&c_0\cdot u(0)&+&b_0\cdot u(x_{1})&=&-f_0\\
+a_{1}\cdot u(0)&-&c_{1}\cdot u(x_{1})&+&b_{1}\cdot u(x_{2})&=&-f_{1}\\
+\vdots&&\vdots&&\vdots&&\vdots\\
+a_{i}\cdot u(x_{i-1})&-&c_{i}\cdot u(x_{i})&+&b_{i}\cdot u(x_{i+1})&=&-f_{i}\\
+\vdots&&\vdots&&\vdots&&\vdots\\
+a_{N-1}\cdot u(x_{N-2})&-&c_{N-1}\cdot u(x_{N-1})&+&b_{N-1}\cdot u(\ell)&=&-f_{N-1}\\
+a_{N}\cdot u(x_{N-1})&-&c_N\cdot u(\ell)&&&=&-f_N
+\end{array}\right.
+,\end{gather}
+где $a$, $c$, $b$ и $f$ -- коэффициенты при незвестных ${u(x_i)}$ 
+и правая часть системы линейных уравнений, 
+выражения для которых сведены в таблицу \eqref{tab:ODE_BC_FD}:
+
+% *************************************************************
+%
+%	МЕТОД ПРОГОНКИ
+%
+% *************************************************************
+\subsection{Метод прогонки решения систем линейных уравнений}
+Система уравнений \eqref{eq:ODE_BC_FD} представляет собой 
+частный случай систем линейных алгебраических уравнений:
+\begin{gather*}
+\vec{A}\cdot\vec{u}=\vec{f}
+\end{gather*}
+с трехдиагональной матрицей $\vec{А}$, т.е. с матрицей, 
+все элементы которой, не лежащие на главной и двух побочных диагоналях, равны нулю.
+\begin{gather}\label{eq:ODE_BC_SYS}
+\begin{pmatrix}
+-c_0&b_0&0&\dots&\dots&\dots&0\\
+a_1&-c_1&b_1&0&\dots&\dots&0\\
+0&a_2&-c_2&b_2&0&\cdots&0\\
+\dots&\dots&\dots&\dots&\dots&\dots&\dots\\
+0&\dots&0&a_{N-2}&-c_{N-2}&b_{N-2}&0\\
+0&\dots&\dots&0&a_{N-1}&-c_{N-1}&b_{N-1}\\
+0&\dots&\dots&\dots&0&a_N&-c_N\\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+u_0\\u_1\\u_2\\ \cdots\\u_{N-2}\\u_{N-1}\\u_{N}
+\end{pmatrix}
+=
+\begin{pmatrix}
+f_0\\f_1\\f_2\\ \cdots\\f_{N-2}\\f_{N-1}\\f_{N}
+\end{pmatrix}
+,\end{gather}
+где $u_i=u(x_i)$ -- значение неизвестной функции в узлах сетки.
+
+В общем случае системы линейных алгебраических уравнений 
+с трехдиагональной матрицей имеют вид:
+\begin{gather}\label{eq:ODE_BC_SOL}
+a_i\cdot u_{i-1} - c_i\cdot u_{i} + b_i\cdot u_{i+1} = -f_i,\quad i=1,2,\dots,N-1
+\end{gather}
+
+Для численного решения систем с трехдиагональными матрицами 
+применяется \textit{метод прогонки}, который представляет 
+собой вариант метода последовательного исключения неизвестных.
+
+Особенно широкое применение метод прогонки получил при решении 
+систем разностных уравнений, возникающих при аппроксимации 
+краевых задач для дифференциальных уравнений второго порядка.
+
+Решение системы линейных уравнений \eqref{eq:ODE_BC_SOL}
+будем искать в виде:
+\begin{gather}\label{eq:ODE_ALPHA}
+u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}
+,\end{gather}
+где $\alpha_{i+1}$ и $\beta_{i+1}$ -- неизвестные коэффициенты, 
+которые необходимо определить.
+
+Пользуясь уравнением \eqref{eq:ODE_ALPHA} и выражая $u_{i-1}$ получим:
+\begin{gather}\label{eq:ODE_ALPHA2}
+u_{i-1}=\alpha_{i}\cdot u_{i} + \beta_{i}=
+\alpha_{i}~\alpha_{i+1}\cdot u_{i+1}+(\alpha_{i}~\beta_{i+1} + \beta_{i})
+.\end{gather}
+
+Подставляя соотношения для $u_{i-1}$ \eqref{eq:ODE_ALPHA2}
+и $u_{i}$ \eqref{eq:ODE_ALPHA} в выражение \eqref{eq:ODE_BC_SOL} получим:
+\begin{gather*}
+a_i\cdot(\alpha_{i}~\alpha_{i+1}\cdot u_{i+1}+(\alpha_{i}~\beta_{i+1} + \beta_{i}))
+-c_i\cdot(\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1})
++b_i\cdot u_{i+1} = -f_i
+\end{gather*}
+
+Это уравнение будет выполнено для всех $i=1,2,\dots,N-1$, 
+если потребовать равенство нулю всех коэффициентов 
+при неизвестных $u_{i+1}$ и свободных членов:
+\begin{gather*}
+\begin{cases}
+(a_i\cdot\alpha_{i}-c_i)\cdot\alpha_{i+1}=-b_i\\
+(a_i\cdot\alpha_{i}-c_i)\cdot\beta_{i+1}=-(a_i\cdot\beta_i+f_i)
+\end{cases}
+\end{gather*}
+
+Из последнего выражения получаем рекуррентные соотношения 
+для определения значений неизвестных коэффициентов
+$\alpha_{i+1}$ и $\beta_{i+1}$:
+\begin{gather}\label{eq:ODE_ALPHA_BETA}
+\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}},\quad
+\beta_{i+1}=\dfrac{a_i\cdot\beta_i+f_i}{c_i-a_i\cdot\alpha_{i}}
+\end{gather}
+
+Соотношения \eqref{eq:ODE_ALPHA_BETA} представляют собой 
+нелинейные разностные уравнения первого порядка.
+Для их решения необходимо задать начальные значения 
+$\alpha_1$ и $\beta_1$.
+Эти начальные значения находим из краевого условия на левой
+границе рассматриваемой области $x=0$:
+\begin{gather*}
+\begin{cases}
+-c_0\cdot u_0+b_0\cdot u_1 = -f_0\\
+u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
+\end{cases}
+\quad\text{или}\quad
+\begin{cases}
+u_0=\dfrac{b_0}{c_0}\cdot u_1+\dfrac{f_0}{c_0}\\
+u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
+\end{cases}
+.\end{gather*}
+
+Сопоставляя выражение для $u_0$ получим:
+\begin{gather}\label{eq:ODE_ALPHA1_BETA1}
+\alpha_{1}=\dfrac{b_0}{c_0},\quad \beta_{1}=\dfrac{f_0}{c_0}
+\end{gather}
+
+Нахождение коэффициентов $\alpha_{i+1}$ и $\beta_{i+1}$ 
+по рекуррентным соотношениям 
+\eqref{eq:ODE_ALPHA_BETA} и \eqref{eq:ODE_ALPHA1_BETA1}
+называется \textit{прямой прогонкой}.
+После того как прогоночные коэффициенты $\alpha_{i+1}$ и $\beta_{i+1}$
+($i=1,2,\dots,N-1$), найдены, решение системы \eqref{eq:ODE_BC_SYS} 
+находится по рекуррентному соотношению \eqref{eq:ODE_ALPHA},
+если известно значение функции $u_N$ на правой границе области.
+Неизвестное значение функции $u_N$ можно определить 
+из краевого условия на правой границе области $x=\ell$:
+\begin{gather}\label{eq:ODE_SYS_uN}
+\begin{cases}
+a_N\cdot u_{N-1}-c_N\cdot u_N = -f_N\\
+u_{N-1}=\alpha_{N}\cdot u_{N} + \beta_{N}
+\end{cases}
+.\end{gather}
+
+Из решения системы уравнений \eqref{eq:ODE_SYS_uN} 
+определяется значение неизвестной функции $u_N$
+на правой границе:
+\begin{gather}\label{eq:ODE_uN}
+u_N=\dfrac{a_N\cdot\beta_N+f_N}{c_N-a_N\cdot\alpha_N}
+\end{gather}
+
+Последовательное нахождение значений 
+неизвестной функции $u(x)$ в узлах сетки 
+по рекуррентному соотношению \eqref{eq:ODE_ALPHA}
+называется \textit{обратной прогонкой}.
+
+\begin{tcolorbox}
+Алгоритм метода прогонки:
+\begin{enumerate}
+\item
+Составить однородную разностную схему 
+для решения исходной краевой задачи методом баланса 
+(интегро-интерполяционным методом)
+\item
+На неравномерной сетке определить шаг $h_i$ сетки для каждого 
+элементарного отрезка $[x_{i-1},x_{i}]$
+\item
+Вычислить все коэффициенты разностной схемы 
+$\overline{k}_i$, $\overline{q}_i$, $\overline{f}_i$
+краевой задачи во всех узлах сетки $\{x_i\}$ $(i=0,1,2,\dots,N)$
+\item
+Определить коэффициенты линейной системы уравнений
+$a_i$, $b_i$, $c_i$ и $f_i$ $(i=0,1,2,\dots,N)$
+полученной разностной схемы.
+\item
+Найти решение полученной системы линейных алгебраических уравнений
+$\{u_i\}$ методом прогонки:
+\begin{enumerate}[label=(\roman*)]
+\item
+Из краевого условия на левой границе области $x=0$
+вычислить коэффициенты \eqref{eq:ODE_ALPHA1_BETA1}:
+\begin{gather*}
+\alpha_{1}=\dfrac{b_0}{c_0},\quad \beta_{1}=\dfrac{f_0}{c_0}
+\end{gather*}
+\item
+Пользуясь рекуррентными соотношениями \eqref{eq:ODE_ALPHA_BETA},
+определить значения неизвестных коэффициентов для $i=2,3,\dots,N-1$:
+\begin{gather*}
+\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}},\quad
+\beta_{i+1}=\dfrac{a_i\cdot\beta_i+f_i}{c_i-a_i\cdot\alpha_{i}}
+\end{gather*}
+\item
+Из краевого условия на правой границе области $x=\ell$ определить
+значение неизвестной функции $u_N$ из соотношения \eqref{eq:ODE_uN}:
+\begin{gather*}
+u_N=\dfrac{a_N\cdot\beta_N+f_N}{c_N-a_N\cdot\alpha_N}
+\end{gather*}
+\item
+Определить значения неизвестной функции в узлах сетки
+пользуясь рекуррентными соотношениями \eqref{eq:ODE_ALPHA}:
+\begin{gather*}
+u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}
+\end{gather*}
+\end{enumerate}
+\end{enumerate}
+\end{tcolorbox}
+
+%
+%	ЧИСЛЕННОЕ РЕШЕНИЕ краевой задачи методом прогонки
+%
+\subsection{Численное решение краевой задачи методом прогонки}
+Рассмотрим краевую задачу на отрезке $x\in[0,7]$:
+\begin{gather*}
+\left((3+\sin(x))\cdot u^{\prime}(x)\right)^{\prime}-|\cos(x)|\cdot u(x) + 0.5\cdot (x-1)^2=0\\
+\left\{\begin{matrix}
+u(0)=2\\
+-k(7)\cdot u^{\prime}(7)+0,5\cdot u(7)=17,24
+\end{matrix}\right.
+\end{gather*}
+
+Из данных краевой задачи можно заключить, что коэффициенты 
+в дифференциальном уравнении являются функциями вида:
+\begin{gather*}
+k(x)=3+\sin(x),\quad q(x)=|\cos(x)|,\quad f(x)=0.5\cdot (x-1)^2
+\end{gather*}
+
+Для построения разностной схемы для решения краевой задачи,
+воспользуемся интегро-интерполяционным методом (методом баланса).
+\begin{enumerate}
+\item
+Разностный аналог дифференциального уравнения краевой задачи
+получаем аналогично \eqref{eq:ODE_BC_CON2}:
+\begin{gather*}
+-\overline{k}_{i+1}\cdot\dfrac{u(x_{i+1})-u(x_{i})}{h_{i+1}}
++\overline{k}_i\cdot\dfrac{u(x_{i})-u(x_{i-1})}{h_i}
++\overline{q}_i\cdot\dfrac{h_{i+1}+h_i}{2}\cdot u(x_i)
+=\overline{f}_i\cdot\dfrac{h_{i+1}+h_i}{2}% h_{i+\onehalf}
+\end{gather*} 
+\item
+На левой границе области $x=0$ граничное условие имеет вид:
+\begin{gather}\label{eq:ODE_BC_LEFT_MY}
+u(0)=2
+\end{gather}
+\item
+Вблизи правой границы на отрезке $x\in[x_{N-\onehalf},\ell]$
+воспользуемся \textit{интегро-интерноляционным методом} и 
+проинтегрируем основное уравнение \eqref{eq:ODE_BC0} задачи:
+\begin{gather*}
+\int\limits_{x_{N-\onehalf}}^{\ell}w^{\prime}(x)dx
++\int\limits_{x_{N-\onehalf}}^{\ell}q(x)\cdot u(x)dx
+=\int\limits_{x_{N-\onehalf}}^{\ell}f(x)dx
+,\end{gather*}
+где $w(x)=-k(x)\cdot u^{\prime}(x)$ -- поток неизвестной функции $u(x)$.
+
+Предположим, что в пределах отрезка $[x_{N-\onehalf},\ell]$ 
+неизвестная функция $u(x)$ остается постоянной $u(x)\approx u(\ell)$
+(рисунок \ref{fig:ODE_BC_RIGHT_SOL}),
+тогда краевое условие на правой границе запишется в виде:
+\begin{gather}\label{eq:ODE_BC_RIGHT_SOL}
+w(\ell)-w({x_{N-\onehalf}})
++u(\ell)\cdot\int\limits_{x_{N-\onehalf}}^{\ell}q(x)dx
+=\int\limits_{x_{N-\onehalf}}^{\ell}f(x)dx
+,\end{gather}
+где $w({x_{N-\onehalf}})$ -- потокая величина 
+в последнем промежуточном узле $x_{N-\onehalf}$
+определяется из соотношения:
+\begin{gather*}
+u^{\prime}(x)=-\dfrac{w(x)}{k(x)}\quad \Rightarrow \quad
+\int\limits_{x_{N-1}}^{\ell}u^{\prime}(x)dx
+=-\int\limits_{x_{N-1}}^{\ell}\dfrac{w(x)}{k(x)}dx
+\end{gather*}
+
+Предполагая, что тепловой поток $w(x)$ постоянен в пределах области
+$[x_{N-1},\ell]$, т.е. $w(x)\approx w(x_{N-\onehalf})$, определим
+изменение неизвестной функции $u(x)$ в этой области:
+\begin{gather*}
+u(\ell)-u(x_{N-1})=-w(x_{N-\onehalf})\cdot\int\limits_{x_{N-1}}^{\ell}\dfrac{dx}{k(x)}
+\end{gather*}
+
+Для вычисление определенного интеграла в последнем выражении
+воспользуемся формулой трапеций:
+\begin{gather*}
+\int\limits_{x_{N-1}}^{\ell}\dfrac{dx}{k(x)}
+\approx\dfrac{h_N}{2}\cdot\brackets{ \dfrac{1}{k_{N-1}}+\dfrac{1}{k_{N}} }  
+\end{gather*}
+
+%
+%	ПРАВАЯ ГРАНИЦА
+%
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[background rectangle/.style={fill=olive!10}, show background rectangle]
+\def\ul{7.5}
+\def\xl{9.5}
+\def\xxl{4}
+\def\uul{2	}
+\def\xxxl{0.5}
+\def\uuul{5}
+\begin{axis}
+[
+%	axis on top=true,
+	every axis/.style={color=black, solid, thick},
+	ytick pos=right,			% ось OY - справа
+	ylabel = {\empty},	% подпись оси y
+	xmin=0, xmax=10, xtick={\xxxl,(\xxxl+\xxl)/2,\xxl,(\xxl+\xl)/2,\xl}, xticklabels={$x_{N-2}$,$x_{N-\nicefrac{3}{2}}$,$x_{N-1}$,$x_{N-\onehalf}$,$\ell$},
+	ymin=0, ymax=10, ytick={\uuul,\uul,\ul}, yticklabels={$u(x_{N-2})$,$u(x_{N-1})$,$u(\ell)$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[fill=black!10, draw=none] coordinates {(\xl,0) (\xl,10) ((\xl+\xxl)/2,10) ((\xl+\xxl)/2,0)}\closedcycle;
+\addplot[only marks, mark=*, mark size=5pt, 
+mark options={fill=lime, draw=black, solid},
+const plot mark mid,
+very thick,
+]
+coordinates {(\xxxl,\uuul) (\xxl,\uul) (\xl,\ul)};
+\draw[-] (axis cs:{(\xl+\xxl)/2},0) -- (axis cs:\xl,0) node[midway,above] {$\dfrac{h_N}{2}$};
+\end{axis}
+\end{tikzpicture}
+\caption{
+Схематическое изображение распределения неизвестной функции $u(x)$
+вблизи правой границы $x=\ell$
+}
+\label{fig:ODE_BC_RIGHT_SOL}
+\end{center}
+\end{figure}
+%*******************************************
+
+Следовательно, потоковая величина в последнем промежуточном узле 
+определяется выражением:
+\begin{gather}\label{eq:ODE_BC_RIGHT2}
+w({x_{N-\onehalf}})=-\overline{k}_N\cdot\dfrac{u(\ell)-u(x_{N-1})}{h_N}
+,\end{gather}
+где $\overline{k}_N$ -- среднее значение коэффициента $k(x)$ на отрезке
+$[x_{N-1},\ell]$:
+\begin{gather*}
+\overline{k}_N=\dfrac{2k_{N}k_{N-1}}{k_{N}+k_{N-1}}
+\end{gather*}
+
+Из общего вида второго краевого условия
+\begin{gather*}
+-k(\ell)\cdot u^{\prime}(\ell)+\lambda_2\cdot u(\ell)=\mu_2
+\end{gather*}
+выразим величину потока на границе рассматриваемой области $w(\ell)$:
+\begin{gather}\label{eq:ODE_BC_RIGHT3}
+w(\ell)=-k(\ell)\cdot u^{\prime}(\ell) = \mu_2-\lambda_2\cdot u(\ell)
+\end{gather}
+
+Для вычислений определенных интегралов в
+\eqref{eq:ODE_BC_RIGHT_SOL}
+воспользуемся формулой прямоугольников:
+\begin{gather}\label{eq:ODE_BC_RIGHT4}
+\int\limits_{x_{N-\onehalf}}^{\ell}q(x)dx\approx q_N\cdot\dfrac{h_N}{2},\quad
+\int\limits_{x_{N-\onehalf}}^{\ell}f(x)dx\approx f_N\cdot\dfrac{h_N}{2}
+.\end{gather}
+
+С учетом соотношений \eqref{eq:ODE_BC_RIGHT2}, 
+\eqref{eq:ODE_BC_RIGHT3}, \eqref{eq:ODE_BC_RIGHT4}
+уравнение баланса вблизи правой границе \eqref{eq:ODE_BC_RIGHT_SOL} 
+запишется в разностном виде:
+\begin{gather}\label{eq:ODE_BC_RIGHT_MY}
+\mu_2-\lambda_2\cdot u(\ell)
++\overline{k}_N\cdot\dfrac{u(\ell)-u(x_{N-1})}{h_N}
++u(\ell)\cdot\brackets{q_N\cdot\dfrac{h_N}{2}}
+=f_N\cdot\dfrac{h_N}{2}
+.\end{gather}
+
+Объединяя все полученные разностные соотношения 
+для дифференциального уравнения
+и граничных условий \eqref{eq:ODE_BC_LEFT_MY}, \eqref{eq:ODE_BC_RIGHT_MY}
+получаем следующую разностную схему:
+\begin{tcolorbox}[colback=blue!5]
+\begin{gather*}
+\left\{\begin{array}{rcl}
+% x=0
+u(0)&=&\mu_1\\[1em]
+% уравнение
+-\overline{k}_{i+1}\cdot\dfrac{u(x_{i+1})-u(x_{i})}{h_{i+1}}
++\overline{k}_i\cdot\dfrac{u(x_{i})-u(x_{i-1})}{h_i}
++\overline{q}_i\cdot h_{i\pm\onehalf}\cdot u(x_i)
+&=&\overline{f}_i\cdot h_{i\pm\onehalf}\\[1em]
+% x=l
+\mu_2-\lambda_2\cdot u(\ell)
++\overline{k}_N\cdot\dfrac{u(\ell)-u(x_{N-1})}{h_N}
++u(\ell)\cdot\brackets{q_N\cdot\dfrac{h_N}{2}}
+&=&f_N\cdot\dfrac{h_N}{2}
+\end{array}\right.
+.\end{gather*}
+\end{tcolorbox}
+\item
+На отрезке введем произвольную сетку $\{x_i\}$ 
+и определим шаг сетки $h_i$:
+\vspace{1em}
+
+\begin{tabular}{p{1cm} *{10}{p{1cm}}}
+\toprule
+$i$&0&1&2&3&4&5&6&7&8&9\\
+\midmidrule
+$x_i$&0&1&2&3&4&4.75&5&5.5&6&7\\
+\midrule
+$h_i$&&1&1&1&1&0.75&0.25&0.5&0.5&1\\
+\bottomrule
+\end{tabular}
+\vspace{1em}
+
+\item
+Вычислим средние значения коэффициентов 
+разностной схемы краевой задачи
+во всех узлах сетки $\{x_i\}$ $(i=0,1,2,\dots,N)$:
+\vspace{1em}
+
+\begin{tabular}{p{1cm} *{10}{p{1cm}}}
+\toprule
+$i$&0&1&2&3&4&5&6&7&8&9\\
+\midmidrule
+$\overline{k}_i$&&3.37&3.88&3.48&2.62&2.12&2.02&2.16&2.49&3.12\\
+$\overline{q}_i$&1.00&0.54&0.42&0.99&0.65&0.04&0.28&0.71&0.96&0.75\\
+$\overline{f}_i$&0.50&0.00&0.50&2.00&4.50&7.03&8.00&10.13&12.50&18.00\\
+\bottomrule
+\end{tabular}
+\vspace{1em}
+
+\item
+Определим коэффициенты линейной системы уравнений
+$a_i$, $b_i$, $c_i$ и $f_i$\\$(i=0,1,2,\dots,N)$
+полученной разностной схемы:
+
+
+
+\end{enumerate}
+
+
+\end{document}

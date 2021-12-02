@@ -1,0 +1,378 @@
+%\input{../../../preamble}
+%\begin{document}
+
+\newpage
+%
+%	Численное интегрирование
+%
+\section{Численное интегрирование}
+
+Если функция $f(x)$ непрерывна на отрезке $x\in[a,b]$ и известна ее 
+первообразная $F(x)$, то определенный интеграл от этой функции 
+в пределах от $a$ до $b$ может быть вычислен по формуле Ньютона -- Лейбница:
+\begin{gather*}
+\int\limits_{a}^{b}f(x)dx=F(b)-F(a)
+,\end{gather*}
+где $F^{\prime}(x)=f(x)$ -- первообразная подынтегральной функции $f(x)$.
+
+Однако во многих случаях первообразная функция $F(x)$ не может 
+быть найдена с помощью элементарных средств или является  
+слишком сложной, поэтому вычисление определенного интеграла 
+может быть затруднительным или даже практически невозможным. 
+
+Кроме того, на практике подынтегральная функция $f(x)$ часто 
+задается таблично и тогда само понятие первообразной теряет смысл. 
+Аналогичные вопросы возникают при вычислении кратных  
+интегралов. Поэтому важное значение имеют приближенные и в первую 
+очередь численные методы вычисления определенных интегралов. 
+
+\textit{Задача} численного интегрирования функции заключается в  
+вычислении значения определенного интеграла на основании ряда  
+значений подынтегральной функции $f(x)$.
+
+Обычный прием численного вычисления интеграла состоит 
+в том, что данную функцию $f(x)$ на рассматриваемом отрезке 
+$x\in[a, b]$ заменяют интерполирующей или аппроксимирующей  
+функцией $\varphi(x)$ простого вида (например, полиномом), а затем приближенно полагают:
+\begin{gather*}
+\int\limits_{a}^{b}f(x)dx\approx \int\limits_{a}^{b}\varphi(x)dx
+\end{gather*}
+
+Далее рассматриваются способы приближенного вычисления определенных интегралов вида:
+\begin{gather*}
+I=\int\limits_{a}^{b}\varphi(x)dx
+,\end{gather*}
+основанные на замене интеграла конечной суммой:
+\begin{gather*}
+I\approx\sum\limits_{i=0}^{n}c_{i}\cdot\varphi(x_i)
+,\end{gather*}
+где $c_{i}$ -- числовые коэффициенты квадратурной формулы; 
+$x_i$ -- узлы квадратурной формулы, т.е. точки отрезка $[a, b], (i= 0,1,\cdots,n)$.
+
+На основании свойств определенных интегралов, 
+$I$ можно представить в виде суммы интегралов
+по частичным отрезкам:
+\begin{gather*}
+\int\limits_{a}^{b}f(x)dx=
+\sum\limits_{i=1}^{N}\int\limits_{x_{i-1}}^{x_i}f(x)dx
+\end{gather*}
+
+Для построения формулы численного интегрирования 
+на всем отрезке $[a,b]$ достаточно построить квадратурную формулу 
+на частичном отрезке $x\in[x_{i-1},x_i]$ для интеграла:
+\begin{gather*}
+I_i=\int\limits_{x_{i-1}}^{x_i}f(x)dx
+\end{gather*}
+
+% ------------------------------------------------------------------
+\subsection{Формула трапеций}
+
+На частичном отрезке квадратурная \textit{формула трапеций} 
+является следствием замены подынтегральной функции $f(x)$
+интерполяционным полиномом Лагранжа первой степени 
+$f(x)\approx L_1(x)$, построенным по множеству узлов
+сетки $\{x_{i-1}, x_i\}$:
+\begin{gather*}
+L_1(x)=\dfrac{x-x_i}{x_{i-1}-x_i}\cdot y_{i-1} + \dfrac{x-x_{i-1}}{x_i-x_{i-1}}\cdot y_i=
+\dfrac{(x-x_{i-1})\cdot y_i-(x-x_i)\cdot y_{i-1}}{h_i}
+,\end{gather*}
+где $h_i=(x_i-x_{i-1})$ -- расстояние между соседними узлами интерполяции,
+т.е. шаг неравномерной сетки; $y_i=f(x_i)$ -- значение функции в узлах интерполяции.
+
+Интегрирование интерполяционного полинома Лагранжа на частичном отрезке
+определяет формулу трапеций:
+\begin{gather*}
+I_i\approx\int\limits_{x_{i-1}}^{x_i}\dfrac{(x-x_{i-1})\cdot y_i-(x-x_i)\cdot y_{i-1}}{h_i}dx=
+\dfrac{y_{i-1}+y_{i}}{2}\cdot h_{i}
+\end{gather*}
+
+Таким образом, квадратурная формула трапеций имеет вид:
+\begin{gather*}
+I\approx\sum\limits_{i=1}^{N}\dfrac{y_{i-1}+y_{i}}{2}\cdot h_{i}
+,\end{gather*}
+где $N$ -- количество узлов интерполяции.
+
+% ------------------------------------------------------------------
+\subsection{Формула Симпсона}
+На частичном отрезке квадратурная \textit{формула Симпсона} 
+является следствием аппроксимации на частичном отрезке 
+подынтегральной функции $f(x)$ интерполяционным полиномом
+Лагранжа второй степени $f(x)\approx L_2(x)$, который построен
+по узлам сетки $\{x_{i-1}, x_{i}, x_{i+1}\}$:
+\begin{equation*}
+\begin{matrix}
+	L_{2}(x)&=&\dfrac
+		{ (x-x_{i})\cdot(x-x_{i+1}) }
+		{ (x_{i}-x_{i-1})\cdot(x_{i+1}-x_{i-1}) } \cdot y_{i-1}& + \\
+	\\
+	&+&\dfrac
+		{ (x-x_{i-1})\cdot(x_{i+1}-x) }
+		{ (x_{i}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i}& + \\
+	\\
+	&+&\dfrac
+		{ (x-x_{i-1})\cdot(x-x_{i}) }
+		{ (x_{i+1}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i+1}
+\end{matrix}
+\end{equation*}
+
+Интегрирование интерполяционного полинома Лагранжа $L_2(x)$ 
+на частичном отрезке $x\in[x_{i-1}, x_{i+1}]$ определяет формулу Симпсона:
+\begin{gather*}
+I_i\approx\int\limits_{x_{i-1}}^{x_{i+1}}L_2(x)dx=
+\int\limits_{x_{i-1}}^{x_{i+1}}\left(a_i x^2+b_i x + c_i\right)dx
+,\end{gather*}
+где $a_i$, $b_i$, $c_i$ -- коэффициенты при соответствующих степенях $x$
+интерполяционного полинома Лагранжа $L_2(x)$
+в пределах частичного отрезка $x\in[x_{i-1}, x_{i+1}]$.
+
+Таким образом, квадратурная формула Симпсона имеет вид:
+\begin{gather*}
+I\approx\sum\limits_{i=1,3,5,\cdots}^{N-1}
+\left[
+{a_i}\dfrac{x_{i+1}^3-x_{i-1}^3}{3}+
+{b_i}\dfrac{x_{i+1}^2-x_{i-1}^2}{2}+
+{c_i}(x_{i+1}-x_{i-1})
+\right]
+,\end{gather*}
+где $N$ -- количество узлов интерполяции.
+
+%
+%	Численное интегрирования функции заданной таблично
+%
+\newpage
+\subsection{Численное интегрирования функции заданной таблично}
+
+На множестве узлов сетки $\{x_i\}$ определены значения некоторой функции $\{f(x_i)\}$:
+\begin{center}
+\begin{tabular}{l *{5}{l}}
+\toprule
+$x$&-3,31&0,31&1,32&2,47&3,50\\
+\midrule
+$f(x)$&2,45&4,03&-3,61&4,50&3,1\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[leftmargin=0pt]
+\item
+Построим график функции $f(x)$ заданной таблично.
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}[background rectangle/.style={fill=olive!10}, show background rectangle]
+\begin{axis}[
+every axis/.style={color=black, solid, thick},
+xlabel = {$x$},		% подпись оси x
+ylabel = {$f(x)$},	% подпись оси y
+xmin=-4, xmax=4,
+ymin=-4, ymax=6,
+xtick style={thick, black},
+ytick style={thick, black},
+grid=major,		
+major grid style={color=black!20, dashed, thin},
+]
+\addplot[name path=A, thick, color=orange, mark=*, mark size=3pt, mark options={fill=orange, draw=black, solid}] coordinates 
+{(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *******************************
+
+Численное значение интеграла -- это площадь криволинейной трапеции,
+ограниченной линиями графика и осью абсцисс $Ox$ 
+(выделенная область на графике).
+
+\item
+Рассмотрим \textbf{метод трапеций} для нахождения численного значения интеграла
+функции $f(x)$ заданной таблично на отрезке $x\in[-3,31; 3,50]$.
+
+Разобъем весь отрезок интегрирования на частичные отрезки 
+\begin{gather*}
+[x_0,x_4]=[x_0,x_1] \cup [x_1,x_2] \cup [x_2,x_3] \cup [x_3,x_4]
+\end{gather*}
+
+На каждом частичном отрезке квадратурная формула является следствием 
+замены подынтегральной функции $f(x)$ интерполяционным полиномом Лагранжа 
+первой степени $f(x)\approx L_1(x)$, построенным но узлам $x_{i-1}, x_i$, 
+т.е. прямой соединяющей два соседних узла.
+
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+every axis/.style={color=black, solid, thick},
+xlabel = {$x$},		% подпись оси x
+ylabel = {$f(x)$},	% подпись оси y
+xmin=-4, xmax=4,
+ymin=-4, ymax=6,
+xtick style={thick, black},
+ytick style={thick, black},
+grid=major,		
+major grid style={color=black!20, dashed, thin},
+]
+\addplot[name path=A, thick, color=orange, mark=*, mark size=3pt, mark options={fill=orange, draw=black, solid}] coordinates 
+{(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
+%\path [name path=B] (\pgfkeysvalueof{/pgfplots/xmin},0) -- (\pgfkeysvalueof{/pgfplots/xmax},0);
+\path [name path=B] (axis cs: -3.31,0) -- (axis cs: 3.5,0);
+\addplot [orange!20] fill between [of=A and B, soft clip={domain=-3.31:3.5},];
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *******************************
+
+Определим длину частичных отрезков:
+\begin{gather*}
+\begin{matrix}
+h_1=&(x_1-x_0)=&0,31-(-3,31)=3,62\\
+h_2=&(x_2-x_1)=&1,32-0,31=1,01\\ 
+h_3=&(x_3-x_2)=&2,47-1,32=1,15\\
+h_4=&(x_4-x_3)=&3,50-2,47=1,03\\
+\end{matrix}
+\end{gather*}
+
+По методу трапеций, определим значение интеграла на каждом частичном отрезке:
+\begin{gather*}
+\begin{matrix}
+I_1=&\dfrac{f(x_0)+f(x_1)}{2}\cdot h_1=\dfrac{2,45+4,03}{2}\cdot3,62=11,73\\[1em]
+I_2=&\dfrac{f(x_1)+f(x_2)}{2}\cdot h_2=\dfrac{4,03-3,61}{2}\cdot1,01=0,21\\[1em]
+I_3=&\dfrac{f(x_2)+f(x_3)}{2}\cdot h_3=\dfrac{-3,61+4,50}{2}\cdot1,15=0,51\\[1em]
+I_4=&\dfrac{f(x_3)+f(x_4)}{2}\cdot h_4=\dfrac{4,50+3,10}{2}\cdot1,03=3,91\\
+\end{matrix}
+\end{gather*}
+
+Определим интеграл $I$ на всем отрезке интегрирования $[-3,31; 3,50]$, 
+воспользовавшись свойством аддитивности интеграла:
+\begin{gather*}
+I=I_1+I_2+I_3+I_4=11,73+0,21+0,51+3,91=16,37
+.\end{gather*}
+
+\item
+Рассмотрим \textbf{метод Симпсона} для нахождения численное значение интеграла
+функции $f(x)$ заданной таблично на отрезке $x\in[-3,31; 3,50]$.
+
+Разобъем весь отрезок интегрирования на частичные отрезки:
+\begin{gather*}
+[x_0,x_4]=[x_0,x_2] \cup [x_2,x_4]
+\end{gather*}
+На каждом из двух отрезков построим интерполяционный полинома Лагранжа $L_2(x)$
+\item
+В пределах первого частичного отрезка $[-3,31; 1,32]$
+построим полином Лагранжа $L_2(x)$ по узлам интерполяции
+$x_0=-3,31; x_1=0,31; x_2=1,32$:
+\begin{gather*}
+\begin{matrix}
+L^{(1)}_2(x)&=&\dfrac{(x-0,31)(x-1,32)}{((-3,31-0,31)(-3,31-1,32)}\cdot2,45&+\\[1em]
+&+&\dfrac{(x-(-3,31))(x-1,32)}{(0,31-(-3,31))(0,31-1,32)}\cdot4,03&+\\[1em]
+&+&\dfrac{(x-(-3,31))(x-0,31)}{(1,32-(-3,31))(1,32-0,31)}\cdot(-3,61)&\\
+\end{matrix}
+\end{gather*}
+
+В результате алгебраических преобразований получим:
+\begin{gather*}
+L^{(1)}_2(x)=-1,73\cdot x^2-4,74\cdot x+5,66
+\end{gather*}
+
+Определим интеграл от интерполяционного полинома Лагранжа $L^{(1)}_2(x)$ на первом частичном отрезке:
+\begin{gather*}
+I_1=\int\limits_{-3,31}^{1,32} L^{(1)}_2(x)dx=
+\int\limits_{-3,31}^{1,32} \left(-1,73\cdot x^2-4,74\cdot x+5,66\right)dx=25,88
+\end{gather*}
+
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+every axis/.style={color=black, solid, thick},
+xlabel = {$x$},		% подпись оси x
+ylabel = {$f(x)$},	% подпись оси y
+xmin=-4, xmax=4,
+ymin=-4, ymax=10,
+xtick style={thick, black},
+ytick style={thick, black},
+grid=major,		
+major grid style={color=black!20, dashed, thin},
+]
+\addplot[color=orange, only marks, mark=*, mark size=3pt, mark options={fill=orange, draw=black, solid}] coordinates 
+{(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
+%\path [name path=B] (\pgfkeysvalueof{/pgfplots/xmin},0) -- (\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[name path=A, thick, color=orange, domain=-3.31:1.32] {-1.73*x^2-4.74*x+5.66};
+\draw[color=orange] (axis cs:-0.6,8.2) node [right] {$L^{(1)}_2(x)$};
+\path [name path=B] (axis cs: -3.31,0) -- (axis cs: 1.32,0);
+\addplot [orange!20] fill between [of=A and B, soft clip={domain=-3.31:1.32},];
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *******************************
+
+\item
+В пределах второго частичного отрезка $[1,32;3,50]$
+построим полином Лагранжа $L_2(x)$ по узлам интерполяции
+$x_2=1,32; x_3=2,47;x_4=3,50$:
+\begin{gather*}
+\begin{matrix}
+L^{(2)}_2(x)&=&\dfrac{(x-2,47)(x-3,50)}{(1,32-2,47)(1,32-3,50)}\cdot(-3,61)&+\\[1em]
+&+&\dfrac{(x-1,32)(x-3,50)}{(2,47-1,32)(2,47-3,50)}\cdot4,50&+\\[1em]
+&+&\dfrac{(x-1,32)(x-2,47)}{(3,50-1,32)(3,50-2,47)}\cdot3,10\\
+\end{matrix}
+\end{gather*}
+
+После тривиальных алгебраических преобразований:
+\begin{gather*}
+L^{(2)}_2(x)=-3,87\cdot x^2+21,76\cdot x-25,56
+\end{gather*}
+
+Определим интеграл от интерполяционного полинома Лагранжа $L^{(2)}_2(x)$ на втором частичном отрезке:
+\begin{gather*}
+I_2=\int\limits_{1,32}^{3,50} L^{(2)}_2(x)dx=
+\int\limits_{1,32}^{3,50} \left(-3,87\cdot x^2+21,76\cdot x-25,56\right)dx=6,13
+\end{gather*}
+
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+every axis/.style={color=black, solid, thick},
+xlabel = {$x$},		% подпись оси x
+ylabel = {$f(x)$},	% подпись оси y
+xmin=-4, xmax=4,
+ymin=-4, ymax=10,
+xtick style={thick, black},
+ytick style={thick, black},
+grid=major,		
+major grid style={color=black!20, dashed, thin},
+]
+\addplot[color=orange, only marks, mark=*, mark size=3pt, mark options={fill=orange, draw=black, solid}] coordinates 
+{(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
+%\path [name path=B] (\pgfkeysvalueof{/pgfplots/xmin},0) -- (\pgfkeysvalueof{/pgfplots/xmax},0);
+\addplot[name path=A, thick, color=orange, domain=-3.31:1.32] {-1.73*x^2-4.74*x+5.66};
+\draw[color=orange] (axis cs:-0.6,8.2) node [right] {$L^{(1)}_2(x)$};
+\path [name path=B] (axis cs: -3.31,0) -- (axis cs: 1.32,0);
+\addplot [orange!20] fill between [of=A and B, soft clip={domain=-3.31:1.32},];
+% второй отрезок
+\addplot[name path=C, thick, color=orange, domain=1.32:3.50] {-3.87*x^2+21.76*x-25.56};
+\draw[color=orange] (axis cs:2,6) node [right] {$L^{(2)}_2(x)$};
+\path [name path=D] (axis cs: 1.32,0) -- (axis cs: 3.50,0);
+\addplot [orange!20] fill between [of=C and D, soft clip={domain=1.32:3.50},];
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *******************************
+\item
+Определим интеграл всем отрезке $[-3,31; 3,50]$ воспользовавшись свойством аддитивности интеграла:
+\begin{gather*}
+I=I_1+I_2=25,88+6,13=32,01
+\end{gather*}
+
+\item
+Сравнивая численные значения интегралов рассчитанные по методу трапеций и Симпсона,
+можно сделать вывод о том, что значение интегралов существенно различаются:
+определенный интеграл рассчитанный по методу Симпсона в 1,96 больше, чем по методу трапеций.
+\end{enumerate}
+%\end{document}

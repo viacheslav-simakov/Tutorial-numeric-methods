@@ -1,0 +1,87 @@
+%\input{../../../preamble}
+%\begin{document}
+%
+%	Если макрос \GraphShiftToRight не определен, то
+%	определить макрос \def\GraphShiftToRight{3cm}
+%
+\ifx\GraphShiftToRight\undefined
+	% отступ правого графика от левого
+	\def\GraphShiftToRight{3cm}
+\fi
+% ********************************************
+%
+%	Интегралы на контрольном отрезке
+%
+% ********************************************
+\begin{tikzpicture}[framed]
+\pgfplotsset{set layers=standard}
+\pgfsetlayers{background,axis grid,pre main,main,axis ticks,axis lines, axis tick labels,axis descriptions,axis foreground}
+% узлы сетки
+\def\xLeft{0.5}
+\def\x{4}
+\def\xRight{9.5}
+% k(x)
+\def\yLeft{1}
+\def\yRight{7}
+% промежуточные узлы
+\def\xleft{(\x+\xLeft)/2}
+\def\xright{\x+\xRight)/2}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm, %height=10cm,
+	my graph style,
+	name=plot1,
+	title={a)},
+	xmin=0, xmax=10, xlabel={$x$}, 
+	xtick={\xLeft,\xleft,\x,\xright,\xRight}, xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_i$,$x_{i+\onehalf}$,$x_{i+1}$},
+	ymin=-3.5, ymax=10, ylabel={$k^{-1}(x)$}, ytick={\yLeft,\yRight}, yticklabels={\empty},
+]
+% интеграл
+\draw[draw=none,fill=orange!20] (axis cs: \x,-3.5) rectangle (axis cs: \xRight,\yRight);
+\draw[thick,draw=black,fill=white] (axis cs:{\xright},-3.5) 
+node[above] {$\int\limits_{x_{i}}^{x_{i+1}}\dfrac{dx}{k(x)}$};
+\addplot[
+	const plot mark right,
+	thick,black,
+	mark=*, mark size=4pt, mark options={fill=lime,draw=black,solid,thick},
+%	nodes near coords,
+%	point meta=explicit symbolic,
+%	node near coord style={midway,yshift=-1ex,black,fill=olive!10},
+] coordinates { (\xLeft,\yLeft) (\x,\yLeft) (\xRight,\yRight) };
+\draw[thick,draw=black,fill=white] (axis cs:\x,\yRight) circle[radius=4pt];
+\path (\xLeft,\yLeft) -- (\x,\yLeft) node[midway,above,fill=olive!10] {$k_{i}$};
+\path (\x,\yRight) -- (\xRight,\yRight) node[midway,above,fill=olive!10] {$k_{i+1}$};
+\end{axis}
+%
+% Правый график
+%
+\def\yLeft{3}
+\def\yRight{7}
+\begin{axis}
+[	width=7cm, %height=10cm,
+	my graph style,
+	name=plot2,
+	at={($(plot1.east)+(\GraphShiftToRight,0)$)},
+	anchor=west,
+	title={b)},
+	xmin=0, xmax=10, xlabel={$x$}, 
+	xtick={\xLeft,\xleft,\x,\xright,\xRight}, xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_i$,$x_{i+\onehalf}$,$x_{i+1}$},
+	ymin=-3, ymax=9, ylabel={$r(x)$}, ytick={\yLeft,\yRight}, yticklabels={\empty},
+]
+\draw[draw=none,fill=orange!20] (axis cs: {\xleft},-3) rectangle (axis cs: \x,\yLeft);
+\draw[draw=none,fill=orange!20] (axis cs: \x,-3) rectangle (axis cs: {\xright},\yRight);
+\addplot[
+	const plot mark right,
+	thick,black,
+	mark=*, mark size=4pt, mark options={fill=lime,draw=black,solid,thick},
+] coordinates { (\xLeft,\yLeft) (\x,\yLeft) (\xRight,\yRight) };
+\draw[thick,draw=black,fill=white] (axis cs:{\x},\yRight) circle[radius=4pt];
+\draw[thick,draw=black,fill=white] (axis cs:\x,-3) 
+node[above,xshift=1.5ex] {$\int\limits_{x_{i-\onehalf}}^{x_{i+\onehalf}}r(x)dx$};
+\path ({\xleft},\yLeft) -- (\x,\yLeft) node[midway,above] {$r_{i}$};
+\path (\x,\yRight) -- ({\xright},\yRight) node[midway,above] {$r_{i+1}$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% *****************************************************
+%\end{document}

@@ -1,0 +1,81 @@
+%\input{../../../preamble}
+%\begin{document}
+%	Если макрос \GraphShiftToRight не определен, то
+%	определить макрос \def\\GraphShiftToRight{3cm}
+%
+\ifx\GraphShiftToRight\undefined
+	% отступ правого графика от левого
+	\def\GraphShiftToRight{3cm}
+\fi
+% ********************************************
+%
+%	График сетки
+%
+% ********************************************
+\begin{tikzpicture}[framed]
+\pgfplotsset{set layers=standard}
+\pgfsetlayers{background,axis grid,main,axis ticks,axis lines, axis tick labels,axis descriptions,axis foreground}
+% узлы сетки
+\def\xLeft{0.5}
+\def\x{4}
+\def\xRight{9.5}
+% промежуточные узлы
+\def\xleft{(\x+\xLeft)/2}
+\def\xright{\x+\xRight)/2}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm, %height=10cm,
+	my graph style,
+	name=plot1,
+	title={a)},
+	xmin=0, xmax=10, xlabel={$x$}, 
+	xtick={\xLeft,\xleft,\x,\xright,\xRight}, xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_i$,$x_{i+\onehalf}$,$x_{i+1}$},
+	ymin=-3.5, ymax=10, ylabel={$k(x)$}, ytick={3,7}, yticklabels={\empty},
+]
+\addplot[
+	const plot mark right,
+	thick,black,
+	mark=*, mark size=4pt, mark options={fill=lime,draw=black,solid,thick},
+%	nodes near coords,
+%	point meta=explicit symbolic,
+%	node near coord style={midway,yshift=-1ex,black,fill=olive!10},
+] coordinates { (\xLeft,3) (\x,3) (\xRight,7) };
+\draw[thick,draw=black,fill=white] (axis cs:\x,7) circle[radius=4pt];
+\path (axis cs:\xLeft,3) -- (axis cs:\x,3) node[midway,above,yshift=0.5ex,fill=olive!10] {$k_{i}$};
+\path (axis cs:\x,7) -- (axis cs:\xRight,7) node[midway,above,yshift=0.5ex,fill=olive!10] {$k_{i+1}$};
+% hi
+\draw[draw=red,fill=red] (axis cs:\x,0.75) rectangle (axis cs:\xRight,1)
+node[midway,above,red,yshift=0.25ex,fill=olive!10] {$h_{i+1}$};
+% hi+1/2
+\draw[draw=blue,fill=blue] (axis cs:{\xleft},-2.5) rectangle (axis cs:{\xright},-2.25) 
+node[midway,above,blue,fill=olive!10,yshift=0.25ex] {$h_{i+\onehalf}$};
+\end{axis}
+%
+% Правый график
+%
+\begin{axis}
+[	width=7cm, %height=10cm,
+	my graph style,
+	name=plot2,
+	at={($(plot1.east)+(\GraphShiftToRight,0)$)},
+	anchor=west,
+	title={b)},
+	xmin=0, xmax=10, xlabel={$x$}, 
+	xtick={\xLeft,\xleft,\x,\xright,\xRight}, xticklabels={$x_{i-2}$,$x_{i-1}$,$x_i$,$x_{i+1}$,$x_{i+2}$},
+	ymin=1, ymax=10, ylabel={$r(x)$}, ytick={3,7}, yticklabels={\empty},
+]
+\addplot[
+	const plot mark right,
+	thick,black,
+	mark=*, mark size=4pt, mark options={fill=lime,draw=black,solid,thick},
+] coordinates { (\xLeft,7) (\xleft,7) (\x,3) (\xright,3) (\xRight,7) };
+\draw[thick,draw=black,fill=white] (axis cs:{\xleft},3) circle[radius=4pt];
+\draw[thick,draw=black,fill=white] (axis cs:{\xright},7) circle[radius=4pt];
+\path (axis cs:{\xLeft},7) -- (axis cs:{\xleft},7) node[midway,above,yshift=0.5ex,fill=olive!10] {$r_{i-1}$};
+\path (axis cs:{\xleft},3) -- (axis cs:{\xright},3) node[midway,above,yshift=0.5ex,fill=olive!10] {$r_{i,i+1}=0$};
+\path (axis cs:{\xright},7) -- (axis cs:{\xRight},7) node[midway,above,yshift=0.5ex,fill=olive!10] {$r_{i+2}$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% *****************************************************
+%\end{document}

@@ -1,0 +1,86 @@
+%\input{../../../preamble}
+%\begin{document}
+%	Если макрос \GraphShiftToRight не определен, то
+%	определить макрос \def\\GraphShiftToRight{3cm}
+%
+\ifx\GraphShiftToRight\undefined
+	% отступ правого графика от левого
+	\def\GraphShiftToRight{3cm}
+\fi
+% **************************************************
+%
+%	НЕОДНОРОДНЫЙ СТЕРЖЕНЬ
+%
+% **************************************************
+\begin{tikzpicture}[framed]
+% последовательность графических слоев
+\pgfplotsset{set layers=standard}
+\pgfsetlayers{background,axis grid,main,axis ticks, axis lines, axis tick labels,axis descriptions,axis foreground}
+\begin{pgfonlayer}{main}
+%
+%	ОДНОРОДНЫЙ ТЕПЛООБМЕН
+%
+\def\xbreak{4}
+\def\ka{5.5}
+\def\kb{7.5}
+\def\ra{2}
+\def\rb{4}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	name=plot1, title={a)},
+	const plot,
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$k(x),~r(x)$},	% подпись оси y
+	xmin=-1, xmax=10, xtick={0,\xbreak,9}, xticklabels={0,$c$,$\ell$},
+	ymin=-1, ymax=10, ytick={\ka,\kb}, yticklabels={\empty},
+]
+% k(x)
+\addplot[draw=none,fill=blue!5] coordinates {(0,\ka) (\xbreak,\ka) (\xbreak,\kb) (9,\kb)}\closedcycle;
+\draw[very thick,draw=blue] (axis cs: 0,\ka) -- (axis cs: \xbreak,\ka) node[midway,above,blue] {$k_1$};
+\draw[very thick,draw=blue] (axis cs: \xbreak,\kb) -- (axis cs: 9,\kb) node[midway,above,blue] {$k_2$};
+% r(x)
+\addplot[draw=none,fill=orange!20] coordinates {(0,\ra) (\xbreak,\ra) (\xbreak,\rb) (9,\rb)}\closedcycle;
+\draw[very thick,draw=red] (axis cs: 0,\ra) -- (axis cs: \xbreak,\ra) node[midway,above,red] {$r_1$};
+\draw[very thick,draw=red] (axis cs: \xbreak,\rb) -- (axis cs: 9,\rb) node[midway,above,red] {$r_2$};
+\end{axis}
+%
+%	ЛОКАЛЬНЫЙ НАГРЕВ
+%
+\def\xa{3}
+\def\xc{5}
+\def\xb{7}
+\def\ka{5.5}
+\def\kb{7.5}
+\def\ra{2}
+\def\rb{4}
+\begin{axis}
+[	width=7cm,
+	my graph style,
+%	график справа 	 
+	at={($(plot1.east)+(\GraphShiftToRight,0)$)},
+	anchor=west,
+	title={b)},
+% ************
+	const plot,
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$k(x),~r(x)$},	% подпись оси y
+	xmin=-1, xmax=10, xtick={0,\xa,\xc,\xb,9}, xticklabels={0,$a$,$c$,$b$,$\ell$},
+	ymin=-1, ymax=10, ytick={\ka,\kb}, yticklabels={\empty},
+]
+% k(x)
+\addplot[draw=none,fill=blue!5] coordinates {(0,\ka) (\xc,\ka) (\xc,\kb) (9,\kb)}\closedcycle;
+\draw[very thick,draw=blue] (axis cs: 0,\ka) -- (axis cs: \xc,\ka) node[midway,above,blue] {$k_1$};
+\draw[very thick,draw=blue] (axis cs: \xc,\kb) -- (axis cs: 9,\kb) node[midway,above,blue] {$k_2$};
+% r(x)
+\addplot[draw=none,fill=orange!20] coordinates {
+(0,\ra) (\xa,\ra) (\xa,0) (\xb,0) (\xb,\rb) (9,\rb)
+}\closedcycle;
+\draw[very thick,draw=red] (axis cs: 0,\ra) -- (axis cs: \xa,\ra) node[midway,above,red] {$r_1$};
+\draw[very thick,draw=red] (axis cs: \xb,\rb) -- (axis cs: 9,\rb) node[midway,above,red] {$r_2$};
+\draw[very thick,draw=red] (axis cs: \xa,0) -- (axis cs: \xb,0) node[midway,above,red] {$r=0$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
+% **************************************************
+%\end{document}

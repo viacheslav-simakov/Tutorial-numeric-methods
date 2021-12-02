@@ -1,0 +1,693 @@
+%\input{../../../../preamble}
+%\begin{document}
+
+%
+%	Нелинейные уравнения
+%
+%\newpage
+\section{Решение нелинейных уравнений}
+
+Пусть задана функция $f(x)$ действительного переменного и 
+необходимо найти корни уравнения или, что то же самое, нули функции $f(x)$:
+\begin{gather*}
+f(x)=0.
+\end{gather*}
+
+На примере алгебраического многочлена известно, что нули $f(x)$ могут быть 
+как действительными, так и комплексными числами.
+Поэтому \textit{более точная} постановка задачи состоит в нахождении корней уравнения,
+расположенных в заданной области комплексной плоскости. 
+Можно рассматривать также задачу о нахождении действительных корней уравнения,
+которые расположены в пределах заданного отрезка $x\in[a,b]$.
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}[background rectangle/.style={fill=olive!10}, show background rectangle]
+\begin{axis}
+[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {\empty},		% подпись оси x
+	ylabel = {\empty},	% подпись оси y
+	xmin=-1.5, xmax=2.75, xtick={-1,0,1,1.5,2}, xticklabels={$x_1$,$\vec a$,$x_2$,$\vec b$,$x_3$},
+	ymin=-2, ymax=3, ytick={0}, yticklabels={$f(x)=0$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[very thick, color=black,domain=-1.5:2.75, samples=2] {0};
+\addplot[very thick, color=red,domain=-1.25:2.5, samples=100] {(x-1)*(x+1)*(x-2)};
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=lime, draw=black, solid}]
+coordinates {(-1,0) (1,0) (2,0)};
+\draw[red] (axis cs:0,2.2) node[right] {$f(x)$};
+\end{axis}
+\end{tikzpicture}
+
+$x_1$, $x_2$ и $x_3$ -- действительные корни уравнения $f(x)=0$,\\ т.е. $f(x_1)=0, f(x_2)=0, f(x_3)=0,$
+\end{center}
+
+Задача нахождения корней уравнения $f(x)=0$ обычно решается в два этапа:
+\begin{enumerate}
+\item
+На первом этапе изучается расположение корней (в общем случае на комплексной плоскости)
+и проводится их разделение, т. е. \textit{выделяются области} в комплексной плоскости, 
+\textit{содержащие только один корень}.
+Кроме того, изучается вопрос о кратности корней.
+Тем самым находятся некоторые начальные приближения для корней уравнения. 
+\item
+На втором этапе, \textit{используя заданное начальное приближение},
+строится итерационный процесс, позволяющий \textit{уточнить значение отыскиваемого корня}.
+\end{enumerate}
+
+\begin{tcolorbox}[width=\textwidth,colback={blue!10}, boxrule=0mm, arc=0mm]
+Следует отметить, что не существует каких-то общих регулярных приемов решения задачи 
+о расположении корней произвольной функции $f(x)$.
+\end{tcolorbox} 
+
+Численные методы решения нелинейных уравнений являются,
+как правило, итерационными методами, которые предполагают 
+задание достаточно близких к искомому решению начальных данных.
+
+%
+%	Итервальный метод поиска корня уравнения
+%
+\subsection{Итервальный метод}
+Итервальный метод поиска корня уравнения $f(x)=0$ 
+состоит следующем:
+\begin{enumerate}[label=(\arabic*)]
+\item
+Область поиска корня $[a,b]$ разбивается на заранее заданное количество интервалов $N$:
+\begin{gather*}
+[a,b]=[a,x_1] \cup [x_1,x_2] \cup \cdots \cup [x_i,x_{i+1}] \cup \cdots [x_{N},b]
+\end{gather*}
+\item
+Вычисляется таблица значений функции $\{f(x_i)\}$ на границах этих интервалов $\{x_i\}$.
+\item
+Проводится последовательный перебор таблицы значений функции $\{f(x_i)\}$
+$(i=1,2,\cdots,N)$.
+\item
+Если при некотором $i$ значения функции $f(x_i)$ и $f(x_{i+1})$ имеют разные знаки,
+то это означает, что на интервале $x\in(x_i, x_{i+1})$ 
+имеет по крайней мере один действительный корень уравнения $f(x)=0$.
+\item
+В качестве новой, более узкой $\left(|x_i, x_{i+1}|<|a,b|\right)$, 
+области поиска выбирается отрезок $(x_i, x_{i+1})$, т.е. полагают
+\begin{gather*}
+x_{i}=a,\quad x_{i+1}=b
+\end{gather*}
+и с помощью аналогичной процедуры (1) процесс происка корня уравнения $f(x)=0$ 
+повторяют до тех пор пока, область поиска не станет меньше заранее заданной величины
+$\varepsilon$ (погрешности поиска корня уравнения):
+\begin{gather*}
+|a,b|<\varepsilon
+\end{gather*}
+
+\end{enumerate}
+% *******************************
+%	График функций
+%
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}
+[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {\empty},	% подпись оси x
+	ylabel = {\empty},	% подпись оси y
+	xmin=-0.5, xmax=2.15, xtick={0,0.75,1.25,1.75}, xticklabels={a,$x_i$,$x_{i+1}$,b},
+	ymin=-2, ymax=3, ytick={0}, yticklabels={$f(x)=0$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+%	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[very thick, color=black,domain=-0.5:2.15, samples=2] {0};
+\addplot[name path=A,very thick, color=black,domain=-0.35:1.95, samples=100] {(x-1)*(x+1)*(x-2)};
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
+coordinates {(0,2) (0.25,1.640625) (0.5,1.125) (0.75,0.546875)};
+\draw[red] (axis cs:0.72,0.47) node[left] {$f(x_i)>0$};
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+coordinates {(1.25,-0.421875) (1.5,-0.625) (1.75,-0.515625)};
+\draw[blue] (axis cs:1.2,-0.5) node[left] {$f(x_{i+1})<0$};
+%
+\path [name path=B] (axis cs: 0,-2) -- (axis cs: 1.75,-2);
+\addplot [orange!20] fill between [of=A and B, soft clip={domain=0:1.75}];
+\addplot [olive!10] fill between [of=A and B, soft clip={domain=0.75:1.25},];
+\end{axis}
+\end{tikzpicture}
+\caption{Иллюстрация итервального метода поиска корня уравнения}
+
+$[a,b]$ -- начальная область поиска корня уравнения $f(x)=0$;\\
+$[x_i,x_{i+1}]$ -- интервал, содержащий корень уравнения.
+\end{center}
+\end{figure}
+
+%
+%	Метод бисекции
+%
+\subsection{Метод бисекции}
+Метод бисекции основан на теореме \textit{Больцано-Коши} (теорема о промежуточном значении):
+``Если непрерывная функция $f(x)$, определённая на вещественном интервале $[a,b]$,
+принимает два различных значения $f(a)\ne f(b)$, тогда существует такое $c\in[a,b]$,
+что эта функция в этой точке принимает промежуточное значение $f(a)\le f(c)\le f(b)$``.
+
+Следствие теоремы Больцано-Коши (теорема о нуле непрерывной функции).
+``Если функция $f(x)$ непрерывна на некотором отрезке $[a,b]$ 
+и на концах этого отрезка принимает значения $f(a)$ и $f(b)$ противоположных знаков,
+то существует точка $x_0$, в которой значение функции равно нулю $f(x_0)=0$.
+
+Если непрерывная функция строго монотонна на отрезке $[a,b]$,
+т.е. для любого $x\in[a,b]$ выполняется условие 
+$f^\prime(x)>0$ либо $f^\prime(x)<0$, то в соответствие со следствие теоремы
+Больцано-Коши в пределах отрезка $[a,b]$ сущетсвует \textit{единственный}
+корень уравнения $f(x)=0$.
+
+\begin{tcolorbox}[width=\textwidth,colback={orange!10}, boxrule=0mm, arc=0mm]
+Метод бисекции (деления пополам) является регулярным способом поиска 
+действительного корня уравнения $f(x)=0$, однако для реализации этого метода
+необходимо \textit{правильно выбрать область поиска}, т.е. начальный отрезок $[a,b]$ 
+на концах которого функция $f(x)$ принимает значения разных знаков 
+$f(a)\cdot f(b)<0$ и в пределах этого отрезка строго монотонна 
+$f^{\prime}(x)<0$ либо $f^{\prime}(x)>0$.
+\end{tcolorbox}
+
+Алгоритм метода деления отрезка пополам (метод бисекции):
+\begin{enumerate}[label=(\arabic*)]
+\item
+Область поиска корня уравнения отрезок $[a,b]$ делится пополам:
+\begin{gather*}
+c=\dfrac{a+b}{2}
+\end{gather*}
+\item
+Вычисляется значение функции $f(x)$ в середине отрезка $f(c)$.
+\item
+Проводится сравнение знаков функции в середине отрезка $f(c)$
+и, например, на левом конце отрезка $f(a)$:
+\begin{enumerate}[leftmargin=0.75cm]
+\item
+если $f(a)\cdot f(c)<0$, функция $f(x)$ на концах отрезка $[a,c]$
+принимает значения разных знаков, следовательно, искомый корень уравнения
+$f(x)=0$ находится внутри отрезка $[a,c]$,
+поэтому правый конец отрезка ``переносится`` в его середину.
+\item
+если $f(a)\cdot f(c)>0$, функция $f(x)$ на концах отрезка $[a,c]$
+принимает значения одного знака, следовательно, искомый корень уравнения
+$f(x)=0$ находится внутри отрезка $[c,b]$,
+поэтому левый конец отрезка ``переносится`` в его середину.
+\end{enumerate}
+\begin{gather*}
+\rm sign\left(f(a)\cdot f(c)\right)=\begin{cases}<0,&b=c\\>0,&a=c\end{cases}
+\end{gather*}
+Таким образом, область поиска корня уравнения $f(x)=0$ ``сужается наполовину``.
+\item
+Процесс вычислений (1)--(3) повторятся до тех пока, 
+длина вновь полученного интервала $[a,b]$ станет меньше заранее заданного числа
+$\varepsilon$ (погрешности поиска корня уравнения):
+\begin{gather*}
+|a,b|<\varepsilon
+\end{gather*}
+\end{enumerate}
+
+В качестве корня уравнения $x_0$ приближенно принимаются середину
+последнего полученного интервала $[a,b]$.
+
+% *******************************
+%	График функций
+%
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}
+[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {\empty},		% подпись оси x
+	ylabel = {\empty},	% подпись оси y
+	xmin=-0.5, xmax=3.5, xtick={0,1.5,3}, xticklabels={a,c,b},
+	ymin=-15, ymax=25, ytick={0}, yticklabels={$f(x)=0$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+%	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\path [name path=B] (axis cs: 0,-15) -- (axis cs: 3,-15);
+\addplot[very thick, color=black,domain=-0.5:3.5, samples=2] {0};
+\addplot[name path=A,very thick, color=black,domain=0:3, samples=100] {(x+2)*(x-2)*(x-5)};
+\addplot[orange!20] fill between [of=A and B, soft clip={domain=1.5:3}];
+% f(a)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
+coordinates {(0,20)};
+\draw[red] (axis cs:0,22) node[right] {$f(a)>0$};
+\addplot[thin,dashed,color=black] coordinates {(0,-15) (0,20)};
+% f(c)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red, draw=black, solid}]
+coordinates {(1.5,6.125)};
+\draw[red] (axis cs:1.5,8) node[right] {$f(c)>0$};
+\addplot[thin,dashed,color=black] coordinates {(1.5,-15) (1.5,6.125)};
+% f(b)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+coordinates {(3,-10)};
+\draw[blue] (axis cs:3,-12) node[left] {$f(b)<0$};
+\addplot[thin,dashed,color=black] coordinates {(3,-15) (3,-10)};
+%\addplot [olive!10] fill between [of=A and B, soft clip={domain=0:1.5},];
+\end{axis}
+\end{tikzpicture}
+\caption{Иллюстрация метода бисекции (деления отрезка пополам)}
+
+$f(a)\cdot f(c)>0$, поэтому новая область поиска корня отрезок $[c,b]$
+\end{center}
+\end{figure}
+
+\begin{tcolorbox}[width=\textwidth,colback={orange!10}, boxrule=0mm, arc=0mm]
+Следует отметить, что если условие строгой монотонности для функции $f(x)$
+на отрезке $[a,b]$ не выполняется и на отрезке имеется несколько корней,
+то указанный процесс сойдется к одному из корней, 
+но \textit{заранее неизвестно, к какому именно}.
+\end{tcolorbox}
+
+%
+%	Метод выделения корней
+%
+\subsection{Метод выделения корней}
+Один из недостатков интервального метода и метода бисекции 
+является сходимость итерационного процесса к заранее неизвестному
+корню уравнения $f(x)=0$. 
+Этот недостаток можно устранить удалением уже найденного корня. 
+
+Если $x_1$ простой корень уравнения $f(x)=0$ и функция $f(x)$ 
+непрерывна по Липшицу, то вспомогательная функция
+\begin{gather*}
+g(x)=\dfrac{f(x)}{(x-x_1)}
+\end{gather*}
+непрерывна, причем все нули функций $f(x)$ и $g(x)$ совпадают, 
+за исключением $x_1$, так как $g(x_1)\ne0$.
+
+Поэтому найденный корень $x_1$ можно удалить, т.е. перейти 
+в процессе поиска корня уравнения $f(x)=0$ от функции $f(x)$ к функции $g(x)$.
+Тогда процесс нахождения остальных корней уравнения 
+сведется к нахождению корней $g(x)=0$.
+
+Когда найден какой-нибудь новый корень $x_2$ уравнения $g(x)=0$, 
+то этот корень тоже можно удалить, вводя новую вспомогательную функцию:
+\begin{gather*}
+\varphi(x)=\dfrac{g(x)}{(x-x_2)}=\dfrac{f(x)}{(x-x_1)(x-x_2)}
+\end{gather*}
+
+Таким образом, можно последовательно найти все корни исходного уравнения $f(x)=0$.
+
+В любом методе поиска корней уравнения $f(x)$ окончательные итерации вблизи 
+определяемого корня рекомендуется делать не по функциям типа 
+$g(x)$, а по исходной функции $f(х)$. 
+Последние итерации, вычисленные по функции $g(x)$, используются при этом в качестве 
+нулевого приближения.
+
+%
+%	Численное решение нелинейного уравнения методом бисекции
+%
+\subsection{Численное решение нелинейного уравнения методом бисекции}
+На отрезке $x\in[-3,5]$ задана непрерывная функция:
+\begin{gather*}
+f(x)=\tanh(x)\cdot(1+\cos(x))-\dfrac{1}{2}
+\end{gather*}
+
+С помощью метода бисекции найдем первый положительный корень\\
+$x_1>0$ нелинейного уравнения $f(x)=0$.
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}
+[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$f(x)$},	% подпись оси y
+	xmin=-4, xmax=6, xtick={-3,-1,0,1,3,5}, %xticklabels={$a$,$c$,$b$},
+	ymin=-2, ymax=1, ytick={-2,-1.5,-1,-0.5,0,0.5,1}, yticklabels={-2,-1.5,-1,-0.5,0,0.5,1},	
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[very thick, color=black,domain=-4:6, samples=2] {0};
+\addplot[name path=A,very thick, color=red,domain=-3:5, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\path [name path=B] (axis cs: -4,-2) -- (axis cs: 6,-2);
+\addplot [orange!20] fill between [of=A and B, soft clip={domain=1:3}];
+%
+%\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
+%coordinates {(0,20)};
+%\addplot[thin,dashed,color=black] coordinates {(0,-15) (0,20)};
+%
+%\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+%coordinates {(3,-10)};
+%\draw[blue] (axis cs:3,-12) node[left] {$f(b)<0$};
+%\addplot[thin,dashed,color=black] coordinates {(3,-15) (3,-10)};
+%
+%\addplot[only marks, mark=*, mark size=4pt, mark options={fill=green, draw=black, solid}]
+%coordinates {(1.5,6.125)};
+%\draw[black] (axis cs:1.5,8) node[right] {$f(c)>0$};
+%\addplot[thin,dashed,color=black] coordinates {(1.5,-15) (1.5,6.125)};
+%
+%\addplot [olive!10] fill between [of=A and B, soft clip={domain=0:1.5},];
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+На основе анализа графика функции $f(x)$ выбираем область поиска первого положительного корня
+уравнения $(x>0)$, на границах которой функция $f(x)$ принимает значения разных знаков 
+$f(a)\cdot f(b)<0$ и в пределах этого области строго монотонна 
+$f^{\prime}(x)<0$ либо $f^{\prime}(x)>0$.
+
+Таким требованиям удовлетворяет отрезок $x\in[1,3]$ (выдененная область на графике),
+так как функция на отрезке монотонна $f^{\prime}(x)<0$ и на концах отрезка 
+принимает значения разных знаков:
+\begin{gather*}
+\begin{array}{rcl}
+f(1)&=&\tanh(1)\cdot(1+\cos(1))-\dfrac{1}{2}\approx0.67>0\\[1em]
+f(3)&=&\tanh(3)\cdot(1+\cos(3))-\dfrac{1}{2}\approx-0.49<0
+\end{array}
+\end{gather*}
+
+Зададим погрешность поиска корня уравнения $\varepsilon=0.1$ и
+используем метод бисекции для поиска первого положительного корня уравнения:
+\begin{enumerate}
+\item
+Область поиска корня уравнения отрезок $[1,3]$ делится пополам
+и вычисляется значение функции в середине отрезка $f(c)$:
+\begin{gather*}
+c=\dfrac{1+3}{2}=2\\
+f(c)=f(2)=\tanh(2)\cdot(1+\cos(2))-\dfrac{1}{2}\approx0.06285>0
+\end{gather*}
+Проводится сравнение знаков функции в середине отрезка $f(c)$
+и на левом конце отрезка $f(a)$:
+\begin{gather*}
+f(a)\cdot f(c)=f(1)\cdot f(2)=0.67\cdot0.06285=0.0423>0
+\end{gather*}
+Следовательно, искомый корень уравнения находится внутри отрезка $[2,3]$.
+Проведем сравнение длины отрезка и погрешности поиска корня:
+\begin{gather*}
+|a,b|=b-a=3-2=1>\varepsilon=0.1
+\end{gather*}
+Так как длина отрезка больше погрешности поиска, то итерационный процесс продолжаем.
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}
+[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$f(x)$},	% подпись оси y
+	xmin=0.5, xmax=3.5, xtick={1,2,3}, %xticklabels={$a$,$c$,$b$},
+	ymin=-1, ymax=1, %ytick={0}, %yticklabels={$f(x)=0$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[very thick, color=black,domain=0.5:3.5, samples=2] {0};
+\addplot[name path=A,very thick, color=red,domain=1:3, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\path [name path=B] (axis cs: 1,-1) -- (axis cs: 3,-1);
+\addplot [orange!20] fill between [of=A and B, soft clip={domain=2:3}];
+% f(a)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
+coordinates {(1,.6731)};
+\draw[red] (axis cs:1,0.8) node[right] {$f(a)$};
+% f(c)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
+coordinates {(2,.628505523e-1)};
+\draw[red] (axis cs:2.2,0.2) node {$f(c)$};
+% f(b)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+coordinates {(3,-.4900419862)};
+\draw[blue] (axis cs:3,-0.3) node {$f(b)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *****************************************
+\item
+Область поиска корня уравнения отрезок $[2,3]$ делится пополам
+и вычисляется значение функции в середине отрезка $f(c)$:
+\begin{gather*}
+c=\dfrac{2+3}{2}=2.5\\
+f(c)=f(2.5)=\tanh(2.5)\cdot(1+\cos(2.5))-\dfrac{1}{2}\approx-0.3038<0
+\end{gather*}
+Проводится сравнение знаков функции в середине отрезка $f(c)$
+и на левом конце отрезка $f(a)$:
+\begin{gather*}
+f(a)\cdot f(c)=f(2)\cdot f(2.5)=0.6285\cdot(-0.3038)=-0.019094<0
+\end{gather*}
+Следовательно, искомый корень уравнения находится внутри отрезка $[2,2.5]$.
+Проведем сравнение длины отрезка и погрешности поиска корня:
+\begin{gather*}
+|a,b|=b-a=2.5-2=0.5>\varepsilon=0.1
+\end{gather*}
+Так как длина отрезка больше погрешности поиска, то итерационный процесс продолжаем.
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}
+[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$f(x)$},	% подпись оси y
+	xmin=1.75, xmax=3.25, xtick={2,2.5,3}, %xticklabels={$a$,$c$,$b$},
+	ymin=-0.6, ymax=0.3, %ytick={0}, %yticklabels={$f(x)=0$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[very thick, color=black,domain=1.75:3.25, samples=2] {0};
+\addplot[name path=A,very thick, color=red,domain=2:3, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\path [name path=B] (axis cs: 2,-0.6) -- (axis cs: 3,-0.6);
+\addplot [orange!20] fill between [of=A and B, soft clip={domain=2:2.5}];
+% f(a)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
+coordinates {(2,.628505523e-1)};
+\draw[red] (axis cs:2,0.15) node {$f(a)$};
+% f(c)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+coordinates {(2.5,-.3038054478)};
+\draw[blue] (axis cs:2.6,-0.2) node {$f(c)$};
+% f(b)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+coordinates {(3,-.4900419862)};
+\draw[blue] (axis cs:3,-0.4) node {$f(b)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *****************************************
+\item
+Область поиска корня уравнения отрезок $[2,2.5]$ делится пополам
+и вычисляется значение функции в середине отрезка $f(c)$:
+\begin{gather*}
+c=\dfrac{2+2.5}{2}=2.25\\
+f(c)=f(2.25)=\tanh(2.25)\cdot(1+\cos(2.25))-\dfrac{1}{2}\approx-0.13634<0
+\end{gather*}
+Проводится сравнение знаков функции в середине отрезка $f(c)$
+и на левом конце отрезка $f(a)$:
+\begin{gather*}
+f(a)\cdot f(c)=f(2)\cdot f(2.25)=0.6285\cdot(-0.13634)=-0.00857<0
+\end{gather*}
+Следовательно, искомый корень уравнения находится внутри отрезка $[2,2.25]$.
+Проведем сравнение длины отрезка и погрешности поиска корня:
+\begin{gather*}
+|a,b|=b-a=2.25-2=0.25>\varepsilon=0.1
+\end{gather*}
+Длина отрезка меньше погрешности поиска, поэтому итерационный процесс продолжаем.
+
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}
+[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$f(x)$},	% подпись оси y
+	xmin=1.9, xmax=2.6, xtick={2,2.25,2.5}, %xticklabels={$a$,$c$,$b$},
+	ymin=-0.4, ymax=0.2, %ytick={0}, %yticklabels={$f(x)=0$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[very thick, color=black,domain=1.9:2.6, samples=2] {0};
+\addplot[name path=A,very thick, color=red,domain=2:2.5, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\path [name path=B] (axis cs: 2,-0.4) -- (axis cs: 3,-0.4);
+\addplot [orange!20] fill between [of=A and B, soft clip={domain=2:2.25}];
+% f(a)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
+coordinates {(2,.628505523e-1)};
+\draw[red] (axis cs:2,0.1) node {$f(a)$};
+% f(c)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+coordinates {(2.25,-.1363440929)};
+\draw[blue] (axis cs:2.3,-0.1) node {$f(c)$};
+% f(b)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+coordinates {(2.5,-.3038054478)};
+\draw[blue] (axis cs:2.5,-0.25) node {$f(b)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *****************************************
+\item
+Область поиска корня уравнения отрезок $[2,2.25]$ делится пополам
+и вычисляется значение функции в середине отрезка $f(c)$:
+\begin{gather*}
+c=\dfrac{2+2.25}{2}=2.125\\
+f(c)=f(2.125)=\tanh(2.125)\cdot(1+\cos(2.125))-\dfrac{1}{2}\approx-0.03959<0
+\end{gather*}
+Проводится сравнение знаков функции в середине отрезка $f(c)$
+и на левом конце отрезка $f(a)$:
+\begin{gather*}
+f(a)\cdot f(c)=f(2)\cdot f(2.125)=0.6285\cdot(-0.03959)=-0.002488<0
+\end{gather*}
+Следовательно, искомый корень уравнения находится внутри отрезка $[2,2.125]$.
+Проведем сравнение длины отрезка и погрешности поиска корня:
+\begin{gather*}
+|a,b|=b-a=2.125-2=0.125>\varepsilon=0.1
+\end{gather*}
+Длина отрезка меньше погрешности поиска, поэтому итерационный процесс продолжаем.
+
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}
+[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$f(x)$},	% подпись оси y
+	xmin=1.95, xmax=2.3, xtick={2,2.125,2.25}, %xticklabels={$a$,$c$,$b$},
+	ymin=-0.2, ymax=0.2, %ytick={0}, %yticklabels={$f(x)=0$},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[very thick, color=black,domain=1.95:2.3, samples=2] {0};
+\addplot[name path=A,very thick, color=red,domain=2:2.25, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\path [name path=B] (axis cs: 2,-0.2) -- (axis cs: 2.25,-0.2);
+\addplot [orange!20] fill between [of=A and B, soft clip={domain=2:2.125}];
+% f(a)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
+coordinates {(2,.628505523e-1)};
+\draw[red] (axis cs:2,0.1) node {$f(a)$};
+% f(c)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+coordinates {(2.125,-.395911619e-1)};
+\draw[blue] (axis cs:2.155,-0.025) node {$f(c)$};
+% f(b)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+coordinates {(2.25,-.1363440929)};
+\draw[blue] (axis cs:2.25,-0.1) node {$f(b)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *****************************************
+\item
+Область поиска корня уравнения отрезок $[2,2.125]$ делится пополам
+и вычисляется значение функции в середине отрезка $f(c)$:
+\begin{gather*}
+c=\dfrac{2+2.125}{2}=2.0625\\
+f(c)=f(2.0625)=\tanh(2.0625)\cdot(1+\cos(2.0625))-\dfrac{1}{2}\approx0.01108>0
+\end{gather*}
+Проводится сравнение знаков функции в середине отрезка $f(c)$
+и на левом конце отрезка $f(a)$:
+\begin{gather*}
+f(a)\cdot f(c)=f(2)\cdot f(2.0625)=0.6285\cdot0.01108=0.0007>0
+\end{gather*}
+Следовательно, искомый корень уравнения находится внутри отрезка $[2.0625,2.125]$.
+Проведем сравнение длины отрезка и погрешности поиска корня:
+\begin{gather*}
+|a,b|=b-a=2.125-2.0625=0.0625<\varepsilon=0.1
+\end{gather*}
+Длина отрезка меньше погрешности поиска, поэтому итерационный процесс завершаем.
+
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}
+[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$f(x)$},	% подпись оси y
+	xmin=1.985, xmax=2.14, xtick={2,2.0625,2.125}, %xticklabels={$a$,$c$,$b$},
+	ymin=-0.1, ymax=0.1, ytick={-0.1,-0.05,0,0.05,0.1}, yticklabels={-0.1,,0,,0.1},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+\addplot[very thick, color=black,domain=1.95:2.14, samples=2] {0};
+\addplot[name path=A,very thick, color=red,domain=2:2.125, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\path [name path=B] (axis cs: 2,-0.1) -- (axis cs: 2.125,-0.1);
+\addplot [orange!20] fill between [of=A and B, soft clip={domain=2.0625:2.125}];
+% f(a)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
+coordinates {(2,.628505523e-1)};
+\draw[red] (axis cs:2,0.08) node {$f(a)$};
+% f(c)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
+coordinates {(2.0625,.110785242e-1)};
+\draw[red] (axis cs:2.07,0.025) node {$f(c)$};
+% f(b)
+\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
+coordinates {(2.125,-.395911619e-1)};
+\draw[blue] (axis cs:2.125,-0.02) node {$f(b)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+% *****************************************
+\end{enumerate}
+
+В качестве первого положительного корня $x_1$ уравнения $f(x)=0$ 
+приближенно выберем середину последнего полученного интервала 
+$[a,b]$ и для контроля определим значение функции 
+в точке $f(x_1)$ приближенного корня уравнения:
+\begin{gather*}
+x_1=\dfrac{a+b}{2}=\dfrac{2.0625+2.125}{2}=2.09375\\
+f(x_1)=f(2.09375)=\tanh(2.09375)\cdot(1+\cos(2.09375))-\dfrac{1}{2}\approx-0.01442
+\end{gather*}
+
+% *******************************
+%	График функций
+%
+\begin{center}
+\begin{tikzpicture}[background rectangle/.style={fill=olive!10}, show background rectangle]
+\begin{axis}
+[
+	every axis/.style={color=black, solid, thick},
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$f(x)$},	% подпись оси y
+	xmin=-4, xmax=6, xtick={-3,-1,0,1,2.09375,3,5}, xticklabels={-3,-1,0,1,$x_1$,3,5},
+	ymin=-2, ymax=1, ytick={-2,-1.5,-1,-0.5,0,0.5,1}, yticklabels={-2,-1.5,-1,-0.5,0,0.5,1},
+	xtick style={thick, black},
+	ytick style={thick, black},
+	grid=major,		
+	major grid style={color=black!20, dashed, thin},
+]
+%\addplot[very thick, color=black,domain=-4:6, samples=2] {0};
+\addplot[name path=A,very thick, color=red,domain=-3:5, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\addplot[only marks, mark=*, mark size=5pt, mark options={fill=lime, draw=black, solid, very thick}]
+coordinates {(2.09375,-.144150229e-1)};
+\draw[red] (axis cs:1.8,0.25) node[right] {$f(x_1)=0$};
+\addplot[red, dashed, very thick] coordinates {(2.09375,-2) (2.09375,-.144150229e-1)};
+\end{axis}
+\end{tikzpicture}
+
+График функции $f(x)$ (\textcolor{red}{сплошная линия}) и первый положительный 
+корень $x_1=2.09375$ (маркер) уравнения $f(x)=0$
+\end{center}
+
+%\end{document}

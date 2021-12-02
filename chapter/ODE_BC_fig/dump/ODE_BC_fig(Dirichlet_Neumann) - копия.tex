@@ -1,0 +1,66 @@
+\input{../../../preamble}
+\begin{document}
+
+%
+%	Краевые условия для обыкновенных дифференциальных уравнений
+%
+%\begin{figure}
+%\begin{center}
+%\setlength{\tabcolsep}{12pt}
+%\begin{tabular}{c c}
+%
+%	Задача Дирихле
+%
+\begin{tikzpicture}[framed]
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$y(x)$},	% подпись оси y
+	xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
+	ymin=0, ymax=9, ytick={3,6}, yticklabels={\empty},
+]
+\addplot[thick,red,domain=0:3,samples=50] {x^2-2*x+3};
+\addplot[
+	only marks, mark=*, mark size=3pt, mark options={fill=lime, draw=red, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=0ex,color=red}%fill=olive!10},
+] coordinates {(0,3) [$y_a$] (3,6) [$y_b$]};
+\end{axis}
+\end{tikzpicture}
+%&
+%
+%	Задача Неймана
+%
+\begin{tikzpicture}[framed]
+\begin{axis}
+[	width=7cm,
+	my graph style,
+	xlabel = {$x$},		% подпись оси x
+	ylabel = {$y(x)$},	% подпись оси y
+	xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
+	ymin=0, ymax=9, ytick={\empty}, %yticklabels={$y_a$,$y_b$},
+]
+\addplot[thick,red,domain=0:3,samples=50] {x^2-2*x+3};
+\addplot[
+	only marks, mark=*, mark size=3pt, mark options={fill=white, draw=blue, solid, thick},
+	nodes near coords,	 point meta=explicit symbolic,
+	node near coord style={above,yshift=1ex,color=blue}
+] coordinates {(0,3) [$y^{\prime}_a$] (3,6) [$y^{\prime}_b$]};
+% y'(a)
+\addplot[thick,blue,domain=-0.75:0.75,samples=2] {-2*x+3};
+% y'(b)
+\addplot[thick,blue,domain=2.5:3.5,samples=2] {4*x-6};
+\end{axis}
+\end{tikzpicture}
+%\\
+%a)&b)\\
+%\end{tabular}
+%\caption{
+%Графическая иллюстрация постановки краевых задач\\
+%(a) -- Дирихле; (b) -- Неймана
+}
+%\end{center}
+%\end{figure}
+% ******* end figure *******
+\end{document}
