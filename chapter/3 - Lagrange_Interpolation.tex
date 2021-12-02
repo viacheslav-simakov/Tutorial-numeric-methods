@@ -6,8 +6,8 @@
 \subsection{Интерполяция функций полиномами Лагранжа}
 
 Пусть на отрезке $x\in[a, b]$ выбраны узлы интерполирования 
-$x_{i}$ $(i=0, 1, \ldots, n)$, в которых известны значения функции 
-$f_{i}=f(x_{i})$.
+$\{x_i\}$ $(i=0, 1, \ldots, n)$, в которых известны значения функции 
+$y_{i}=f(x_{i})$.
 Задача интерполирования алгебраическими многочленами 
 состоит в том, чтобы построить многочлен степени $n$
 \begin{equation*}
@@ -15,43 +15,41 @@ L_{n}(x)
 =a_{0} + a_{1}\cdot{x} + a_{2}\cdot{x^2} + \ldots + a_{n}\cdot{x^n}
 =\sum\limits_{i=0}^{n}a_ix^i
 \end{equation*}
-значения которого в заданных точках $x_{i}$, 
-совпадают со значениями функции $f(x)$ в этих точках.
+значения которого в заданных точках $\{x_i\}$, 
+совпадают со значениями функции $\{y_i\}$ в этих точках.
 
 Многочлен $L_{n}(x)$ должен удовлетворять условиям:
 \begin{equation*}
 \label{inter}
 \left\{\begin{matrix}
-L_{n}(x_{0})&=&f_{0}\\
-L_{n}(x_{1})&=&f_{1}\\
-L_{n}(x_{2})&=&f_{2}\\
+L_{n}(x_0)&=&y_0\\
+L_{n}(x_1)&=&y_1\\
+L_{n}(x_2)&=&y_2\\
 \hdotsfor{3}\\
-L_{n}(x_{n})&=&f_{n}\\
+L_{n}(x_n)&=&y_n\\
 \end{matrix}\right.
 \end{equation*}
 
 Интерполяционная формула Лагранжа позволяет 
 представить многочлен $L_{n}(x)$ в виде 
-линейной комбинации значений функции $f(x)$ 
+линейной комбинации значений функции $y(x)$ 
 в узлах интерполирования:
 \begin{equation*}
 \label{lagrang}
-L_{n}(x) = c_{0}(x)\cdot{f_{0}} + c_{1}(x)\cdot{f_{1}} + \ldots + c_{i}(x)\cdot{f_{i}} + \ldots + c_{n}(x)\cdot{f_{n}}
+L_{n}(x) = c_{0}(x)\cdot{y_0} + c_{1}(x)\cdot{y_1} + \ldots + c_{i}(x)\cdot{y_i} + \ldots + c_{n}(x)\cdot{y_n}
 \end{equation*}
 где $c_0(x), c_1(x), \ldots, c_{i}(x), \ldots, c_n(x)$ - неизвестные функции.
 
 Из условий интерполирования:
 \begin{equation*}
 \label{inter2}
-\left\{
-\begin{matrix}
-	c_{0}(x_{0})\cdot{f_{0}} + c_{1}(x_{0})\cdot{f_{1}} + \ldots + c_{i}(x_{0})\cdot{f_{i}} + \ldots + c_{n}(x_{0})\cdot{f_{n}}&=&f_{0}\\
-	c_{0}(x_{1})\cdot{f_{0}} + c_{1}(x_{1})\cdot{f_{1}} + \ldots + c_{i}(x_{1})\cdot{f_{i}} + \ldots + c_{n}(x_{1})\cdot{f_{n}}&=&f_{1}\\
-	c_{0}(x_{2})\cdot{f_{0}} + c_{1}(x_{2})\cdot{f_{1}} + \ldots + c_{i}(x_{2})\cdot{f_{i}} + \ldots + c_{n}(x_{2})\cdot{f_{n}}&=&f_{2}\\
-	\hdotsfor{3}\\
-	c_{0}(x_{n})\cdot{f_{0}} + c_{1}(x_{n})\cdot{f_{1}} + \ldots + c_{i}(x_{n})\cdot{f_{i}} + \ldots + c_{n}(x_{n})\cdot{f_{n}}&=&f_{n}\\
-\end{matrix}
-\right.
+\left\{\begin{matrix}
+c_{0}(x_0)\cdot{y_0} + c_{1}(x_0)\cdot{y_1} + \ldots + c_i(x_0)\cdot{y_i} + \ldots + c_n(x_0)\cdot{y_n}&=&y_0\\
+c_{0}(x_1)\cdot{y_0} + c_{1}(x_1)\cdot{y_1} + \ldots + c_i(x_1)\cdot{y_i} + \ldots + c_n(x_1)\cdot{y_n}&=&y_1\\
+c_{0}(x_2)\cdot{y_0} + c_{1}(x_2)\cdot{y_1} + \ldots + c_i(x_2)\cdot{y_i} + \ldots + c_n(x_2)\cdot{y_n}&=&y_2\\
+\hdotsfor{3}\\
+c_{0}(x_n)\cdot{y_0} + c_{1}(x_n)\cdot{y_1} + \ldots + c_i(x_n)\cdot{y_i} + \ldots + c_n(x_n)\cdot{y_n}&=&y_n\\
+\end{matrix}\right.
 \end{equation*}
 
 Система уравнений совместна если выполняются условия:
