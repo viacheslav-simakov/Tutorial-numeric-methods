@@ -74,12 +74,15 @@ c_{i}(x_j)=\left\{\begin{matrix}
 \begin{equation*}
 \label{eq_c}
 \left\{\begin{matrix}
-c_0(x)&=&\alpha_0\cdot(x-x_1)\cdot(x-x_2)\cdot& \hdotsfor{3} &\cdot(x-x_n)\\
-c_1(x)&=&\alpha_1\cdot(x-x_0)\cdot(x-x_2)\cdot& \hdotsfor{3} &\cdot(x-x_n)\\
-\hdotsfor{7}\\
-c_i(x)&=&\alpha_i\cdot(x-x_0)\cdot(x-x_1)\cdot &\ldots &\cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot &\ldots &\cdot(x-x_n)\\
-\hdotsfor{7}\\
-c_n(x)&=&\alpha_n\cdot(x-x_0)\cdot(x-x_1)\cdot &\hdotsfor{3}  &\cdot(x-x_{n-1})
+c_0(x)&=&\alpha_0\cdot(x-x_1)\cdot(x-x_2)
+\cdot(x-x_2)\cdot&\ldots&\cdot(x-x_n)\\
+c_1(x)&=&\alpha_1\cdot(x-x_0)\cdot(x-x_2)
+\cdot(x-x_2)\cdot&\ldots&\cdot(x-x_n)\\
+%\hdotsfor{1}\\
+%c_i(x)&=&\alpha_i\cdot(x-x_0)\cdot(x-x_1)\cdot &\ldots &\cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot &\ldots &\cdot(x-x_n)\\
+\hdotsfor{5}\\
+c_n(x)&=&\alpha_n\cdot(x-x_0)\cdot(x-x_1)
+\cdot(x-x_2)\cdot&\ldots&\cdot(x-x_{n-1})
 \end{matrix}\right.
 \end{equation*}
 
