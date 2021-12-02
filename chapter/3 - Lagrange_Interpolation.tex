@@ -36,19 +36,27 @@ L_{n}(x_n)&=&y_n\\
 в узлах интерполирования:
 \begin{equation*}
 \label{lagrang}
-L_{n}(x) = c_{0}(x)\cdot{y_0} + c_{1}(x)\cdot{y_1} + \ldots + c_{i}(x)\cdot{y_i} + \ldots + c_{n}(x)\cdot{y_n}
+L_{n}(x) = 
+c_{0}(x)\cdot{y_0} + 
+c_{1}(x)\cdot{y_1} + 
+c_{2}(x)\cdot{y_2} + \ldots + 
+c_{n}(x)\cdot{y_n}
 \end{equation*}
-где $c_0(x), c_1(x), \ldots, c_{i}(x), \ldots, c_n(x)$ - неизвестные функции.
+где $c_0(x), c_1(x), c_2(x), \ldots, c_n(x)$ --
+неизвестные функции.
 
 Из условий интерполирования:
-\begin{equation*}
-\label{inter2}
+\begin{equation*}\label{inter2}
 \left\{\begin{matrix}
-c_{0}(x_0)\cdot{y_0} + c_{1}(x_0)\cdot{y_1} + \ldots + c_i(x_0)\cdot{y_i} + \ldots + c_n(x_0)\cdot{y_n}&=&y_0\\
-c_{0}(x_1)\cdot{y_0} + c_{1}(x_1)\cdot{y_1} + \ldots + c_i(x_1)\cdot{y_i} + \ldots + c_n(x_1)\cdot{y_n}&=&y_1\\
-c_{0}(x_2)\cdot{y_0} + c_{1}(x_2)\cdot{y_1} + \ldots + c_i(x_2)\cdot{y_i} + \ldots + c_n(x_2)\cdot{y_n}&=&y_2\\
+c_0(x_0)\cdot{y_0} + c_1(x_0)\cdot{y_1} + c_2(x_0)\cdot{y_2}
++ \ldots + c_n(x_0)\cdot{y_n}&=&y_0\\
+c_0(x_1)\cdot{y_0} + c_1(x_1)\cdot{y_1}  + c_2(x_1)\cdot{y_2}
++ \ldots + c_n(x_1)\cdot{y_n}&=&y_1\\
+c_0(x_2)\cdot{y_0} + c_1(x_2)\cdot{y_1} + c_2(x_2)\cdot{y_2}
++ \ldots + c_n(x_2)\cdot{y_n}&=&y_2\\
 \hdotsfor{3}\\
-c_{0}(x_n)\cdot{y_0} + c_{1}(x_n)\cdot{y_1} + \ldots + c_i(x_n)\cdot{y_i} + \ldots + c_n(x_n)\cdot{y_n}&=&y_n\\
+c_0(x_n)\cdot{y_0} + c_1(x_n)\cdot{y_1} + c_2(x_n)\cdot{y_2}
++ \ldots + c_n(x_n)\cdot{y_n}&=&y_n\\
 \end{matrix}\right.
 \end{equation*}
 
