@@ -259,7 +259,9 @@ Q_2(x)=4.66 + 0.80\cdot{x} + 1.52\cdot{x^2}
 \end{gather*}
 
 \item
-Построение графиков таблично заданной функции $f(x)$ и аппроксимирующего полинома второго порядка $Q_2(x)$:
+Построение графиков таблично заданной 
+функции $y(x)$ и аппроксимирующего 
+полинома второго порядка $Q_2(x)$:
 % *******************************
 %	График функций
 %
@@ -278,12 +280,12 @@ ytick style={thick, black},
 grid=major,		
 major grid style={color=black!20, dashed, thin},
 ]
-\addplot[only marks, mark=*, 
-mark size=3pt,
-mark options={fill=lime, draw=black, solid}]
+\addplot[only marks,mark size=3pt,
+mark=ball,mark size=4pt, 
+mark options={thin,draw=darkblue,ball color=darkblue!50}]
 coordinates 
 {(-0.76,5.15) (-0.48,4.39) (-0.09,4.10) (0.22,5.71) (0.55,5.30)};
-\addplot[thick,color=black,domain=-0.9:0.6, samples=50] 
+\addplot[thick,color=darkblue,domain=-0.9:0.6, samples=50] 
 {4.66 + 0.80*x + 1.52*x^2};
 %\draw[color=red] (axis cs: -0.35,4.75) node[right] {$Q_2(x)$};
 \end{axis}
