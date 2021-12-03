@@ -106,62 +106,63 @@ $\alpha_0, \alpha_1, \ldots, \alpha_n$
 Таким образом, коэффициенты $c_{i}(x)$ 
 интерполяционного многочлена находятся из соотношений:
 \begin{equation*}
-\left\{
-\begin{matrix}
+\left\{\begin{matrix}
 c_0(x)&=&\dfrac
 {(x-x_1)\cdot(x-x_2)\cdot\dots\cdot(x-x_n)}
 {(x_0-x_1)\cdot(x_0-x_2)\cdot \ldots \cdot(x_0-x_n)}\\[1em]
 c_1(x)&=&\dfrac
 {(x-x_0)\cdot(x-x_2)\cdot\ldots\cdot(x-x_n)}
 {(x_1-x_0)\cdot(x_1-x_2)\cdot \ldots \cdot(x_1-x_n)}\\[1em]
-%&\hdotsfor{2}\\
-%	c_{i}(x)&=&\dfrac
-%		{ (x-x_{0})\cdot(x-x_{1})\cdot \ldots \cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot \ldots \cdot(x-x_{n}) }
-%		{ (x_{i}-x_{0})\cdot(x_{i}-x_{1})\cdot \ldots \cdot(x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1})\cdot \ldots \cdot(x_{i}-x_{n}) }\\
 \hdotsfor{3}\\[1em]
 c_n(x)&=&\dfrac
-{(x-x_0)\cdot(x-x_2)\cdot\ldots\cdot(x-x_{n-1})}
-{(x_n-x_0)\cdot(x_n-x_2)\cdot \ldots \cdot(x_n-x_{n-1})}
-\end{matrix}
-\right.
+{(x-x_0)\cdot(x-x_1)\cdot\ldots\cdot(x-x_{n-1})}
+{(x_n-x_0)\cdot(x_n-x_1)\cdot \ldots \cdot(x_n-x_{n-1})}
+\end{matrix}\right.
 \end{equation*}
 
 Или в более компактной форме:
 \begin{equation*}
-c_{i}(x) = \dfrac{ \prod\limits_{j \ne i}^n (x - x_j) } { \prod\limits_{j \ne i}^n (x_i - x_j) }
+c_i(x)=\dfrac
+{\prod\limits_{j \ne i}^n (x - x_j)}
+{\prod\limits_{j \ne i}^n (x_i - x_j)}
 \end{equation*}
 
 Итак, интерполяционный многочлен Лагранжа имеет вид:
 \begin{equation*}
-L_{n}(x) = \sum \limits_{i=0}^n \dfrac{ \prod\limits_{j \ne i}^n (x - x_j) } { \prod\limits_{j \ne i}^n (x_i - x_j) }\cdot f(x_i)
+L_{n}(x)=\sum\limits_{i=0}^n\dfrac
+{\prod\limits_{j \ne i}^n(x-x_j) }
+{\prod\limits_{j \ne i}^n(x_i-x_j)}\cdot{y_i}
 \end{equation*}
 
 %
 %	Интерполирование таблично заданной функции полином Лагранжа $L_3(x)$
 %
-\subsection{Интерполирование функции полином Лагранжа $L_3(x)$}.
-
+\subsection{Пример интерполирование функции полином Лагранжа $L_3(x)$}
 Известно множество данных (узлов интерполяции)
-$\{x_i\}$ ($i=0,1,2,3$), в которых определены значения функции $f(x)$:
+$\{x_i\}$ ($i=0,1,2,3$), в которых определены 
+значения функции $y_i=f(x_i)$:
 \begin{center}
 \begin{tabular}{ l *{4}{l}}
 \toprule
-$x_i$&-0,76&-0,09&0,22&0,55\\
+$x_i$&-0.76&-0.09&0.22&0.55\\
 \midrule
-$f(x_i)$&0,08&1,84&0,40&0,96\\
+$y_i$&0.08&1.84&0.40&0.96\\
 \bottomrule
 \end{tabular}
 \end{center}
 
-Построим интерполяционный полином Лагранжа $L_2(x)$ на основе данных 
-об узлах интерполяции $\{x_i\}$ и значений функции в этих точках $\{f(x_i)\}$:
+Построим интерполяционный полином Лагранжа $L_3(x)$
+на основе данных об узлах интерполяции $\{x_i\}$ 
+и значений функции в этих точках $\{y_i\}$:
 \begin{gather*}
-L_{3}(x) = \sum \limits_{i=0}^3 \dfrac{ \prod\limits_{j \ne i}^3 (x - x_j) } { \prod\limits_{j \ne i}^3 (x_i - x_j) }\cdot f(x_i)
+L_{3}(x)=\sum \limits_{i=0}^3\dfrac
+{\prod\limits_{j \ne i}^3(x-x_j)}
+{\prod\limits_{j \ne i}^3(x_i-x_j)}\cdot{y_i}
 \end{gather*}
 
-\begin{enumerate}%[leftmargin=0pt]
+\begin{enumerate}
 \item
-Распишем полином Лагранжа в развернутом виде:
+Представим полином Лагранжа в развернутом виде:
 \begin{gather*}
 \begin{matrix}
 L_{3}(x)=
