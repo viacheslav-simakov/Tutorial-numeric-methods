@@ -103,25 +103,25 @@ $\alpha_0, \alpha_1, \ldots, \alpha_n$
 \right.
 \end{equation*}
 
-Таким образом, коэффициенты $c_{i}(x)$ интерполяционного многочлена находятся из соотношений:
+Таким образом, коэффициенты $c_{i}(x)$ 
+интерполяционного многочлена находятся из соотношений:
 \begin{equation*}
 \left\{
 \begin{matrix}
-	c_{0}(x)&=&\dfrac
-		{ (x-x_{1})\cdot(x-x_{2})\cdot \ldots \cdot(x-x_{n}) }
-		{ (x_{0}-x_{1})\cdot(x_{0}-x_{2})\cdot \ldots \cdot(x_{0}-x_{n}) }\\
-	\\
-	c_{1}(x)&=&\dfrac
-		{ (x-x_{0})\cdot(x-x_{2})\cdot \ldots \cdot(x-x_{n}) }
-		{ (x_{1}-x_{0})\cdot(x_{1}-x_{2})\cdot \ldots \cdot(x_{1}-x_{n}) }\\
-	&\hdotsfor{2}\\
-	c_{i}(x)&=&\dfrac
-		{ (x-x_{0})\cdot(x-x_{1})\cdot \ldots \cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot \ldots \cdot(x-x_{n}) }
-		{ (x_{i}-x_{0})\cdot(x_{i}-x_{1})\cdot \ldots \cdot(x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1})\cdot \ldots \cdot(x_{i}-x_{n}) }\\
-	&\hdotsfor{2}\\
-	c_{n}(x)&=&\dfrac
-		{ (x-x_{0})\cdot(x-x_{2})\cdot \ldots \cdot(x-x_{n-1}) }
-		{ (x_{n}-x_{0})\cdot(x_{n}-x_{2})\cdot \ldots \cdot(x_{n}-x_{n-1}) }
+c_0(x)&=&\dfrac
+{(x-x_1)\cdot(x-x_2)\cdot\dots\cdot(x-x_n)}
+{(x_0-x_1)\cdot(x_0-x_2)\cdot \ldots \cdot(x_0-x_n)}\\[1em]
+c_1(x)&=&\dfrac
+{(x-x_0)\cdot(x-x_2)\cdot\ldots\cdot(x-x_n)}
+{(x_1-x_0)\cdot(x_1-x_2)\cdot \ldots \cdot(x_1-x_n)}\\[1em]
+%&\hdotsfor{2}\\
+%	c_{i}(x)&=&\dfrac
+%		{ (x-x_{0})\cdot(x-x_{1})\cdot \ldots \cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot \ldots \cdot(x-x_{n}) }
+%		{ (x_{i}-x_{0})\cdot(x_{i}-x_{1})\cdot \ldots \cdot(x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1})\cdot \ldots \cdot(x_{i}-x_{n}) }\\
+\hdotsfor{3}\\[1em]
+c_n(x)&=&\dfrac
+{(x-x_0)\cdot(x-x_2)\cdot\ldots\cdot(x-x_{n-1})}
+{(x_n-x_0)\cdot(x_n-x_2)\cdot \ldots \cdot(x_n-x_{n-1})}
 \end{matrix}
 \right.
 \end{equation*}
