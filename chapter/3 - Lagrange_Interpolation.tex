@@ -77,9 +77,7 @@ c_{i}(x_j)=\left\{\begin{matrix}
 c_0(x)&=&\alpha_0\cdot(x-x_1)\cdot(x-x_2)
 \cdot(x-x_2)\cdot&\ldots&\cdot(x-x_n)\\
 c_1(x)&=&\alpha_1\cdot(x-x_0)\cdot(x-x_2)
-\cdot(x-x_2)\cdot&\ldots&\cdot(x-x_n)\\
-%\hdotsfor{1}\\
-%c_i(x)&=&\alpha_i\cdot(x-x_0)\cdot(x-x_1)\cdot &\ldots &\cdot(x-x_{i-1})\cdot(x-x_{i+1})\cdot &\ldots &\cdot(x-x_n)\\
+\cdot(x-x_3)\cdot&\ldots&\cdot(x-x_n)\\
 \hdotsfor{5}\\
 c_n(x)&=&\alpha_n\cdot(x-x_0)\cdot(x-x_1)
 \cdot(x-x_2)\cdot&\ldots&\cdot(x-x_{n-1})
@@ -87,17 +85,20 @@ c_n(x)&=&\alpha_n\cdot(x-x_0)\cdot(x-x_1)
 \end{equation*}
 
 Определим неизвестные 
-$\alpha_0, \alpha_1, \alpha_2, \ldots, \alpha_n$ 
-из условия для коэффициентов $c_{i}(x)$:
+$\alpha_0, \alpha_1, \ldots, \alpha_n$ 
+из условия для коэффициентов $c_i(x)$:
 \begin{equation*}
 \left\{
 \begin{matrix}
-	1&=&\alpha_{0}\cdot(x_{0}-x_{1})\cdot(x_{0}-x_{2})\cdot& \hdotsfor{3} &\cdot(x_{0}-x_{n})\\
-	1&=&\alpha_{1}\cdot(x_{1}-x_{0})\cdot(x_{1}-x_{2})\cdot& \hdotsfor{3} &\cdot(x_{1}-x_{n})\\
-	\hdotsfor{7}\\
-	1&=&\alpha_{i}\cdot(x_{i}-x_{0})\cdot(x_{i}-x_{1})\cdot &\ldots &\cdot(x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1})\cdot &\ldots &\cdot(x_{i}-x_{n})\\
-	\hdotsfor{7}\\
-	1&=&\alpha_{n}\cdot(x_{n}-x_{0})\cdot(x_{n}-x_{1})\cdot &\hdotsfor{3}  &\cdot(x_{n}-x_{n-1})
+1&=&\alpha_0\cdot(x_0-x_1)\cdot(x_0-x_2)\cdot(x_0-x_2)\cdot&
+\dots&\cdot(x_0-x_n)\\
+1&=&\alpha_1\cdot(x_1-x_0)\cdot(x_1-x_2)\cdot(x_1-x_3)\cdot&
+\dots&\cdot(x_1-x_n)\\
+%\hdotsfor{7}\\
+%1&=&\alpha_{i}\cdot(x_{i}-x_{0})\cdot(x_{i}-x_{1})\cdot &\ldots &\cdot(x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1})\cdot &\ldots &\cdot(x_{i}-x_{n})\\
+\hdotsfor{5}\\
+1&=&\alpha_n\cdot(x_n-x_0)\cdot(x_n-x_1)\cdot(x_n-x_2)\cdot&
+\dots&\cdot(x_n-x_{n-1})
 \end{matrix}
 \right.
 \end{equation*}
