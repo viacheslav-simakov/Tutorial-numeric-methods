@@ -44,7 +44,7 @@ S = \sum_{i=0}^{n}\left(p_m(x_i)-y_i\right)^2
 
 Следует отметить, что мера отклонения полинома 
 от известной функции есть функция многих переменных
-$S=S(a_0, a_1, \cdots, a_n)$, т.е. коэффициентов полинома
+$S=S(a_0, a_1, \cdots, a_m)$, т.е. коэффициентов полинома
 $a_i$ ($i=0,1,\dots,m$), которые необходимо подобрать так, 
 чтобы величина $S$ была наименьшей $S\to{\min}$.
 Полученный полином называется аппроксимирующим 
@@ -61,19 +61,19 @@ $a_i$ ($i=0,1,\dots,m$), которые необходимо подобрать 
 воспользовавшись условием экстремума функции многих переменных, 
 составим систему уравнений вида:
 \begin{gather*}
-\pdiff{S_m}{a_0}=\pdiff{S_m}{a_1}=\pdiff{S_m}{a_2}=\cdots=\pdiff{S_m}{a_m}=0
+\pdiff{S}{a_0}=\pdiff{S}{a_1}=\pdiff{S}{a_2}=\cdots=\pdiff{S}{a_m}=0
 \end{gather*}
 
 Для определения неизвестных коэффициентов полинома
 $a_0, a_1, a_2,\cdots a_m$ необходимо решить систему 
-$m+1$ уравнений с $m +1$ неизвестными: 
+$m+1$ уравнений с $m+1$ неизвестными: 
 \begin{gather*}
 \left\{\begin{matrix}
-\pdiff{S_m}{a_0}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot1=0\\[14pt]
-\pdiff{S_m}{a_1}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot{x_i}=0\\[14pt]
-\pdiff{S_m}{a_2}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot{x_i^2}=0\\[14pt]
+\pdiff{S}{a_0}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot1=0\\[14pt]
+\pdiff{S}{a_1}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot{x_i}=0\\[14pt]
+\pdiff{S}{a_2}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot{x_i^2}=0\\[14pt]
 \hdotsfor{2}\\[14pt]
-\pdiff{S_m}{a_m}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot{x_i^m}=0\\[14pt]
+\pdiff{S}{a_m}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot{x_i^m}=0\\[14pt]
 \end{matrix}\right.
 \end{gather*}
 
@@ -102,9 +102,9 @@ $\{a_0, a_1, a_2,\cdots, a_m\}$.
 то определитель системы не равен нулю.
 Следовательно, эта система имеет единственное решение 
 $\{a_0, a_1, a_2,\cdots, a_m\}$,
-а полином $Q_m(x)$ с такими коэффициентами $a_i$ 
+а полином $p_m(x)$ с такими коэффициентами $a_i$ 
 будет обладать минимальным квадратичным отклонением 
-$S_m=S_{min}$. 
+$S=S_{min}$. 
 
 %
 %	Аппроксимирования функций полиномом второй степени $Q_2(x)$
@@ -123,30 +123,28 @@ $y_i$&$5.15$&$4.39$&$4.10$&$5.71$&$5.30$\\
 \end{tabular}
 \end{center}
 
-\end{document}
-
-Необходимо аппроксимировать экспериментальные данные 
+Необходимо аппроксимировать функцию заданную таблично $y_i$
 полиномом второй степени $Q_2(x)$:
 \begin{gather*}
-Q_2(x)=a_0 + a_1\cdot{x} + a_2\cdot{x^2}
+p_2(x)=a_0 + a_1\cdot x + a_2\cdot x^2
 \end{gather*}
 
 \begin{enumerate}
 \item
-Построим меру отклонения полинома $Q_2(x)$ 
+Построим меру отклонения полинома $p_2(x)$ 
 от таблично заданной функции $y_i=f(x_i)$
 на множестве точек $\{x_0, x_1, x_2, x_3, x_4\}$:
 \begin{gather*}
-S_2=\sum_{i=0}^{4}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}-y_i\right)^2
-,\end{gather*}
+S=\sum_{i=0}^{4}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}-y_i\right)^2,
+\end{gather*}
 где $y_i=f(x_i)$ -- значение функции в точке $x_i$.
 
 \item
-Запишем меру отклонения $S_2$ в явном виде 
+Запишем меру отклонения $S$ в явном виде 
 на основе данных из условия задачи:
 \begin{gather*}
 \begin{split}
-S_2=
+S=
 &\left(a_0 + a_1\cdot(-0.76) + a_2\cdot(-0.76)^2 - 5.15 \right)^2+\\
 +&\left(a_0 + a_1\cdot(-0.48) + a_2\cdot(-0.48)^2 - 4.39 \right)^2+\\
 +&\left(a_0 + a_1\cdot(-0.09) + a_2\cdot(-0.09)^2 - 4.10 \right)^2+\\
@@ -156,11 +154,11 @@ S_2=
 \end{gather*}
 
 \item
-Определим частную производную от меры отклонений $S_2$ 
+Определим частную производную от меры отклонений $S$ 
 по аргументу $a_0$ и приравняем её нулю:
 \begin{gather*}
 \begin{split}
-\pdiff{S_2}{a_0}=
+\pdiff{S}{a_0}=
 &2\cdot\left(a_0 + a_1\cdot(-0.76) + a_2\cdot(-0.76)^2 - 5.15 \right)\cdot 1+\\
 +&2\cdot\left(a_0 + a_1\cdot(-0.48) + a_2\cdot(-0.48)^2 - 4.39 \right)\cdot 1+\\
 +&2\cdot\left(a_0 + a_1\cdot(-0.09) + a_2\cdot(-0.09)^2 - 4.10 \right)\cdot 1+\\
@@ -168,6 +166,7 @@ S_2=
 +&2\cdot\left(a_0 + a_1\cdot(0.55) + a_2\cdot(0.55)^2 - 5.30 \right)\cdot 1=0
 \end{split}
 \end{gather*}
+
 
 Коэффициенты первой строки матрицы $\mathbf{C}$:
 \begin{gather*}
@@ -181,12 +180,13 @@ c_{02}&=&(-0.76)^2 + (-0.48)^2 + (-0.09)^2 + (0.22)^2 + (0.55)^2=1.18\\
 \begin{gather*}
 b_0=5.15 + 4.39 + 4.10 + 5.71 + 5.30=24.65
 \end{gather*}
+
 \item
 Определим частную производную от меры отклонений 
-$S_2$ по аргументу $a_1$ и приравняем её нулю:
+$S$ по аргументу $a_1$ и приравняем её нулю:
 \begin{gather*}
 \begin{split}
-\pdiff{S_2}{a_1}=
+\pdiff{S}{a_1}=
 &2\cdot\left(a_0 + a_1\cdot(-0.76) + a_2\cdot(-0.76)^2 - 5.15 \right)\cdot(-0.76)+\\
 +&2\cdot\left(a_0 + a_1\cdot(-0.48) + a_2\cdot(-0.48)^2 - 4.39 \right)\cdot(-0.48)+\\
 +&2\cdot\left(a_0 + a_1\cdot(-0.09) + a_2\cdot(-0.09)^2 - 4.10 \right)\cdot(-0.09)+\\
@@ -204,19 +204,20 @@ c_{12}&=&(-0.76)^3 + (-0.48)^3 + (-0.09)^3 + (0.22)^3 + (0.55)^3=-0.38\\
 \end{array}
 \end{gather*}
 
-Второй элемент вектора правой части $\vec b$:
+Второй элемент вектора правой части $\vec{b}$:
 \begin{gather*}
 \begin{split}
-b_1&=&5.15\cdot(-0.76) +4.39\cdot(-0.48) +4.10\cdot(-0.09) +\\
-&+5.71\cdot(0.22) +5.30\cdot(0.55)=-2.24
+b_1&=5.15\cdot(-0.76)+4.39\cdot(-0.48)+4.10\cdot(-0.09)+\\
++&5.71\cdot(0.22)+5.30\cdot(0.55)=-2.24
 \end{split}
 \end{gather*}
 
 \item
-Определим частную производную от меры отклонений $S_2$ по аргументу $a_2$ и приравняем её нулю:
+Определим частную производную от меры отклонений 
+$S$ по аргументу $a_2$ и приравняем её нулю:
 \begin{gather*}
 \begin{split}
-\pdiff{S_2}{a_2}=
+\pdiff{S}{a_2}=
 &2\cdot\left(a_0 + a_1\cdot(-0.76) + a_2\cdot(-0.76)^2 - 5.15 \right)\cdot(-0.76)^2+\\
 +&2\cdot\left(a_0 + a_1\cdot(-0.48) + a_2\cdot(-0.48)^2 - 4.39 \right)\cdot(-0.48)^2+\\
 +&2\cdot\left(a_0 + a_1\cdot(-0.09) + a_2\cdot(-0.09)^2 - 4.10 \right)\cdot(-0.09)^2+\\
@@ -259,13 +260,13 @@ b_2=
 $a_0=4.66$, $a_1=0.80$, $a_2=1.52$.
 Таким образом. аппроксимирующий полином имеет вид:
 \begin{gather*}
-Q_2(x)=4.66 + 0.80\cdot{x} + 1.52\cdot{x^2}
+p_2(x)=4.66 + 0.80\cdot{x} + 1.52\cdot{x^2}
 \end{gather*}
 
 \item
 Построение графиков таблично заданной 
 функции $y(x)$ и аппроксимирующего 
-полинома второго порядка $Q_2(x)$:
+полинома второго порядка $p_2(x)$:
 % *******************************
 %	График функций
 %
@@ -273,10 +274,11 @@ Q_2(x)=4.66 + 0.80\cdot{x} + 1.52\cdot{x^2}
 \begin{tikzpicture}
 %[background rectangle/.style={fill=olive!10}, show background rectangle]
 \begin{axis}
-[font=\small,
+[
+%font=\small,
 %every axis/.style={color=black, solid, thick},
 xlabel = {$x$},		% подпись оси x
-ylabel = {$Q_2(x)$},	% подпись оси y
+ylabel = {$p_2(x)$},	% подпись оси y
 xmin=-1, xmax=0.7, xtick={-0.8,-0.4,0,0.4},
 ymin=3.8, ymax=6,
 xtick style={thick, black},
