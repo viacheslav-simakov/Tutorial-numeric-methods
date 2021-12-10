@@ -7,6 +7,20 @@
 %\input{../../../sgu.tex}% home
 \input{../../sgu.tex}% sgu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Стиль графиков
+\pgfplotsset{
+every node near coord/.append style={
+font=\footnotesize,%
+color=black,%
+%fill=olive!10,%
+above,
+yshift=+2pt,%
+/pgf/number format/fixed,%
+/pgf/number format/fixed zerofill,%
+/pgf/number format/precision=1,%
+},
+width=10cm,
+}
 \begin{document}
 % колонтитулы
 \newpage
