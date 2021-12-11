@@ -4,13 +4,18 @@
 %
 % Преамбула
 %
-%\input{../../../sgu.tex}% home
-\input{../../sgu.tex}% sgu
+\input{../../../sgu.tex}% home
+%\input{../../sgu.tex}% sgu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Стиль графиков
 \pgfplotsset{
+every axis/.style={% оси координат
+color=black,solid,thick,
+font=\small,
+},
 every node near coord/.append style={
-font=\footnotesize,%
+%font=\footnotesize,%
+font=\small,%
 color=black,%
 %fill=olive!10,%
 above,
