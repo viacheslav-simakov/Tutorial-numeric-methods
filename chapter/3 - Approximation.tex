@@ -33,21 +33,21 @@ p_m(x)=c_0+c_1\cdot{x}+c_2\cdot{x^2}+\dots+c_m\cdot{x^m}=
 \sum\limits_{j=0}^{m}c_j\cdot{x^j}.
 \end{gather*}
 
-В качестве меры отклонения $S$ полинома $p_m(x)$ 
+В качестве меры отклонения $\norma{r}$ полинома $p_m(x)$ 
 от известной функции $y(x)$ на множестве точек 
 $\{x_0, x_1, x_2,\cdots,x_n\}$, как правило, принимается 
 сумма квадратов отклонений полинома от этой функции 
 на заданной системе точек:
 \begin{gather*}
-S = \sum_{i=0}^{n}\left(p_m(x_i)-y_i\right)^2
+\norma{r}=\sum_{i=0}^{n}\left(p_m(x_i)-y_i\right)^2
 \end{gather*}
 
 Следует отметить, что мера отклонения полинома 
 от известной функции есть функция многих переменных
-$S=S(c_0, c_1, \dots, c_m)$, т.е. коэффициентов полинома
+$\norma{r}=g(c_0, c_1, \dots, c_m)$, т.е. коэффициентов полинома
 $c_i$ ($i=0,1,\dots,m$), которые необходимо подобрать так, 
-чтобы величина меры отклонения полинома 
-была наименьшей $S\to{\min}$.
+чтобы величина меры отклонения была наименьшей 
+$\norma{r}\to{\min}$.
 Полученный полином называется аппроксимирующим 
 для данной функции, а процесс построения этого полинома -- 
 точечной квадратичной аппроксимацией или 
@@ -56,26 +56,30 @@ $c_i$ ($i=0,1,\dots,m$), которые необходимо подобрать 
 Для решения задачи точечного квадратичного аппроксимирования,
 т.е. определения числовых значений всех коэффициентов 
 полинома $p_m(x)$, необходимо найти \emph{положения минимума 
-функции} многих переменных $S$.
+функции} многих переменных $\norma{r}$.
 
 Определим частные производные от величины суммы квадратов отклонений и 
 воспользовавшись условием экстремума функции многих переменных, 
 составим систему уравнений вида:
 \begin{gather*}
-\pdiff{S}{c_0}=\pdiff{S}{c_1}=\pdiff{S}{c_2}=\cdots=\pdiff{S}{c_m}=0
+\pdiff{\norma{r}}{c_0}=
+\pdiff{\norma{r}}{c_1}=
+\pdiff{\norma{r}}{c_2}=\cdots=
+\pdiff{\norma{r}}{c_m}=0
 \end{gather*}
 
 Для определения неизвестных коэффициентов полинома
 $c_0, c_1, c_2,\dots, c_m$ необходимо решить систему 
 $m+1$ уравнений с $m+1$ неизвестными: 
 \begin{gather*}
-\left\{\begin{matrix}
-\pdiff{S}{a_0}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot1=0\\[14pt]
-\pdiff{S}{a_1}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot{x_i}=0\\[14pt]
-\pdiff{S}{a_2}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot{x_i^2}=0\\[14pt]
-\hdotsfor{2}\\[14pt]
-\pdiff{S}{a_m}&=2\cdot\sum\limits_{i=0}^{n}\left(a_0+a_1\cdot{x_i}+a_2\cdot{x_i^2}+a_3\cdot{x_i^3}+\dots+a_m\cdot{x_i^m} - y_i\right)\cdot{x_i^m}=0\\[14pt]
-\end{matrix}\right.
+\renewcommand*{\arraystretch}{1.5}
+\left\{\begin{array}{lclcl}
+\pdiff{\norma{r}}{a_0}&=&2\cdot\sum\limits_{i=0}^{n}\left(c_0+c_1\cdot{x_i}+c_2\cdot{x_i^2}+\ldots+c_m\cdot{x_i^m} - y_i\right)\cdot1&=&0\\
+\pdiff{\norma{r}}{a_1}&=&2\cdot\sum\limits_{i=0}^{n}\left(c_0+c_1\cdot{x_i}+c_2\cdot{x_i^2}+\ldots+c_m\cdot{x_i^m} - y_i\right)\cdot{x_i}&=&0\\
+\pdiff{\norma{r}}{a_2}&=&2\cdot\sum\limits_{i=0}^{n}\left(c_0+c_1\cdot{x_i}+c_2\cdot{x_i^2}+\ldots+c_m\cdot{x_i^m} - y_i\right)\cdot{x_i^2}&=&0\\
+\hdotsfor{1}&=&\hdotsfor{1}&=&0\\
+\pdiff{\norma{r}}{a_m}&=&2\cdot\sum\limits_{i=0}^{n}\left(c_0+c_1\cdot{x_i}+c_2\cdot{x_i^2}+\ldots+c_m\cdot{x_i^m} - y_i\right)\cdot{x_i^m}&=&0\\
+\end{array}\right.
 \end{gather*}
 
 Таким образом, задача точечной квадратичной аппроксимации 
@@ -113,14 +117,16 @@ $S=S_{min}$.
 \subsection{Аппроксимирования функций полиномом
 второй степени $p_2(x)$}
 Известна таблица данных некоторой функциональной зависимости 
-$y(x)$.
+$y(x)$:
 \begin{table}[h]
+\caption{Таблично заданная функциональная зависимость}
 \begin{tabular*}{\textwidth}{%
 l@{\extracolsep{\fill}}*{5}{r}p{0.25cm}}
 \toprule
 $i$&$0$&$1$&$2$&$3$&$4$\\
 \midmidrule
 $x_i$&$-0.76$&$-0.48$&$-0.09$&$0.22$&$0.55$\\
+\addlinespace% дополнительный пробел
 $y_i$&$5.15$&$4.39$&$4.10$&$5.71$&$5.30$\\
 \bottomrule
 \end{tabular*}
