@@ -3,51 +3,35 @@
 %	Численное дифференцирование
 %
 \section{Численное дифференцирование}
-
-Задача численного дифференцирования состоит в приближенном вычислении 
-производных функции $f(x)$ по заданным в конечном числе точек $\{x_i\}$ 
+Задача численного дифференцирования состоит 
+в приближенном вычислении производных функции $y(x)$
+по заданным в конечном числе точек $\{x_i\}$ 
 значениям этой функции.
+
+Численное дифференцирование применяется, 
+если функцию $y(x)$ трудно или невозможно 
+продифференцировать аналитически, например, если 
+функция является таблично заданной, а также 
+при решении дифференциальных уравнений 
+разностными методами.
 
 Многие формулы численного дифференцирования можно получить, 
 используя интерполяционные формулы.
-Для этого достаточно заменить функцию $f(x)$ ее 
-интерполяционным многочленом $L_n(x)$ и вычислить производные 
-этого многочлена, используя его явное представление.
+Для этого достаточно заменить функцию $y(x)$ 
+интерполяционным полиномом Лагранжа $L_n(x)$ 
+и вычислить производные этого многочлена, 
+используя его явное представление.
 
-Рассмотрим \textit{неравномерную} сетку $\omega = \{x_{i}\}$ на отрезке $x\in[a,b]$
-\begin{equation*}
-\omega = \{x_{0}, x_{1}, \ldots, x_{N-1}\}
-,\end{equation*}
-где $x_{0} = a$ -- начало отрезка;
-$x_{N-1} = b$ -- конец отрезка; 
-$N$ -- количество узлов сетки.
-
-%
-% рисунок сетки
-%
-\begin{center}
-\begin{picture}(310,50)
-\put(5,15){\vector(1,0){295}} % ось Ox
-\put(2,-5){\textbf{$a$}} \put(5,10){\line(0,1){10}} \put(2,25){\textbf{$x_{0}$}} 
-\put(295,-5){$x$}
-\put(35,12){\line(0,1){6}}	\put(30,25){\textbf{$x_{1}$}}
-%\put(75,12){\line(0,1){6}}
-%\put(105,12){\line(0,1){6}}
-\put(125,12){\line(0,1){6}}	\put(120,25){\textbf{$x_{i-1}$}}
-\put(175,12){\line(0,1){6}}	\put(170,25){\textbf{$x_{i}$}}
-\put(205,12){\line(0,1){6}}	\put(200,25){\textbf{$x_{i+1}$}}
-%\put(225,12){\line(0,1){6}}
-\put(250,10){\line(0,1){10}}	\put(248,-5){\textbf{$b$}}	\put(240,25){\textbf{$x_{N-1}$}}
-\end{picture}
-\end{center}
-
-Апроксимируем функцию $f(x)$ в узлах сетки $x_{i-1} < x_{i} < x_{i+1}$
-полиномом Лагранжа порядка $n=2$, приближенно полагая $f(x)\approx L_{2}(x)$:
+Рассмотрим произвольную сетку $\{x_i\}$ и 
+проведем интерполирование функции $y(x)$ в узлах сетки 
+$x_{i-1} < x_{i} < x_{i+1}$ полиномом Лагранжа второго
+порядка, приближенно полагая $y(x)\approx L_{2}(x)$
+для $x\in[x_{i-1},x_{i+1}]$:
 % *******************************
 %	График функций
 %
-\begin{center}
-\begin{tikzpicture}[background rectangle/.style={fill=olive!10}, show background rectangle]
+\begin{figure}[H]\centering
+\begin{tikzpicture}
 \begin{axis}[
 %axis lines = middle,
 every axis/.style={color=black, solid, thick},
@@ -55,74 +39,58 @@ xlabel = {\empty},		% подпись оси x
 ylabel = {\empty},	% подпись оси y
 xmin=-0.75, xmax=2,
 ymin=-0.5, ymax=3,
-xtick style={thick, black}, xtick={-0.5,0,1.75}, xticklabels={$x_{i-1}$,$x_i$,$x_{i+1}$},
-ytick style={thick, black}, ytick={2.25,1,0.5625}, yticklabels={$y_{i-1}$,$y_i$,$y_{i+1}$},
+%xtick style={thick, black}, 
+xtick={-0.5,0,1.75}, xticklabels={$x_{i-1}$,$x_i$,$x_{i+1}$},
+%ytick style={thick, black}, 
+ytick={2.25,1,0.5625}, yticklabels={$y_{i-1}$,$y_i$,$y_{i+1}$},
 grid=major,		
 major grid style={color=black!20, dashed, thin},
 ]
-\addplot [only marks, mark=*, mark size=4pt, mark options={fill=lime, draw=black, solid}]
+\addplot [only marks,mark=ball,ball color=darkred!75,
+mark size=4pt,mark options={draw=darkred,thin}]
 coordinates {(-0.5,2.25) (0,1) (1.75,0.5625)};
-\addplot [color=red, thick, domain=-0.5:1.75] {(x-1)^2};
-\draw[color=red] (axis cs: 1,0.25) node {$L_2(x)$};
+\addplot [color=darkred, thick, domain=-0.5:1.75] 
+{(x-1)^2} node[pos=0.75,above] {$L_2(x)$};
 \end{axis}
 \end{tikzpicture}
-\end{center}
+\end{figure}
 % *******************************
 \begin{equation*}
 \label{approx2}
 \begin{matrix}
-	L_{2}(x)&=&\dfrac
-		{ (x-x_{i})\cdot(x-x_{i+1}) }
-		{ (x_{i-1}-x_{i})\cdot(x_{i-1}-x_{i+1}) } \cdot y_{i-1}& + \\
-	\\
-	&+&\dfrac
-		{ (x-x_{i-1})\cdot(x-x_{i+1}) }
-		{ (x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1}) } \cdot y_{i}& + \\
-	\\
-	&+&\dfrac
-		{ (x-x_{i-1})\cdot(x-x_{i}) }
-		{ (x_{i+1}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i+1}
+L_{2}(x)
+&=&\dfrac
+{ (x-x_{i})\cdot(x-x_{i+1}) }
+{ (x_{i-1}-x_{i})\cdot(x_{i-1}-x_{i+1}) } \cdot y_{i-1}& + \\
+\\
+&+&\dfrac
+{ (x-x_{i-1})\cdot(x-x_{i+1}) }
+{ (x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1}) } \cdot y_{i}& + \\
+\\
+&+&\dfrac
+{ (x-x_{i-1})\cdot(x-x_{i}) }
+{ (x_{i+1}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i+1}
 \end{matrix}
 \end{equation*}
-где $y_{i-1} = f(x_{i-1})$, $y_{i} = f(x_{i})$, $y_{i+1} = f(x_{i+1})$
--- значение функции $f(x)$ в точках апроксимации.
-
-Так как узлы сетки упорядоченны $x_{i-1}<x_{i}<x_{i+1}$ 
-то выражение для полинома Лагранжа удобно записать в виде:
-\begin{equation*}
-\label{approx3}
-\begin{matrix}
-	L_{2}(x)&=&\dfrac
-		{ (x-x_{i})\cdot(x-x_{i+1}) }
-		{ h_{i}\cdot(h_{i}+h_{i+1}) } \cdot y_{i-1}& - \\
-	\\
-	&-&\dfrac
-		{ (x-x_{i-1})\cdot(x-x_{i+1}) }
-		{ h_{i}\cdot h_{i+1} } \cdot y_{i}& + \\
-	\\
-	&+&\dfrac
-		{ (x-x_{i-1})\cdot(x-x_{i}) }
-		{ (h_{i+1}+h_{i})\cdot h_{i+1} } \cdot y_{i+1}
-,\end{matrix}
-\end{equation*}
-где $h_i=(x_{i}-x_{i-1})$ -- расстояние между соседними узлами (шаг сетки).
-
+где $y_{i-1} = y(x_{i-1})$, $y_{i} = y(x_{i})$, $y_{i+1} = y(x_{i+1})$
+-- значение функции $y(x)$ в узлах сетки.
 %------------------------------------------------------------------
 \subsection{Первая производная многочлена Лагранжа $L_2(x)$}
 Первая производная многочлена Лагранжа $L_2(x)$:
 \begin{equation*}
 \begin{matrix}
-	L^{\prime}_{2}(x)&=&\dfrac
-		{ (x-x_{i+1}) + (x-x_{i}) }
-		{ h_{i}\cdot(h_{i}+h_{i+1}) } \cdot y_{i-1}& - \\
-	\\
-	&-&\dfrac
-		{ (x-x_{i+1}) + (x-x_{i-1}) }
-		{ h_{i}\cdot h_{i+1} } \cdot y_{i}& + \\
-	\\
-	&+&\dfrac
-		{ (x-x_{i}) + (x-x_{i-1}) }
-		{ (h_{i+1}+h_{i})\cdot h_{i+1} } \cdot y_{i+1}
+L^{\prime}_{2}(x)
+&=&\dfrac
+{ (x-x_{i})\cdot(x-x_{i+1}) }
+{ (x_{i-1}-x_{i})\cdot(x_{i-1}-x_{i+1}) } \cdot y_{i-1}& + \\
+\\
+&+&\dfrac
+{ (x-x_{i-1})\cdot(x-x_{i+1}) }
+{ (x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1}) } \cdot y_{i}& + \\
+\\
+&+&\dfrac
+{ (x-x_{i-1})\cdot(x-x_{i}) }
+{ (x_{i+1}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i+1}
 \end{matrix}
 \end{equation*}
 
