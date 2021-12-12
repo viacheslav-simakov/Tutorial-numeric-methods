@@ -1,19 +1,9 @@
 %\input{../../../preamble}
 %\begin{document}
-
-% колонтитулы
-\newpage
-\pagestyle{fancy}
-%\setcounter{page}{2}
-\lhead{\empty}
-\chead{\empty}
-\rhead{\empty}
-\lfoot{\empty}
-\cfoot{\empty}
-\rfoot{\arabic{page}}
 %
 %	Метод Гаусса решения систем линейных уравнений
 %
+\newpage
 \section{Метод Гаусса решения систем линейных уравнений}
 
 К решению систем линейных алгебраических уравнений сводится подавляющее 
@@ -205,20 +195,28 @@ x_1&+&c_{12}\cdot x_2&+&c_{13}\cdot x_3&+&\cdots&c_{1m}\cdot x_m&=&y_1\\
 %
 \subsection{Обратный ход метода Гаусса}
 Обратный ход заключается в нахождении неизвестных 
-$x_1,x_2,\cdots,x_m$ полученной эквивалентной системы 
+$x_1,x_2,\dots,x_m$ полученной эквивалентной системы 
 в прямом ходе метода Гаусса.
 Поскольку матрица системы имеет треугольный вид, 
 то можно последовательно, начиная с $x_m$, найти 
-все неизвестные $x_{m-1}, x_{m-2},\cdots,x_1$:
+все неизвестные $x_{m-1}, x_{m-2},\dots,x_1$:
 \begin{gather*}
-\begin{array}{rl}
-x_m&=y_m\\
-x_{m-1}&=y_{m-1}-c_{m-1,m}\cdot x_m\\
-x_{m-2}&=y_{m-2}-c_{m-2,m-1}\cdot x_{m-1}-c_{m-2,m}\cdot x_m\\
-%x_{m-3}&=y_{m-3}-c_{m-3,m-2}\cdot x_{m-2}-c_{m-3,m-1}\cdot x_{m-1}-c_{m-3,m}\cdot x_m\\
-\vdots&=\cdots\\
-x_1&=y_1 - \sum\limits_{j=2}^{m} c_{1j}\cdot x_j
-\end{array}
+%\begin{array}{rcl}
+%x_m&=&y_m\\
+%x_{m-1}&=&y_{m-1}-c_{m-1,m}\cdot x_m\\
+%x_{m-2}&=&y_{m-2}-c_{m-2,m-1}\cdot x_{m-1}-c_{m-2,m}\cdot x_m\\
+%%x_{m-3}&=y_{m-3}-c_{m-3,m-2}\cdot x_{m-2}-c_{m-3,m-1}\cdot x_{m-1}-c_{m-3,m}\cdot x_m\\
+%%\vdots&=&\cdots\\
+%\cdots&=&\cdots\\
+%x_1&=&y_1 - \sum\limits_{j=2}^{m} c_{1j}\cdot x_j
+%\end{array}
+\left\{\begin{array}{lclclcl}
+x_m&=&y_m\\
+x_{m-1}&=&y_{m-1}&-&c_{m-1,m}\cdot x_m\\
+x_{m-2}&=&y_{m-2}&-&c_{m-2,m-1}\cdot x_{m-1}&-&c_{m-2,m}\cdot x_m\\
+\cdots&=&\hdotsfor{5}\\
+x_1&=&y_1&-&\sum\limits_{j=2}^{m} c_{1j}\cdot x_j\\
+\end{array}\right.
 \end{gather*}
 
 Общие формулы обратного хода имеют вид:
