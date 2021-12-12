@@ -28,15 +28,17 @@ width=10cm,
 }
 \begin{document}
 % колонтитулы
+\pagestyle{bodypages}
 \newpage
-\pagestyle{fancy}
 \setcounter{page}{2}
-\lhead{\empty}
-\chead{\empty}
-\rhead{\empty}
-\lfoot{\empty}
-\cfoot{\empty}
-\rfoot{\arabic{page}}
+%\pagestyle{fancy}
+%\setcounter{page}{2}
+%\lhead{\empty}
+%\chead{\empty}
+%\rhead{\empty}
+%\lfoot{\empty}
+%\cfoot{\empty}
+%\rfoot{\arabic{page}}
 % СОДЕРЖАНИЕ
 \tableofcontents
 %
@@ -78,9 +80,9 @@ width=10cm,
 % Метод Гаусса
 \input{chapter/1 - Gauss}
 % Интерполяция полиномом Лагранжа
-\input{chapter/3 - Lagrange_Interpolation}
+\input{chapter/2 - Interpolation}
 % Аппроксимация
-\input{chapter/2 - Approximation}
+\input{chapter/3 - Approximation}
 %	Численное дифференцирование
 %\input{chapter/Numerical_Differentiation}
 %	Численное интегрирование
