@@ -190,7 +190,7 @@ major grid style={color=black!20, dashed, thin},
 ]
 % точки графика
 \addplot[only marks,mark=*,mark size=3pt,
-mark options={fill=gray!25,draw=darkred}] 
+mark options={fill=white,draw=darkred}] 
 coordinates {#1};
 % полином Лагранжа
 #2;
@@ -239,8 +239,8 @@ ytick style={thick, black},
 grid=major,		
 major grid style={color=black!20, dashed, thin},
 ]
-\addplot[smooth,color=darkred,mark=ball,mark size=4pt,
-mark options={draw=darkred,thin,ball color=darkred!75}]
+\addplot[smooth,color=darkred,mark=*,mark size=3pt,
+mark options={draw=darkred,fill=white}]
 coordinates 
 {(-1.2,3.78) (-0.98,4.11) (-0.76,4.83) (-0.48,5.13) (-0.09,5.01) (0.22,5.13) (0.32,5.73) (0.55,6.11) (0.76,5.92)};
 \end{axis}
@@ -279,8 +279,10 @@ node [pos=0.5,right] {$L_2(x)$};
 Определим первую и вторую производную функции $y(x)$ 
 в точке $x_1=-0.98$:
 \begin{gather*}
-y^{\prime}(-0.98)\approx L_2^{\prime}(-0.98)=2.386363635\\
-y^{\prime\prime}(-0.98)\approx L_2^{\prime\prime}(-0.98)=8.057851240
+y^{\prime}_1=y^{\prime}(x_1)=y^{\prime}(-0.98)\approx
+L_2^{\prime}(-0.98)=2.386363635\\
+y^{\prime\prime}_1=y^{\prime\prime}(x_1)=y^{\prime\prime}(-0.98)\approx
+L_2^{\prime\prime}(-0.98)=8.057851240
 \end{gather*}
 %
 % x2
@@ -313,8 +315,10 @@ node [pos=0.9,above left] {$L_2(x)$};
 Определим первую и вторую производную функции $y(x)$ 
 в точке $x_2=-0.76$:
 \begin{gather*}
-y^{\prime}(-0.76)\approx L_2^{\prime}(-0.76)=2.304155844\\
-y^{\prime\prime}(-0.76)\approx L_2^{\prime\prime}(-0.76)=-8.805194780
+y^{\prime}_2=y^{\prime}(x_2)=y^{\prime}(-0.76)\approx
+L_2^{\prime}(-0.76)=2.304155844\\
+y^{\prime\prime}_2=y^{\prime\prime}(x_2)=y^{\prime\prime}(-0.76)\approx
+L_2^{\prime\prime}(-0.76)=-8.805194780
 \end{gather*}
 %
 % x3
@@ -347,8 +351,10 @@ node [pos=0.8,above] {$L_2(x)$};
 Определим первую и вторую производную функции $y(x)$
 в точке $x_3=-0.48$:
 \begin{gather*}
-y^{\prime}(-0.48)\approx L_2^{\prime}(-0.48)=0.495079546\\
-y^{\prime\prime}(-0.48)\approx L_2^{\prime\prime}(-0.48)=-4.116778740
+y^{\prime}_3=y^{\prime}(x_3)=y^{\prime}(-0.48)\approx
+L_2^{\prime}(-0.48)=0.495079546\\
+y^{\prime\prime}_3=y^{\prime\prime}(x_3)=y^{\prime\prime}(-0.48)\approx
+L_2^{\prime\prime}(-0.48)=-4.116778740
 \end{gather*}
 %
 %x4
@@ -382,8 +388,10 @@ node [pos=0.55,below] {$L_2(x)$};
 Определим первую и вторую производную функции $y(x)$ 
 в точке $x_4=-0.09$:
 \begin{gather*}
-y^{\prime}(-0.09)\approx L_2^{\prime}(-0.09)=0.0794044683\\
-y^{\prime\prime}(-0.09)\approx L_2^{\prime\prime}(-0.09)=1.985111660
+y^{\prime}_4=y^{\prime}(x_4)=y^{\prime}(-0.09)\approx
+L_2^{\prime}(-0.09)=0.0794044683\\
+y^{\prime\prime}_4=y^{\prime\prime}(x_4)=y^{\prime\prime}(-0.09)\approx
+L_2^{\prime\prime}(-0.09)=1.985111660
 \end{gather*}
 %
 %x5
@@ -418,8 +426,10 @@ node[pos=0.2,below right] {$L_2(x)$};
 Определим первую и вторую производную функции $y(x)$ 
 в точке $x_5=0.22$:
 \begin{gather*}
-y^{\prime}(0.22)\approx L_2^{\prime}(0.22)=4.630999187\\
-y^{\prime\prime}(0.22)\approx L_2^{\prime\prime}(0.22)=27.38001556
+y^{\prime}_5=y^{\prime}(x_5)=y^{\prime}(0.22)\approx
+L_2^{\prime}(0.22)=4.630999187\\
+y^{\prime\prime}_5=y^{\prime\prime}(x_5)=y^{\prime\prime}(0.22)\approx
+L_2^{\prime\prime}(0.22)=27.38001556
 \end{gather*}
 %x6
 \item
@@ -439,39 +449,28 @@ L_2(x)&=&
 \begin{gather*}
 L_2(x)=-13.17523062\cdot x^2+13.11462456\cdot x+2.882463758
 \end{gather*}
-% *******************************
-%	График функций
-%
-\begin{figure}[H]\centering
-\begin{tikzpicture}
-\begin{axis}[
-xlabel = {$x$},		% подпись оси x
-ylabel = {$f(x)$},	% подпись оси y
-xmin=-1.5, xmax=1,
-ymin=3.5, ymax=6.5,
-xtick style={thick, black},
-ytick style={thick, black},
-grid=major,		
-major grid style={color=black!20, dashed, thin},
-]
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=orange, draw=black, solid}] coordinates 
-{(-1.2,3.78) (-0.98,4.11) (-0.76,4.83) (-0.48,5.13) (-0.09,5.01) (0.22,5.13) (0.32,5.73) (0.55,6.11) (0.76,5.92)};
-\addplot[color=orange, very thick, samples=50, domain=0.22:0.55] {
--13.17523062*x^2+13.11462456*x+2.882463758
-};
-\draw[color=orange] (axis cs: 0.55,5.5) node {$L_2(x)$};
-\end{axis}
-\end{tikzpicture}
-\end{figure}
-% *******************************
-Определим первую и вторую производную функции $y(x)$ в точке $x_6=0.32$:
+% График функций
+\FigNumDiff
+{(-1.2,3.78) (-0.98,4.11) (-0.76,4.83) (-0.48,5.13) (-0.09,5.01) (0.76,5.92)}
+{
+\addplot[color=darkred,very thick,samples=50,domain=0.22:0.55] 
+{-13.17523062*x^2+13.11462456*x+2.882463758}
+node[pos=0.9,left] {$L_2(x)$};
+}
+{(0.22,5.13) (0.32,5.73) (0.55,6.11)}
+
+Определим первую и вторую производную функции $y(x)$
+в точке $x_6=0.32$:
 \begin{gather*}
-y^{\prime}(0.32)\approx L_2^{\prime}(0.32)=4.682476963\\
-y^{\prime\prime}(0.32)\approx L_2^{\prime\prime}(0.32)=-26.35046124
+y^{\prime}_6=y^{\prime}(x_6)=y^{\prime}(0.32)\approx
+L_2^{\prime}(0.32)=4.682476963\\
+y^{\prime\prime}_6=y^{\prime\prime}(x_6)=y^{\prime\prime}(0.32)\approx
+L_2^{\prime\prime}(0.32)=-26.35046124
 \end{gather*}
+%
 % x7
 \item
-Апроксимацию функции $y(x)$ в узлах $\{x_{6},x_{7},x_{8}\}$
+Аппроксимация функции $y(x)$ в узлах $\{x_{6},x_{7},x_{8}\}$
 полиномом Лагранжа второго порядка $L_2(x)$, 
 используя данные таблицы \ref{tab:Num_Diff}:
 \begin{gather*}
@@ -487,6 +486,44 @@ L_2(x)&=&
 \begin{gather*}
 L_2(x)=-5.811217790\cdot x^2+6.707933391\cdot x+4.178530017
 \end{gather*}
+% График функций
+\FigNumDiff
+{(-1.2,3.78) (-0.98,4.11) (-0.76,4.83) (-0.48,5.13) (-0.09,5.01) (0.22,5.13)}
+{
+\addplot[color=darkred,very thick,samples=50,domain=0.32:0.76]
+{-5.811217790*x^2+6.707933391*x+4.178530017}
+node[pos=0.4,above left] {$L_2(x)$};
+}
+{(0.32,5.73) (0.55,6.11) (0.76,5.92)}
+
+Определим первую и вторую производную функции $y(x)$ в точке $x_7=0.55$:
+\begin{gather*}
+y^{\prime}_7=y^{\prime}(x_7)=y^{\prime}(0.55)\approx
+L_2^{\prime}(0.55)=0.315593822\\
+y^{\prime\prime}_7=y^{\prime\prime}(x_7)=y^{\prime\prime}(0.55)\approx
+L_2^{\prime\prime}(0.55)=-11.62243558
+\end{gather*}
+\item
+Таким образом, определены значения первой $y^{\prime}(x)$ и
+второй $y^{\prime\prime}(x)$ производной функции $y(x)$ 
+в каждом внутреннем узле сетки:
+\begin{table}[H]
+\caption{Значения первой и второй производных функции 
+$y(x)$ во внутренних узлах сетки $\{x_i\}$}
+\begin{tabular*}{\textwidth}{%
+ll@{\extracolsep{\fill}}*{7}{r}}
+\toprule
+$i$&&$1$&$2$&$3$&$4$&$5$&$6$&$7$\\
+\midmidrule
+$x_i$&&$-0.98$&$-0.76$&$-0.48$&$-0.09$&$0.22$&$0.32$&$0.55$\\
+\addlinespace% дополнительный пробел
+$y^{\prime}_i$&&$2.39$&$2.30$&$0.50$&$0.08$&$4.63$&$4.68$&$0.32$\\
+\addlinespace% дополнительный пробел
+$y^{\prime\prime}_i$&&$8.06$&$-8.81$&$-4.12$&$1.99$&$27.38$&$-26.35$&$-11.62$\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
 % *******************************
 %	График функций
 %
@@ -494,67 +531,23 @@ L_2(x)=-5.811217790\cdot x^2+6.707933391\cdot x+4.178530017
 \begin{tikzpicture}
 \begin{axis}[
 xlabel = {$x$},		% подпись оси x
-ylabel = {$f(x)$},	% подпись оси y
+ylabel = {$\textcolor{darkblue}{y^{\prime}(x)}$},	% подпись оси y
 xmin=-1.5, xmax=1,
-ymin=3.5, ymax=6.5,
+ymin=-0.5, ymax=5.5,
 xtick style={thick, black},
 ytick style={thick, black},
 grid=major,		
 major grid style={color=black!20, dashed, thin},
 ]
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=orange, draw=black, solid}] coordinates 
-{(-1.2,3.78) (-0.98,4.11) (-0.76,4.83) (-0.48,5.13) (-0.09,5.01) (0.22,5.13) (0.32,5.73) (0.55,6.11) (0.76,5.92)};
-\addplot[color=orange, very thick, samples=50, domain=0.32:0.76] {
--5.811217790*x^2+6.707933391*x+4.178530017
-};
-\draw[color=orange] (axis cs: 0.65,5.65) node {$L_2(x)$};
-\end{axis}
-\end{tikzpicture}
-\end{figure}
-% *******************************
-Определим первую и вторую производную функции $y(x)$ в точке $x_7=0.55$:
-\begin{gather*}
-y^{\prime}(0.55)\approx L_2^{\prime}(0.55)=0.315593822\\
-y^{\prime\prime}(0.55)\approx L_2^{\prime\prime}(0.55)=-11.62243558
-\end{gather*}
-\item
-Таким образом, определены значения первой $y^{\prime}(x_i)$ и
-второй $y^{\prime\prime}(x_i)$ производной функции $y(x)$ 
-в каждом внутреннем узле сетки $\{x_i\}$:
-\begin{center}
-\begin{tabular}{ l *{7}{l}}
-\toprule
-$x$&-0,98&-0,76&-0,48&-0,09&0,22&0,32&0,55\\
-\midrule
-$f^{\prime}(x)$&2,39&2,30&0,50&0,08&4,63&4,68&0,32\\
-\midrule
-$f^{\prime\prime}(x)$&8,06&-8,81&-4,12&1,99&27,38&-26,35&-11,62\\
-\bottomrule
-\end{tabular} 
-\end{center}
-% *******************************
-%	График функций
-%
-\begin{center}
-\begin{tikzpicture}
-\begin{axis}[
-xlabel = {$x$},		% подпись оси x
-ylabel = {$\textcolor{blue}{y^{\prime}(x)}$},	% подпись оси y
-xmin=-1.5, xmax=1,
-ymin=-0.5, ymax=5,
-xtick style={thick, black},
-ytick style={thick, black},
-grid=major,		
-major grid style={color=black!20, dashed, thin},
-]
-\addplot[blue,mark=*, mark size=4pt, mark options={fill=blue!50, draw=black, solid}] coordinates 
+\addplot[smooth,darkblue,mark=*,mark size=3pt,
+mark options={fill=blue!25,draw=darkblue}] coordinates 
 {(-0.98,2.39) (-0.76,2.30) (-0.48,0.50) (-0.09,0.08) (0.22,4.63) (0.32,4.68) (0.55,0.32)};
 \end{axis}
 \end{tikzpicture}
 \begin{tikzpicture}
 \begin{axis}[
 xlabel = {$x$},		% подпись оси x
-ylabel = {$\textcolor{red}{y^{\prime\prime}(x)}$},	% подпись оси y
+ylabel = {$\textcolor{darkred}{y^{\prime\prime}(x)}$},	% подпись оси y
 xmin=-1.5, xmax=1,
 ymin=-30, ymax=30,
 xtick style={thick, black},
@@ -562,11 +555,15 @@ ytick style={thick, black},
 grid=major,		
 major grid style={color=black!20, dashed, thin},
 ]
-\addplot[red,mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}] coordinates 
+\addplot[smooth,darkred,mark=*,mark size=3pt,
+mark options={fill=red!25,draw=darkred}] coordinates 
 {(-0.98,8.06) (-0.76,-8.81) (-0.48,-4.12) (-0.09,1.99) (0.22,27.38) (0.32,-26.35) (0.55,-11.62)};
 \end{axis}
 \end{tikzpicture}
-\end{center}
+\caption{Графики первой $y^{\prime}(x)$ и 
+второй $y^{\prime\prime}(x)$ производной от
+функции $y(x)$, заданной таблично}
+\end{figure}
 
 \end{enumerate}
 

@@ -262,14 +262,8 @@ mark options={thin,draw=black,ball color=red!75}]
 coordinates 
 {(-0.76,0.08) (-0.09,1.84) (0.22,0.40) (0.55,0.96)};
 \addplot[smooth,color=darkred,domain=-0.8:0.6,samples=100] 
-{
-%(x+0.09)*(x-0.22)*(x-0.55)*(-0.09)+
-%(x+0.76)*(x-0.22)*(x-0.55)*13.84+
-%(x+0.76)*(x+0.09)*(x-0.55)*(-3.99)+
-%(x+0.76)*(x+0.09)*(x-0.22)*3.47
-1.36963 - 5.24831*x + 0.9119*x^2 + 13.23*x^3
-};
-\draw[color=red] (axis cs:0,1.4) node [right] {$L_3(x)$};
+{1.36963 - 5.24831*x + 0.9119*x^2 + 13.23*x^3}
+node[pos=0.7,right] {$L_3(x)$};
 \end{axis}
 \end{tikzpicture}
 \caption{График таблично заданной функции $y_i=f(x_i)$ (маркеры) 
