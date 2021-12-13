@@ -107,12 +107,23 @@ y_{i}\cdot(x_{i}-x_{i-1}),
 
 \begin{figure}[H]\centering
 \begin{tikzpicture}
-\begin{axis}[
-xlabel = {$x$},		% подпись оси x
-ylabel = {$f(x)$},	% подпись оси y
-xmin=-4, xmax=4,
-ymin=-4, ymax=10,
-]
+\begin{axis}[% оси координат
+xlabel=$x$,ylabel=$f(x)$,
+xmin=-1,xmax=1.5,xtick={-0.5,1},xticklabels={$x_{i-1}$,$x_i$},
+ymin=-0.25,ymax=1.5,ytick={0,1,0.25},yticklabels={0,$y_{i-1}$,$y_i$},
+width=9cm]
+% график функции
+\draw[darkred,dashed] (axis cs: -0.5,0) -- (axis cs: -0.5,1);
+\addplot[name path=Func,
+darkred,very thick,samples=50,domain=-0.5:1]{1.25-x^2}
+node[pos=0.5,above right] {$f(x)$};
+\draw[darkred,dashed] (axis cs: 1,0.25) -- (axis cs: 1,0);
+% ось x
+\draw[darkred,dashed,name path=Ox] (axis cs: -0.5,0) -- (axis cs: 1,0);
+% L0(x)
+\path[name path=INT] (axis cs: -0.5,1) -- (axis cs: 1,1);
+% левый прямоугольник
+\addplot [gray!15] fill between [of=Ox and INT, soft clip={domain=-0.5:1}];
 \end{axis}
 \end{tikzpicture}
 \end{figure}
