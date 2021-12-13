@@ -107,22 +107,28 @@ y_{i}\cdot(x_{i}-x_{i-1}),
 %
 % Функция построения графика
 %
-\newcommand\FigInt[1]{
+\newcommand\FigInt[2]{
 \begin{tikzpicture}[baseline]
 \begin{axis}[% оси координат
 xlabel=$x$,ylabel=$f(x)$,
-%xmin=-1,xmax=1.5,xtick={-0.5,1},xticklabels={$x_{i-1}$,$x_i$},
-%ymin=-0.25,ymax=1.5,ytick={0,1,0.25},yticklabels={0,$y_{i-1}$,$y_i$},
-%ymin=-0.25,
-width=8cm,
+%xmin=-1,xmax=1.5,
+ymin=0,%ymax=2.25,
+xtick={#1,#2},xticklabels={$x_{i-1}$,$x_i$},
+ytick={0,cubic(#1),cubic(#2)},yticklabels={0,$y_{i-1}$,$y_i$},
+width=8cm,% ширина графика
 % определение функции
-declare function={
-cubic(\x)=0.5*(\x-2)*(\x-1)*(\x+1) + 1;
-}]
-#1
+declare function={cubic(\x)=0.5*(\x-2)*(\x-1)*(\x+1) + 1;}
+]
+% f(x)
+\addplot[name path=F,
+pattern=north east lines,pattern color=gray!25,
+mark=ball,mark size=3pt,mark indices={1,50},
+mark options={ball color=red!50,thin},
+draw=darkred,thick,samples=50,domain=-0.5:2]{cubic(x)}
+node[pos=0.5,above right,color=darkred]{$f(x)$} \closedcycle;
 % L0(x)
-\addplot[name path=INT,
-draw=black,thin,fill=darkred!25,opacity=0.25,
+\addplot[name path=P,
+draw=none,thin,opacity=0.5,fill=red!25,
 domain=-0.5:2,samples=2]{1} \closedcycle;
 \end{axis}
 \end{tikzpicture}
@@ -131,13 +137,7 @@ domain=-0.5:2,samples=2]{1} \closedcycle;
 % График прямоугольников
 %
 \begin{figure}[H]\centering
-\FigInt{
-\addplot[name path=F,fill=gray!20,
-mark=ball,mark size=3pt,mark indices={1,50},
-mark options={ball color=red!50,thin,draw=black},
-draw=darkred,thick,samples=50,domain=-0.5:2]{cubic(x)}
-node[pos=0.5,above right,color=darkred]{$f(x)$} \closedcycle;
-}
+\FigInt{-0.5}{2}
 %
 \hskip 10pt
 %
