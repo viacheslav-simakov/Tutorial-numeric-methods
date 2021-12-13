@@ -4,14 +4,18 @@
 %
 % Преамбула
 %
-\input{../../../sgu.tex}% home
-%\input{../../sgu.tex}% sgu
+%\input{../../../sgu.tex}% home
+\input{../../sgu.tex}% sgu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Стиль графиков
 \pgfplotsset{
 every axis/.style={% оси координат
+font=\small,% размер шрифта
 color=black,solid,thick,
-font=\small,
+xtick style={semithick,black},
+ytick style={semithick,black},
+grid=major,% сетка
+major grid style={color=gray!25,dashed,thin},
 },
 every node near coord/.append style={
 %font=\footnotesize,%
@@ -72,7 +76,7 @@ width=10cm,
 % Метод Гаусса
 %\input{chapter/1 - Gauss}
 % Интерполяция полиномом Лагранжа
-\input{chapter/2 - Interpolation}
+%\input{chapter/2 - Interpolation}
 % Аппроксимация
 %\input{chapter/3 - Approximation}
 % Численное дифференцирование

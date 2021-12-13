@@ -292,15 +292,11 @@ p_2(x)=4.66 + 0.80\cdot x + 1.52\cdot x^2
 %
 \begin{figure}[H]\centering
 \begin{tikzpicture}
-\begin{axis}[
-xlabel = {$x$},		% подпись оси x
-ylabel = {$p_2(x)$},	% подпись оси y
+\begin{axis}[% оси координат
+xlabel={$x$},
+ylabel={$p_2(x)$},
 xmin=-1, xmax=0.7, xtick={-0.8,-0.4,0,0.4},
 ymin=3.8, ymax=6,
-xtick style={thick, black},
-ytick style={thick, black},
-grid=major,		
-major grid style={color=black!20, dashed, thin},
 ]
 \addplot[only marks,mark size=3pt,
 mark=ball,mark size=4pt, 

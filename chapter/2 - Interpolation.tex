@@ -243,17 +243,12 @@ L_{3}(x)=1.36963 - 5.24831\cdot x + 0.9119\cdot x^2 + 13.23\cdot x^3
 %	График функций
 %
 \begin{figure}[H]\centering
-\begin{tikzpicture}%[background rectangle/.style={fill=olive!10}, show background rectangle]
-\begin{axis}[
-%every axis/.style={color=black, solid, thick},
-xlabel={$x$},		% подпись оси x
-ylabel={$L_3(x)$},	% подпись оси y
+\begin{tikzpicture}
+\begin{axis}[% оси координат
+xlabel={$x$},
+ylabel={$L_3(x)$},
 xmin=-0.9,xmax=0.7,xtick={-0.8,-0.4,0,0.4},
 ymin=-1, ymax=3,
-%xtick style={thick,black},
-%ytick style={thick,black},
-grid=major,		
-major grid style={color=black!20,dashed,thin},
 ]
 %\addplot[only marks,mark=*,mark size=4pt, 
 %mark options={fill=lime,draw=black,solid}]
