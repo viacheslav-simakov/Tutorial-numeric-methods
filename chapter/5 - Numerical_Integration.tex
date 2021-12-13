@@ -13,6 +13,29 @@
 где $F^{\prime}(x)=f(x)$ -- 
 первообразная подынтегральной функции $f(x)$.
 
+Численное значение интеграла -- это площадь криволинейной 
+трапеции, ограниченной линиями графика функции 
+и осью абсцисс $Ox$ (выделенная область на графике).
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+\def\xa{-1.6}
+\def\xb{2}
+\begin{axis}[% оси координат
+xlabel=$x$,ylabel=$f(x)$,
+xtick={\xa,\xb},xticklabels={$a$,$b$},
+ytick={0},yticklabels={0},
+width=8cm,% ширина графика
+]
+% f(x)
+\addplot[name path=A,draw=darkblue,thick,
+samples=50,domain=\xa:\xb]{0.5*(\x-2)*(\x-1)*(\x+1) + 1};
+\path[name path=B] (axis cs: \xa,0) -- (axis cs: \xb,0);
+\addplot[blue!15] fill between [of=A and B, soft clip={domain=\xa:\xb},];
+\end{axis}
+\end{tikzpicture}
+\end{figure}
+
 Однако во многих случаях первообразная функция $F(x)$ 
 не может быть найдена с помощью элементарных средств 
 или является слишком сложной, поэтому 
@@ -71,7 +94,7 @@ S_i=\int\limits_{x_{i-1}}^{x_i}f(x)dx
 % Формула прямоугольников
 %
 \subsection{Формула прямоугольников}
-В методе прямоугольниковов на частичном отрезке 
+В методе прямоугольников на частичном отрезке 
 подынтегральная функция заменяется полиномом нулевой степени,
 то есть константу:
 \begin{gather*}
@@ -259,102 +282,109 @@ node[pos=0.7,color=darkblue,opacity=1,above right] {$L_2(x)$}
 %***********************************
 \subsection{Численное интегрирования функции заданной таблично}
 На множестве узлов сетки $\{x_i\}$ определены 
-значения некоторой функции $\{y_i\}$:
-\begin{center}
-\begin{tabular}{l *{5}{l}}
+значения некоторой функции $\{y_i\}=f(x_i)$:
+\begin{table}[H]
+\vspace{-0.5\baselineskip}
+\caption{Таблично заданная функциональная зависимость}
+\begin{tabular*}{\textwidth}{%
+l@{\extracolsep{\fill}}*{5}{r}p{0.25cm}}
 \toprule
-$x$&-3,31&0,31&1,32&2,47&3,50\\
-\midrule
-$f(x)$&2,45&4,03&-3,61&4,50&3,1\\
+$i$&$0$&$1$&$2$&$3$&$4$\\
+\midmidrule
+$x_i$&$-3.31$&$0.31$&$1.32$&$2.47$&$3.50$\\
+\addlinespace% дополнительный пробел
+$y_i$&$2.45$&$4.03$&$-3.61$&$4.50$&$3.10$\\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{tabular*}
+\end{table}
 
-\begin{enumerate}[leftmargin=0pt]
+\begin{enumerate}
+% Стиль графиков
+\pgfplotsset{
+width=8cm,
+xlabel=$x$,ylabel=$f(x)$,
+xmin=-4,xmax=4,xtick={-4,-2,0,2,4},
+ymin=-6,ymax=6,ytick={-6,-3,0,3,6},
+}
 \item
 Построим график функции $f(x)$ заданной таблично.
 % *******************************
 %	График функций
 %
-\begin{center}
+\begin{figure}[H]\centering
 \begin{tikzpicture}
-\begin{axis}[
-xlabel = {$x$},	% подпись оси x
-ylabel = {$y(x)$},% подпись оси y
-xmin=-4, xmax=4,
-ymin=-4, ymax=6,
-]
-\addplot[name path=A, thick, color=orange, mark=*, mark size=3pt, mark options={fill=orange, draw=black, solid}] coordinates 
+\begin{axis}
+\addplot[name path=A,
+smooth,thick,color=darkblue,mark=ball,mark size=3pt,
+mark options={ball color=darkblue!50,thin,draw=darkblue}
+] coordinates 
 {(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
 \end{axis}
 \end{tikzpicture}
-\end{center}
+\end{figure}
 % *******************************
 
-Численное значение интеграла -- это площадь криволинейной трапеции,
-ограниченной линиями графика и осью абсцисс $Ox$ 
-(выделенная область на графике).
-
 \item
-Рассмотрим \textbf{метод трапеций} для нахождения численного значения интеграла
-функции $f(x)$ заданной таблично на отрезке $x\in[-3,31; 3,50]$.
+Рассмотрим \emph{метод трапеций} для нахождения 
+численного значения интеграла от функции $f(x)$,
+заданной таблично на отрезке $x\in[-3.31, 3.50]$.
 
-Разобъем весь отрезок интегрирования на частичные отрезки 
+Разобьем весь отрезок интегрирования на частичные отрезки 
 \begin{gather*}
 [x_0,x_4]=[x_0,x_1] \cup [x_1,x_2] \cup [x_2,x_3] \cup [x_3,x_4]
 \end{gather*}
 
-На каждом частичном отрезке квадратурная формула является следствием 
-замены подынтегральной функции $f(x)$ интерполяционным полиномом Лагранжа 
-первой степени $f(x)\approx L_1(x)$, построенным но узлам $x_{i-1}, x_i$, 
+На каждом частичном отрезке квадратурная формула 
+является следствием замены подынтегральной функции 
+$f(x)$ интерполяционным полиномом Лагранжа 
+первой степени $f(x)\approx L_1(x)$, 
+построенным но узлам $\{x_{i-1}, x_{i}\}$, 
 т.е. прямой соединяющей два соседних узла.
 
 % *******************************
 %	График функций
 %
-\begin{center}
+\begin{figure}[H]\centering
 \begin{tikzpicture}
-\begin{axis}[
-every axis/.style={color=black, solid, thick},
-xlabel = {$x$},		% подпись оси x
-ylabel = {$f(x)$},	% подпись оси y
-xmin=-4, xmax=4,
-ymin=-4, ymax=6,
-]
-\addplot[name path=A, thick, color=orange, mark=*, mark size=3pt, mark options={fill=orange, draw=black, solid}] coordinates 
+\begin{axis}
+\addplot[name path=A,
+thick,draw=darkblue,mark=ball,mark size=3pt,
+mark options={ball color=darkblue!50,thin,draw=darkblue}
+] coordinates 
 {(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
 %\path [name path=B] (\pgfkeysvalueof{/pgfplots/xmin},0) -- (\pgfkeysvalueof{/pgfplots/xmax},0);
-\path [name path=B] (axis cs: -3.31,0) -- (axis cs: 3.5,0);
-\addplot [orange!20] fill between [of=A and B, soft clip={domain=-3.31:3.5},];
+\path[name path=B] (axis cs: -3.31,0) -- (axis cs: 3.5,0);
+\addplot[blue!15] fill between [of=A and B, soft clip={domain=-3.31:3.5},];
 \end{axis}
 \end{tikzpicture}
-\end{center}
+\end{figure}
 % *******************************
 
 Определим длину частичных отрезков:
 \begin{gather*}
 \begin{matrix}
-h_1=&(x_1-x_0)=&0,31-(-3,31)=3,62\\
-h_2=&(x_2-x_1)=&1,32-0,31=1,01\\ 
-h_3=&(x_3-x_2)=&2,47-1,32=1,15\\
-h_4=&(x_4-x_3)=&3,50-2,47=1,03\\
+h_1=&(x_1-x_0)=&0.31-(-3.31)=3.62\\
+h_2=&(x_2-x_1)=&1.32-0.31=1.01\\ 
+h_3=&(x_3-x_2)=&2.47-1.32=1.15\\
+h_4=&(x_4-x_3)=&3.50-2.47=1.03\\
 \end{matrix}
 \end{gather*}
 
 По методу трапеций, определим значение интеграла на каждом частичном отрезке:
 \begin{gather*}
 \begin{matrix}
-I_1=&\dfrac{f(x_0)+f(x_1)}{2}\cdot h_1=\dfrac{2,45+4,03}{2}\cdot3,62=11,73\\[1em]
-I_2=&\dfrac{f(x_1)+f(x_2)}{2}\cdot h_2=\dfrac{4,03-3,61}{2}\cdot1,01=0,21\\[1em]
-I_3=&\dfrac{f(x_2)+f(x_3)}{2}\cdot h_3=\dfrac{-3,61+4,50}{2}\cdot1,15=0,51\\[1em]
-I_4=&\dfrac{f(x_3)+f(x_4)}{2}\cdot h_4=\dfrac{4,50+3,10}{2}\cdot1,03=3,91\\
+S_1=&\dfrac{f(x_0)+f(x_1)}{2}\cdot h_1=\dfrac{2.45+4.03}{2}\cdot3.62=11.73\\[1em]
+S_2=&\dfrac{f(x_1)+f(x_2)}{2}\cdot h_2=\dfrac{4.03-3.61}{2}\cdot1.01=0.21\\[1em]
+S_3=&\dfrac{f(x_2)+f(x_3)}{2}\cdot h_3=\dfrac{-3.61+4.50}{2}\cdot1.15=0.51\\[1em]
+S_4=&\dfrac{f(x_3)+f(x_4)}{2}\cdot h_4=\dfrac{4.50+3.10}{2}\cdot1.03=3.91\\
 \end{matrix}
 \end{gather*}
 
-Определим интеграл $I$ на всем отрезке интегрирования $[-3,31; 3,50]$, 
-воспользовавшись свойством аддитивности интеграла:
+Определим интеграл $I$ на всем отрезке интегрирования 
+$[-3.31, 3.50]$, воспользовавшись свойством аддитивности 
+интеграла:
 \begin{gather*}
-I=I_1+I_2+I_3+I_4=11,73+0,21+0,51+3,91=16,37
+I=S_1+S_2+S_3+S_4=11.73+0.21+0.51+3.91=16.37
 .\end{gather*}
 
 \item
@@ -394,20 +424,16 @@ I_1=\int\limits_{-3,31}^{1,32} L^{(1)}_2(x)dx=
 %
 \begin{center}
 \begin{tikzpicture}
-\begin{axis}[
-every axis/.style={color=black, solid, thick},
-xlabel = {$x$},		% подпись оси x
-ylabel = {$f(x)$},	% подпись оси y
-xmin=-4, xmax=4,
-ymin=-4, ymax=10,
-]
-\addplot[color=orange, only marks, mark=*, mark size=3pt, mark options={fill=orange, draw=black, solid}] coordinates 
+\begin{axis}[ymax=10]
+\addplot[only marks,draw=darkblue,mark=ball,mark size=3pt,
+mark options={ball color=darkblue!50,thin,draw=darkblue}
+] coordinates 
 {(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
 %\path [name path=B] (\pgfkeysvalueof{/pgfplots/xmin},0) -- (\pgfkeysvalueof{/pgfplots/xmax},0);
-\addplot[name path=A, thick, color=orange, domain=-3.31:1.32] {-1.73*x^2-4.74*x+5.66};
-\draw[color=orange] (axis cs:-0.6,8.2) node [right] {$L^{(1)}_2(x)$};
+\addplot[name path=A,thick,color=darkblue,domain=-3.31:1.32]
+{-1.73*x^2-4.74*x+5.66} node[pos=0.4,right] {$L^{(1)}_2(x)$};
 \path [name path=B] (axis cs: -3.31,0) -- (axis cs: 1.32,0);
-\addplot [orange!20] fill between [of=A and B, soft clip={domain=-3.31:1.32},];
+\addplot [darkblue!15] fill between [of=A and B, soft clip={domain=-3.31:1.32}];
 \end{axis}
 \end{tikzpicture}
 \end{center}
