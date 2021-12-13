@@ -133,7 +133,9 @@ mark options={ball color=red!50,thin},
 draw=darkred,thick,samples=50,domain=#1:#2]{cubic(x)}
 \closedcycle;
 % Ln(x)
-#3
+\addplot[draw=none,thin,opacity=0.25,fill=darkblue!50,
+domain=#1:#2,samples=50]{#3}
+\closedcycle;
 \end{axis}
 \end{tikzpicture}
 }
@@ -141,19 +143,12 @@ draw=darkred,thick,samples=50,domain=#1:#2]{cubic(x)}
 % График прямоугольников
 %
 \begin{figure}[H]\centering
-\FigInt{-0.7}{2}{
-\addplot[draw=none,thin,opacity=0.25,fill=darkblue!50,
-domain=-0.7:2,samples=2]{cubic(-0.7)}
-\closedcycle;}
+\FigInt{-0.7}{2}{cubic(-0.7)}
 %
 \hskip 10pt
 %
-\FigInt{-0.7}{2}{
-\addplot[draw=none,thin,opacity=0.25,fill=darkblue!50,
-domain=-0.7:2,samples=2]{cubic(2)}
-\closedcycle;}
+\FigInt{-0.7}{2}{cubic(2)}
 \end{figure}
-
 
 %
 % Формула трапеций
@@ -175,12 +170,7 @@ S_i\approx\int\limits_{x_{i-1}}^{x_i}L_1(x)dx=
 \end{gather*}
 % график
 \begin{figure}[H]\centering
-\FigInt{-0.7}{2}{
-%\addplot[draw=none,thin,opacity=0.25,fill=darkblue!50,
-%domain=-0.7:2,samples=2]{cubic(-0.7)}
-\addplot[draw=none,thin,opacity=0.25,fill=darkblue!50,
-domain=-0.7:2,samples=2]{lagrange(x)}
-\closedcycle;}
+\FigInt{-0.7}{2}{lagrange(x)}
 \end{figure}
 %
 % Формула Симпсона
