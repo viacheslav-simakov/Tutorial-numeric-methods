@@ -133,42 +133,39 @@ S_i\approx\int\limits_{x_{i-1}}^{x_i}L_1(x)dx=
 подынтегральной функции $f(x)$ интерполяционным полиномом
 Лагранжа второй степени $f(x)\approx L_2(x)$, который построен
 по узлам сетки $\{x_{i-1}, x_{i}, x_{i+1}\}$:
-\begin{equation*}
+\begin{gather*}
 \begin{matrix}
-	L_{2}(x)&=&\dfrac
-		{ (x-x_{i})\cdot(x-x_{i+1}) }
-		{ (x_{i}-x_{i-1})\cdot(x_{i+1}-x_{i-1}) } \cdot y_{i-1}& + \\
-	\\
-	&+&\dfrac
-		{ (x-x_{i-1})\cdot(x_{i+1}-x) }
-		{ (x_{i}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i}& + \\
-	\\
-	&+&\dfrac
-		{ (x-x_{i-1})\cdot(x-x_{i}) }
-		{ (x_{i+1}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i+1}
+L_{2}(x)&=&\dfrac
+{ (x-x_{i})\cdot(x-x_{i+1}) }
+{ (x_{i}-x_{i-1})\cdot(x_{i+1}-x_{i-1}) } \cdot y_{i-1}& + \\
+\\
+&+&\dfrac
+{ (x-x_{i-1})\cdot(x_{i+1}-x) }
+{ (x_{i}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i}& + \\
+\\
+&+&\dfrac
+{ (x-x_{i-1})\cdot(x-x_{i}) }
+{ (x_{i+1}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i+1}
 \end{matrix}
-\end{equation*}
+\end{gather*}
+
+Выражение для полинома Лагранжа в каноническом виде:
+\begin{gather*}
+L_{2}(x)=c_0 + c_1\cdot x + c_2\cdot x^2,
+\end{gather*}
+где $c_0$, $c_1$, $c_2$ -- коэффициенты при 
+соответствующих степенях $x$ интерполяционного полинома 
+Лагранжа $L_2(x)$ в пределах частичного отрезка 
+$[x_{i-1}, x_{i+1}]$.
 
 Интегрирование интерполяционного полинома Лагранжа $L_2(x)$ 
 на частичном отрезке $x\in[x_{i-1}, x_{i+1}]$ определяет формулу Симпсона:
 \begin{gather*}
 S_i\approx\int\limits_{x_{i-1}}^{x_{i+1}}L_2(x)dx=
-\int\limits_{x_{i-1}}^{x_{i+1}}\left(a_i x^2+b_i x + c_i\right)dx
-,\end{gather*}
-где $a_i$, $b_i$, $c_i$ -- коэффициенты при соответствующих степенях $x$
-интерполяционного полинома Лагранжа $L_2(x)$
-в пределах частичного отрезка $x\in[x_{i-1}, x_{i+1}]$.
-
-Таким образом, квадратурная формула Симпсона имеет вид:
-\begin{gather*}
-I\approx\sum\limits_{i=1,3,5,\cdots}^{N-1}
-\left[
-{a_i}\dfrac{x_{i+1}^3-x_{i-1}^3}{3}+
-{b_i}\dfrac{x_{i+1}^2-x_{i-1}^2}{2}+
-{c_i}(x_{i+1}-x_{i-1})
-\right]
-,\end{gather*}
-где $N$ -- количество узлов интерполяции.
+c_0\cdot(x_{i+1}-x_{i-1})+
+c_1\cdot\dfrac{x_{i+1}^2-x_{i-1}^2}{2}+
+c_2\cdot\dfrac{x_{i+1}^3-x_{i-1}^3}{3}.
+\end{gather*}
 
 %
 %	Численное интегрирования функции заданной таблично
@@ -193,11 +190,10 @@ $f(x)$&2,45&4,03&-3,61&4,50&3,1\\
 %	График функций
 %
 \begin{center}
-\begin{tikzpicture}[background rectangle/.style={fill=olive!10}, show background rectangle]
+\begin{tikzpicture}
 \begin{axis}[
-every axis/.style={color=black, solid, thick},
 xlabel = {$x$},		% подпись оси x
-ylabel = {$f(x)$},	% подпись оси y
+ylabel = {$y(x)$},	% подпись оси y
 xmin=-4, xmax=4,
 ymin=-4, ymax=6,
 xtick style={thick, black},
