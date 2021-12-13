@@ -121,9 +121,15 @@ width=8cm,% ширина графика
 % определение функции
 declare function={
 cubic(\x)=0.5*(\x-2)*(\x-1)*(\x+1) + 1;
-ya = cubic(#1);
-yb = cubic(#2);
+% полином Лагранжа L1
 lagrange(\x) = (\x-#2)/(#1-#2)*cubic(#1) + (\x-#1)/(#2-#1)*cubic(#2);
+% промежуточная точка
+xc = 0.6*#1 + 0.4*#2;
+% полином Лагранжа L2
+Lagrange(\x) = 
+(\x-xc)*(\x-#2)/(xc-#1)/(#2-#1)*cubic(#1) +
+(\x-#1)*(#2-\x)/(xc-#1)/(#2-xc)*cubic(xc) +
+(\x-#1)*(\x-xc)/(#2-#1)/(#2-xc)*cubic(#2);
 },
 ]
 % f(x)
@@ -193,16 +199,16 @@ $f(x)$ интерполяционным полиномом Лагранжа
 \begin{gather*}
 \begin{matrix}
 L_{2}(x)&=&\dfrac
-{ (x-x_{i})\cdot(x-x_{i+1}) }
-{ (x_{i}-x_{i-1})\cdot(x_{i+1}-x_{i-1}) } \cdot y_{i-1}& + \\
+{ (x-x_{i-1/2})\cdot(x-x_{i}) }
+{ (x_{i-1/2}-x_{i-1})\cdot(x_{i}-x_{i-1}) } \cdot y_{i-1}& + \\
 \\
 &+&\dfrac
-{ (x-x_{i-1})\cdot(x_{i+1}-x) }
-{ (x_{i}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i}& + \\
+{ (x-x_{i-1})\cdot(x_{i}-x) }
+{ (x_{i-1/2}-x_{i-1})\cdot(x_{i}-x_{i-1/2}) } \cdot y_{i-1/2}& + \\
 \\
 &+&\dfrac
-{ (x-x_{i-1})\cdot(x-x_{i}) }
-{ (x_{i+1}-x_{i-1})\cdot(x_{i+1}-x_{i}) } \cdot y_{i+1}
+{ (x-x_{i-1})\cdot(x-x_{i-1/2}) }
+{ (x_{i}-x_{i-1})\cdot(x_{i}-x_{i-1/2}) } \cdot y_{i}
 \end{matrix},
 \end{gather*}
 где $x_{i-1/2}$ -- узел вспомогательной сетки,
@@ -226,6 +232,14 @@ c_0\cdot(x_{i+1}-x_{i-1})+
 c_1\cdot\dfrac{x_{i+1}^2-x_{i-1}^2}{2}+
 c_2\cdot\dfrac{x_{i+1}^3-x_{i-1}^3}{3}.
 \end{gather*}
+
+% график
+\begin{figure}[H]\centering
+\FigInt{-0.7}{2}{Lagrange(x)}
+\caption{График подынтегральной функции $f(x)$ 
+на частичном отрезке}
+\label{fig:IntSimpson}
+\end{figure}
 
 %
 %	Численное интегрирования функции заданной таблично
