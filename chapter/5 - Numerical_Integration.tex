@@ -559,28 +559,26 @@ I_2=\int\limits_{x_1}^{x_2} L_2(x)dx=
 
 % *******************************
 %	График функций
-%
 \begin{center}
 \begin{tikzpicture}
-\begin{axis}[
-every axis/.style={color=black, solid, thick},
-xlabel = {$x$},		% подпись оси x
-ylabel = {$f(x)$},	% подпись оси y
-xmin=-4, xmax=4,
-ymin=-4, ymax=10,
-]
-\addplot[color=orange, only marks, mark=*, mark size=3pt, mark options={fill=orange, draw=black, solid}] coordinates 
+\begin{axis}[ymax=10]
+% данные
+\addplot[only marks,draw=darkblue,mark=ball,mark size=3pt,
+mark options={ball color=darkblue!50,thin,draw=darkblue}
+] coordinates 
 {(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
-%\path [name path=B] (\pgfkeysvalueof{/pgfplots/xmin},0) -- (\pgfkeysvalueof{/pgfplots/xmax},0);
-\addplot[name path=A, thick, color=orange, domain=-3.31:1.32] {-1.73*x^2-4.74*x+5.66};
-\draw[color=orange] (axis cs:-0.6,8.2) node [right] {$L^{(1)}_2(x)$};
-\path [name path=B] (axis cs: -3.31,0) -- (axis cs: 1.32,0);
-\addplot [orange!20] fill between [of=A and B, soft clip={domain=-3.31:1.32},];
+% Ox
+\path [name path=Ox] (axis cs: -3.31,0) -- (axis cs: 3.50,0);
+% первый отрезок
+\addplot[name path=A,thick,color=darkblue,domain=-3.31:1.32]
+{-1.73*x^2-4.74*x+5.66} node[pos=0.4,right] {$L_2(x)$};
+\addplot[darkblue!15] fill between [of=A and Ox, 
+soft clip={domain=-3.31:1.32}];
 % второй отрезок
-\addplot[name path=C, thick, color=orange, domain=1.32:3.50] {-3.87*x^2+21.76*x-25.56};
-\draw[color=orange] (axis cs:2,6) node [right] {$L^{(2)}_2(x)$};
-\path [name path=D] (axis cs: 1.32,0) -- (axis cs: 3.50,0);
-\addplot [orange!20] fill between [of=C and D, soft clip={domain=1.32:3.50},];
+\addplot[name path=C,thick,color=darkblue,domain=1.32:3.50]
+{-3.87*x^2+21.76*x-25.56} node[pos=0.8,above] {$L_2(x)$};
+\addplot[darkblue!15] fill between [of=C and Ox, 
+soft clip={domain=1.32:3.50}];
 \end{axis}
 \end{tikzpicture}
 \end{center}
