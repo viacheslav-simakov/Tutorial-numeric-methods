@@ -172,10 +172,9 @@ $y^{(n)}(x)$ уже недостаточно полинома Лагранжа �
 \begin{figure}[H]\centering
 \begin{tikzpicture}
 \begin{axis}[% оси координат
-xlabel={$x$},ylabel={$y(x)$},
+ylabel={$y(x)$},
 xmin=-1.5, xmax=1,
-ymin=3.5, ymax=6.5,
-]
+ymin=3.5, ymax=6.5]
 % точки графика
 \addplot[only marks,mark=*,mark size=3pt,
 mark options={fill=white,draw=darkred}] 
@@ -183,9 +182,7 @@ coordinates {#1};
 % полином Лагранжа
 #2;
 % отрезок интерполирования
-\addplot[only marks,mark=ball,mark size=3pt,
-mark options={ball color=darkred!50,draw=darkred}] 
-coordinates {#3};
+\addplot[only marks,PlotDarkRed] coordinates {#3};
 \end{axis}
 \end{tikzpicture}
 \end{figure}}
@@ -218,7 +215,8 @@ $y_i$&&$3.78$&$4.11$&$4.83$&$5.13$&$5.01$&$5.13$&$5.73$&$6.11$&$5.92$\\
 \begin{figure}[H]\centering
 \begin{tikzpicture}
 \begin{axis}[% оси координат
-xlabel={$x$},ylabel={$y(x)$},
+%xlabel={$x$},
+ylabel={$y(x)$},
 xmin=-1.5, xmax=1,
 ymin=3.5, ymax=6.5,
 ]
@@ -342,7 +340,7 @@ L_2^{\prime\prime}(-0.48)=-4.116778740
 %
 %x4
 \item
-Апроксимацию функции $y(x)$ в узлах $\{x_{3},x_{4},x_{5}\}$
+Аппроксимация функции $y(x)$ в узлах $\{x_{3},x_{4},x_{5}\}$
 полиномом Лагранжа второго порядка $L_2(x)$, 
 используя данные таблицы \ref{tab:Num_Diff}:
 \begin{gather*}
@@ -521,20 +519,17 @@ ylabel={$\textcolor{darkblue}{y^{\prime}(x)}$},% подпись оси y
 xmin=-1.5, xmax=1,
 ymin=-0.5, ymax=5.5,
 ]
-\addplot[smooth,darkblue,mark=*,mark size=3pt,
-mark options={fill=blue!25,draw=darkblue}] coordinates 
+\addplot[ycomb,PlotDarkBlue] coordinates 
 {(-0.98,2.39) (-0.76,2.30) (-0.48,0.50) (-0.09,0.08) (0.22,4.63) (0.32,4.68) (0.55,0.32)};
 \end{axis}
 \end{tikzpicture}
 \begin{tikzpicture}
 \begin{axis}[% оси координат
-xlabel={$x$},	
+%xlabel={$x$},
 ylabel={$\textcolor{darkred}{y^{\prime\prime}(x)}$},	% подпись оси y
 xmin=-1.5, xmax=1,
-ymin=-30, ymax=30,
-]
-\addplot[smooth,darkred,mark=*,mark size=3pt,
-mark options={fill=red!25,draw=darkred}] coordinates 
+ymin=-30, ymax=30]
+\addplot[ycomb,PlotDarkRed] coordinates 
 {(-0.98,8.06) (-0.76,-8.81) (-0.48,-4.12) (-0.09,1.99) (0.22,27.38) (0.32,-26.35) (0.55,-11.62)};
 \end{axis}
 \end{tikzpicture}
@@ -544,5 +539,3 @@ mark options={fill=red!25,draw=darkred}] coordinates
 \end{figure}
 
 \end{enumerate}
-
-%\end{document}
