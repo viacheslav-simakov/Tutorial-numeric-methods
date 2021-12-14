@@ -37,17 +37,6 @@ $(t=0)$.
 % Метод Эйлера
 %
 \subsection{Метод Эйлера решения задачи Коши}
-Основная идея метода Эйлера заключается в предположении, 
-о том что неизвестные функции в интервале между 
-узлами временной сетки изменяются линейно. 
-Поэтому проводится аппроксимация производных по времени 
-от неизвестных функций полиномом первого порядка $\vec L_1(t)$:
-\begin{gather}
-\diff{\vec u}{t}\approx \vec L^{\prime}_1(t) =
-\dfrac{\vec u(t_{j+1})-\vec u(t_j)}{t_{j+1}-t_j},
-\end{gather}
-где $t_{j+1}$ и $t_j$ -- два последовательных момента времени.
-
 Введем по переменной $t$ сетку, т.е. будем
 рассматривать множество моментов времени:
 \begin{gather*}
@@ -57,6 +46,25 @@ $(t=0)$.
 $\Delta t_{j+1} = (t_{j+1}-t_j)$ -- шаг сетки, т.е. временной интервал 
 между двумя последовательными моментами времени;
 $N$ -- количество узлов временной сетки.
+
+Основная идея метода Эйлера заключается в предположении, 
+о том что неизвестные функции $\vec{u}(t)$ изменяются линейно
+в интервале $[t_j,t_{j+1}]$ между двумя соседними узлами 
+временной сетки и аппроксимация неизвестных функций 
+проводится полиномом первого порядка $\vec L_1(t)$:
+\begin{gather*}
+\vec u\approx\vec L_1(t)=
+\dfrac{t-t_{j+1}}{t_j-t_{j+1}}\cdot\vec u(t_j)+
+\dfrac{t-t_j}{t_{j+1}-t_j}\cdot\vec u(t_{j+1}).
+\end{gather*}
+
+Производная от неизвестной функции приближенно 
+аппроксимируется выражением вида:
+\begin{gather}
+\diff{\vec u}{t}\approx \vec L^{\prime}_1(t) =
+\dfrac{\vec u(t_{j+1})-\vec u(t_j)}{t_{j+1}-t_j},
+\end{gather}
+где $t_{j+1}$ и $t_j$ -- два последовательных момента времени.
 
 Тогда систему дифференциальных уравнений первого порядка 
 \eqref{eq:ODE_SYS} приближенно можно записать в виде:
@@ -71,8 +79,7 @@ $N$ -- количество узлов временной сетки.
 по рекуррентным формулам:
 \begin{gather}\label{eq:ODE_EULER}
 \vec u(t_{j+1})=\vec u(t_{j})+\Delta t_{j+1}\cdot\vec f\left(t_j, \vec u(t_{j})\right),
-\quad \vec u(0)=\vec{\mathring u},
-\quad j=0,1,2,\dots N
+\quad \vec{u}(0)=\vec{\mathring u}.
 \end{gather}
 
 Метод Эйлера является простейшим численным методом 
@@ -82,7 +89,8 @@ $N$ -- количество узлов временной сетки.
 Для простоты рассмотрим только одно дифференциальное уравнение 
 с единственным начальным условием:
 \begin{gather*}
-y(t_{j+1})=y(t_{j})+\Delta t_{j+1}\cdot f\left(t_j, y(t_{j})\right),\quad y(0)=\mathring y,\quad j=1,2,\dots N
+y(t_{j+1})=y(t_{j})+\Delta t_{j+1}\cdot f\left(t_j, y(t_{j})\right),
+\quad y(0)=\mathring y
 \end{gather*}
 
 На рисунке \ref{fig:EULER} представлена графическая иллюстрация 
@@ -102,8 +110,8 @@ width=10cm]
 {(0,1) (2,2.5) (3,3.5) (6,5) (8,6) (10,6.5)}
 node[pos=0.2,color=darkblue,below right] 
 {$y(t_1)=\mathring{y}+\Delta t_1\cdot f(0,\mathring{y})$}
-node[pos=0.4,color=darkblue,below right] 
-{$y(t_2)=y(t_2)+\Delta t_2\cdot f(t_1,y(t_1))$};
+node[pos=0.3,color=darkblue,below right] 
+{$y(t_2)=y(t_1)+\Delta t_2\cdot f(t_1,y(t_1))$};
 \end{axis}
 \end{tikzpicture}
 \caption{Ломаная Эйлера}
@@ -137,7 +145,7 @@ node[pos=0.4,color=darkblue,below right]
 \dfrac{
 \vec f\left(t_{k+1},\vec{v}(t_{k+1})\right)+
 \vec f\left(t_{k},\vec{v}(t_{k})\right)
-}{2}\cdot(t_{j+1}-t_j).
+}{2}\cdot(t_{k+1}-t_k).
 \end{gather}
 
 Воспользовавшись \eqref{eq:ODE_SYS_INT_TRAP}, 
@@ -157,17 +165,18 @@ node[pos=0.4,color=darkblue,below right]
 ${\vec u}(t_{j})$, 
 рассчитанные по методу Эйлера на $j$-ом временном слое:
 \begin{gather}
-\hat{\vec u}(t_{j+1})\approx\hat{\vec u}(t_{j})+
+\vec{v}(t_{j+1})\approx\vec{v}(t_{j})+
 \dfrac{
 \vec f\left(t_{j},{\vec u}(t_{j})\right)+
 \vec f\left(t_{j+1},{\vec u}(t_{j+1})\right)
-}{2}\cdot\tau
-.\end{gather}
+}{2}\cdot\Delta t_{j+1}.
+\end{gather}
 
-В качестве предельной абсолютной погрешности приближенного решения ${\vec u}(t_{j})$ 
+В качестве предельной абсолютной погрешности 
+приближенного решения ${\vec u}(t_{j})$ 
 задачи Коши \eqref{eq:ODE_SYS} можно принять величину:
 \begin{gather}
-\epsilon_i(t_j)=|\hat{u}_i(t_j) - {u}_i(t_j)|,\quad i=1,2,\dots n
+\varepsilon_i(t_j)=|v_i(t_j) - {u}_i(t_j)|,\quad i=1,2,\dots n
 \end{gather}
 
 %
