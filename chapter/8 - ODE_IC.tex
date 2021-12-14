@@ -129,10 +129,7 @@ node[pos=0.2,color=darkblue,below right]
 node[pos=0.3,color=darkblue,below right] 
 {$y(t_2)=y(t_1)+\Delta t_2\cdot f(t_1,y(t_1))$};
 \end{axis}
-\coordinate (A) at ($(GRAPH.north)+(0,2em)$);
-%\draw[->,red] (GRAPH.north) -- +(0,2em);
-\draw[thick,red] (A) circle (5pt);
-\draw[thick,red] ($(GRAPH.south)-(0,2em)$) node {a};
+%\draw[thick,red] ($(GRAPH.south)-(0,2em)$) node {a};
 \end{tikzpicture}\\
 a)
 %\par пример
@@ -174,18 +171,19 @@ a)
 выражением для решения интегрального уравнения 
 \eqref{eq:ODE_SYS_INT} можно записать 
 в рекуррентной форме:
-\begin{gather}
+\begin{gather}\label{eq:ODE_INT_EQ}
 \vec{v}(t_{j+1})=\vec{v}(t_{j})+
 \dfrac{
 \vec f\left(t_{j+1},\vec{v}(t_{j+1})\right)+
 \vec f\left(t_{j},\vec{v}(t_{j})\right)
-}{2}\cdot\Delta t_{j+1}
-.\end{gather}
+}{2}\cdot\Delta t_{j+1}.
+\end{gather}
 
-Для определения приближенного значения решения интегрального уравнения 
+Для определения приближенного значения решения 
+интегрального уравнения \eqref{eq:ODE_INT_EQ}
 могут быть использованы значения неизвестных функций 
-${\vec u}(t_{j})$, 
-рассчитанные по методу Эйлера на $j$-ом временном слое:
+${\vec u}(t_{j})$, рассчитанные по методу Эйлера
+\eqref{eq:ODE_EULER} на $j$-ом временном слое:
 \begin{gather}
 \vec{v}(t_{j+1})\approx\vec{v}(t_{j})+
 \dfrac{
