@@ -238,25 +238,22 @@ L_{3}(x)=1.36963 - 5.24831\cdot x + 0.9119\cdot x^2 + 13.23\cdot x^3
 (разброса) данных функции заданной таблично $y_i=f(x_i)$
 (маркеры) и результаты вычислений 
 интерполяционного полинома Лагранжа $L_3(x)$
-(\alert{сплошная линия}).
+(сплошная линия).
 % *******************************
 %	График функций
 %
 \begin{figure}[H]\centering
 \begin{tikzpicture}
 \begin{axis}[% оси координат
-xlabel={$x$},
-ylabel={$L_3(x)$},
+ylabel=$L_3(x)$,
 xmin=-0.9,xmax=0.7,xtick={-0.8,-0.4,0,0.4},
 ymin=-1, ymax=3,
 ]
-%\addplot[only marks,mark=*,mark size=4pt, 
-%mark options={fill=lime,draw=black,solid}]
-\addplot[only marks, mark=ball, mark size=4pt, 
-mark options={thin,draw=black,ball color=red!75}]
-coordinates 
-{(-0.76,0.08) (-0.09,1.84) (0.22,0.40) (0.55,0.96)};
-\addplot[smooth,color=darkred,domain=-0.8:0.6,samples=100] 
+% табличные данные
+\addplot[PlotDarkRed,only marks]
+coordinates {(-0.76,0.08) (-0.09,1.84) (0.22,0.40) (0.55,0.96)};
+% полином Лагранжа
+\addplot[PlotDarkRed,mark=none,domain=-0.8:0.6,samples=100] 
 {1.36963 - 5.24831*x + 0.9119*x^2 + 13.23*x^3}
 node[pos=0.7,right] {$L_3(x)$};
 \end{axis}

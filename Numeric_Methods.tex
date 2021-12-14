@@ -4,19 +4,20 @@
 %
 % Преамбула
 %
-\input{../../../sgu.tex}% home
-%\input{../../sgu.tex}% sgu
+%\input{../../../sgu.tex}% home
+\input{../../sgu.tex}% sgu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Стиль графиков
 \pgfplotsset{
 width=8cm,% размер графиков
+xlabel=$x$,
 every axis/.style={% оси координат
-font=\small,% размер шрифта
-color=black,solid,thick,
-xtick style={semithick,black},
-ytick style={semithick,black},
-grid=major,% сетка
-major grid style={color=gray!25,dashed,thin},
+	font=\small,% размер шрифта
+	color=black,solid,thick,
+	xtick style={semithick,black},
+	ytick style={semithick,black},
+	grid=major,% сетка
+	major grid style={	thin,dashed,color=gray!25,},
 },
 every node near coord/.append style={
 %font=\footnotesize,%
@@ -28,6 +29,32 @@ yshift=+2pt,%
 /pgf/number format/fixed,%
 /pgf/number format/fixed zerofill,%
 /pgf/number format/precision=1,%
+},
+}
+% стиль графиков
+\pgfplotsset{
+compat=1.15,
+PlotDarkRed/.style={
+	thick,
+	color=darkred,
+	mark size=3pt,
+	mark=ball,
+	mark options={% маркеры
+		thin,
+		draw=darkred,
+		ball color=darkred!50,
+	},
+},
+PlotDarkBlue/.style={
+	thick,
+	color=darkblue,
+	mark size=3pt,
+	mark=ball,
+	mark options={% маркеры
+		thin,
+		draw=darkblue,
+		ball color=darkblue!50,
+	},
 },
 }
 \begin{document}
@@ -74,13 +101,13 @@ yshift=+2pt,%
 \end{Introduction}
 
 % Метод Гаусса
-\input{chapter/1 - Gauss}
+%\input{chapter/1 - Gauss}
 % Интерполяция полиномом Лагранжа
-\input{chapter/2 - Interpolation}
+%\input{chapter/2 - Interpolation}
 % Аппроксимация
-\input{chapter/3 - Approximation}
+%\input{chapter/3 - Approximation}
 % Численное дифференцирование
-\input{chapter/4 - Numerical_Differentiation}
+%\input{chapter/4 - Numerical_Differentiation}
 %	Численное интегрирование
 \input{chapter/5 - Numerical_Integration}
 % Задача Коши для систем обыкновенных дифференциальных уравнений

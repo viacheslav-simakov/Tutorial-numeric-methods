@@ -24,10 +24,9 @@
 \begin{axis}[% оси координат
 xlabel=$x$,ylabel=$f(x)$,
 xtick={\xa,\xb},xticklabels={$a$,$b$},
-ytick={0},yticklabels={0},]
-%width=8cm]% ширина графика
+ytick={0},yticklabels={0}]
 % f(x)
-\addplot[name path=A,draw=darkblue,thick,
+\addplot[name path=A,PlotDarkBlue,mark=none,
 samples=50,domain=\xa:\xb]{0.5*(\x-2)*(\x-1)*(\x+1) + 1};
 \path[name path=B] (axis cs: \xa,0) -- (axis cs: \xb,0);
 \addplot[blue!15] fill between [of=A and B, soft clip={domain=\xa:\xb},];
@@ -160,9 +159,11 @@ Lagrange(\x) =
 \addplot[name path=F,
 %pattern=north east lines,pattern color=darkred!35,
 fill=red!15,
-mark=ball,mark size=3pt,mark indices={1,50},
+mark=ball,mark size=3pt,
 mark options={ball color=red!50,thin},
-draw=darkred,thick,samples=50,domain=#1:#2]{cubic(x)}
+draw=darkred,thick,
+mark indices={1,50},
+samples=50,domain=#1:#2]{cubic(x)}
 \closedcycle;
 % Ln(x)
 \addplot[draw=none,thin,opacity=0.25,fill=darkblue!50,
