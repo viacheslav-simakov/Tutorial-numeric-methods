@@ -15,7 +15,7 @@
 
 Численное значение интеграла -- это площадь криволинейной 
 трапеции, ограниченной линиями графика функции 
-и осью абсцисс $Ox$ (выделенная область на графике).
+и осью абсцисс $Ox$ (выделенная область на рисунке \ref{fig:INT}).
 
 \begin{figure}[H]\centering
 \begin{tikzpicture}
@@ -24,9 +24,8 @@
 \begin{axis}[% оси координат
 xlabel=$x$,ylabel=$f(x)$,
 xtick={\xa,\xb},xticklabels={$a$,$b$},
-ytick={0},yticklabels={0},
-width=8cm,% ширина графика
-]
+ytick={0},yticklabels={0},]
+%width=8cm]% ширина графика
 % f(x)
 \addplot[name path=A,draw=darkblue,thick,
 samples=50,domain=\xa:\xb]{0.5*(\x-2)*(\x-1)*(\x+1) + 1};
@@ -34,6 +33,8 @@ samples=50,domain=\xa:\xb]{0.5*(\x-2)*(\x-1)*(\x+1) + 1};
 \addplot[blue!15] fill between [of=A and B, soft clip={domain=\xa:\xb},];
 \end{axis}
 \end{tikzpicture}
+\caption{Геометрический смысл определенного интеграла}
+\label{fig:INT}
 \end{figure}
 
 Однако во многих случаях первообразная функция $F(x)$ 
@@ -323,13 +324,91 @@ mark options={ball color=darkblue!50,thin,draw=darkblue}
 \end{tikzpicture}
 \end{figure}
 % *******************************
+\item
+Воспользуемся левой и правой формулами прямоугольников
+для нахождения  численного значения интеграла 
+от функции $f(x)$, заданной таблично на отрезке $x\in[x_0,x_4]$.
+Для этого разобьем весь отрезок интегрирования 
+на частичные отрезки: 
+\begin{gather*}
+[x_0,x_4]=[x_0,x_1] \cup [x_1,x_2] \cup [x_2,x_3] \cup [x_3,x_4]
+\end{gather*}
+%	График функций
+\begin{figure}[H]\centering
+% левые прямоугольники
+\begin{tikzpicture}[baseline]
+\begin{axis}
+\addplot[name path=A,const plot mark left,
+thick,draw=darkblue,mark=ball,mark size=3pt,
+mark options={ball color=darkblue!50,thin,draw=darkblue}
+] coordinates 
+{(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
+%\path [name path=B] (\pgfkeysvalueof{/pgfplots/xmin},0) -- (\pgfkeysvalueof{/pgfplots/xmax},0);
+\path[name path=B] (axis cs: -3.31,0) -- (axis cs: 3.5,0);
+\addplot[blue!15] fill between [of=A and B, soft clip={domain=-3.31:3.5}];
+\end{axis}
+% правые прямоугольники
+\end{tikzpicture}
+\begin{tikzpicture}[baseline]
+\begin{axis}
+\addplot[name path=A,const plot mark right,
+thick,draw=darkblue,mark=ball,mark size=3pt,
+mark options={ball color=darkblue!50,thin,draw=darkblue}
+] coordinates 
+{(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
+%\path [name path=B] (\pgfkeysvalueof{/pgfplots/xmin},0) -- (\pgfkeysvalueof{/pgfplots/xmax},0);
+\path[name path=B] (axis cs: -3.31,0) -- (axis cs: 3.5,0);
+\addplot[blue!15] fill between [of=A and B, soft clip={domain=-3.31:3.5}];
+\end{axis}
+\end{tikzpicture}
+\caption{Использование квадратурных формул 
+левых и правых прямоугольников}
+\end{figure}
 
+На каждом частичном отрезке квадратурная формула 
+является следствием замены подынтегральной функции 
+$f(x)$ интерполяционным полиномом 
+нулевой степени $f(x)\approx L_0(x)=\const$, 
+построенным но узлам $\{x_{i-1}, x_{i}\}$.
+
+По методу прямоугольников, определим значение 
+интеграла на каждом частичном отрезке
+(левые прямоугольники):
+\begin{gather*}
+\begin{array}{lclllll}
+S^{-}_1&=&y_0\cdot(x_1-x_0)&=&2.45\cdot(0.31-(-3.31))&\approx&8.87\\
+S^{-}_2&=&y_1\cdot(x_2-x_1)&=&4.03\cdot(1.32-0.31)&\approx&4.07\\
+S^{-}_3&=&y_2\cdot(x_3-x_2)&=&-3.61\cdot(2.47-1.32)&\approx&-4.15\\
+S^{-}_4&=&y_3\cdot(x_4-x_3)&=&4.5\cdot(3.50-2.47)&\approx&4.64\\
+\end{array}
+\end{gather*}
+
+(правые прямоугольники):
+\begin{gather*}
+\begin{array}{*7l}
+S^{+}_1&=&y_1\cdot(x_1-x_0)&=&4.03\cdot(0.31-(-3.31))&\approx&14.59\\
+S^{+}_2&=&y_2\cdot(x_2-x_1)&=&-3.61\cdot(1.32-0.31)&\approx&-3.65\\
+S^{+}_3&=&y_3\cdot(x_3-x_2)&=&4.50\cdot(2.47-1.32)&\approx&5.18\\
+S^{+}_4&=&y_4\cdot(x_4-x_3)&=&3.10\cdot(3.50-2.47)&\approx&3.19\\
+\end{array}
+\end{gather*}
+
+Значение интегралов $I^{-}$ и $I^{+}$ на всем отрезке 
+интегрирования $[x_0,x_4]$: 
+\begin{gather*}
+\begin{array}{*7l}
+I^{-}&=&S^{-}_1+S^{-}_2+S^{-}_3+S^{-}_4&=&
+8.87+4.07-4.15+4.64&=&13.43\\
+I^{+}&=&S^{+}_1+S^{+}_2+S^{+}_3+S^{+}_4&=&
+14.59-3.65+5.18+3.19&=&19.31
+\end{array}
+\end{gather*}
+ 
 \item
 Рассмотрим \emph{метод трапеций} для нахождения 
 численного значения интеграла от функции $f(x)$,
-заданной таблично на отрезке $x\in[-3.31, 3.50]$.
-
-Разобьем весь отрезок интегрирования на частичные отрезки 
+заданной таблично на отрезке $x\in[x_0,x_4]$.
+Разобьем весь отрезок интегрирования на частичные отрезки: 
 \begin{gather*}
 [x_0,x_4]=[x_0,x_1] \cup [x_1,x_2] \cup [x_2,x_3] \cup [x_3,x_4]
 \end{gather*}
@@ -357,41 +436,38 @@ mark options={ball color=darkblue!50,thin,draw=darkblue}
 \addplot[blue!15] fill between [of=A and B, soft clip={domain=-3.31:3.5},];
 \end{axis}
 \end{tikzpicture}
+\caption{Использование квадратурных формул трапеций}
 \end{figure}
 % *******************************
 
-Определим длину частичных отрезков:
-\begin{gather*}
-\begin{matrix}
-h_1=&(x_1-x_0)=&0.31-(-3.31)=3.62\\
-h_2=&(x_2-x_1)=&1.32-0.31=1.01\\ 
-h_3=&(x_3-x_2)=&2.47-1.32=1.15\\
-h_4=&(x_4-x_3)=&3.50-2.47=1.03\\
-\end{matrix}
-\end{gather*}
-
 По методу трапеций, определим значение интеграла на каждом частичном отрезке:
 \begin{gather*}
-\begin{matrix}
-S_1=&\dfrac{f(x_0)+f(x_1)}{2}\cdot h_1=\dfrac{2.45+4.03}{2}\cdot3.62=11.73\\[1em]
-S_2=&\dfrac{f(x_1)+f(x_2)}{2}\cdot h_2=\dfrac{4.03-3.61}{2}\cdot1.01=0.21\\[1em]
-S_3=&\dfrac{f(x_2)+f(x_3)}{2}\cdot h_3=\dfrac{-3.61+4.50}{2}\cdot1.15=0.51\\[1em]
-S_4=&\dfrac{f(x_3)+f(x_4)}{2}\cdot h_4=\dfrac{4.50+3.10}{2}\cdot1.03=3.91\\
-\end{matrix}
+%\renewcommand*{\arraystretch}{2}
+\begin{array}{*7l}
+S_1&=&\dfrac{y_1+y_0}{2}\cdot(x_1-x_0)&=&
+\dfrac{4.03+2.45}{2}\cdot(0.31-(-3.31))&\approx&11.73\\[1em]
+S_2&=&\dfrac{y_2+y_1}{2}\cdot(x_2-x_1)&=&
+\dfrac{-3.61+4.03}{2}\cdot(1.32-0.31)&\approx&0.21\\[1em]
+S_3&=&\dfrac{y_3+y_2}{2}\cdot(x_3-x_2)&=&
+\dfrac{4.50-3.61}{2}\cdot(2.47-1.32)&\approx&0.51\\[1em]
+S_4&=&\dfrac{y_4+y_3}{2}\cdot(x_4-x_3)&=&
+\dfrac{3.10+4.50}{2}\cdot(3.50-2.47)&\approx&3.91
+\end{array}
 \end{gather*}
 
 Определим интеграл $I$ на всем отрезке интегрирования 
-$[-3.31, 3.50]$, воспользовавшись свойством аддитивности 
+$[x_0,x_4]$, воспользовавшись свойством аддитивности 
 интеграла:
 \begin{gather*}
-I=S_1+S_2+S_3+S_4=11.73+0.21+0.51+3.91=16.37
-.\end{gather*}
+I=S_1+S_2+S_3+S_4=11.73+0.21+0.51+3.91=16.37.
+\end{gather*}
 
 \item
-Рассмотрим \textbf{метод Симпсона} для нахождения численное значение интеграла
-функции $f(x)$ заданной таблично на отрезке $x\in[-3,31; 3,50]$.
+Рассмотрим \emph{метод Симпсона} для нахождения 
+численное значение интеграла от функции $f(x)$,
+заданной таблично на отрезке $x\in[x_0,x_4]$.
 
-Разобъем весь отрезок интегрирования на частичные отрезки:
+Разобьем весь отрезок интегрирования на частичные отрезки:
 \begin{gather*}
 [x_0,x_4]=[x_0,x_2] \cup [x_2,x_4]
 \end{gather*}
@@ -399,7 +475,7 @@ I=S_1+S_2+S_3+S_4=11.73+0.21+0.51+3.91=16.37
 \item
 В пределах первого частичного отрезка $[-3,31; 1,32]$
 построим полином Лагранжа $L_2(x)$ по узлам интерполяции
-$x_0=-3,31; x_1=0,31; x_2=1,32$:
+$x_0=-3.31, x_1=0.31, x_2=1.32$:
 \begin{gather*}
 \begin{matrix}
 L^{(1)}_2(x)&=&\dfrac{(x-0,31)(x-1,32)}{((-3,31-0,31)(-3,31-1,32)}\cdot2,45&+\\[1em]
