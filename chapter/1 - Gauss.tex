@@ -1,5 +1,8 @@
-%\input{../../../preamble}
-%\begin{document}
+% Выделение цветом
+\pgfkeys{/main/.code=\fcolorbox{gray}{yellow}{$#1$}}
+\pgfkeys{/one/.code=\textcolor{darkred}{1}}
+\pgfkeys{/zero/.code=\textcolor{gray!50}{0}}
+%\pgfkeys{/main=hi!}% пример использования
 %
 %	Метод Гаусса решения систем линейных уравнений
 %
@@ -243,15 +246,6 @@ $x_1,x_2,\dots,x_m$ полученной эквивалентной систем
 то можно последовательно найти все неизвестные 
 $x_m,x_{m-1}, \dots,x_1$:
 \begin{gather*}
-%\begin{array}{rcl}
-%x_m&=&y_m\\
-%x_{m-1}&=&y_{m-1}-c_{m-1,m}\cdot x_m\\
-%x_{m-2}&=&y_{m-2}-c_{m-2,m-1}\cdot x_{m-1}-c_{m-2,m}\cdot x_m\\
-%%x_{m-3}&=y_{m-3}-c_{m-3,m-2}\cdot x_{m-2}-c_{m-3,m-1}\cdot x_{m-1}-c_{m-3,m}\cdot x_m\\
-%%\vdots&=&\cdots\\
-%\cdots&=&\cdots\\
-%x_1&=&y_1 - \sum\limits_{j=2}^{m} c_{1j}\cdot x_j
-%\end{array}
 \left\{\begin{array}{lclclcl}
 x_m&=&y_m\\
 x_{m-1}&=&y_{m-1}&-&c_{m-1,m}\cdot x_m\\
@@ -263,8 +257,9 @@ x_1&=&y_1&-&\sum\limits_{j=2}^{m} c_{1j}\cdot x_j\\
 
 Общие формулы обратного хода имеют вид:
 \begin{gather*}
+x_m=y_m,\quad 
 x_i=y_i - \sum\limits_{j=i+1}^{m} c_{ij}\cdot x_j,
-\quad i=(m-1,m-2,\cdots,1), \quad x_m=y_m 
+\quad i=(m-1,m-2,\dots,1)
 \end{gather*}
 
 %
@@ -272,13 +267,9 @@ x_i=y_i - \sum\limits_{j=i+1}^{m} c_{ij}\cdot x_j,
 %
 \emptyline
 \subsection{Метод Гаусса с выбором главного элемента}
-На практике, часто может оказаться, что система 
+На практике, часто может оказаться, что система \eqref{eq:LSM}
 имеет единственное решение, хотя какой-либо 
 из угловых миноров матрицы $\mathbf{A}$ равен нулю. 
-\begin{gather*}
-\mathbf{A}\cdot\vec{x}=\vec{b}.
-\end{gather*}
-
 Кроме того, заранее обычно неизвестно, 
 все ли угловые миноры матрицы $\mathbf{A}$ отличны от нуля.
 В этих случаях обычный метод Гаусса может оказаться 
@@ -318,7 +309,7 @@ x_i=y_i - \sum\limits_{j=i+1}^{m} c_{ij}\cdot x_j,
 \end{matrix}\right.
 \quad\iff\quad
 \begin{pmatrix}[ccc|c]
-2&3&1&10\\
+\pgfkeys{/main=2}&3&1&10\\
 4&5&6&31\\
 3&1&5&22\\
 \end{pmatrix}
@@ -333,80 +324,62 @@ x_i=y_i - \sum\limits_{j=i+1}^{m} c_{ij}\cdot x_j,
 вторую на $4$, третью на 3:
 \begin{gather*}
 \begin{pmatrix}[ccc|c]
-\textcolor{red}{2}&3&1&10\\
+\pgfkeys{/main=2}&3&1&10\\
 4&5&6&31\\
 3&1&5&22\\
-\end{pmatrix}
-\;\to\;% 1 строка
+\end{pmatrix}\quad\to\quad
+% результат
 \begin{pmatrix}[ccc|c]
-\mathbf{1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-4&5&6&31\\
-3&1&5&22\\
-\end{pmatrix}
-\;\to\;% 2 строка
-\begin{pmatrix}[ccc|c]
-\mathbf{1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-\mathbf{1}&\frac{5}{4}&\frac{6}{4}&\frac{31}{4}\\
-3&1&5&22\\
-\end{pmatrix}
-\;\to\;% 3 строка
-\begin{pmatrix}[ccc|c]
-\mathbf{1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-\mathbf{1}&\frac{5}{4}&\frac{6}{4}&\frac{31}{4}\\
-\mathbf{1}&\frac{1}{3}&\frac{5}{3}&\frac{22}{3}\\
+\pgfkeys{/main=1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\pgfkeys{/one}&\frac{5}{4}&\frac{6}{4}&\frac{31}{4}\\
+\pgfkeys{/one}&\frac{1}{3}&\frac{5}{3}&\frac{22}{3}\\
 \end{pmatrix}
 \end{gather*}
 
 Вычитаем из второй и третьей строк матрицы её первую строку:
 \begin{gather*}
 \begin{pmatrix}[ccc|c]
-1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\pgfkeys{/main=1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
 1&\frac{5}{4}&\frac{6}{4}&\frac{31}{4}\\
 1&\frac{1}{3}&\frac{5}{3}&\frac{22}{3}\\
-\end{pmatrix}
-\;\to\;% 2 строка
+\end{pmatrix}\quad\to\quad
+% результат
 \begin{pmatrix}[ccc|c]
-1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-\mathbf{0}&-\frac{1}{4}&1&\frac{11}{4}\\
-1&\frac{1}{3}&\frac{5}{3}&\frac{22}{3}\\
-\end{pmatrix}
-\;\to\;% 3 строка
-\begin{pmatrix}[ccc|c]
-1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-\mathbf{0}&-\frac{1}{4}&1&\frac{11}{4}\\
-\mathbf{0}&-\frac{7}{6}&\frac{7}{6}&\frac{7}{3}\\
+\pgfkeys{/main=1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\pgfkeys{zero}&-\frac{1}{4}&1&\frac{11}{4}\\
+\pgfkeys{zero}&-\frac{7}{6}&\frac{7}{6}&\frac{7}{3}\\
 \end{pmatrix}
 \end{gather*}
 
 \item
-Разделим вторую строку матрицы на $-\frac{1}{4}$, третью строку на $-\frac{7}{6}$:
+Разделим вторую строку матрицы на $-\frac{1}{4}$, 
+третью строку на $-\frac{7}{6}$:
 \begin{gather*}
-% 2 строка
 \begin{pmatrix}[ccc|c]
-1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-0&-\frac{1}{4}&1&\frac{11}{4}\\
-0&-\frac{7}{6}&\frac{7}{6}&\frac{7}{3}\\
-\end{pmatrix}
-\;\to\;% 3 строка
+\pgfkeys{/main=1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\pgfkeys{zero}&\pgfkeys{/main={-\frac{1}{4}}}&1&\frac{11}{4}\\
+\pgfkeys{zero}&-\frac{7}{6}&\frac{7}{6}&\frac{7}{3}\\
+\end{pmatrix}\quad\to\quad
+% результат
 \begin{pmatrix}[ccc|c]
-1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-0&\mathbf{1}&-4&-11\\
-0&\mathbf{1}&-1&-2\\
+\pgfkeys{/main=1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\pgfkeys{zero}&\pgfkeys{/main=1}&-4&-11\\
+\pgfkeys{zero}&\pgfkeys{/one}&-1&-2\\
 \end{pmatrix}
 \end{gather*}
 
 Вычитаем из третьей строки матрицы её вторую строку:
 \begin{gather*}
 \begin{pmatrix}[ccc|c]
-1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-0&1&-4&-11\\
-0&1&-1&-2\\
-\end{pmatrix}
-\;\to\;% 3 строка
+\pgfkeys{/main=1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\pgfkeys{zero}&\pgfkeys{/main=1}&-4&-11\\
+\pgfkeys{zero}&1&-1&-2\\
+\end{pmatrix}\quad\to\quad
+% результат
 \begin{pmatrix}[ccc|c]
-1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-0&1&-4&-11\\
-0&\mathbf{0}&3&9\\
+\pgfkeys{/main=1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\pgfkeys{zero}&\pgfkeys{/main=1}&-4&-11\\
+\pgfkeys{zero}&\pgfkeys{zero}&3&9\\
 \end{pmatrix}
 \end{gather*}
 
@@ -415,14 +388,14 @@ x_i=y_i - \sum\limits_{j=i+1}^{m} c_{ij}\cdot x_j,
 \begin{gather*}
 \begin{pmatrix}[ccc|c]
 1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-0&1&-4&-11\\
-0&0&3&9\\
-\end{pmatrix}
-\;\to\;% 3 строка
+\pgfkeys{zero}&1&-4&-11\\
+\pgfkeys{zero}&\pgfkeys{zero}&3&9\\
+\end{pmatrix}\quad\to\quad
+% результат
 \begin{pmatrix}[ccc|c]
-1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
-0&1&-4&-11\\
-0&0&\mathbf{1}&3\\
+\pgfkeys{/main=1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\pgfkeys{zero}&\pgfkeys{/main=1}&-4&-11\\
+\pgfkeys{zero}&\pgfkeys{zero}&\pgfkeys{/main=1}&3\\
 \end{pmatrix}
 \end{gather*}
 \end{enumerate}
@@ -442,7 +415,7 @@ x_3=3
 Из второго уравнения системы (вторая строка матрицы)
 определяем неизвестное $x_2$:
 \begin{gather*}
-x_2-4\,x_3=-11\;\to\;
+x_2-4\,x_3=-11\quad\to\quad
 x_2=4\,x_3-11\\
 x_2=4\cdot3-11=1
 \end{gather*}
@@ -450,25 +423,25 @@ x_2=4\cdot3-11=1
 Из первого уравнения системы (первая строка матрицы)
 определяем неизвестное $x_1$:
 \begin{gather*}
-x_1+\frac{3}{2}\,x_2+\frac{1}{2}\,x_3=\frac{10}{2}\;\to\;
+x_1+\frac{3}{2}\,x_2+\frac{1}{2}\,x_3=\frac{10}{2}\quad\to\quad
 x_1=-\frac{3}{2}\,x_2-\frac{1}{2}\,x_3+5\\[1ex]
 x_1=-\frac{3}{2}\cdot{1}-\frac{1}{2}\cdot{3}+5=2
 \end{gather*}
 
 Таким образом, найдено решение системы:
 \begin{gather*}
-\vect{\mathring{x}}=\begin{pmatrix}2\\1\\3\end{pmatrix}
+\vect{s}=\begin{pmatrix}2\\1\\3\end{pmatrix}
 \qquad\iff\qquad
-\vect{\mathring{x}}=(2,1,3)^\mathrm{T}
+\vect{s}=(2,1,3)^\mathrm{T}
 \end{gather*}
 \end{enumerate}
 
 Проведём \emph{проверку решения} системы уравнений
 методом прямой подстановки найденного 
-вектора неизвестных $\vect{\mathring{x}}=(2,1,3)^\mathrm{T}$ 
+вектора неизвестных $\vect{s}=(2,1,3)^\mathrm{T}$ 
 в исходную систему уравнений:
 \begin{gather*}
-\mathbf{A}\cdot\vect{\mathring{x}}=\vect{b}
+\mathbf{A}\cdot\vect{s}=\vect{b}
 \quad\iff\quad
 \begin{pmatrix}[ccc|c]
 2&3&1&10\\
@@ -496,47 +469,35 @@ x_1=-\frac{3}{2}\cdot{1}-\frac{1}{2}\cdot{3}+5=2
 \end{gather*}
 
 \emptyline
-\textbf{\alert{Метод Гаусса с выбором главного элемента}}\par
+\textbf{Метод Гаусса с выбором главного элемента}\par
 \emph{Прямой ход метода Гаусса с выбором главного элемента}.
 \begin{enumerate}
 \item
 Выбираем максимальный по модулю элемент в матрице 
 (главный элемент) во второй строке, третьем столбце
-(\textcolor{red}{выделен красным цветом}):
+(выделен цветом):
 \begin{gather*}
 \begin{pmatrix}[ccc|c]
 2&3&1&10\\
-4&5&\textcolor{red}{6}&31\\
+4&5&\pgfkeys{/main=6}&31\\
 3&1&5&22\\
 \end{pmatrix}
 \end{gather*}
-Делим каждую строку матрицы на значение элемента
+Разделим каждую строку матрицы на значение элемента
 матрицы в столбце главного элемента, т.е.
 первую строку делим на $1$, вторую строку на $6$,
 а третью строку на $5$:
 \begin{gather*}
 \begin{pmatrix}[ccc|c]
 2&3&1&10\\
-4&5&\textcolor{red}{6}&31\\
+4&5&\pgfkeys{/main=6}&31\\
 3&1&5&22\\
-\end{pmatrix}
-\;\to\;% 1 строка
+\end{pmatrix}\quad\to\quad
+% результат
 \begin{pmatrix}[ccc|c]
-2&3&\mathbf{1}&10\\
-4&5&\textcolor{red}{6}&31\\
-3&1&5&22\\
-\end{pmatrix}
-\;\to\;% 2 строка
-\begin{pmatrix}[ccc|c]
-2&3&\mathbf{1}&10\\
-\frac{4}{6}&\frac{5}{6}&\textcolor{red}{\mathbf{1}}&\frac{31}{6}\\
-3&1&5&22\\
-\end{pmatrix}
-\;\to\;% 3 строка
-\begin{pmatrix}[ccc|c]
-2&3&\mathbf{1}&10\\
-\frac{4}{6}&\frac{5}{6}&\textcolor{red}{\mathbf{1}}&\frac{31}{6}\\
-\frac{3}{5}&\frac{1}{5}&\mathbf{1}&\frac{22}{5}\\
+2&3&\pgfkeys{/one}&10\\
+\frac{4}{6}&\frac{5}{6}&\pgfkeys{/main=1}&\frac{31}{6}\\
+\frac{3}{5}&\frac{1}{5}&\pgfkeys{/one}&\frac{22}{5}\\
 \end{pmatrix}
 \end{gather*}
 
@@ -544,20 +505,14 @@ x_1=-\frac{3}{2}\cdot{1}-\frac{1}{2}\cdot{3}+5=2
 \begin{gather*}
 \begin{pmatrix}[ccc|c]
 2&3&1&10\\
-\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\frac{4}{6}&\frac{5}{6}&\pgfkeys{/main=1}&\frac{31}{6}\\
 \frac{3}{5}&\frac{1}{5}&1&\frac{22}{5}\\
-\end{pmatrix}
-\;\to\;% 1 строка
+\end{pmatrix}\quad\to\quad
+% результат
 \begin{pmatrix}[ccc|c]
-\frac{4}{3}&\frac{13}{6}&\mathbf{0}&\frac{29}{6}\\
-\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
-\frac{3}{5}&\frac{1}{5}&1&\frac{22}{5}\\
-\end{pmatrix}
-\;\to\;% 3 строка
-\begin{pmatrix}[ccc|c]
-\frac{4}{3}&\frac{13}{6}&\mathbf{0}&\frac{29}{6}\\
-\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
--\frac{1}{15}&-\frac{19}{30}&\mathbf{0}&-\frac{23}{30}\\
+\frac{4}{3}&\frac{13}{6}&\pgfkeys{/zero}&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\pgfkeys{/main=1}&\frac{31}{6}\\
+-\frac{1}{15}&-\frac{19}{30}&\pgfkeys{/zero}&-\frac{23}{30}\\
 \end{pmatrix}
 \end{gather*}
 
@@ -567,9 +522,9 @@ x_1=-\frac{3}{2}\cdot{1}-\frac{1}{2}\cdot{3}+5=2
 главный элемент матрицы (первая строка, второй столбец): 
 \begin{gather*}
 \begin{pmatrix}[ccc|c]
-\frac{4}{3}&\textcolor{red}{\frac{13}{6}}&0&\frac{29}{6}\\
-\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
--\frac{1}{15}&-\frac{19}{30}&0&-\frac{23}{30}\\
+\frac{4}{3}&\pgfkeys{/main=\frac{13}{6}}&\pgfkeys{/zero}&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\pgfkeys{/main=1}&\frac{31}{6}\\
+-\frac{1}{15}&-\frac{19}{30}&\pgfkeys{/zero}&-\frac{23}{30}\\
 \end{pmatrix}
 \end{gather*}
 
@@ -578,30 +533,30 @@ x_1=-\frac{3}{2}\cdot{1}-\frac{1}{2}\cdot{3}+5=2
 первую строку делим на $\frac{13}{6}$, а третью строку на $-\frac{19}{30}$:
 \begin{gather*}
 \begin{pmatrix}[ccc|c]
-\frac{4}{3}&\textcolor{red}{\frac{13}{6}}&0&\frac{29}{6}\\
-\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
--\frac{1}{15}&-\frac{19}{30}&0&-\frac{23}{30}\\
-\end{pmatrix}
-\;\to\;% 1 строка
+\frac{4}{3}&\pgfkeys{/main=\frac{13}{6}}&\pgfkeys{/zero}&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\pgfkeys{/main=1}&\frac{31}{6}\\
+-\frac{1}{15}&-\frac{19}{30}&\pgfkeys{/zero}&-\frac{23}{30}\\
+\end{pmatrix}\quad\to\quad
+% результат
 \begin{pmatrix}[ccc|c]
-\frac{8}{13}&\textcolor{red}{\mathbf{1}}&0&\frac{29}{13}\\
-\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
-\frac{2}{19}&\mathbf{1}&0&\frac{23}{19}\\
+\frac{8}{13}&\pgfkeys{/main=1}&\pgfkeys{/zero}&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\pgfkeys{/main=1}&\frac{31}{6}\\
+\frac{2}{19}&\pgfkeys{/one}&\pgfkeys{/zero}&\frac{23}{19}\\
 \end{pmatrix}
 \end{gather*}
 
 Вычитаем из третьей строки матрицы её первую строку:
 \begin{gather*}
 \begin{pmatrix}[ccc|c]
-\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
-\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
-\frac{2}{19}&1&0&\frac{23}{19}\\
-\end{pmatrix}
-\;\to\;% 3 строка
+\frac{8}{13}&\pgfkeys{/main=1}&\pgfkeys{/zero}&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\pgfkeys{/main=1}&\frac{31}{6}\\
+\frac{2}{19}&1&\pgfkeys{/zero}&\frac{23}{19}\\
+\end{pmatrix}\quad\to\quad
+% результат
 \begin{pmatrix}[ccc|c]
-\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
-\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
--\frac{126}{247}&\mathbf{0}&0&-\frac{252}{247}\\
+\frac{8}{13}&\pgfkeys{/main=1}&\pgfkeys{/zero}&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\pgfkeys{/main=1}&\frac{31}{6}\\
+-\frac{126}{247}&\pgfkeys{/zero}&\pgfkeys{/zero}&-\frac{252}{247}\\
 \end{pmatrix}
 \end{gather*}
 
