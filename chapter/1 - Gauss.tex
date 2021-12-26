@@ -8,32 +8,69 @@
 К решению систем линейных алгебраических уравнений сводится подавляющее 
 большинство задач вычислительной математики и многие численные методы основаны 
 на решении систем линейных уравнений вида:
+\begin{gather}\label{eq:LS}
+\left\{
+\begin{matrix}
+a_{11}\cdot x_1&+&a_{12}\cdot x_2&+&\dots&+&a_{1m}\cdot x_m&=&b_1\\
+a_{21}\cdot x_1&+&a_{22}\cdot x_2&+&\dots&+&a_{2m}\cdot x_m&=&b_2\\
+a_{31}\cdot x_1&+&a_{32}\cdot x_2&+&\dots&+&a_{3m}\cdot x_m&=&b_3\\
+\hdotsfor{9}\\
+a_{m1}\cdot x_1&+&a_{m2}\cdot x_2&+&\dots&+&a_{mm}\cdot x_m&=&b_m
+\end{matrix}
+\right.,
+\end{gather}
+где $x_1,x_2,\dots,x_m$ --
+неизвестные, которые необходимо определить;
+$\{a_{ij}\}$ и \linebreak$b_1,b_2,\dots,b_m$ -- 
+известные числовые коэффициенты левой и правой 
+частей системы уравнений, соответственно.
 
+Решение системы линейных алгебраических уравнений 
+\eqref{eq:LS} представляет совокупность $m$ 
+действительных или мнимых чисел $c_1,c_2,\dots,c_m$, 
+таких что их соответствующая подстановка вместо 
+$x_1,x_2,\dots,x_m$ в систему обращает все её 
+уравнения в тождества:
 \begin{gather*}
-\mathbf{A}\cdot\vect{x}=\vect{b},
+\left\{
+\begin{matrix}
+a_{11}\cdot c_1&+&a_{12}\cdot c_2&+&\dots&+&a_{1m}\cdot c_m&\equiv&b_1\\
+a_{21}\cdot c_1&+&a_{22}\cdot c_2&+&\dots&+&a_{2m}\cdot c_m&\equiv&b_2\\
+a_{31}\cdot c_1&+&a_{32}\cdot c_2&+&\dots&+&a_{3m}\cdot c_m&\equiv&b_3\\
+\hdotsfor{9}\\
+a_{m1}\cdot c_1&+&a_{m2}\cdot c_2&+&\dots&+&a_{mm}\cdot c_m&\equiv&b_m
+\end{matrix}
+\right.,
 \end{gather*}
+
+Система линейных алгебраических уравнений \eqref{eq:LS}
+может быть представлена в более компактной 
+матричной форме:
+\begin{gather}\label{eq:LSM}
+\mathbf{A}\cdot\vect{x}=\vect{b},
+\end{gather}
 где $\mathbf{A}$ -- квадратная матрица $m\times m$,
 $\vect{x}$ и $\vect{b}$ -- искомый вектор неизвестных и
-заданный вектор размерности $1\times m$:
+заданный вектор размерности $1\times m$, правых частей
+системы уравнений:
 \begin{gather*}
-%\begin{matrix}
 \mathbf{A}=
 \begin{pmatrix}
-a_{11}&a_{12}&\dots&a_{1m}\\
-a_{21}&a_{22}&\dots&a_{2m}\\
-\dots&\dots&\ddots&\dots\\
-a_{m1}&a_{m2}&\dots&a_{mm}\\
-\end{pmatrix},\quad
-% x
-\vect{x}=\begin{pmatrix}x_1\\x_2\\\dots\\x_m\end{pmatrix},\quad
-% b
-\vect{b}=\begin{pmatrix}b_1\\b_2\\\dots\\b_m\end{pmatrix}.
-%\end{matrix}.
+a_{11}&a_{12}&\cdots&a_{1m}\\
+a_{21}&a_{22}&\cdots&a_{2m}\\
+\vdots&\vdots&\ddots&\vdots\\
+a_{m1}&a_{m2}&\cdots&a_{mm}\\
+\end{pmatrix},
+\quad
+\vect{x}=\begin{pmatrix}x_1\\x_2\\\vdots\\x_m\end{pmatrix},
+\quad
+\vect{b}=\begin{pmatrix}b_1\\b_2\\\vdots\\b_m\end{pmatrix}.
 \end{gather*}
 
 Предполагается, что определитель матрицы $\mathbf{A}$ 
 отличен от нуля $\det\mathbf{A}\ne0$,
-так что решение $\vect{x}=(x_1,x_2,\dots,x_m)^\mathrm{T}$ существует и единственно.
+так что решение $\vect{x}=(x_1,x_2,\dots,x_m)^\mathrm{T}$
+существует и единственно.
 Систему линейных уравнений можно решить 
 по крайней мере двумя способами:
 либо воспользовавшись \emph{формулами Крамера}, 
@@ -49,6 +86,28 @@ a_{m1}&a_{m2}&\dots&a_{mm}\\
 $\mathbf{A}$ ($m\approx10^2\dots10^5$),
 поэтому метод Гаусса в различных вариантах широко 
 используется при решении задач линейной алгебры на ЭВМ.
+
+Теорема Кронекера--Капелли устанавливает необходимое и 
+достаточное условие совместности системы 
+линейных алгебраических уравнений посредством 
+свойств матричных представлений: 
+система совместна тогда и только тогда, когда ранг её матрицы 
+совпадает с рангом расширенной матрицы,
+полученной путем добавления столбца правых частей $\vect{b}$
+матрице системы $\mathbf{A}$: 
+\begin{gather*}
+\mathbf{A}=
+\begin{pmatrix}[cccc|c]
+a_{11}&a_{12}&\dots&a_{1m}&b_1\\
+a_{21}&a_{22}&\dots&a_{2m}&b_2\\
+\dots&\dots&\ddots&\dots&\dots\\
+a_{m1}&a_{m2}&\dots&a_{mm}&b_m\\
+\end{pmatrix},
+\quad
+\vect{x}=\begin{pmatrix}x_1\\x_2\\\dots\\x_m\end{pmatrix},
+\quad
+\vect{b}=\begin{pmatrix}b_1\\b_2\\\dots\\b_m\end{pmatrix}.
+\end{gather*}
 
 Систему линейных алгебраических уравнений 
 можно записать в развернутом виде:
