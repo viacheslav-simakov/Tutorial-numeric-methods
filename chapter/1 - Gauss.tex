@@ -8,31 +8,32 @@
 К решению систем линейных алгебраических уравнений сводится подавляющее 
 большинство задач вычислительной математики и многие численные методы основаны 
 на решении систем линейных уравнений вида:
+
 \begin{gather*}
-\mathbf{A}\cdot\vec{x}=\vec{b},
+\mathbf{A}\cdot\vect{x}=\vect{b},
 \end{gather*}
 где $\mathbf{A}$ -- квадратная матрица $m\times m$,
-$\vec{x}$ и $\vec{b}$ -- искомый вектор неизвестных и
+$\vect{x}$ и $\vect{b}$ -- искомый вектор неизвестных и
 заданный вектор размерности $1\times m$:
 \begin{gather*}
-\begin{matrix}
-\vec{A}=
+%\begin{matrix}
+\mathbf{A}=
 \begin{pmatrix}
-a_{11}&a_{12}&\cdots&a_{1m}\\
-a_{21}&a_{22}&\cdots&a_{2m}\\
-\vdots&\vdots&\ddots&\vdots\\
-a_{m1}&a_{m2}&\cdots&a_{mm}\\
-\end{pmatrix},
-\hspace{1em}&
-\vec{x}=\begin{pmatrix}x_1\\x_2\\\vdots\\x_m\end{pmatrix},
-\hspace{1em}&
-\vec{b}=\begin{pmatrix}b_1\\b_2\\\vdots\\b_m\end{pmatrix}
-\end{matrix}.
+a_{11}&a_{12}&\dots&a_{1m}\\
+a_{21}&a_{22}&\dots&a_{2m}\\
+\dots&\dots&\ddots&\dots\\
+a_{m1}&a_{m2}&\dots&a_{mm}\\
+\end{pmatrix},\quad
+% x
+\vect{x}=\begin{pmatrix}x_1\\x_2\\\dots\\x_m\end{pmatrix},\quad
+% b
+\vect{b}=\begin{pmatrix}b_1\\b_2\\\dots\\b_m\end{pmatrix}.
+%\end{matrix}.
 \end{gather*}
 
 Предполагается, что определитель матрицы $\mathbf{A}$ 
 отличен от нуля $\det\mathbf{A}\ne0$,
-так что решение $\vec{x}$ существует и единственно.
+так что решение $\vect{x}=(x_1,x_2,\dots,x_m)^\mathrm{T}$ существует и единственно.
 Систему линейных уравнений можно решить 
 по крайней мере двумя способами:
 либо воспользовавшись \emph{формулами Крамера}, 
@@ -54,11 +55,12 @@ $\mathbf{A}$ ($m\approx10^2\dots10^5$),
 \begin{gather*}
 \left\{
 \begin{matrix}
-a_{11}\cdot x_1&+&a_{12}\cdot x_2&+&\cdots&a_{1m}\cdot x_m&=&b_1\\
-a_{21}\cdot x_1&+&a_{22}\cdot x_2&+&\cdots&a_{2m}\cdot x_m&=&b_2\\
-a_{31}\cdot x_1&+&a_{32}\cdot x_2&+&\cdots&a_{3m}\cdot x_m&=&b_3\\
-\vdots&&\vdots&&\ddots&\vdots&&\vdots\\
-a_{m1}\cdot x_1&+&a_{m2}\cdot x_2&+&\cdots&a_{mm}\cdot x_m&=&b_m
+a_{11}\cdot x_1&+&a_{12}\cdot x_2&+&\dots&+&a_{1m}\cdot x_m&=&b_1\\
+a_{21}\cdot x_1&+&a_{22}\cdot x_2&+&\dots&+&a_{2m}\cdot x_m&=&b_2\\
+a_{31}\cdot x_1&+&a_{32}\cdot x_2&+&\dots&+&a_{3m}\cdot x_m&=&b_3\\
+%\dots&+&\dots&+&\ddots&+&\dots&=&\dots\\
+\hdotsfor{9}\\
+a_{m1}\cdot x_1&+&a_{m2}\cdot x_2&+&\dots&+&a_{mm}\cdot x_m&=&b_m
 \end{matrix}
 \right.
 \end{gather*}
@@ -66,8 +68,8 @@ a_{m1}\cdot x_1&+&a_{m2}\cdot x_2&+&\cdots&a_{mm}\cdot x_m&=&b_m
 %
 %	Прямой ход метода Гаусса
 %
+\emptyline
 \subsection{Прямой ход метода Гаусса}
-
 Метод Гаусса состоит в последовательном исключении 
 неизвестных $x_i$ из системы линейных уравнений.
 Например, предположим, что $a_{11}\ne0$, 
@@ -76,11 +78,11 @@ a_{m1}\cdot x_1&+&a_{m2}\cdot x_2&+&\cdots&a_{mm}\cdot x_m&=&b_m
 \begin{gather*}
 \left\{
 \begin{matrix}
-x_1&+&c_{12}\cdot x_2&+&\cdots&c_{1m}\cdot x_m&=&y_1\\
-a_{21}\cdot x_1&+&a_{22}\cdot x_2&+&\cdots&a_{2m}\cdot x_m&=&b_2\\
-a_{31}\cdot x_1&+&a_{32}\cdot x_2&+&\cdots&a_{3m}\cdot x_m&=&b_3\\
+x_1&+&c_{12}\cdot x_2&+&\dots&c_{1m}\cdot x_m&=&y_1\\
+a_{21}\cdot x_1&+&a_{22}\cdot x_2&+&\dots&a_{2m}\cdot x_m&=&b_2\\
+a_{31}\cdot x_1&+&a_{32}\cdot x_2&+&\dots&a_{3m}\cdot x_m&=&b_3\\
 \vdots&&\vdots&&\ddots&\vdots&&\vdots\\
-a_{m1}\cdot x_1&+&a_{m2}\cdot x_2&+&\cdots&a_{mm}\cdot x_m&=&b_m\\
+a_{m1}\cdot x_1&+&a_{m2}\cdot x_2&+&\dots&a_{mm}\cdot x_m&=&b_m\\
 \end{matrix}\right.,
 \end{gather*}
 где $c_{1j}$ и $y_1$ -- нормированные коэффициенты 
@@ -92,7 +94,7 @@ y_1=\dfrac{b_1}{a_{11}}.
 
 Последовательно умножим первое уравнение системы на $a_{i1}$ и 
 вычтем полученное уравнение из каждого $i$-го уравнения системы 
-$i=2,3,\ldots,m$. В результате получим следующую систему уравнений:
+$i=2,3,\dots,m$. В результате получим следующую систему уравнений:
 \begin{gather*}
 \left\{
 \begin{matrix}
@@ -120,7 +122,7 @@ x_1&+&c_{12}\cdot x_2&+&\cdots&c_{1m}\cdot x_m&=&y_1\\[1ex]
 \begin{gather*}
 a_{ij}^{(1)}=(a_{ij}-c_{1j}\cdot a_{i1}), \quad 
 b_i^{(1)}=(b_i-y_{1}\cdot a_{i1}), \quad
-(i,j=2,3,\cdots,m)
+(i,j=2,3,\dots,m)
 \end{gather*}
 
 Если $a_{22}^{(1)}\ne0$, то из модифицированной системы 
@@ -129,11 +131,11 @@ b_i^{(1)}=(b_i-y_{1}\cdot a_{i1}), \quad
 и в результате получим:
 \begin{gather*}
 \left\{\begin{matrix}
-x_1&+&c_{12}\cdot x_2&+&\cdots&c_{1m}\cdot x_m&=&y_1\\
-&&x_2&+&\cdots&c_{2m}\cdot x_m&=&y_2\\[1ex]
-&&a_{32}^{(1)}\cdot x_2&+&\cdots&a_{3m}^{(1)}\cdot x_m&=&b_3^{(1)}\\
+x_1&+&c_{12}\cdot x_2&+&\dots&c_{1m}\cdot x_m&=&y_1\\
+&&x_2&+&\dots&c_{2m}\cdot x_m&=&y_2\\[1ex]
+&&a_{32}^{(1)}\cdot x_2&+&\dots&a_{3m}^{(1)}\cdot x_m&=&b_3^{(1)}\\
 &&\vdots&&\ddots&\vdots&&\vdots\\
-&&a_{m2}^{(1)}\cdot x_2&+&\cdots&a_{mm}^{(1)}\cdot x_m&=&b_m^{(1)}\\
+&&a_{m2}^{(1)}\cdot x_2&+&\dots&a_{mm}^{(1)}\cdot x_m&=&b_m^{(1)}\\
 \end{matrix}\right.,
 \end{gather*}
 где $c_{2j}$ и $y_2$ -- нормированные коэффициенты 
@@ -150,11 +152,11 @@ y_2=\dfrac{b_1^{(1)}}{a_{22}^{(1)}}.
 В результате получим следующую систему уравнений:
 \begin{gather*}
 \left\{\begin{matrix}
-x_1&+&c_{12}\cdot x_2&+&\cdots&c_{1m}\cdot x_m&=&y_1\\
-&&x_2&+&\cdots&c_{2m}\cdot x_m&=&y_2\\[1ex]
-&&&&\cdots&\left(a_{3m}^{(1)}-c_{2m}\cdot a_{32}^{(1)}\right)\cdot x_m&=&b_3^{(1)}-y_2\cdot a_{32}^{(1)}\\
+x_1&+&c_{12}\cdot x_2&+&\dots&c_{1m}\cdot x_m&=&y_1\\
+&&x_2&+&\dots&c_{2m}\cdot x_m&=&y_2\\[1ex]
+&&&&\dots&\left(a_{3m}^{(1)}-c_{2m}\cdot a_{32}^{(1)}\right)\cdot x_m&=&b_3^{(1)}-y_2\cdot a_{32}^{(1)}\\
 &&&&\ddots&\vdots&&\vdots\\
-&&&&\cdots&\left(a_{mm}^{(1)}-c_{2m}\cdot a_{m2}^{(1)}\right)\cdot x_m&=&b_m^{(1)}-y_2\cdot a_{m2}^{(1)}\\
+&&&&\dots&\left(a_{mm}^{(1)}-c_{2m}\cdot a_{m2}^{(1)}\right)\cdot x_m&=&b_m^{(1)}-y_2\cdot a_{m2}^{(1)}\\
 \end{matrix}\right.,
 \end{gather*}
 или в более компактном виде:
@@ -173,17 +175,17 @@ x_1&+&c_{12}\cdot x_2&+&\cdots&c_{1m}\cdot x_m&=&y_1\\
 \begin{gather*}
 a_{ij}^{(2)}=\left(a_{ij}^{(1)}-c_{2j}\cdot a_{i2}^{(1)}\right),
 \quad b_i^{(2)}=\left(b_i^{(1)}-y_{2}\cdot a_{i2}^{(1)}\right),
-\quad (i,j=3,4,\cdots,m)
+\quad (i,j=3,4,\dots,m)
 \end{gather*}
 
-Исключая таким же образом неизвестные $x_3,x_4,\cdots,x_m$, 
+Исключая таким же образом неизвестные $x_3,x_4,\dots,x_m$, 
 исходная система линейных уравнений приводится 
 к эквивалентному виду:
 \begin{gather*}
 \left\{\begin{matrix}
-x_1&+&c_{12}\cdot x_2&+&c_{13}\cdot x_3&+&\cdots&c_{1m}\cdot x_m&=&y_1\\
-&&x_2&+&c_{23}\cdot x_3&+&\cdots&c_{2m}\cdot x_m&=&y_2\\
-&&&&x_3&+&\cdots&c_{3m}\cdot x_m&=&y_3\\
+x_1&+&c_{12}\cdot x_2&+&c_{13}\cdot x_3&+&\dots&c_{1m}\cdot x_m&=&y_1\\
+&&x_2&+&c_{23}\cdot x_3&+&\dots&c_{2m}\cdot x_m&=&y_2\\
+&&&&x_3&+&\dots&c_{3m}\cdot x_m&=&y_3\\
 &&&&&&\ddots&\vdots&=&\vdots\\
 &&&&&&&x_m&=&y_m\\
 \end{matrix}\right.
@@ -192,6 +194,7 @@ x_1&+&c_{12}\cdot x_2&+&c_{13}\cdot x_3&+&\cdots&c_{1m}\cdot x_m&=&y_1\\
 %
 %	Обратный ход метода Гаусса
 %
+\emptyline
 \subsection{Обратный ход метода Гаусса}
 Обратный ход заключается в нахождении неизвестных 
 $x_1,x_2,\dots,x_m$ полученной эквивалентной системы 
@@ -213,7 +216,7 @@ $x_1,x_2,\dots,x_m$ полученной эквивалентной систем
 x_m&=&y_m\\
 x_{m-1}&=&y_{m-1}&-&c_{m-1,m}\cdot x_m\\
 x_{m-2}&=&y_{m-2}&-&c_{m-2,m-1}\cdot x_{m-1}&-&c_{m-2,m}\cdot x_m\\
-\cdots&=&\hdotsfor{5}\\
+\hdotsfor{1}&=&\hdotsfor{5}\\
 x_1&=&y_1&-&\sum\limits_{j=2}^{m} c_{1j}\cdot x_j\\
 \end{array}\right.
 \end{gather*}
@@ -227,8 +230,8 @@ x_i=y_i - \sum\limits_{j=i+1}^{m} c_{ij}\cdot x_j,
 %
 %	Метод Гаусса с выбором главного элемента
 %
+\emptyline
 \subsection{Метод Гаусса с выбором главного элемента}
-
 На практике, часто может оказаться, что система 
 имеет единственное решение, хотя какой-либо 
 из угловых миноров матрицы $\mathbf{A}$ равен нулю. 
@@ -249,7 +252,7 @@ x_i=y_i - \sum\limits_{j=i+1}^{m} c_{ij}\cdot x_j,
 является \emph{наибольшим по модулю}.
 Таким образом, в качестве ведущего элемента здесь выбирается 
 \alert{главный}, т.е. наибольший по модулю элемент.
-Поэтому, если $\det(\mathbf{A})\ne0$, то в процессе вычислений 
+Поэтому, если $\det\mathbf{A}\ne0$, то в процессе вычислений 
 не будет происходить деление на нуль.
 
 На практике чаще всего применяется и метод Гаусса 
@@ -260,125 +263,369 @@ x_i=y_i - \sum\limits_{j=i+1}^{m} c_{ij}\cdot x_j,
 %
 %	Пример решения методом Гаусса
 %
+\emptyline
 \subsection{Численное решение системы линейных 
 алгебраических уравнений методом Гаусса}
-
-Пример численного решения системы линейных 
-алгебраических уравнений методом Гаусса:
-\begin{gather*}\left\{\begin{matrix}
+Представим систему линейных алгебраических уравнений
+в матричном виде и запишем расширенную матрицу этой системы,
+полученную путем добавления к матрице системы
+столбца правой части уравнений:
+\begin{gather*}
+\left\{\begin{matrix}
 2x_1&+&3x_2&+&x_3&=&10\\
 4x_1&+&5x_2&+&6x_3&=&31\\
 3x_1&+&x_2&+&5x_3&=&22\\
-\end{matrix}\right.\end{gather*}
+\end{matrix}\right.
+\quad\iff\quad
+\begin{pmatrix}[ccc|c]
+2&3&1&10\\
+4&5&6&31\\
+3&1&5&22\\
+\end{pmatrix}
+\end{gather*}
 
+% Прямой ход метода Гаусса
 \emph{Прямой ход метода Гаусса.}
 \begin{enumerate}
 \item
-Разделим 1-ю строку на коэффициент при $x_1$ (2)
-\begin{gather*}\left\{\begin{matrix}
-x_1&+&\dfrac{3}{2}x_2&+&\dfrac{1}{2}x_3&=&5\\
-4x_1&+&5x_2&+&6x_3&=&31\\
-3x_1&+&x_2&+&5x_3&=&22\\
-\end{matrix}\right.
+Разделим каждую строку матрицы на значение её
+элемента в первом столбце, т.е. первую строку делим на $2$,
+вторую на $4$, третью на 3:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\textcolor{red}{2}&3&1&10\\
+4&5&6&31\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 1 строка
+\begin{pmatrix}[ccc|c]
+\mathbf{1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+4&5&6&31\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 2 строка
+\begin{pmatrix}[ccc|c]
+\mathbf{1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\mathbf{1}&\frac{5}{4}&\frac{6}{4}&\frac{31}{4}\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+\mathbf{1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\mathbf{1}&\frac{5}{4}&\frac{6}{4}&\frac{31}{4}\\
+\mathbf{1}&\frac{1}{3}&\frac{5}{3}&\frac{22}{3}\\
+\end{pmatrix}
+\end{gather*}
+
+Вычитаем из второй и третьей строк матрицы её первую строку:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+1&\frac{5}{4}&\frac{6}{4}&\frac{31}{4}\\
+1&\frac{1}{3}&\frac{5}{3}&\frac{22}{3}\\
+\end{pmatrix}
+\;\to\;% 2 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\mathbf{0}&-\frac{1}{4}&1&\frac{11}{4}\\
+1&\frac{1}{3}&\frac{5}{3}&\frac{22}{3}\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\mathbf{0}&-\frac{1}{4}&1&\frac{11}{4}\\
+\mathbf{0}&-\frac{7}{6}&\frac{7}{6}&\frac{7}{3}\\
+\end{pmatrix}
 \end{gather*}
 
 \item
-Умножим 1-ю строку на коэффициент при $x_1$ (4) 
-во 2-ом уравнении
-\begin{gather*}\begin{matrix}
-4x_1&+&6x_2&+&2x_3&=&20\\
-\end{matrix}\end{gather*}
-и вычтем результат умножения из 2-й строки
-\begin{gather*}\left\{\begin{matrix}
-x_1&+&\dfrac{3}{2}x_2&+&\dfrac{1}{2}x_3&=&5\\
-&-&x_2&+&4x_3&=&11\\
-3x_1&+&x_2&+&5x_3&=&22\\
-\end{matrix}\right.\end{gather*}
+Разделим вторую строку матрицы на $-\frac{1}{4}$, третью строку на $-\frac{7}{6}$:
+\begin{gather*}
+% 2 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&-\frac{1}{4}&1&\frac{11}{4}\\
+0&-\frac{7}{6}&\frac{7}{6}&\frac{7}{3}\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&\mathbf{1}&-4&-11\\
+0&\mathbf{1}&-1&-2\\
+\end{pmatrix}
+\end{gather*}
+
+Вычитаем из третьей строки матрицы её вторую строку:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&1&-4&-11\\
+0&1&-1&-2\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&1&-4&-11\\
+0&\mathbf{0}&3&9\\
+\end{pmatrix}
+\end{gather*}
 
 \item
-Умножим 1-ю строку на коэффициент при $x_1$ (3) 
-в 3-ем уравнении
-\begin{gather*}\begin{matrix}
-3x_1&+&\dfrac{9}{2}x_2&+&\dfrac{3}{2}x_3&=&15\\
-\end{matrix}\end{gather*}
-и вычтем результат умножения из 3-й строки
-\begin{gather*}\left\{\begin{matrix}
-x_1&+&\dfrac{3}{2}x_2&+&\dfrac{1}{2}x_3&=&5\\[1ex]
-&-&x_2&+&4x_3&=&11\\[1ex]
-&-&\dfrac{7}{2}x_2&+&\dfrac{7}{2}x_3&=&7\\
-\end{matrix}\right.\end{gather*}
-
-\item
-Разделим 2-ю строку на коэффициент при $x_2$ (-1)
-\begin{gather*}\left\{\begin{matrix}
-x_1&+&\dfrac{3}{2}x_2&+&\dfrac{1}{2}x_3&=&5\\[1ex]
-&&x_2&-&4x_3&=&-11\\[1ex]
-&-&\dfrac{7}{2}x_2&+&\dfrac{7}{2}x_3&=&7\\
-\end{matrix}\right.\end{gather*}
-
-\item
-Умножим 2-ю строку на коэффициент при 
-$x_2~\left({-\frac{7}{2}}\right)$ в 3-ем уравнении
-\begin{gather*}\begin{matrix}
-&-&\dfrac{7}{2}x_2&+&14x_3&=&\dfrac{77}{2}\\
-\end{matrix}\end{gather*}
-и вычтем результат умножения из 3-й строки
-\begin{gather*}\left\{\begin{matrix}
-x_1&+&\dfrac{3}{2}x_2&+&\dfrac{1}{2}x_3&=&5\\[1ex]
-&&x_2&-&4x_3&=&-11\\[1ex]
-&&&-&\dfrac{21}{2}x_3&=&-\dfrac{63}{2}\\
-\end{matrix}\right.\end{gather*}
-
-\item
-Разделим 3-ю строку на коэффициент при 
-$x_3~\left({-\frac{21}{2}}\right)$
-\begin{gather*}\left\{\begin{matrix}
-x_1&+&\dfrac{3}{2}x_2&+&\dfrac{1}{2}x_3&=&5\\[1ex]
-&&x_2&-&4x_3&=&-11\\[1ex]
-&&&&x_3&=&3\\
-\end{matrix}\right.\end{gather*}
+Разделим третью строку матрицы на $3$:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&1&-4&-11\\
+0&0&3&9\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&1&-4&-11\\
+0&0&\mathbf{1}&3\\
+\end{pmatrix}
+\end{gather*}
 \end{enumerate}
 
-\emph{Обратный ход метода Гаусса.}
-
-Последовательно определяем неизвестные $x_3,x_2,x_1$:
+\emph{Обратный ход метода Гаусса}.\par
+Последовательно определяем неизвестные
+в обратном порядке их следования
+$x_3\to x_2\to x_1$:
+\begin{enumerate}
+\item
+Из третьего уравнения системы (третья строка матрицы)
+определяем неизвестное $x_3$:
 \begin{gather*}
-\begin{array}{rl}
-x_3&=3\\
-x_2&=-11+4x_3=-11+4\cdot3=1\\
-x_1&=5-\dfrac{3}{2}x_2-\dfrac{1}{2}x_3=5-\dfrac{3}{2}\cdot1-\dfrac{1}{2}\cdot3=2
-\end{array}
+x_3=3
+\end{gather*}
+\item
+Из второго уравнения системы (вторая строка матрицы)
+определяем неизвестное $x_2$:
+\begin{gather*}
+x_2-4\,x_3=-11\;\to\;
+x_2=4\,x_3-11\\
+x_2=4\cdot3-11=1
+\end{gather*}
+\item
+Из первого уравнения системы (первая строка матрицы)
+определяем неизвестное $x_1$:
+\begin{gather*}
+x_1+\frac{3}{2}\,x_2+\frac{1}{2}\,x_3=\frac{10}{2}\;\to\;
+x_1=-\frac{3}{2}\,x_2-\frac{1}{2}\,x_3+5\\[1ex]
+x_1=-\frac{3}{2}\cdot{1}-\frac{1}{2}\cdot{3}+5=2
 \end{gather*}
 
-\emph{Ответ}: решение системы линейных уравнений:
-$x_1=2$, $x_2=1$, $x_3=3$.
+Таким образом, найдено решение системы:
+\begin{gather*}
+\vect{\mathring{x}}=\begin{pmatrix}2\\1\\3\end{pmatrix}
+\qquad\iff\qquad
+\vect{\mathring{x}}=(2,1,3)^\mathrm{T}
+\end{gather*}
+\end{enumerate}
 
 Проведём \emph{проверку решения} системы уравнений
-методом прямой подстановки. Для этого подставим 
-найденный вектор неизвестных $\vec{x}=(2,1,3)$ 
+методом прямой подстановки найденного 
+вектора неизвестных $\vect{\mathring{x}}=(2,1,3)^\mathrm{T}$ 
 в исходную систему уравнений:
-\begin{gather*}\left\{\begin{matrix}
-2\cdot 2&+&3\cdot 1&+&1\cdot 3&=&10\\
-4\cdot 2&+&5\cdot 1&+&6\cdot3&=&31\\
-3\cdot 2&+&1&+&5\cdot3&=&22\\
-\end{matrix}\right.\end{gather*}
-
-Проводим арифметические действия и получаем тождества 
-для каждого уравнения системы:
 \begin{gather*}
-\begin{matrix}
-\left\{\begin{matrix}
-4&+&3&+&3&=&10\\
-8&+&5&+&18&=&31\\
-6&+&1&+&15&=&22\\
-\end{matrix}\right.
-&\implies&
-\left\{\begin{matrix}
-10&=&10\\
-31&=&31\\
-22&=&22\\
-\end{matrix}\right.
-\end{matrix}
+\mathbf{A}\cdot\vect{\mathring{x}}=\vect{b}
+\quad\iff\quad
+\begin{pmatrix}[ccc|c]
+2&3&1&10\\
+4&5&6&31\\
+3&1&5&22\\
+\end{pmatrix}
+\cdot\begin{pmatrix}2\\1\\3\\\end{pmatrix}
 \end{gather*}
+
+После умножения расширенной матрицы
+системы уравнений на вектор найденного решения
+получим тождество:
+\begin{gather*}
+\begin{pmatrix}[c|c]
+2\cdot2+3\cdot1+1\cdot3&10\\
+4\cdot2+5\cdot1+6\cdot3&31\\
+3\cdot2+1\cdot1+5\cdot3&22\\
+\end{pmatrix}
+=
+\begin{pmatrix}[c|c]
+10&10\\
+31&31\\
+22&22\\
+\end{pmatrix}
+\end{gather*}
+
+\emptyline
+\textbf{\alert{Метод Гаусса с выбором главного элемента}}\par
+\emph{Прямой ход метода Гаусса с выбором главного элемента}.
+\begin{enumerate}
+\item
+Выбираем максимальный по модулю элемент в матрице 
+(главный элемент) во второй строке, третьем столбце
+(\textcolor{red}{выделен красным цветом}):
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+2&3&1&10\\
+4&5&\textcolor{red}{6}&31\\
+3&1&5&22\\
+\end{pmatrix}
+\end{gather*}
+Делим каждую строку матрицы на значение элемента
+матрицы в столбце главного элемента, т.е.
+первую строку делим на $1$, вторую строку на $6$,
+а третью строку на $5$:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+2&3&1&10\\
+4&5&\textcolor{red}{6}&31\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 1 строка
+\begin{pmatrix}[ccc|c]
+2&3&\mathbf{1}&10\\
+4&5&\textcolor{red}{6}&31\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 2 строка
+\begin{pmatrix}[ccc|c]
+2&3&\mathbf{1}&10\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{\mathbf{1}}&\frac{31}{6}\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+2&3&\mathbf{1}&10\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{\mathbf{1}}&\frac{31}{6}\\
+\frac{3}{5}&\frac{1}{5}&\mathbf{1}&\frac{22}{5}\\
+\end{pmatrix}
+\end{gather*}
+
+Вычитаем из первой и третьей строки вторую строку:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+2&3&1&10\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\frac{3}{5}&\frac{1}{5}&1&\frac{22}{5}\\
+\end{pmatrix}
+\;\to\;% 1 строка
+\begin{pmatrix}[ccc|c]
+\frac{4}{3}&\frac{13}{6}&\mathbf{0}&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\frac{3}{5}&\frac{1}{5}&1&\frac{22}{5}\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+\frac{4}{3}&\frac{13}{6}&\mathbf{0}&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+-\frac{1}{15}&-\frac{19}{30}&\mathbf{0}&-\frac{23}{30}\\
+\end{pmatrix}
+\end{gather*}
+
+\item
+Исключаем из рассмотрения строку с текущим главным 
+элементом (вторую строку) и выбираем новый 
+главный элемент матрицы (первая строка, второй столбец): 
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\frac{4}{3}&\textcolor{red}{\frac{13}{6}}&0&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+-\frac{1}{15}&-\frac{19}{30}&0&-\frac{23}{30}\\
+\end{pmatrix}
+\end{gather*}
+
+Делим каждую строку матрицы на значение элемента
+матрицы в столбце главного элемента, т.е.
+первую строку делим на $\frac{13}{6}$, а третью строку на $-\frac{19}{30}$:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\frac{4}{3}&\textcolor{red}{\frac{13}{6}}&0&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+-\frac{1}{15}&-\frac{19}{30}&0&-\frac{23}{30}\\
+\end{pmatrix}
+\;\to\;% 1 строка
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{\mathbf{1}}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\frac{2}{19}&\mathbf{1}&0&\frac{23}{19}\\
+\end{pmatrix}
+\end{gather*}
+
+Вычитаем из третьей строки матрицы её первую строку:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\frac{2}{19}&1&0&\frac{23}{19}\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+-\frac{126}{247}&\mathbf{0}&0&-\frac{252}{247}\\
+\end{pmatrix}
+\end{gather*}
+
+\item
+Исключаем из рассмотрения строку с текущим главным 
+элементом (первую) и выбираем новый главный 
+элемент матрицы (третья строка, первый столбец): 
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\textcolor{red}{-\frac{126}{247}}&0&0&-\frac{252}{247}\\
+\end{pmatrix}
+\end{gather*}
+
+Делим каждую строку матрицы на значение элемента
+матрицы в столбце главного элемента, т.е.
+третью строку делим на $-\frac{126}{247}$:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\textcolor{red}{-\frac{126}{247}}&0&0&-\frac{252}{247}\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\textcolor{red}{\mathbf{1}}&0&0&2\\
+\end{pmatrix}
+\end{gather*}
+\end{enumerate}
+
+\emph{Обратный ход метода Гаусса 
+с выбором главного элемента}.\par
+Определим неизвестные из уравнений системы 
+в обратном порядке следования номеров столбцов главных элементов,
+т.е. $x_1\to x_2\to x_3$:
+\begin{enumerate}
+\item
+Из третьего уравнения системы определим неизвестное $x_1$:
+\begin{gather*}
+x_1=2
+\end{gather*}
+\item
+Из первого уравнения системы определим неизвестное $x_2$:
+\begin{gather*}
+\frac{8}{13}\,x_1+x_2=\frac{29}{13}\;\to\;
+x_2=-\frac{8}{13}\,x_1+\frac{29}{13}\\[1ex]
+x_2=-\frac{8}{13}\cdot2+\frac{29}{13}=1
+\end{gather*}
+\item
+Из второго уравнения системы определим неизвестное $x_3$:
+\begin{gather*}
+\frac{4}{6}\,x_1+\frac{5}{6}\,x_2+x_3=\frac{31}{6}\;\to\;
+x_3=-\frac{4}{6}\,x_1-\frac{5}{6}\,x_2+\frac{31}{6}\\[1ex]
+x_3=-\frac{4}{6}\cdot2-\frac{5}{6}\cdot1+\frac{31}{6}=3
+\end{gather*}
+Таким образом, найдено решение системы линейных уравнений:
+\begin{gather*}
+\vect{\mathring{x}}=\begin{pmatrix}2\\1\\3\end{pmatrix}
+\qquad\iff\qquad
+\vect{\mathring{x}}=(2,1,3)^\mathrm{T}
+\end{gather*}
+\end{enumerate}
 
 %\end{document}
