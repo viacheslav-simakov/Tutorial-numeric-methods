@@ -1,0 +1,548 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Преамбула
+%
+\input{../sgu.tex}
+\usepackage{siunitx}
+\newcommand\vect[1]{{\mathrm{#1}}}
+% Пропустить \LINESKIP строк
+\def\LINESKIP{4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	Новое окружение ВАРИАНТ
+%
+\newenvironment{variant}[2]{% environment name
+\ifx\LINESKIP\undefined\relax
+% Экзаменационный билет
+%\def\ModuleTitle{Численные методы в материаловедение}
+\def\ModuleTitle{Численные методы в менеджменте}
+\begin{center}
+\textbf{Экзаменационный билет № \arabic{page}}\\
+по дисциплине <<\MacroTextPurify{\ModuleTitle}>>
+\end{center}%
+\else% Пропустить строки
+\,\vspace{\LINESKIP\baselineskip}
+\fi\par
+% Сбросить счётчики
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\setcounter{equation}{0}
+%
+% ЗАДАНИЕ
+%
+Необходимо решить краевую задачу для установившегося
+процесса теплообмена металлического образца, находящегося
+в тепловом контакте с:
+\par\vspace{\baselineskip}
+% Порядок выполнения работы
+\textbf{Порядок выполнения работы}
+\begin{enumerate}
+\item
+1
+\end{enumerate}
+}{%
+\par\vspace{\baselineskip}
+%
+% Рекомендуемые источники
+%
+\begin{tcolorbox}[tcbref]
+\begin{enumerate}
+\item
+\href{https://youtu.be/1lHyAyHi7eo?list=RDCMUCrpcPMjPil0xtuuYqaoaS1Q}
+{Решение краевых задач методом конечных разностей}\\
+\url{https://youtu.be/1lHyAyHi7eo?list=RDCMUCrpcPMjPil0xtuuYqaoaS1Q}
+%\item
+%\href{}
+%{}\\
+%\url{}
+\end{enumerate}
+\end{tcolorbox}
+\fi
+\newpage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% НАЧАЛО ДОКУМЕНТА
+%
+\tikzset{
+	sample/.style={
+		draw=darkred,
+		line width=0.35mm,
+		fill=red!5,
+	},
+	clamp/.style={
+		draw=black,
+		line width=0.35mm,%thick,
+		pattern=north east lines,
+		pattern color=gray!50,
+		decoration={
+			snake,
+			amplitude=0.75mm,
+			segment length=10mm,
+			post length=0mm,
+			pre length=0mm,
+		},
+	},
+	size/.style={
+		font=\small,
+		sloped,
+		midway,
+		above
+	},
+}
+\begin{document}
+%\input{../@TeX.Gauss.log}
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+\def\sizeDiameter{25};
+\def\sizeLength{150};
+\def\sizeClamp{18};
+% сетка
+%\draw[draw=gray!25,step=5mm,very thin] (-50mm,0mm) grid (50mm,100mm);
+% ОБРАЗЕЦ
+\def\Diameter{20mm};% диаметр
+\def\Length{100mm};% длина
+% КРЕПЛЕНИЕ
+\def\ClampWidth{50mm};% длина
+\def\ClampHeight{15mm};% высота
+% положение крепления
+\def\ClampBottom{30mm};
+% начало отсчета
+\coordinate (O) at (0mm,0mm);
+% стержень
+\path (O) -- ++(-0.5*\Diameter,0mm) coordinate(x);
+\draw[sample] (x) 
+-- ++(\Diameter,0mm) 
+-- ++(0mm,\Length) 
+-- ++(-\Diameter,0mm) 
+-- cycle;
+% ось OX
+\path (O) -- ++(0mm,-2mm) coordinate(x);
+\draw[very thin,draw=gray,loosely dashdotted]
+(x) -- ++(0mm,\Length) -- ++(0mm,4mm);
+% размер/диаметр
+\path (O) -- ++(-0.5*\Diameter,\Length)coordinate(x0) -- ++(0mm,5mm) coordinate(x);
+\draw[<->,thin] (x) -- ++(\Diameter,0mm)
+node[size]{$\diameter{\sizeDiameter}$};
+\draw (x0) -- ++(0mm,7mm);
+\path (x0) -- ++(\Diameter,0mm)coordinate(x0);
+\draw (x0) -- ++(0mm,7mm);
+%% размер/длина
+\path (O) -- ++(0.5*\Diameter,0mm)coordinate(x0) -- ++(\ClampWidth,0mm) -- ++(20mm,0mm)coordinate(x);
+\draw[<->] (x) -- ++ (0mm,\Length)
+node[size]{$\sizeLength$};
+\draw[thin] (x0) -- ++(\ClampWidth,0mm) -- ++(22mm,0mm);
+\path (x0) -- ++(0mm,\Length)coordinate(x0);
+\draw[thin] (x0) -- ++(\ClampWidth,0mm) -- ++(22mm,0mm);
+% крепление
+\path (O) -- ++(-0.5*\Diameter,\ClampBottom) coordinate(x);
+\draw[clamp] (x) 
+-- ++(-\ClampWidth,0mm) 
+decorate{-- ++(0mm,\ClampHeight)}
+-- ++(\ClampWidth,0mm) 
+-- cycle;
+\path (x) -- ++ (\Diameter,0mm) coordinate(x);
+\draw[clamp] (x) 
+-- ++(\ClampWidth,0mm) coordinate(x)
+decorate{-- ++(0mm,\ClampHeight)}
+-- ++(-\ClampWidth,0mm)
+-- cycle;
+% положение крепления
+\path (O) -- ++(0.5*\Diameter,0mm) -- ++(\ClampWidth,0mm)coordinate(x);
+\draw[<->] (x) -- ++ (0mm,\ClampBottom)
+node[size]{$25$};
+% размер/ширина
+\path (O) -- ++(0mm,\ClampBottom) -- ++(0.5*\Diameter,0mm) -- ++(\ClampWidth,0mm)coordinate(x0) -- ++(10mm,0mm)coordinate(x);
+\draw[<->] (x) -- ++ (0mm,\ClampHeight)
+node[size]{$\sizeClamp$};
+\draw[thin] (x0) -- ++(12mm,0mm);
+\path (x0) -- ++(0mm,\ClampHeight) coordinate(x0);
+\draw[thin] (x0) -- ++(12mm,0mm);
+%
+% ПОДПИСИ
+%
+\path (O) -- ++(-0.5*\Diameter,\ClampBottom) -- ++(-\ClampWidth,\ClampHeight)coordinate(x);
+\path (x) -- ++(\ClampWidth,0mm) node[size]{вакуумный уплотнитель};
+\path (O) -- ++(-0.5*\Diameter,\ClampBottom) -- ++(0mm,\ClampHeight)coordinate(x0);
+\path (O) -- ++(-0.5*\Diameter,\Length)coordinate(x);
+\path (x0) -- (x) node[size,darkred]{токоввод};
+\end{tikzpicture}
+\caption{Эскиз закрепленного токоввода в вакуумном уплотнителе}
+\label{fig:draft}
+\end{figure}
+
+Определить стационарное распределение температуры 
+в токовводе, который закреплен вакуумным уплотнителем
+(рисунок \ref{fig:draft}).
+
+\begin{table}[H]\
+\caption{Геометрические и технические параметры токоввода}
+\label{tab:setup}\small
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}*2{l}l}
+\toprule
+Наименование параметра&Обозначение&Величина\\
+\midmidrule
+Материал токоввода&Cu&медь\\
+Длина токоввода&
+$L$&\SI[mode=text]{150}{\milli\meter}\\
+Диаметр токоввода&
+$\diameter$&\SI[mode=text]{15}{\milli\meter}\\
+Сила электрического тока через токоввод&
+$I$&\SI[mode=text]{15}{\ampere}\\
+Толщина уплотнителя&
+$d$&\SI[mode=text]{10}{\milli\meter}\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\newpage
+Метод Гаусса решения систем линейных уравнений.
+\begin{enumerate}
+\item
+Разделим каждую строку матрицы на значение её
+элемента в первом столбце, т.е. первую строку делим на $2$,
+вторую на $4$, третью на 3:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\textcolor{red}{2}&3&1&10\\
+\textcolor{red}{4}&5&6&31\\
+\textcolor{red}{3}&1&5&22\\
+\end{pmatrix}
+\;\to\;% 1 строка
+\begin{pmatrix}[ccc|c]
+\mathbf{1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+4&5&6&31\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 2 строка
+\begin{pmatrix}[ccc|c]
+\mathbf{1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\mathbf{1}&\frac{5}{4}&\frac{6}{4}&\frac{31}{4}\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+\mathbf{1}&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\mathbf{1}&\frac{5}{4}&\frac{6}{4}&\frac{31}{4}\\
+\mathbf{1}&\frac{1}{3}&\frac{5}{3}&\frac{22}{3}\\
+\end{pmatrix}
+\end{gather*}
+
+Вычитаем из второй и третьей строк матрицы её первую строку:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+1&\frac{5}{4}&\frac{6}{4}&\frac{31}{4}\\
+1&\frac{1}{3}&\frac{5}{3}&\frac{22}{3}\\
+\end{pmatrix}
+\;\to\;% 2 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\mathbf{0}&-\frac{1}{4}&1&\frac{11}{4}\\
+1&\frac{1}{3}&\frac{5}{3}&\frac{22}{3}\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+\mathbf{0}&-\frac{1}{4}&1&\frac{11}{4}\\
+\mathbf{0}&-\frac{7}{6}&\frac{7}{6}&\frac{7}{3}\\
+\end{pmatrix}
+\end{gather*}
+
+\item
+Разделим вторую строку матрицы на $-\frac{1}{4}$, третью строку на $-\frac{7}{6}$:
+\begin{gather*}
+% 2 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&-\frac{1}{4}&1&\frac{11}{4}\\
+0&-\frac{7}{6}&\frac{7}{6}&\frac{7}{3}\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&\mathbf{1}&-4&-11\\
+0&\mathbf{1}&-1&-2\\
+\end{pmatrix}
+\end{gather*}
+
+Вычитаем из третьей строки матрицы её вторую строку:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&1&-4&-11\\
+0&1&-1&-2\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&1&-4&-11\\
+0&\mathbf{0}&3&9\\
+\end{pmatrix}
+\end{gather*}
+
+\item
+Разделим третью строку матрицы на $3$:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&1&-4&-11\\
+0&0&3&9\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+1&\frac{3}{2}&\frac{1}{2}&\frac{10}{2}\\
+0&1&-4&-11\\
+0&0&\mathbf{1}&3\\
+\end{pmatrix}
+\end{gather*}
+\end{enumerate}
+
+Обратный ход метода Гаусса\par
+\begin{enumerate}
+\item
+Из третьего уравнения системы (третья строка матрицы)
+определяем неизвестное $x_3$:
+\begin{gather*}
+x_3=3
+\end{gather*}
+\item
+Из второго уравнения системы (вторая строка матрицы)
+определяем неизвестное $x_2$:
+\begin{gather*}
+x_2-4\,x_3=-11\;\to\;
+x_2=4\,x_3-11\\
+x_2=4\cdot3-11=1
+\end{gather*}
+\item
+Из первого уравнения системы (первая строка матрицы)
+определяем неизвестное $x_1$:
+\begin{gather*}
+x_1+\frac{3}{2}\,x_2+\frac{1}{2}\,x_3=\frac{10}{2}\;\to\;
+x_1=-\frac{3}{2}\,x_2-\frac{1}{2}\,x_3+5\\[1ex]
+x_1=-\frac{3}{2}\cdot{1}-\frac{1}{2}\cdot{3}+5=2
+\end{gather*}
+
+Таким образом, найдено решение системы:
+\begin{gather*}
+\vec{\mathring{x}}=\begin{pmatrix}2\\1\\3\end{pmatrix}
+\end{gather*}
+\end{enumerate}
+
+
+\subsection{Метод Гаусса с выбором главного элемента}
+\begin{enumerate}
+\item
+Выбираем максимальный по модулю элемент в матрице 
+(главный элемент): вторая строка, третий столбец
+(\textcolor{red}{выделен красным цветом}).
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+2&3&1&10\\
+4&5&\textcolor{red}{6}&31\\
+3&1&5&22\\
+\end{pmatrix}
+\end{gather*}
+Делим каждую строку матрицы на значение элемента
+матрицы в столбце главного элемента, т.е.
+первую строку делим на $1$, вторую строку на $6$,
+а третью строку на $5$:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+2&3&1&10\\
+4&5&\textcolor{red}{6}&31\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 1 строка
+\begin{pmatrix}[ccc|c]
+2&3&\mathbf{1}&10\\
+4&5&\textcolor{red}{6}&31\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 2 строка
+\begin{pmatrix}[ccc|c]
+2&3&\mathbf{1}&10\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{\mathbf{1}}&\frac{31}{6}\\
+3&1&5&22\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+2&3&\mathbf{1}&10\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{\mathbf{1}}&\frac{31}{6}\\
+\frac{3}{5}&\frac{1}{5}&\mathbf{1}&\frac{22}{5}\\
+\end{pmatrix}
+\end{gather*}
+
+Вычитаем из первой и третьей строки вторую строку:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+2&3&1&10\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\frac{3}{5}&\frac{1}{5}&1&\frac{22}{5}\\
+\end{pmatrix}
+\;\to\;% 1 строка
+\begin{pmatrix}[ccc|c]
+\frac{4}{3}&\frac{13}{6}&\mathbf{0}&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\frac{3}{5}&\frac{1}{5}&1&\frac{22}{5}\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+\frac{4}{3}&\frac{13}{6}&\mathbf{0}&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+-\frac{1}{15}&-\frac{19}{30}&\mathbf{0}&-\frac{23}{30}\\
+\end{pmatrix}
+\end{gather*}
+
+\item
+Исключаем из рассмотрения строку с текущим главным 
+элементом (вторую) и выбираем новый главный элемент матрицы 
+(первая строка, второй столбец): 
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\frac{4}{3}&\textcolor{red}{\frac{13}{6}}&0&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+-\frac{1}{15}&-\frac{19}{30}&0&-\frac{23}{30}\\
+\end{pmatrix}
+\end{gather*}
+
+Делим каждую строку матрицы на значение элемента
+матрицы в столбце главного элемента, т.е.
+первую строку делим на $\frac{13}{6}$, а третью строку на $-\frac{19}{30}$:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\frac{4}{3}&\textcolor{red}{\frac{13}{6}}&0&\frac{29}{6}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+-\frac{1}{15}&-\frac{19}{30}&0&-\frac{23}{30}\\
+\end{pmatrix}
+\;\to\;% 1 строка
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{\mathbf{1}}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\frac{2}{19}&\mathbf{1}&0&\frac{23}{19}\\
+\end{pmatrix}
+\end{gather*}
+
+Вычитаем из третьей строки матрицы её первую строку:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\frac{2}{19}&1&0&\frac{23}{19}\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+-\frac{126}{247}&\mathbf{0}&0&-\frac{252}{247}\\
+\end{pmatrix}
+\end{gather*}
+
+\item
+Исключаем из рассмотрения строку с текущим главным 
+элементом (первую) и выбираем новый главный 
+элемент матрицы (третья строка, первый столбец): 
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\textcolor{red}{-\frac{126}{247}}&0&0&-\frac{252}{247}\\
+\end{pmatrix}
+\end{gather*}
+
+Делим каждую строку матрицы на значение элемента
+матрицы в столбце главного элемента, т.е.
+третью строку делим на $-\frac{126}{247}$:
+\begin{gather*}
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\textcolor{red}{-\frac{126}{247}}&0&0&-\frac{252}{247}\\
+\end{pmatrix}
+\;\to\;% 3 строка
+\begin{pmatrix}[ccc|c]
+\frac{8}{13}&\textcolor{red}{1}&0&\frac{29}{13}\\
+\frac{4}{6}&\frac{5}{6}&\textcolor{red}{1}&\frac{31}{6}\\
+\textcolor{red}{\mathbf{1}}&0&0&2\\
+\end{pmatrix}
+\end{gather*}
+\end{enumerate}
+
+Обратный ход метода Гаусса\par
+Определим неизвестные из уравнений системы 
+в обратном порядке следования номеров столбцов главных элементов,
+т.е. $1\to2\to3$:
+\begin{enumerate}
+\item
+Из третьего уравнения системы определим неизвестное $x_1$:
+\begin{gather*}
+x_1=2
+\end{gather*}
+\item
+Из первого уравнения системы определим неизвестное $x_2$:
+\begin{gather*}
+\frac{8}{13}\,x_1+x_2=\frac{29}{13}\;\to\;
+x_2=-\frac{8}{13}\,x_1+\frac{29}{13}\\[1ex]
+x_2=-\frac{8}{13}\cdot2+\frac{29}{13}=1
+\end{gather*}
+\item
+Из второго уравнения системы определим неизвестное $x_3$:
+\begin{gather*}
+\frac{4}{6}\,x_1+\frac{5}{6}\,x_2+x_3=\frac{31}{6}\;\to\;
+x_3=-\frac{4}{6}\,x_1-\frac{5}{6}\,x_2+\frac{31}{6}\\[1ex]
+x_3=-\frac{4}{6}\cdot2-\frac{5}{6}\cdot1+\frac{31}{6}=3
+\end{gather*}
+Таким образом, найдено решение системы линейных уравнений:
+\begin{gather*}
+\vec{\mathring{x}}=\begin{pmatrix}2\\1\\3\end{pmatrix}
+\quad\text{или}\quad\vect{\mathring{x}}=(2,1,3)^\mathrm{T}\\
+\end{gather*}
+\end{enumerate}
+
+Проведём \emph{проверку решения} системы уравнений
+методом прямой подстановки. Для этого подставим 
+найденный вектор неизвестных 
+$\vec{\mathring{x}}=(2,1,3)^\mathrm{T}$ 
+в исходную систему уравнений:
+\begin{gather*}
+\begin{pmatrix}
+2&3&1\\
+4&5&6\\
+3&1&5\\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+2\\
+1\\
+3\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+2\cdot2+3\cdot1+1\cdot3\\
+4\cdot2+5\cdot1+6\cdot3\\
+3\cdot2+1\cdot1+5\cdot3\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+10\\
+31\\
+22\\
+\end{pmatrix}
+\quad\to\quad
+\begin{pmatrix}
+10\\
+31\\
+22\\
+\end{pmatrix}
+=\begin{pmatrix}
+10\\
+31\\
+22\\
+\end{pmatrix}
+\end{gather*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% КОНЕЦ ДОКУМЕНТА
+%
+\end{document}
