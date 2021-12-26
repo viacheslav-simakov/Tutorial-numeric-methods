@@ -1,66 +1,115 @@
 \newpage
 \section{Интерполирование функций}
-%
-%	Интерполяция функций полиномами Лагранжа
-%
-\subsection{Интерполяция функций полиномами Лагранжа}
+Задача интерполирования состоит в том, чтобы по 
+известным значениям функции $f(x)$ в отдельных
+точках отрезка восстановить её значения 
+в остальных точках этого отрезка. Такая постановка 
+задачи допускает множество решений.
+
+Например, задача интерполирования возникает, 
+в том случае, когда известны результаты измерения 
+$y_i=f(x_i)$ некоторой физической величины $f$ 
+в ограниченном количестве точек $x_i$ ($i=0,1,\dots,n$), 
+а требуется оценить значения этой величины в других точках.
+
 Пусть на отрезке $x\in[a, b]$ выбрана сетка
-$\{x_i\}$ (здесь $i=0, 1, \ldots, n$), в узлах которой 
+$\{x_i\}$ (здесь $i=0,1,\dots,n$), в узлах которой 
 известны значения функции $y_{i}=f(x_{i})$.
-Задача интерполирования алгебраическими многочленами 
-состоит в том, чтобы построить многочлен степени $n$
-\begin{equation*}
-L_{n}(x)
+Задача интерполирования алгебраическими полиномами 
+состоит в том, чтобы построить полином степени $n$
+\begin{equation}\label{eq:Interpolation_Polynom}
+p_{n}(x)
 =c_{0} + c_{1}\cdot{x} + c_{2}\cdot{x^2} + \ldots + c_{n}\cdot{x^n}
 =\sum\limits_{i=0}^{n}c_i\cdot x^i
-\end{equation*}
+\end{equation}
 значения которого в заданных точках $\{x_i\}$, 
 совпадают со значениями функции $\{y_i\}$ в этих точках.
 
-Во всех узлах сетки $\{x_i\}$ многочлен $L_{n}(x)$
-должен удовлетворять условиям:
-\begin{equation*}
-\label{inter}
+Т.е. полином $p_{n}(x)$ должен удовлетворять условиям сопряжения:
+\begin{equation}\label{eq:Interpolation}
 \left\{\begin{matrix}
-L_{n}(x_0)&=&y_0\\
-L_{n}(x_1)&=&y_1\\
-L_{n}(x_2)&=&y_2\\
+p_{n}(x_0)&=&y_0\\
+p_{n}(x_1)&=&y_1\\
 \hdotsfor{3}\\
-L_{n}(x_n)&=&y_n\\
+p_{n}(x_n)&=&y_n\\
 \end{matrix}\right.
-\end{equation*}
+\quad\to\quad
+\left\{\begin{matrix}
+\sum\limits_{i=0}^{n}c_i\cdot x_0^i&=&y_0\\[1em]
+\sum\limits_{i=0}^{n}c_i\cdot x_1^i&=&y_1\\
+\hdotsfor{3}\\
+\sum\limits_{i=0}^{n}c_i\cdot x_n^i&=&y_n\\
+\end{matrix}\right.
+\end{equation}
 
+На основе условий \eqref{eq:Interpolation} формулируется
+система линейных уравнений относительно неизвестных
+коэффициентов полинома ${c_0,c_1,\dots,c_n}$:
+\begin{gather}\label{eq:Interpolation_LS}
+\mathbf{A}\cdot\vect{c}=\vect{y},
+\end{gather}
+где $\mathbf{A}$ -- квадратная матрица $(n+1)\times(n+1)$,
+$\vect{c}$ и $\vect{y}$ -- 
+вектор неизвестных коэффициентов полинома $p_n(x)$
+и вектор значений функции $f(x)$ в заданных точках $\{x_i\}$:
+
+\begin{gather*}
+\mathbf{A}=
+\begin{pmatrix}
+1&x_0&\cdots&x_0^n\\
+1&x_1&\cdots&x_1^n\\
+\vdots&\vdots&\ddots&\vdots\\
+1&x_n&\cdots&x_n^n\\
+\end{pmatrix},
+\quad
+\vect{c}=\begin{pmatrix}c_0\\c_1\\\vdots\\c_n\end{pmatrix},
+\quad
+\vect{y}=\begin{pmatrix}y_0\\y_1\\\vdots\\y_n\end{pmatrix}.
+\end{gather*}
+
+Определитель системы \eqref{eq:Interpolation_LS}
+представляет собой определителем Вандермонда, 
+который  отличен от нуля $\det\mathbf{A}\ne0$ , 
+если среди точек $\{x_i\}$ нет совпадающих,
+т.е. $x_i\ne x_j$ для всех $i,j=0,1,\dots,n$.
+
+Таким образом, для определения коэффициентов 
+интерполяционного полинома 
+\eqref{eq:Interpolation_Polynom} необходимо 
+найти решение системы линейных уравнений, 
+например, методом Гаусса.
+
+%
+%	Интерполяция функций полиномами Лагранжа
+%
+\emptyline
+\subsection{Интерполяция функций полиномами Лагранжа}
+Решение системы \eqref{eq:Interpolation_LS} 
+можно записать различным образом. 
+Наиболее распространенная запись интерполяционного 
+многочлена в форме Лагранжа и в форме Ньютона. 
 Интерполяционная формула Лагранжа позволяет 
 представить многочлен $L_{n}(x)$ в виде 
 линейной комбинации значений функции $y(x)$ 
 в узлах интерполирования:
-\begin{equation*}
-\label{lagrang}
-L_{n}(x) = 
-c_{0}(x)\cdot{y_0} + 
-c_{1}(x)\cdot{y_1} + 
-c_{2}(x)\cdot{y_2} + \ldots + 
-c_{n}(x)\cdot{y_n}
-\end{equation*}
-где $c_0(x), c_1(x), c_2(x), \ldots, c_n(x)$ --
-неизвестные функции.
+\begin{equation}\label{eq:Lagrange}
+L_{n}(x)
+=c_{0}(x)\cdot{y_0}+c_{1}(x)\cdot{y_1}+\dots+c_{n}(x)\cdot{y_n}
+=\sum\limits_{i=0}^n c_i(x)\cdot y_i
+\end{equation}
+где $c_0(x),c_1(x),\dots,c_n(x)$ -- произвольные неизвестные функции.
 
 Из условий интерполирования:
 \begin{equation*}\label{inter2}
 \left\{\begin{matrix}
-c_0(x_0)\cdot{y_0} + c_1(x_0)\cdot{y_1} + c_2(x_0)\cdot{y_2}
-+ \ldots + c_n(x_0)\cdot{y_n}&=&y_0\\
-c_0(x_1)\cdot{y_0} + c_1(x_1)\cdot{y_1}  + c_2(x_1)\cdot{y_2}
-+ \ldots + c_n(x_1)\cdot{y_n}&=&y_1\\
-c_0(x_2)\cdot{y_0} + c_1(x_2)\cdot{y_1} + c_2(x_2)\cdot{y_2}
-+ \ldots + c_n(x_2)\cdot{y_n}&=&y_2\\
+c_0(x_0)\cdot{y_0}+c_1(x_0)\cdot{y_1}+\dots+c_n(x_0)\cdot{y_n}&=&y_0\\
+c_0(x_1)\cdot{y_0}+c_1(x_1)\cdot{y_1}+\dots+c_n(x_1)\cdot{y_n}&=&y_1\\
 \hdotsfor{3}\\
-c_0(x_n)\cdot{y_0} + c_1(x_n)\cdot{y_1} + c_2(x_n)\cdot{y_2}
-+ \ldots + c_n(x_n)\cdot{y_n}&=&y_n\\
+c_0(x_n)\cdot{y_0}+c_1(x_n)\cdot{y_1}+\dots+c_n(x_n)\cdot{y_n}&=&y_n\\
 \end{matrix}\right.
 \end{equation*}
 
-Система уравнений совместна если выполняются условия:
+Система уравнений имеет решение если выполняются условия:
 \begin{equation*}
 \label{uslovia_c}
 c_{i}(x_j)=\left\{\begin{matrix}
@@ -127,17 +176,19 @@ c_i(x)=\dfrac
 {\prod\limits_{j \ne i}^n (x_i - x_j)}
 \end{equation*}
 
-Итак, интерполяционный многочлен Лагранжа имеет вид:
-\begin{equation*}
+Итак, интерполяционный многочлен Лагранжа 
+\eqref{eq:Lagrange} имеет вид:
+\begin{equation}\label{eq:Lagrange_Polynom}
 L_{n}(x)=\sum\limits_{i=0}^n\dfrac
 {\prod\limits_{j \ne i}^n(x-x_j) }
 {\prod\limits_{j \ne i}^n(x_i-x_j)}\cdot{y_i}
-\end{equation*}
+\end{equation}
 
 %
 %	Интерполирование таблично заданной функции полином Лагранжа $L_3(x)$
 %
-\subsection{Пример интерполирование функции полином Лагранжа $L_3(x)$}
+\emptyline
+\subsection{Интерполяция таблично заданной функции полином Лагранжа}
 Известно множество данных (узлов интерполяции)
 $\{x_i\}$ ($i=0,1,2,3$), в которых определены 
 значения функции $y_i=f(x_i)$:
