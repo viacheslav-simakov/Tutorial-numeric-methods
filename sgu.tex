@@ -1,0 +1,817 @@
+%	РАЗМЕР ШРИФТА:
+%		\tiny
+%		\scriptsize
+%		\footnotesize	
+%		\small 
+%%%	\normalsize	= нормальный размер шрифта
+%		\large
+%		\Large
+%		\huge
+%		\Huge
+%--------------------------------------------
+%	\textrm{текст}	\textsf{текст}	\texttt{текст}
+%	\textmd{текст}	\textbf{текст}	\textup{текст}
+%	\textit{текст}	\textsl{текст}	\textsc{текст}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	НАЧАЛО ПРЕАМБУЛЫ
+%
+\documentclass[14pt,a4paper]{extreport}
+%
+% языковые пакеты
+%
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage[cp1251]{inputenc}
+%
+%	Размеры страницы
+%
+\usepackage[% https://ctan.org/pkg/geometry
+	a4paper,% размер страницы
+	mag=1000,
+	left=2.5cm,
+	right=1.5cm,
+	top=2cm,
+	bottom=2cm,
+	headsep=0.7cm,
+	footskip=0.7cm
+]{geometry}
+% --------------------------------------------
+% *** межстрочный интервал ***
+% стандартный пропуск строки означает коэффициент 1,2
+% (например, высота шрифта 10pt, пропуск базовой строки 12pt).
+% Умножьте на \linespread, чтобы вы получили 1,25 * 1,2 = 1,5 
+% то есть половину.
+% --------------------------------------------
+%\linespread{1.5}
+%
+% МЕЖСТРОЧНЫЙ ИНТЕРВАЛ
+%
+% межстрочный интервал
+\usepackage{setspace}
+% полуторный интервал
+\onehalfspacing
+%\usepackage{indentfirst}
+%
+% ОТСТУП АБЗАЦА СЛЕВА
+%
+\setlength{\parindent}{1.25cm}
+%
+% НУМЕРАЦИЯ СТРАНИЦ 
+% http://tug.ctan.org/tex-archive/macros/latex/contrib/fancyhdr/fancyhdr.pdf
+%
+\usepackage{fancyhdr}% https://www.ctan.org/pkg/fancyhdr
+\pagestyle{empty}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+%\lhead{\empty}\chead{\empty}\rhead{\empty}
+%\lfoot{\empty}\cfoot{\empty}\rfoot{\arabic{page}}
+%
+% https://latex.org/forum/viewtopic.php?t=8952
+%
+\makeatletter
+\renewcommand{\ps@plain}{%
+\renewcommand\@oddhead{}%
+\renewcommand\@evenhead{}%
+\renewcommand\@oddfoot{\hfil\normalfont\textrm{\thepage}}%
+\renewcommand\@evenfoot{\hfil\normalfont\textrm{\thepage}}%
+}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ПАКЕТ МНОГОЯЗЫКОВОЙ ВЁРСТКИ *** XeTeX ***
+% https://ru.wikibooks.org/wiki/LaTeX/polyglossia
+%
+\usepackage{polyglossia}
+% устанавливает главный язык документа
+\setdefaultlanguage[spelling=modern]{russian}
+\setmainlanguage{russian}
+% устанавливает второй язык документа
+\setotherlanguage{english}
+% задаёт свойства шрифтов по умолчанию
+\defaultfontfeatures{Ligatures={TeX},Renderer=Basic}
+% задаёт основные шрифты документа
+\setmainfont{Times New Roman}
+\setromanfont{Times New Roman} 
+\setsansfont{Arial} 
+\setmonofont{Courier New}
+% семейство кириллических шрифтов
+\newfontfamily{\cyrillicfont}{Times New Roman} 
+\newfontfamily{\cyrillicfontrm}{Times New Roman}
+\newfontfamily{\cyrillicfonttt}{Courier New}
+\newfontfamily{\cyrillicfontsf}{Arial}
+%
+% *** Новые Цвета ***
+%
+\usepackage{xcolor}% https://www.ctan.org/pkg/xcolor
+\colorlet{darkgreen}{green!40!black}% темно-зеленый
+\colorlet{darkred}{red!80!black}% темно-красный
+\colorlet{darkorange}{orange!75!black}% темно-оранжевый
+\colorlet{darkblue}{blue!70!black}% темно-синий
+%
+% Unicode-шрифты ДЛЯ ФОРМУЛ
+%
+\usepackage[intlimits]{amsmath}
+\usepackage{amssymb,amsfonts}
+% Расширенная матрица
+% https://tex.stackexchange.com/questions/2233/whats-the-best-way-make-an-augmented-coefficient-matrix
+% \begin{pmatrix}[cc|c]
+%   1 & 2 & 3\\
+%   4 & 5 & 9
+% \end{pmatrix}
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+	\hskip -\arraycolsep
+	\let\@ifnextchar\new@ifnextchar
+	\array{#1}}
+\makeatother
+%
+% ШРИФТ Times в ФОРМУЛАХ как основной
+%
+%\usepackage[varg,cmbraces,cmintegrals]{newtxmath}
+%
+% прямые греческие буквы
+%
+%\usepackage{upgreek}
+%
+% Experimental Unicode mathematical typesetting
+%
+%\usepackage{unicode-math}
+%\usepackage[bold-style=TeX]{unicode-math}
+\usepackage[% https://ctan.org/pkg/unicode-math
+	bold-style=upright%
+]{unicode-math}
+%
+% ССЫЛКИ
+%
+\usepackage[% https://ctan.org/pkg/hyperref
+	unicode=true,%
+	bookmarksopen=true,%
+	bookmarksnumbered=true,%
+	colorlinks,%
+	linkcolor=black,%
+	urlcolor=darkblue,%
+	citecolor=blue%
+]{hyperref}
+%
+% Принудительное размещения рисунка:
+% используйте пакет 'float', а затем [H] опцию,
+% например, \begin{figure}[H] ... \end{figure}
+\usepackage{float}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ЗАГОЛОВКИ
+%
+%\usepackage[pagestyles]{titlesec}
+\usepackage{titlesec}% https://www.ctan.org/pkg/titlesec
+%
+% \titleformat{command}
+%		[shape]
+%		{format}
+%		{label}
+%		{sep}
+%		{before-code}
+%		[after-code]
+%
+%	1) Глава (chapter)
+%
+\titleformat{\chapter}[hang]% shape
+{\bfseries\normalsize\centering}% format
+{\hspace{\parindent}\arabic{chapter}}% label
+{0.5em}% sep
+{}% before-code
+[]% after-code
+\titleformat*{\section}%
+{\bfseries\normalsize}% format
+%
+% 2) Раздел (section)
+%
+\titleformat{\section}[hang]% shape
+{\bfseries\normalsize}% format
+{\hspace{1.25cm}\arabic{section}}% label
+{0.5em}% sep
+{}% before-code
+[]% after-code
+%
+% 3) Подраздел (subsection)
+%
+\titleformat{\subsection}[hang]% shape
+{\bfseries\normalsize}% format
+{\hspace{1.25cm}\arabic{section}.\arabic{subsection}}% label
+{0.5em}% sep
+{}% before-code
+[]% after-code
+%
+% 4) ПодПодраздел (subsubsection)
+%
+\titleformat{\subsubsection}[hang]% shape
+{\bfseries\normalsize}% format
+{\hspace{1.25cm}\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}% label
+{0.5em}% sep
+{}% before-code
+[]% after-code
+%
+% \titlespacing{command}
+%		{before-sep}
+%		{after-sep}
+%		[right-sep]
+%
+\titlespacing{\chapter}
+{0pt}% before-sep
+{0pt}% after-sep
+{0pt}% right-sep
+\titlespacing{\section}
+{0pt}% before-sep
+{0pt}% after-sep
+{0pt}% right-sep
+\titlespacing{\subsection}
+{0pt}% before-sep
+{0pt}% after-sep
+{0pt}% right-sep
+\titlespacing{\subsubsection}
+{0pt}% before-sep
+{0pt}% after-sep
+{0pt}% right-sep
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% СОДЕРЖАНИЕ
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\addto\captionsrussian{%
+%\renewcommand{\contentsname}{%
+%\vspace{-5ex}%
+%\begin{center}СОДЕРЖАНИЕ\end{center}%
+%\vspace{-5ex}}%
+%}
+%\addto\captionsrussian{%
+%  \renewcommand{\figurename}{Fig.}%
+%}
+\makeatletter
+\renewcommand{\tableofcontents}{%
+\newpage%
+\noindent{\centering\textbf{СОДЕРЖАНИЕ}\par}%
+\vspace{\baselineskip}% пустая строка
+\@starttoc{toc}\par}%
+\makeatother
+% глубина детализации
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+% переименование формата счетчика
+\renewcommand{\thesection}{\arabic{section}}
+%\renewcommand{\thesubsection}{\arabic{subsection}}
+%	
+% \titlecontents{section}
+%		[left]
+%		{above-code}
+%		{numbered-entry-format}
+%		{numberless-entry-format}
+%		{filler-page-format}
+%		[below-code]
+%
+\usepackage{titletoc}
+%	Глава (chapter)
+\titlecontents{chapter}
+[0pt]% left
+{}%above-code
+{\thechapter\;}% numbered-entry-format
+{}% numberless-entry-format
+{\thepage}% filler-page-format
+[]% below-code
+%
+% Раздел (section)
+\titlecontents{section}
+[0pt]% left
+{\normalsize}% above-code
+{\thecontentslabel\;}% numbered-entry-format
+{}% numberless-entry-format
+{(\thepage)}% filler-page-format
+[]% below-code
+%
+% Подраздел (subsection)
+\titlecontents{subsection}
+[0pt]% left
+{}%above-code
+{\thecontentslabel\;}% numbered-entry-format
+{}% numberless-entry-format
+{\thepage}% filler-page-format
+[]% below-code
+% ПодПодраздел (subsubsection)
+\titlecontents{subsubsection}
+[0pt]% left [0pt]
+{}%above-code
+{\thecontentslabel\;}% numbered-entry-format
+{}% numberless-entry-format
+{\thepage}% filler-page-format
+[]% below-code
+%
+% \dottedcontents{section}
+%		[left]
+%		{above-code}
+%		{label width}
+%		{leader width}
+\dottedcontents{chapter}%
+[1.5em]% left
+{}% above-code
+{1.5em}% label width
+{0.5em}% leader width
+\dottedcontents{section}%
+[1.0em]% left [1.5em]
+{}% above-code
+{1.0em}% label width [1.5em]
+{0.5em}% leader width
+\dottedcontents{subsection}%
+[1.5em]% left
+{}% above-code
+{1.5em}% label width
+{0.5em}% leader width
+\dottedcontents{subsubsection}%
+[2.5em]% left
+{}% above-code
+{2.5em}% label width
+{0.5em}% leader width
+%
+% Chapter without a pagebreak
+%
+\makeatletter 
+\renewcommand\chapter{\newpage\par%
+\thispagestyle{plain}% \global\@topnum\z@
+\@afterindentfalse\secdef\@chapter\@schapter}
+\makeatother %%%%% <---- Starting chapter without a pagebreak
+%
+% ВВЕДЕНИЕ
+%
+\newenvironment{Introduction}{%
+%\chapter*{\vspace{-2ex}ВВЕДЕНИЕ}\par%
+%\newpage\begin{center}\textbf{ВВЕДЕНИЕ}\end{center}\par
+\newpage\phantomsection%
+{\centering\textbf{ВВЕДЕНИЕ}\par}%
+\addcontentsline{toc}{chapter}{ВВЕДЕНИЕ}%
+% пустая линия
+%\vspace{\baselineskip}
+}{\newpage}
+%
+% ЗАКЛЮЧЕНИЕ
+%
+\newenvironment{Conclusion}{%
+%\lfoot{\empty}\cfoot{\empty}\rfoot{\arabic{page}}%
+\newpage\phantomsection%
+%\chapter*{\vspace{-\baselineskip}ЗАКЛЮЧЕНИЕ}\par%
+{\centering\textbf{ЗАКЛЮЧЕНИЕ}\par}%
+\addcontentsline{toc}{chapter}{ЗАКЛЮЧЕНИЕ}%
+% пустая линия
+%\vspace{\baselineskip}
+}{\newpage}
+%
+% ПРИЛОЖЕНИЕ
+%
+\newenvironment{Appendix}{%
+%\lfoot{\empty}\cfoot{\empty}\rfoot{\arabic{page}}%
+\newpage\phantomsection%
+%\chapter*{\vspace{-\baselineskip}ЗАКЛЮЧЕНИЕ}\par%
+{\centering\textbf{ПРИЛОЖЕНИЕ}\par}%
+\addcontentsline{toc}{chapter}{ПРИЛОЖЕНИЕ}%
+% пустая линия
+%\vspace{\baselineskip}
+}{\newpage}
+%
+% СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ
+%
+% Пакет поддерживает сжатые, 
+% отсортированные списки цитирования
+% https://www.ctan.org/pkg/cite
+\usepackage{cite}
+% формат номера источника
+% Заменяем библиографию в квадратных скобках
+% http://ftp.tug.org/TUGboat/tb30-1/tb94mori.pdf
+% 
+\makeatletter%
+\renewcommand*{\@biblabel}[1]{\hfill#1\;}
+\makeatother
+% окружение
+\newenvironment{References}[1]{%
+\newpage\phantomsection
+\addcontentsline{toc}{chapter}{%
+СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
+\renewcommand{\bibname}{%
+СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
+\begin{thebibliography}{#1}
+% пустая линия
+\vspace{\baselineskip}
+% интервал между библиографическими источниками
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}
+}{\end{thebibliography}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ТАБЛИЦЫ
+%
+% Пакет повышает качество таблиц в LaTeX, 
+% предоставляя дополнительные команды
+% https://www.ctan.org/pkg/booktabs
+\usepackage{booktabs}%
+% \specialrule{wd}{abovespace}{belowspace}
+% горизонтальная линия с отступами сверху и снизу
+\renewcommand\midrule{\specialrule{0.5pt}{1ex}{1ex}}
+\renewcommand\toprule{\specialrule{1pt}{0ex}{1ex}}
+\renewcommand\bottomrule{\specialrule{1pt}{1ex}{0ex}}
+%\newcommand\tabsrule{\specialrule{0.5pt}{1ex}{1ex}}
+\newcommand\midmidrule{
+\specialrule{0.5pt}{1ex}{0.1ex}
+\specialrule{0.5pt}{0.1ex}{1ex}
+}
+% межстрочный интервал в ТАБЛИЦАХ
+\renewcommand\arraystretch{1.2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% СПИСКИ
+%
+\usepackage[inline]{enumitem}% https://ctan.org/pkg/enumitem
+\setlist[enumerate,itemize]{
+	left=0pt,
+	align=left,
+	leftmargin=0pt,
+	label = \arabic*),
+	leftmargin=*,
+	labelsep=1ex,
+	itemindent=0pt,
+	nosep
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	Цветной прямоугольник с текстом
+%
+\usepackage{tcolorbox}% https://www.ctan.org/pkg/tcolorbox
+% Установка опций по умолчанию
+\tcbset{
+	notitle,
+	titlebox=invisible,
+	size=title,
+	width=\textwidth,
+	boxsep=0em,
+	left=1ex,
+	right=1ex,
+	toptitle=0mm,
+	top=1ex,
+	toprule=0mm,
+	bottom=1ex,
+	bottomrule=0mm,
+	boxrule=0mm,
+	arc=0mm,
+	colback=orange!10,
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% TikZ
+% https://tex.stackexchange.com/questions/131293/arguments-for-tikz-style
+%
+\usepackage{tikz}
+\usetikzlibrary{%
+	pgfplots.groupplots,%
+	backgrounds,%
+	calc,%
+	decorations.pathmorphing,%
+	decorations.markings,
+	shapes,% геометрические фигуры
+	arrows.meta,% стрелки разной формы
+	er,% построение диаграмм
+	patterns% штриховка областей
+}
+\tikzset{
+	background rectangle/.style={% стиль фона
+		fill=olive!10%
+	},%
+	font=\normalsize%
+}
+%
+% PGF
+% http://elib.ict.nsc.ru/jspui/bitstream/ICT/1488/1/pgf-ru-all-method.pdf
+%
+\usepackage{%
+	pgfplots,%
+	pgfplotstable%
+}
+% Последовательность графичеких слоев
+% \pgfsetlayers{%
+%	background,%
+%	pre main,%
+%	axis grid,% 
+%	axis ticks,% 
+%	axis lines,%
+%	axis tick labels,%
+%	main,%
+%	axis descriptions,%
+%	axis foreground%
+%}
+\usepgfplotslibrary{fillbetween}
+\usepgflibrary{plotmarks}
+% Установка стилей графика
+\pgfplotsset{
+%	compat=1.9,
+	width=8cm,
+	every axis/.append style={%
+		thick,
+		tick style={
+			black,
+			semithick
+		}
+	}
+}
+%
+% НУМЕРАЦИЯ формул, рисунков
+%
+\renewcommand{\theequation}{\arabic{equation}}
+\renewcommand{\thefigure}{\arabic{figure}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ПОДПИСИ рисуноков, таблиц
+%
+\usepackage[% https://www.ctan.org/pkg/caption
+	format=plain,% Печатает подписи как обычный абзац
+	labelsep=endash,%
+	singlelinecheck=false,% отключить центрирование однострочной подписи
+	belowskip=0pt,%
+	margin={0pt,0pt},%
+	indention=0cm,
+%	font=onehalfspacing,% полуторный интервал
+]{caption}
+%	рисунки
+\captionsetup[figure]{%
+	name=Рисунок,%
+	position=below,%
+	justification=centering,% центрирование подписи
+	font=onehalfspacing,% полуторный интервал
+}
+%	таблицы
+\captionsetup[table]{%
+	name=Таблица,%
+	position=above,%
+%	justification=justified,
+	font=onehalfspacing,% полуторный интервал
+}
+%\captionsetup{belowskip=0pt,margin={0pt,0pt}}
+
+
+% *** отступы ***
+% вертикальный промежуток перед и после объектов,
+% местоположение которых соответствует ключу h.
+% Имеет естественную длину 12 pt.
+\setlength{\intextsep}{\baselineskip}
+% вертикальный промежуток между текстом и соответственно 
+% одно- и двухколоночными объектами, местоположение 
+% которых соответствует ключам t или b.
+% Имеет естественную длину 20 pt.
+\setlength{\textfloatsep}{\baselineskip}
+% вертикальный промежуток между соответственно 
+% одно- и двухколоночными объектами, местоположение 
+% которых соответствует ключам t или b. 
+% Имеет естественную длину 12 pt.
+\setlength{\floatsep}{\baselineskip}
+% отступ перед названием 
+\setlength{\abovecaptionskip}{0.5\baselineskip}
+% отступ после названиея
+\setlength{\belowcaptionskip}{0ex}
+%
+% ОТСТУПЫ В ФОРМУЛАХ
+%
+%\expandafter\def\expandafter\normalsize\expandafter{%
+%\normalsize
+%\setlength\abovedisplayskip{0.5\baselineskip}
+%\setlength\belowdisplayskip{0.5\baselineskip}
+%\setlength\abovedisplayshortskip{0.5\baselineskip}
+%\setlength\belowdisplayshortskip{0.5\baselineskip}
+%}
+\AtBeginDocument{%
+\abovedisplayskip=0.5\baselineskip
+\abovedisplayshortskip=0.5\baselineskip
+\belowdisplayskip=0.5\baselineskip
+\belowdisplayshortskip=0.5\baselineskip
+% отступ перед названием 
+%\abovecaptionskip=0.5\baselineskip
+% отступ после названиея
+%\belowcaptionskip=0\baselineskip
+}
+%
+% Пакет mhchem предоставляет команды для
+% набора химических молекулярных формул и уравнений.
+\usepackage[version=4,arrows=font]{mhchem}
+%\usepackage{expl3,calc}
+% длина стрелок
+\ExplSyntaxOn
+\keys_define:nn { mhchem }
+{
+arrow-min-length .code:n =
+% default is 2em
+\cs_set:Npn \__mhchem_arrow_options_minLength:n { {#1} }
+}
+\ExplSyntaxOff
+\mhchemoptions{arrow-min-length=1em}
+%
+%	Пакет предоставляет макросы для управления строками - 
+%	тестирования содержимого строки, извлечения подстрок, 
+%	подстановки подстрок и предоставления чисел, 
+%	таких как длина строки, позиция или количество 
+%	повторов подстроки.
+%	https://www.ctan.org/pkg/xstring
+%
+%	\usepackage{xstring}
+
+%
+%	Вставка страниц из PDF-файла
+%	Этот пакет упрощает включение внешних многостраничных 
+%	PDF-документов в LaTеX документы
+% 
+\usepackage{pdfpages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	МОИ НОВЫЕ КОМАНДЫ
+%
+% Макрос Существует?
+% https://tex.stackexchange.com/questions/164188/ifundefined-actually-defines-macros
+\def\ifexists#1{\expandafter\ifx\csname#1\endcsname\relax 0\else 1\fi}
+% Pure text from TeX
+% https://tex.stackexchange.com/questions/567286/pdfstringdef-turns-accented-characters-into-octal-escape-sequence
+\ExplSyntaxOn
+\cs_set_eq:NN\textpurify\text_purify:n
+\ExplSyntaxOff
+% alert
+\newcommand{\alert}[2][]{%
+#1{\emph{\textcolor{darkred}{#2}}}%
+}
+% alertx
+\newcommand{\alertx}[2][\texttt]{%
+#1{\textbf{\textcolor{darkred}{#2}}}%
+}
+% проверка макроса
+\newcommand{\Isdefined}[1]{%
+\ifx#1\undefined\relax%
+\alertx{\backslash def\detokenize{#1}undefined}%
+\else{#1}\fi%
+}
+% Чистый текст макроса
+\newcommand{\MacroTextPurify}[1]{%
+\ifx#1\undefined\relax%
+\alertx{\backslash def\detokenize{#1}undefined}%
+\else\textpurify{#1}%
+\fi}
+% Пол студента
+\newcommand{\detGender}[3]{%
+\ifx#1\undefined{для студентов}%
+\else%
+\ifcase#1\relax{#2}% Gender=0 (женский)
+\or{#3}% Gender=1 (мужской)
+\else\alertx{Gender=\Gender{ unknow}}%
+\fi%
+\fi%
+}
+% пустая строка
+\def\emptyline{\par\vspace{\baselineskip}}
+% символ '\'
+\def\backslash{\char`\\}
+% постоянная
+\DeclareMathOperator{\const}{const}
+% Полужирное начертание для векторов
+\newcommand\vect[1]{\mathbfit{#1}}
+%\let\vec=\mathbf
+% норма
+\newcommand{\norma}[1]{\left\lVert#1\right\rVert}
+% абсолютное значение
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+% скалярное произведение векторов
+\newcommand{\dotvec}[2]{(\vec{#1},\vec{#2})}
+% обыкновенная производная, например $\diff{N_d^{+}}{x}$
+\newcommand\diff[2]{ \dfrac{\mathrm{d} #1}{\mathrm{d} #2} }
+% обыкновенная производная второго порядка, например $\diff{N_d^{+}}{x}$
+\newcommand\diffdiff[2]{ \dfrac{\mathrm{d}^2 #1}{\mathrm{d} #2^2} }
+% частная производная, например $\pdiff{N_d^{+}}{x}$
+\newcommand\pdiff[2]{ \dfrac{\partial #1}{\partial #2} }
+% 1/2
+\newcommand\onehalf{ \nicefrac{1}{2} }
+% Случайное число \RandInt{min}{max}
+\newcommand{\RandInt}[2]{\pgfmathrandominteger{\rndint}{#1}{#2}\rndint}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ТИТУЛЬНЫЙ ЛИСТ
+%
+% \TitlePage[название документа] или \TitlePage
+\newcommand{\TitlePage}[1][\undefined]{
+{\centering% начало центрирования
+МИНОБРНАУКИ РОССИИ\\
+Федеральное государственное бюджетное образовательное учреждение
+высшего образования\\
+\textbf{<<САРАТОВСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ\\
+ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ\\
+ИМЕНИ Н.Г. ЧЕРНЫШЕВСКОГО>>}
+\emptyline
+Кафедра материаловедения,\par
+технологии и управления качеством
+\emptyline
+% название документа (DocumentTitle)
+\ifnum1=\ifexists{SubTitle}\MakeUppercase{\SubTitle}\emptyline\fi
+%\ifx#1\undefined\relax% не определено
+%\else\MakeUppercase{#1}\emptyline%
+%\fi
+% ЗАГЛАВИЕ
+\textbf{\MakeUppercase{\Isdefined{\TITLE}}}
+\emptyline
+по дисциплине <<\Isdefined{\ModuleTitle}>>\\
+% для студентов/студентки/студента
+\detGender{\Gender}{студентки}{студента}
+\Isdefined{\NoCourse}{ курса }\Isdefined{\NoGroup}{ группы}\\
+направления подготовки{ \Isdefined\ProgramCode }
+<<\Isdefined{\ProgramTitle}>>
+(профиль <<\Isdefined{\ProgramProfile}>>),\\
+\Isdefined{\Department}\\% факультет
+% Ф.И.О. (родительный падеж)
+\ifx\FullNameGenetive\undefined\relax%
+%\end{center}%
+\else{\FullNameGenetive}%
+% пустая строка
+\emptyline
+% добавляет заполняющее вертикальное пространство
+\vfill
+% таблица БАРС
+\begin{tabular}[l]{b{5cm} b{2.5cm} c}
+\toprule
+Результат&Баллы&ВСЕГО\\
+\midmidrule
+Выполнение&&\Isdefined{\Exec}\\
+\midrule
+Оформление&&\Isdefined{\Polygraphy}\\
+\midrule
+Устный отчет&&\Isdefined{\OralReport}\\
+\bottomrule
+\end{tabular}%
+% пустая строка
+\par\emptyline
+% ПОДПИСЬ
+\raggedright\noindent
+Преподаватель\\профессор, д.т.н., доцент
+\hspace{1em}\rule{6.5cm}{0.5pt} 
+\hspace{1em} В.В. Симаков\par
+\emptyline
+\fi%
+}\par% окончание центрирования
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Колонтитулы
+%
+% 'Титульный лист'
+\fancypagestyle{titlepage}{
+\setcounter{page}{1}
+% clear all header and footer fields
+\fancyhf{}
+% линии верхнего и нижнего колонтитулов
+\renewcommand{\headrulewidth}{0pt}%
+\renewcommand{\footrulewidth}{0pt}%
+\cfoot{Саратов~\the\year} % город год
+}
+% 'Задание'
+\fancypagestyle{taskpages}{
+% clear all header and footer fields
+\fancyhf{}
+% нумерация римскими цифрами
+%\pagenumbering{roman}
+% нумерация арабскими цифрами
+\pagenumbering{arabic}
+% линии верхнего и нижнего колонтитулов
+\renewcommand{\headrulewidth}{0pt}%
+\renewcommand{\footrulewidth}{0pt}%
+% нижний колонтитул
+\lfoot{Задание~
+\detGender{\Gender}{получила}{получил}
+\hspace{0.25cm}\rule{4cm}{0.5pt}\hspace{0.25cm}%
+\Isdefined{\Signature}}% подпись
+%\rfoot{\roman{page}}% номера страниц
+}
+% 'Содержание документа'
+\fancypagestyle{bodypages}{
+\fancyhf{}
+\pagestyle{fancy}
+% линии верхнего и нижнего колонтитулов
+\renewcommand{\headrulewidth}{0pt}%
+\renewcommand{\footrulewidth}{0pt}%
+\pagenumbering{arabic}
+\rfoot{\arabic{page}}% номера страниц
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ЗАДАНИЕ
+%
+% \TitleTask или \TitleTask['на выполнение чего?']
+\newcommand{\TitleTask}[1][лабораторной работы]{%
+\newpage
+% нумерация страниц с №1
+\setcounter{page}{1}
+%\newpage\phantomsection
+\begin{center}
+\textbf{ЗАДАНИЕ}\par
+% добавление пункта в СОДЕРЖАНИЕ
+%\addcontentsline{toc}{chapter}{Задание на выполнение #1}
+%по дисциплине <<\Isdefined{\@ModuleTitle}>>
+по дисциплине <<\MacroTextPurify{\ModuleTitle}>>
+на выполнение #1 на тему 
+<<\textbf{\MacroTextPurify{\TITLE}}>>
+\end{center}
+\par
+}
