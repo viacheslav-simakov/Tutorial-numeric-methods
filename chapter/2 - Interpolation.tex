@@ -111,49 +111,49 @@ $\abs{f(x)-p(x)}$ на отрезке $[x_i,x_{i+1}]$.
 в узлах интерполирования $\{x_i\}$:
 \begin{equation}\label{eq:Lagrange}
 L_{n}(x)
-=c_{0}(x)\cdot{y_0}+c_{1}(x)\cdot{y_1}+\dots+c_{n}(x)\cdot{y_n}
-=\sum\limits_{i=0}^n c_i(x)\cdot y_i
+=\lambda_{0}(x)\cdot{y_0}+\lambda_{1}(x)\cdot{y_1}+\dots+\lambda_{n}(x)\cdot{y_n}
+=\sum\limits_{i=0}^n \lambda_i(x)\cdot y_i
 \end{equation}
-где $c_0(x),c_1(x),\dots,c_n(x)$ -- произвольные неизвестные функции.
+где $\lambda_0(x),\lambda_1(x),\dots,\lambda_n(x)$ -- произвольные неизвестные функции.
 
-Для определения неизвестных функций $c_i(x)$ 
+Для определения неизвестных функций $\lambda_i(x)$ 
 из условий интерполирования следует:
 \begin{equation*}\label{inter2}
 \left\{\begin{matrix}
-c_0(x_0)\cdot{y_0}+c_1(x_0)\cdot{y_1}+\dots+c_n(x_0)\cdot{y_n}&=&y_0\\
-c_0(x_1)\cdot{y_0}+c_1(x_1)\cdot{y_1}+\dots+c_n(x_1)\cdot{y_n}&=&y_1\\
+\lambda_0(x_0)\cdot{y_0}+\lambda_1(x_0)\cdot{y_1}+\dots+\lambda_n(x_0)\cdot{y_n}&=&y_0\\
+\lambda_0(x_1)\cdot{y_0}+\lambda_1(x_1)\cdot{y_1}+\dots+\lambda_n(x_1)\cdot{y_n}&=&y_1\\
 \hdotsfor{3}\\
-c_0(x_n)\cdot{y_0}+c_1(x_n)\cdot{y_1}+\dots+c_n(x_n)\cdot{y_n}&=&y_n\\
+\lambda_0(x_n)\cdot{y_0}+\lambda_1(x_n)\cdot{y_1}+\dots+\lambda_n(x_n)\cdot{y_n}&=&y_n\\
 \end{matrix}\right.
 \end{equation*}
 
 Эта система уравнений имеет решение если выполняются условия:
 \begin{equation*}
 \label{uslovia_c}
-c_{i}(x_j)=\left\{\begin{matrix}
+\lambda_{i}(x_j)=\left\{\begin{matrix}
 1, &x_j=x_{i}\\
 0, &x_j\ne{x_{i}}
 \end{matrix}\right.
 \end{equation*}
 
-Коэффициенты $c_{i}(x)$ можно искать в виде 
+Коэффициенты $\lambda_{i}(x)$ можно искать в виде 
 многочленов степени $n$:
 \begin{equation*}
 \label{eq_c}
 \left\{\begin{matrix}
-c_0(x)&=&\alpha_0\cdot(x-x_1)\cdot(x-x_2)
+\lambda_0(x)&=&\alpha_0\cdot(x-x_1)\cdot(x-x_2)
 \cdot(x-x_2)\cdot&\ldots&\cdot(x-x_n)\\
-c_1(x)&=&\alpha_1\cdot(x-x_0)\cdot(x-x_2)
+\lambda_1(x)&=&\alpha_1\cdot(x-x_0)\cdot(x-x_2)
 \cdot(x-x_3)\cdot&\ldots&\cdot(x-x_n)\\
 \hdotsfor{5}\\
-c_n(x)&=&\alpha_n\cdot(x-x_0)\cdot(x-x_1)
+\lambda_n(x)&=&\alpha_n\cdot(x-x_0)\cdot(x-x_1)
 \cdot(x-x_2)\cdot&\ldots&\cdot(x-x_{n-1})
 \end{matrix}\right.
 \end{equation*}
 
 Определим неизвестные 
 $\alpha_0, \alpha_1, \ldots, \alpha_n$ 
-из условия для коэффициентов $c_i(x)$:
+из условия для коэффициентов $\lambda_i(x)$:
 \begin{equation*}
 \left\{
 \begin{matrix}
@@ -161,8 +161,6 @@ $\alpha_0, \alpha_1, \ldots, \alpha_n$
 \dots&\cdot(x_0-x_n)\\
 1&=&\alpha_1\cdot(x_1-x_0)\cdot(x_1-x_2)\cdot(x_1-x_3)\cdot&
 \dots&\cdot(x_1-x_n)\\
-%\hdotsfor{7}\\
-%1&=&\alpha_{i}\cdot(x_{i}-x_{0})\cdot(x_{i}-x_{1})\cdot &\ldots &\cdot(x_{i}-x_{i-1})\cdot(x_{i}-x_{i+1})\cdot &\ldots &\cdot(x_{i}-x_{n})\\
 \hdotsfor{5}\\
 1&=&\alpha_n\cdot(x_n-x_0)\cdot(x_n-x_1)\cdot(x_n-x_2)\cdot&
 \dots&\cdot(x_n-x_{n-1})
@@ -170,26 +168,26 @@ $\alpha_0, \alpha_1, \ldots, \alpha_n$
 \right.
 \end{equation*}
 
-Таким образом, коэффициенты $c_{i}(x)$ 
+Таким образом, коэффициенты $\lambda_{i}(x)$ 
 интерполяционного многочлена\linebreak
 Лагранжа находятся из соотношений:
 \begin{equation*}
 \left\{\begin{matrix}
-c_0(x)&=&\dfrac
+\lambda_0(x)&=&\dfrac
 {(x-x_1)\cdot(x-x_2)\cdot\dots\cdot(x-x_n)}
-{(x_0-x_1)\cdot(x_0-x_2)\cdot \ldots \cdot(x_0-x_n)}\\[1em]
-c_1(x)&=&\dfrac
-{(x-x_0)\cdot(x-x_2)\cdot\ldots\cdot(x-x_n)}
-{(x_1-x_0)\cdot(x_1-x_2)\cdot \ldots \cdot(x_1-x_n)}\\[1em]
+{(x_0-x_1)\cdot(x_0-x_2)\cdot\dots\cdot(x_0-x_n)}\\[1em]
+\lambda_1(x)&=&\dfrac
+{(x-x_0)\cdot(x-x_2)\cdot\dots\cdot(x-x_n)}
+{(x_1-x_0)\cdot(x_1-x_2)\cdot\dots\cdot(x_1-x_n)}\\[1em]
 \hdotsfor{3}\\[1em]
-c_n(x)&=&\dfrac
-{(x-x_0)\cdot(x-x_1)\cdot\ldots\cdot(x-x_{n-1})}
-{(x_n-x_0)\cdot(x_n-x_1)\cdot \ldots \cdot(x_n-x_{n-1})}
+\lambda_n(x)&=&\dfrac
+{(x-x_0)\cdot(x-x_1)\cdot\dots\cdot(x-x_{n-1})}
+{(x_n-x_0)\cdot(x_n-x_1)\cdot\dots\cdot(x_n-x_{n-1})}
 \end{matrix}\right.,
 \end{equation*}
 или в более компактной форме:
 \begin{equation*}
-c_i(x)=\dfrac
+\lambda_i(x)=\dfrac
 {\prod\limits_{j \ne i}^n (x - x_j)}
 {\prod\limits_{j \ne i}^n (x_i - x_j)}
 \end{equation*}
