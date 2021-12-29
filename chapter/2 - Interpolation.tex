@@ -349,6 +349,25 @@ $i$&$x_i$&$y_i$&$c_i$&$p_3(x_i)$&$\varepsilon_i$\\
 \end{tabular*}
 \end{table}
 
+\vspace{-0.5\baselineskip}
+\begin{table}[H]
+\caption{Таблично заданная функциональная зависимость
+$y_i=f(x_i)$}
+\label{tab:Interpolation Data}
+\begin{tabular*}{\textwidth}{%
+@{\extracolsep{\fill}}l*{4}{r}p{1cm}}
+\toprule    % ###
+$i$&$0$&$1$&$2$&$3$\\
+\midmidrule % ###
+$x_i$&$-0.76$&$-0.09$&$0.22$&$0.55$\\
+$y_i$&$0.08$&$1.84$&$0.4$&$0.96$\\
+$c_i$&$+1.370$&$-5.282$&$+0.937$&$+13.316$\\
+$L_4(x_i)$&$0.080$&$1.843$&$0.395$&$0.964$\\
+$\varepsilon_i$&$0.000$&$-0.003$&$0.005$&$-0.004$\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
 \item
 На рисунке \ref{fig:Interpolation_GP} представлена 
 диаграмма рассеяния (разброса) данных 
@@ -375,6 +394,47 @@ node[pos=0.7,right] {$p_3(x)$};
 \label{fig:Interpolation_GP}
 \end{figure}
 \end{enumerate}
+
+\begin{table}[H]
+\caption{Коэффициенты обобщенного интерполяционного 
+полинома $c_i$, значения этого полинома в узлах сетки $p_3(x_i)$
+и абсолютная погрешность интерполяции $\varepsilon_i$}
+%\label{tab:Interpolation_GPD}
+\small
+\begin{tabular*}{\textwidth}{%
+%p{1cm}rrc@{\extracolsep{\fill}}p{1cm}@{\extracolsep{0pt}}rrl}
+@{\extracolsep{\fill}}p{1cm}rr@{\extracolsep{1pt}}p{3cm}@{\extracolsep{\fill}}p{1cm}rrl}
+\toprule
+$i$&$x_i$&$y_i$&&$i$&$x_i$&$y_i$\\
+\midmidrule
+0&$-0.76$&-0.85&&\dotfill\\
+1&$-0.09$&-0.01&&\dotfill\\
+2&$0.22$&0.78&&\dotfill\\
+\dotfill&&&&47&1.27&8.54\\
+\dotfill&&&&48\\
+\dotfill&&&&49\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[H]
+\caption{Коэффициенты обобщенного интерполяционного 
+полинома $c_i$, значения этого полинома в узлах сетки $p_3(x_i)$
+и абсолютная погрешность интерполяции $\varepsilon_i$}
+%\label{tab:Interpolation_GPD}
+\small
+\begin{tabular*}{\textwidth}{%
+%p{1cm}rrc@{\extracolsep{\fill}}p{1cm}@{\extracolsep{0pt}}rrl}
+p{1cm}@{\extracolsep{\fill}}*{3}{r}*{3}{p{1cm}}*{3}{r}}
+\toprule
+$i$&0&1&2&\dotfill&\dotfill&\dotfill&47&48&49\\
+\midmidrule
+$x_i$&$-0.76$&$-0.85$&$-0.85$&\dotfill&\dotfill&\dotfill&$-0.76$&$-0.85$&$-0.85$\\
+$y_i$&$-0.76$&$-0.85$&$-0.85$&\dotfill&\dotfill&\dotfill&$-0.76$&$-0.85$&$-0.85$\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
 
 Построим интерполяционный полином 
 в форме Лагранжа $L_3(x)$ на основе данных 
