@@ -364,11 +364,10 @@ $\varepsilon_i$&$0.023$&$0.008$&$-0.022$&$-0.013$\\
 xmin=-0.9,xmax=0.7,xtick={-0.8,-0.4,0,0.4},
 ymin=-1,ymax=3]
 % табличные данные
-\addplot[ball darkblue,only marks]
-coordinates {(-0.76,0.08) (-0.09,1.84) (0.22,0.40) (0.55,0.96)};
+\addplot[ball darkblue,only marks] coordinates {(-0.76,0.08)(-0.09,1.84)(0.22,0.4)(0.55,0.96)};
 % интерполяционный полином
 \addplot[darkblue,domain=-0.8:0.6,samples=50]
-{-0.393-81.472*x-37.288*exp(-x)+39.053*exp(x)}
+{-0.393*1-81.472*x-37.288*exp(-x)+39.053*exp(x)}
 node[pos=0.7,right] {$p_3(x)$};
 \end{axis}
 \end{tikzpicture}
