@@ -18,8 +18,9 @@
 Многие формулы численного дифференцирования можно получить, 
 используя интерполяционные формулы.
 Для этого достаточно заменить функцию $y(x)$ 
-интерполяционным полиномом Лагранжа $L_n(x)$ 
-и вычислить производные этого многочлена, 
+интерполяционным полиномом, например, 
+алгебраическим полиномом в форме Лагранжа $L_n(x)$, и 
+вычислить производные этого многочлена, 
 используя его явное представление.
 
 Рассмотрим произвольную сетку $\{x_i\}$ и 
@@ -182,7 +183,7 @@ coordinates {#1};
 % полином Лагранжа
 #2;
 % отрезок интерполирования
-\addplot[only marks,PlotDarkRed] coordinates {#3};
+\addplot[ball darkred,only marks] coordinates {#3};
 \end{axis}
 \end{tikzpicture}
 \end{figure}}
@@ -519,7 +520,7 @@ ylabel={$\textcolor{darkblue}{y^{\prime}(x)}$},% подпись оси y
 xmin=-1.5, xmax=1,
 ymin=-0.5, ymax=5.5,
 ]
-\addplot[ycomb,PlotDarkBlue] coordinates 
+\addplot[ycomb,ball darkblue] coordinates 
 {(-0.98,2.39) (-0.76,2.30) (-0.48,0.50) (-0.09,0.08) (0.22,4.63) (0.32,4.68) (0.55,0.32)};
 \end{axis}
 \end{tikzpicture}
@@ -529,7 +530,7 @@ ymin=-0.5, ymax=5.5,
 ylabel={$\textcolor{darkred}{y^{\prime\prime}(x)}$},	% подпись оси y
 xmin=-1.5, xmax=1,
 ymin=-30, ymax=30]
-\addplot[ycomb,PlotDarkRed] coordinates 
+\addplot[ycomb,ball darkred] coordinates 
 {(-0.98,8.06) (-0.76,-8.81) (-0.48,-4.12) (-0.09,1.99) (0.22,27.38) (0.32,-26.35) (0.55,-11.62)};
 \end{axis}
 \end{tikzpicture}
