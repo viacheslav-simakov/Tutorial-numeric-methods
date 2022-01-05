@@ -26,7 +26,7 @@ xlabel=$x$,ylabel=$f(x)$,
 xtick={\xa,\xb},xticklabels={$a$,$b$},
 ytick={0},yticklabels={0}]
 % f(x)
-\addplot[name path=A,PlotDarkBlue,mark=none,
+\addplot[name path=A,ball darkblue,mark=none,
 samples=50,domain=\xa:\xb]{0.5*(\x-2)*(\x-1)*(\x+1) + 1};
 \path[name path=B] (axis cs: \xa,0) -- (axis cs: \xb,0);
 \addplot[blue!15] fill between [of=A and B, soft clip={domain=\xa:\xb},];
@@ -158,7 +158,7 @@ Lagrange(\x) =
 },
 ]
 % f(x)
-\addplot[name path=F,PlotDarkBlue,fill=blue!10,
+\addplot[name path=F,ball darkblue,fill=blue!10,
 mark indices={1,50},samples=50,domain=#1:#2]{cubic(x)}
 \closedcycle;
 % Ln(x)
@@ -314,7 +314,7 @@ ymin=-6,ymax=6,ytick={-6,-3,0,3,6},
 \begin{figure}[H]\centering
 \begin{tikzpicture}
 \begin{axis}
-\addplot[name path=A,PlotDarkBlue,smooth] coordinates 
+\addplot[name path=A,ball darkblue,smooth] coordinates 
 {(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
 \end{axis}
 \end{tikzpicture}
@@ -334,7 +334,7 @@ ymin=-6,ymax=6,ytick={-6,-3,0,3,6},
 % левые прямоугольники
 \begin{tikzpicture}[baseline]
 \begin{axis}
-\addplot[name path=A,const plot mark left,PlotDarkBlue] coordinates 
+\addplot[name path=A,const plot mark left,ball darkblue] coordinates 
 {(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
 %\path [name path=B] (\pgfkeysvalueof{/pgfplots/xmin},0) -- (\pgfkeysvalueof{/pgfplots/xmax},0);
 \path[name path=B] (axis cs: -3.31,0) -- (axis cs: 3.5,0);
@@ -344,7 +344,7 @@ ymin=-6,ymax=6,ytick={-6,-3,0,3,6},
 \end{tikzpicture}
 \begin{tikzpicture}[baseline]
 \begin{axis}
-\addplot[name path=A,const plot mark right,PlotDarkBlue] coordinates 
+\addplot[name path=A,const plot mark right,ball darkblue] coordinates 
 {(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
 \path[name path=B] (axis cs: -3.31,0) -- (axis cs: 3.5,0);
 \addplot[blue!15] fill between [of=A and B, soft clip={domain=-3.31:3.5}];
@@ -508,10 +508,10 @@ I_1=\int\limits_{x_0}^{x_1} L_2(x)dx=
 \begin{center}
 \begin{tikzpicture}
 \begin{axis}[ymax=10]
-\addplot[only marks,PlotDarkBlue] coordinates 
+\addplot[only marks,ball darkblue] coordinates 
 {(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
 %\path [name path=B] (\pgfkeysvalueof{/pgfplots/xmin},0) -- (\pgfkeysvalueof{/pgfplots/xmax},0);
-\addplot[name path=A,PlotDarkBlue,mark=none,domain=-3.31:1.32]
+\addplot[name path=A,ball darkblue,mark=none,domain=-3.31:1.32]
 {-1.73*x^2-4.74*x+5.66} node[pos=0.4,right] {$L_2(x)$};
 \path[name path=B] (axis cs: -3.31,0) -- (axis cs: 1.32,0);
 \addplot[darkblue!15] fill between [of=A and B, soft clip={domain=-3.31:1.32}];
@@ -549,7 +549,7 @@ I_2=\int\limits_{x_1}^{x_2} L_2(x)dx=
 \begin{tikzpicture}
 \begin{axis}[ymax=10]
 % данные
-\addplot[only marks,PlotDarkBlue] coordinates 
+\addplot[only marks,ball darkblue] coordinates 
 {(-3.31,2.45) (0.31,4.03) (1.32,-3.61) (2.47,4.50) (3.50, 3.1)};
 % Ox
 \path [name path=Ox] (axis cs: -3.31,0) -- (axis cs: 3.50,0);
