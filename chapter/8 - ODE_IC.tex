@@ -100,17 +100,18 @@ $N$ -- количество узлов временной сетки.
 Тогда систему дифференциальных уравнений первого порядка 
 \eqref{eq:ODE_SYS} приближенно можно записать в виде:
 \begin{gather}\label{eq:ODE_NUM}
-\dfrac{\vec u(t_{j+1})-\vec u(t_{j})}{\Delta t_{j+1}}\approx
-\vec f\left(t_j, \vec u(t_{j})\right)
+\dfrac{\vect{u}(t_{j+1})-\vect{u}(t_{j})}{\Delta t_{j+1}}\approx
+\vect{f}\left(t_j, \vect{u}(t_{j})\right)
 \end{gather}
 
-Относительно неизвестных $\vec u(t_{j+1})$ 
+Относительно неизвестных $\vect{u}(t_{j+1})$ 
 это система линейных алгебраических уравнений и 
 решение системы \eqref{eq:ODE_NUM} находится явным образом 
 по рекуррентным формулам:
 \begin{gather}\label{eq:ODE_EULER}
-\vec u(t_{j+1})=\vec u(t_{j})+\Delta t_{j+1}\cdot\vec f\left(t_j, \vec u(t_{j})\right),
-\quad \vec{u}(0)=\vec{\mathring u}.
+\vect{u}(t_{j+1})=\vect{u}(t_{j})+\Delta t_{j+1}\cdot\vect{f}\left(t_j, \vect{u}(t_{j})\right),
+\quad
+\vect{u}(0)=\mathring{\vect{u}}.
 \end{gather}
 
 Метод Эйлера является простейшим численным методом 
@@ -162,11 +163,11 @@ a)
 \eqref{eq:ODE_SYS} по временной переменной $t$ 
 с учетом начальных условий:
 \begin{gather}\label{eq:ODE_SYS_INT}
-\vec{v}(t)=\vec{u}(0)+\int\limits_{0}^{t}\vec f(\xi, \vec{v})d\xi.
+\vect{v}(t)=\vect{u}(0)+\int\limits_{0}^{t}\vect{f}(\xi, \vect{v})\,\mathrm{d}\xi.
 \end{gather}
 
 Уравнение \eqref{eq:ODE_SYS_INT} является 
-интегральным уравнением для неизвестной функции $\vec{v}(t)$,
+интегральным уравнением для неизвестной функции $\vect{v}(t)$,
 а его решение эквивалентно решению задачи Коши 
 \eqref{eq:ODE_SYS}, что можно проверить прямой подстановкой
 \eqref{eq:ODE_SYS_INT} в \eqref{eq:ODE_SYS}.
@@ -175,11 +176,11 @@ a)
 \eqref{eq:ODE_SYS_INT} приближенно вычисляется по 
 \emph{формуле трапеций}:
 \begin{gather}\label{eq:ODE_SYS_INT_TRAP}
-\int\limits_{0}^{t_{j+1}}\vec f(\xi, \vec{v})d\xi\approx
-\sum\limits_{k=0}^{j}
+\int\limits_{0}^{t_{j+1}}\vect{f}(\xi, \vec{v})\,\mathrm{d}\xi
+\approx\sum\limits_{k=0}^{j}
 \dfrac{
-\vec f\left(t_{k+1},\vec{v}(t_{k+1})\right)+
-\vec f\left(t_{k},\vec{v}(t_{k})\right)
+\vect{f}\left(t_{k+1},\vect{v}(t_{k+1})\right)+
+\vect{f}\left(t_{k},\vect{v}(t_{k})\right)
 }{2}\cdot(t_{k+1}-t_k).
 \end{gather}
 
@@ -188,47 +189,48 @@ a)
 \eqref{eq:ODE_SYS_INT} можно записать 
 в рекуррентной форме:
 \begin{gather}\label{eq:ODE_INT_EQ}
-\vec{v}(t_{j+1})=\vec{v}(t_{j})+
+\vect{v}(t_{j+1})=\vect{v}(t_{j})+
 \dfrac{
-\vec f\left(t_{j+1},\vec{v}(t_{j+1})\right)+
-\vec f\left(t_{j},\vec{v}(t_{j})\right)
+\vect{f}\left(t_{j+1},\vect{v}(t_{j+1})\right)+
+\vect{f}\left(t_{j},\vect{v}(t_{j})\right)
 }{2}\cdot\Delta t_{j+1}.
 \end{gather}
 
 Для определения приближенного значения решения 
 интегрального уравнения \eqref{eq:ODE_INT_EQ}
 могут быть использованы значения неизвестных функций 
-${\vec u}(t_{j})$, рассчитанные по методу Эйлера
+${\vect{u}}(t_{j})$, рассчитанные по методу Эйлера
 \eqref{eq:ODE_EULER} на $j$-ом временном слое:
 \begin{gather}
-\vec{v}(t_{j+1})\approx\vec{v}(t_{j})+
+\vect{v}(t_{j+1})\approx\vect{v}(t_{j})+
 \dfrac{
-\vec f\left(t_{j+1},{\vec u}(t_{j+1})\right)+
-\vec f\left(t_{j},{\vec u}(t_{j})\right)
+\vect{f}\left(t_{j+1},{\vect{u}}(t_{j+1})\right)+
+\vect{f}\left(t_{j},{\vect{u}}(t_{j})\right)
 }{2}\cdot\Delta t_{j+1}.
 \end{gather}
 
 В качестве предельной абсолютной погрешности 
-приближенного решения ${\vec u}(t_{j})$ 
-задачи Коши \eqref{eq:ODE_SYS} можно принять величину:
+приближенного решения $\vect{u}(t_{j})$ 
+задачи Коши \eqref{eq:ODE_SYS} можно принять 
+какую-либо норму:
 \begin{gather}
-\varepsilon_i(t_j)=|v_i(t_j) - {u}_i(t_j)|,\quad i=1,2,\dots n
+\vect{\varepsilon}(t_j)=\vect{v}(t_j) - \vect{u}(t_j)
 \end{gather}
 
 Контроль точности приближенного решения 
 может вестись покомпонентно или по норме.
-Для различных компонент решения задачи $\vec{u}_i$ 
+Для различных компонент решения задачи $u_i(t_j)$ 
 могут использоваться различные допустимые значения 
 погрешности.
 
 Контроль точности по норме означает, что контролируется 
 некоторая определенная норма оценки погрешности:
 \begin{gather*}
-\norma{\varepsilon}_{\infty}=\max_{i=1..n} \varepsilon_i
+\norma{\,\vect{\varepsilon}\,}_{\infty}=\max_{i=1..n} \varepsilon_i
 \quad
-\norma{\varepsilon}_1=\sum\limits_{i=1}^n \varepsilon_i,
+\norma{\,\vect{\varepsilon}\,}_1=\sum\limits_{i=1}^n \varepsilon_i,
 \quad
-\norma{\varepsilon}_2=\sqrt{\sum\limits_{i=1}^n \varepsilon_i^2}
+\norma{\,\vect{\varepsilon}\,}_2=\sqrt{\sum\limits_{i=1}^n \varepsilon_i^2}
 \end{gather*}
 
 
