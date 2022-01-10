@@ -138,13 +138,20 @@ xlabel=\empty,ylabel=\empty,
 xmin=-1,xmax=11,xtick={0,2,4,6,8,10},xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
 ymin=0.5,ymax=7,ytick={1,2.5,3.5,5,6,6.5},yticklabels={$\mathring{y}$,$y(t_1)$,,$y(t_j)$,,$y(t_N)$},
 width=10cm,
-name=GRAPH]
+name=GRAPH,
+declare function={
+sum = \t;
+ret(\t) = \t;
+}
+]
 \addplot[ball darkblue] coordinates 
 {(0,1) (2,2.5) (3,3.5) (6,5) (8,6) (10,6.5)}
 node[pos=0.2,color=darkblue,below right] 
 {$y(t_1)=\mathring{y}+\Delta t_1\cdot f(0,\mathring{y})$}
 node[pos=0.3,color=darkblue,below right] 
 {$y(t_2)=y(t_1)+\Delta t_2\cdot f(t_1,y(t_1))$};
+\addplot[red,mark=o,domain=1:10,samples=10]{ln(x)};
+\addplot[blue,mark=o,domain=1:10,samples=10]{ret(x)};
 \end{axis}
 %\draw[thick,red] ($(GRAPH.south)-(0,2em)$) node {a};
 \end{tikzpicture}\\

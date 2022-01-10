@@ -168,6 +168,7 @@ y^{\prime}(a) = \dfrac{\mu_a}{\kappa_a} =y^{\prime}_a.
 %
 % **************************************************
 \begin{figure}[H]\centering
+\begin{subfigure}[b]{.5\linewidth}\centering
 \begin{tikzpicture}
 %
 %	Задача Дирихле
@@ -186,9 +187,14 @@ nodes near coords,point meta=explicit symbolic,
 node near coord style={above,yshift=0.5ex,color=red}%fill=olive!10},
 ] coordinates {(0,3) [$y_a$] (3,6) [$y_b$]};
 \end{axis}
+\end{tikzpicture}
+\caption{задача Дирихле}
+\end{subfigure}%
 %
 %	Задача Неймана
 %
+\begin{subfigure}[b]{.5\linewidth}\centering
+\begin{tikzpicture}
 \begin{axis}[width=8cm,
 name=plotb, at={($(plota.east)+(3cm,0)$)}, anchor=west,
 xlabel = {$x$},		% подпись оси x
@@ -208,8 +214,10 @@ node near coord style={above,yshift=1ex,color=red}
 \addplot[thick,red,domain=2.5:3.5,samples=2] {4*x-6};
 \end{axis}
 \end{tikzpicture}
+\caption{задача Неймана}
+\end{subfigure}
 \caption{ Графическая иллюстрация постановки краевых задач\\
-(a) -- Дирихле; (b) -- Неймана}
+a) -- Дирихле; b) -- Неймана}
 \end{figure}
 
 %
