@@ -367,25 +367,20 @@ u_2(10)&=&u_2(8)+2\cdot{f_2(8)}=0.8+2\cdot(1.9)=4.6
 % *******************************
 %	График функций
 %
-\begin{figure}
-\begin{center}
-\begin{tikzpicture}%[background rectangle/.style={fill=olive!10}, show background rectangle]
+\begin{figure}\centering
+\begin{tikzpicture}
 \begin{axis}[
-	xlabel = {$t$},	% подпись оси x
-	ylabel = {$u_1, u_2$},	% подпись оси y
-	xmin=-0.5, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
-	ymin=-4, ymax=5, ytick={-4,-2,0,1,2,4,5}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
-	legend pos={north west},
-]
-\addplot[thick, mark=*, mark size=4pt, mark options={fill=yellow, draw=black, solid}]
-coordinates{(0,1) (2,1) (4,-0.2) (6,-2.6) (8,-3.8) (10,1)};
+xlabel = {$t$},	% подпись оси x
+ylabel = {$u_1, u_2$},	% подпись оси y
+xmin=-1, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
+ymin=-6, ymax=6, ytick={-6,-4,-2,0,2,4,6}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
+legend pos={north west}]
+\addplot[ball darkgreen]coordinates{(0,1) (2,1) (4,-0.2) (6,-2.6) (8,-3.8) (10,1)};
 \addlegendentry{$u_1$};
-\addplot[thick, mark=square*, mark size=3pt, mark options={fill=green, draw=black, solid}]
-coordinates{(0,0) (2,-1) (4,-2) (6,-1.8) (8,0.8) (10,4.6)};
+\addplot[ball darkred]coordinates{(0,0) (2,-1) (4,-2) (6,-1.8) (8,0.8) (10,4.6)};
 \addlegendentry{$u_2$};
 \end{axis}
 \end{tikzpicture}
-\end{center}
 \caption{Зависимость неизвестных функций от времени}
 \label{fig:u(t)}
 \end{figure}
@@ -397,62 +392,67 @@ coordinates{(0,0) (2,-1) (4,-2) (6,-1.8) (8,0.8) (10,4.6)};
 Последовательно определяем приближенное решение 
 интегрального уравнения \eqref{eq:ODE_MY},
 используя рекуррентные соотношения \eqref{eq:ODE_SYS_INT_RR}.
-\begin{enumerate}[leftmargin = 1ex]
+\begin{enumerate}
 \item
-Определим значения неизвестных функций $\hat{u}_1$ и $\hat{u}_2$ в точке $t_1=2$:
+Определим значения неизвестных функций 
+$\tilde{u}_1$ и $\tilde{u}_2$ в точке $t_1=2$:
 \begin{gather*}
 \left\{\begin{array}{rcl}
-\hat{u}_1(2)&=&\hat{u}_1(0)+\tau\cdot\dfrac{f_1(0)+f_1(2)}{2}
-=1+2\cdot\dfrac{0+(-0,6)}{2}=0,4\\[1em]
-\hat{u}_2(2)&=&\hat{u}_2(0)+\tau\cdot\dfrac{f_2(0)+f_2(2)}{2}
-=0+2\cdot\dfrac{-0,5+(-0,5)}{2}=-1
+\tilde{u}_1(2)&=&\tilde{u}_1(0)+\tau\cdot\dfrac{f_1(0)+f_1(2)}{2}
+=1+2\cdot\dfrac{0+(-0.6)}{2}=0.4\\[1em]
+\tilde{u}_2(2)&=&\tilde{u}_2(0)+\tau\cdot\dfrac{f_2(0)+f_2(2)}{2}
+=0+2\cdot\dfrac{-0.5+(-0.5)}{2}=-1
+\end{array}\right..
+\end{gather*}
+\item
+Определим значения неизвестных функций 
+$\tilde{u}_1$ и $\tilde{u}_2$ в точке $t_2=4$:
+\begin{gather*}
+\left\{\begin{array}{rcl}
+\tilde{u}_1(4)&=&\tilde{u}_1(2)+\tau\cdot\dfrac{f_1(2)+f_1(4)}{2}
+=0.4+2\cdot\dfrac{(-0.6)+(-1.2)}{2}=-2.4\\[1em]
+\tilde{u}_2(4)&=&\tilde{u}_2(2)+\tau\cdot\dfrac{f_2(2)+f_2(4)}{2}
+=-1+2\cdot\dfrac{-0.5+0.1}{2}=-1.4
+\end{array}\right..
+\end{gather*}
+\item
+Определим значения неизвестных функций
+$\tilde{u}_1$ и $\tilde{u}_2$ в точке $t_3=6$:
+\begin{gather*}
+\left\{\begin{array}{rcl}
+\tilde{u}_1(6)&=&\tilde{u}_1(4)+\tau\cdot\dfrac{f_1(4)+f_1(6)}{2}
+=-2.4+2\cdot\dfrac{-1.2+(-0.6)}{2}=-4.2\\[1em]
+\tilde{u}_2(6)&=&\tilde{u}_2(4)+\tau\cdot\dfrac{f_2(4)+f_2(6)}{2}
+=-1.4+2\cdot\dfrac{0.1+1.3}{2}=0
+\end{array}\right..
+\end{gather*}
+\item
+Определим значения неизвестных функций 
+$\tilde{u}_1$ и $\tilde{u}_2$ в точке $t_4=8$:
+\begin{gather*}
+\left\{\begin{array}{rcl}
+\tilde{u}_1(8)&=&\tilde{u}_1(6)+\tau\cdot\dfrac{f_1(6)+f_1(8)}{2}
+=-4.2+2\cdot\dfrac{-0.6+2.4}{2}=-2.4\\[1em]
+\tilde{u}_2(8)&=&\tilde{u}_2(6)+\tau\cdot\dfrac{f_2(6)+f_2(8)}{2}
+=0+2\cdot\dfrac{1.3+1.9}{2}=3.2
 \end{array}\right.
 .\end{gather*}
 \item
-Определим значения неизвестных функций $\hat{u}_1$ и $\hat{u}_2$ в точке $t_2=4$:
-\begin{gather*}
-\left\{\begin{array}{rcl}
-\hat{u}_1(4)&=&\hat{u}_1(2)+\tau\cdot\dfrac{f_1(2)+f_1(4)}{2}
-=0,4+2\cdot\dfrac{(-0,6)+(-1,2)}{2}=-2,4\\[1em]
-\hat{u}_2(4)&=&\hat{u}_2(2)+\tau\cdot\dfrac{f_2(2)+f_2(4)}{2}
-=-1+2\cdot\dfrac{-0,5+0,1}{2}=-1,4
-\end{array}\right.
-.\end{gather*}
-\item
-Определим значения неизвестных функций $\hat{u}_1$ и $\hat{u}_2$ в точке $t_3=6$:
-\begin{gather*}
-\left\{\begin{array}{rcl}
-\hat{u}_1(6)&=&\hat{u}_1(4)+\tau\cdot\dfrac{f_1(4)+f_1(6)}{2}
-=-2,4+2\cdot\dfrac{-1,2+(-0,6)}{2}=-4,2\\[1em]
-\hat{u}_2(6)&=&\hat{u}_2(4)+\tau\cdot\dfrac{f_2(4)+f_2(6)}{2}
-=-1,4+2\cdot\dfrac{0,1+1,3}{2}=0
-\end{array}\right.
-.\end{gather*}
-\item
-Определим значения неизвестных функций $\hat{u}_1$ и $\hat{u}_2$ в точке $t_4=8$:
-\begin{gather*}
-\left\{\begin{array}{rcl}
-\hat{u}_1(8)&=&\hat{u}_1(6)+\tau\cdot\dfrac{f_1(6)+f_1(8)}{2}
-=-4,2+2\cdot\dfrac{-0,6+2,4}{2}=-2,4\\[1em]
-\hat{u}_2(8)&=&\hat{u}_2(6)+\tau\cdot\dfrac{f_2(6)+f_2(8)}{2}
-=0+2\cdot\dfrac{1,3+1,9}{2}=3,2
-\end{array}\right.
-.\end{gather*}
-\item
-Определим значения неизвестных функций $\hat{u}_1$ и $\hat{u}_2$ в точке $t_5=10$:
+Определим значения неизвестных функций 
+$\tilde{u}_1$ и $\tilde{u}_2$ в точке $t_5=10$:
 \begin{gather*}\begin{array}{rcl}
-f_1(10)&=&{0,2}\cdot10+u_2(10)={0,2}\cdot8+4,6=6,2\\[1em]
-f_2(10)&=&-\dfrac{u_1(10)}{2}=-\dfrac{1}{2}=-0,5
+f_1(10)&=&{0.2}\cdot10+u_2(10)={0.2}\cdot8+4.6=6.2\\[1em]
+f_2(10)&=&-\dfrac{u_1(10)}{2}=-\dfrac{1}{2}=-0.5
 \end{array}\end{gather*}
 %
 \begin{gather*}
 \left\{\begin{array}{rcl}
-\hat{u}_1(10)&=&\hat{u}_1(8)+\tau\cdot\dfrac{f_1(8)+f_1(10)}{2}
-=-2,4+2\cdot\dfrac{2,4+6,2}{2}=6,2\\[1em]
-\hat{u}_2(10)&=&\hat{u}_2(8)+\tau\cdot\dfrac{f_2(8)+f_2(10)}{2}
-=3,2+2\cdot\dfrac{1,9+(-0,5)}{2}=4,6
-\end{array}\right.
-.\end{gather*}
+\tilde{u}_1(10)&=&\tilde{u}_1(8)+\tau\cdot\dfrac{f_1(8)+f_1(10)}{2}
+=-2.4+2\cdot\dfrac{2.4+6.2}{2}=6.2\\[1em]
+\tilde{u}_2(10)&=&\tilde{u}_2(8)+\tau\cdot\dfrac{f_2(8)+f_2(10)}{2}
+=3.2+2\cdot\dfrac{1.9+(-0.5)}{2}=4.6
+\end{array}\right..
+\end{gather*}
 \end{enumerate}
 
 На рисунке \ref{fig:uu(t)} представлены решения задачи Коши \eqref{eq:ODE_SYS} и
@@ -465,122 +465,98 @@ f_2(10)&=&-\dfrac{u_1(10)}{2}=-\dfrac{1}{2}=-0,5
 % *******************************
 %	График функций
 %
-\begin{figure}[H]
-\begin{center}
+\begin{figure}[H]\centering
 \begin{tikzpicture}
 \begin{axis}[
-	every axis/.style={color=black, solid, thick},
-	xlabel = {$t$},	% подпись оси x
-	ylabel = {$u_1, \hat{u}_1$},	% подпись оси y
-	xmin=-0.5, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
-	ymin=-5, ymax=7, ytick={-4,-2,0,1,3,6}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
-	xtick style={thick, black},
-	ytick style={thick, black},
-	grid=major,		
-	major grid style={color=black!20, dashed, thin},
-	legend pos={north west},
-]
-\addplot[thick, mark=*, mark size=4pt, mark options={fill=yellow, draw=black, solid}] coordinates 
-{(0,1) (2,1) (4,-0.2) (6,-2.6) (8,-3.8) (10,1)};
+%xlabel = {$t$},	% подпись оси x
+ylabel = {$u_1, \tilde{u}_1$},	% подпись оси y
+xmin=-1, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
+ymin=-6, ymax=7, ytick={-6,-4,-2,0,2,4,6}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
+legend pos={north west}]
+\addplot[ball darkgreen]coordinates{(0,1) (2,1) (4,-0.2) (6,-2.6) (8,-3.8) (10,1)};
 \addlegendentry{$u_1$};
-\addplot[thick, mark=*, mark size=4pt, mark options={fill=white, draw=black, solid}] coordinates 
-{(0,1) (2,0.4) (4,-2.4) (6,-4.2) (8,-2.4) (10,6.2)};
-\addlegendentry{$\hat{u}_1$};
+\addplot[thick, mark=*, mark size=3pt, mark options={fill=white, draw=black, solid}]
+coordinates {(0,1) (2,0.4) (4,-2.4) (6,-4.2) (8,-2.4) (10,6.2)};
+\addlegendentry{$\tilde{u}_1$};
 \end{axis}
 \end{tikzpicture}
-\end{center}
 % *******************************
 %	График функций
 %
-\begin{center}
 \begin{tikzpicture}
 \begin{axis}[
-	every axis/.style={color=black, solid, thick},
-	xlabel = {$t$},	% подпись оси x
-	ylabel = {$u_2, \hat{u}_2$},	% подпись оси y
-	xmin=-0.5, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
-	ymin=-3, ymax=5, ytick={-2,0,2,4}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
-	xtick style={thick, black},
-	ytick style={thick, black},
-	grid=major,		
-	major grid style={color=black!20, dashed, thin},
-	legend pos={north west},
-]
-\addplot[thick, mark=square*, mark size=3pt, mark options={fill=green, draw=black, solid}] coordinates 
-{(0,0) (2,-1) (4,-2) (6,-1.8) (8,0.8) (10,4.6)};
+xlabel = {$t$},	% подпись оси x
+ylabel = {$u_2, \tilde{u}_2$},	% подпись оси y
+xmin=-1, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
+ymin=-3, ymax=5, ytick={-2,0,2,4}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
+legend pos={north west}]
+\addplot[ball darkred]coordinates{(0,0) (2,-1) (4,-2) (6,-1.8) (8,0.8) (10,4.6)};
 \addlegendentry{$u_2$};
-\addplot[thick, mark=square*, mark size=3pt, mark options={fill=white, draw=black, solid}] coordinates 
-{(0,0) (2,-1) (4,-1.4) (6,0) (8,3.2) (10,4.6)};
-\addlegendentry{$\hat{u}_2$};
+\addplot[thick, mark=*, mark size=3pt, mark options={fill=white, draw=black, solid}]
+coordinates{(0,0) (2,-1) (4,-1.4) (6,0) (8,3.2) (10,4.6)};
+\addlegendentry{$\tilde{u}_2$};
 \end{axis}
 \end{tikzpicture}
-\end{center}
 \caption{Приближенное решение задачи Коши и соответствующего интегрального уравнения}
 \label{fig:uu(t)}
 \end{figure}
 
-\begin{table}
-\caption{Предельная абсолютная погрешность приближенного решения задачи Коши \eqref{eq:ODE_MY}}
+\begin{table}[H]
+\caption{Предельная абсолютная погрешность 
+приближенного решения задачи Коши \eqref{eq:ODE_MY}}
 \label{tab:error}
-\begin{tabular}{p{3cm} *{6}{p{1.5cm}}}
-\toprule[1pt]
-Время&0&2&4&6&8&10\\
+\begin{tabular*}{\textwidth}
+{@{\extracolsep{\fill}}*{7}{p{1.5cm}}}
+%\begin{tabular*}{\\textwidth}{p{8cm}p{5cm}r}
+\toprule
+$i$&$0$&$1$&$2$&$3$&$4$&$5$\\
+$t_i$&$0$&$2$&$4$&$6$&$8$&$10$\\
 \midrule
 \multicolumn{7}{l}{Задача Коши}\\
-\midrule
-$u_1$&1&1&-0,2&-2,6&-3,8&1\\
-$u_2$&0&-1&-2&-1,8&0,8&4,6\\
+\midmidrule
+$u_1(t_i)$&$1$&$1$&$-0.2$&$-2.6$&$-3.8$&$1$\\
+$u_2(t_i)$&$0$&$-1$&$-2$&$-1.8$&$0.8$&$4.6$\\
 \midrule
 \multicolumn{7}{l}{Интегральное уравнение}\\
+\midmidrule
+$\tilde{u}_1(t_i)$&$1$&$0.4$&$-2.4$&$-4.2$&$-2.4$&$6.2$\\
+$\tilde{u}_2(t_i)$&$0$&$-1$&$-1.4$&$0$&$3.2$&$4.6$\\
 \midrule
-$\hat{u}_1$&1&0,4&-2,4&-4,2&-2,4&6,2\\
-$\hat{u}_2$&0&-1&-1,4&0&3,2&4,6\\
-\midrule
-\multicolumn{7}{l}{Абсолютная погрешность $\epsilon=|\hat{u}-u|$}\\
-\midrule
-$\epsilon_1$&0&0,6&2,2&1,6&1,4&5,2\\
-$\epsilon_2$&0&0&0,6&1,8&2,4&0\\
-\bottomrule[1pt]
-\end{tabular}
+\multicolumn{7}{l}{Абсолютная погрешность 
+$\vect{\varepsilon}=|\tilde{\vect{u}}-\vect{u}|$}\\
+\midmidrule
+$\varepsilon_1$&$0$&$0.6$&$2.2$&$1.6$&$1.4$&$5.2$\\
+$\varepsilon_2$&$0$&$0$&$0.6$&$1.8$&$2.4$&$0$\\
+\bottomrule
+\end{tabular*}
 \end{table}
 
 Из рисунка \ref{fig:error} видно, что максимальная 
 предельная абсолютная погрешность для $u_1(t)$ 
-составляет $\epsilon_1=5,1$, 
-а для функции $u_2(t)$ -- $\epsilon_2=2,4$.
+составляет $\varepsilon_1=5.2$, 
+а для функции $u_2(t)$ -- $\varepsilon_2=2.4$.
 
 % *******************************
 %	График погрешности
 %
-\begin{figure}[H]
-\begin{center}
+\begin{figure}[H]\centering
 \begin{tikzpicture}
-[background rectangle/.style={fill=olive!10}, show background rectangle]
 \begin{axis}[
-	ybar,
-	bar width=18pt,
-	nodes near coords,
-	every axis/.style={color=black, solid, thick},
-%	axis background/.style={fill=olive!10},
-	xlabel = {Время},	% подпись оси x
-	ylabel = {Абсолютная погрешность, $\epsilon$},	% подпись оси y
-	xmin=1, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
-	ymin=-0.5, ymax=6, ytick={0,2,4,6}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
-	xtick style={thick, black},
-	ytick style={thick, black},
-	grid=major,		
-	major grid style={color=black!20, dashed, thin},
-	legend pos={north west},
-]
-\addplot[thin, blue, fill=blue!35] coordinates 
-{(2,0.6) (4,2.2) (6,1.6) (8,1.4) (10,5.2)};
-\addlegendentry{$\epsilon_1$};
-\addplot[thin, red, fill=red!35] coordinates 
-{(2,0) (4,0.6) (6,1.8) (8,2.4) (10,0)};
-\addlegendentry{$\epsilon_2$};
+ybar,bar width=18pt,
+nodes near coords,
+xlabel = {Время, $t$},
+ylabel = {Абсолютная погрешность, $\varepsilon$},	% подпись оси y
+xmin=1, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
+ymin=-0.5, ymax=6, ytick={0,2,4,6}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
+legend pos={north west}]
+\addplot[thin, blue, fill=blue!35]
+coordinates{(2,0.6) (4,2.2) (6,1.6) (8,1.4) (10,5.2)};
+\addlegendentry{$\varepsilon_1$};
+\addplot[thin, red, fill=red!35]
+coordinates{(2,0) (4,0.6) (6,1.8) (8,2.4) (10,0)};
+\addlegendentry{$\varepsilon_2$};
 \end{axis}
 \end{tikzpicture}
-\end{center}
 \caption{Предельная абсолютная погрешность приближенного решения задачи Коши \eqref{eq:ODE_MY}}
 \label{fig:error}
 \end{figure}
