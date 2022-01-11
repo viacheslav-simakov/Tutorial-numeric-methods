@@ -126,8 +126,9 @@ y(t_{j+1})=y(t_{j})+\Delta t_{j+1}\cdot f\left(t_j, y(t_{j})\right),
 \end{gather*}
 
 На рисунке \ref{fig:EULER} представлена графическая иллюстрация 
-метода Эйлера численного решения задачи Коши 
-для одного дифференциального уравнения первого порядка.
+метода Эйлера численного решения (маркеры) задачи Коши 
+для одного дифференциального уравнения первого порядка
+(сплошной линией представлено точное решение).
 % *******************************
 %	Ломаная Эйлера
 %
@@ -135,28 +136,15 @@ y(t_{j+1})=y(t_{j})+\Delta t_{j+1}\cdot f\left(t_j, y(t_{j})\right),
 \begin{tikzpicture}
 \begin{axis}[% оси координат
 xlabel=\empty,ylabel=\empty,
-xmin=-1,xmax=11,xtick={0,2,4,6,8,10},xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
-ymin=0.5,ymax=7,ytick={1,2.5,3.5,5,6,6.5},yticklabels={$\mathring{y}$,$y(t_1)$,,$y(t_j)$,,$y(t_N)$},
-width=10cm,
-name=GRAPH,
-declare function={
-sum = \t;
-ret(\t) = \t;
-}
+xmin=-0.5,xmax=8,xtick={0,1,4,7},xticklabels={$0$,$t_1$,$t_j$,$t_n$},
+ymin=-0.25,ymax=3,ytick={0,1,2.08,2.59},yticklabels={$y(0)$,$y(t_1)$,$y(t_j)$,$y(t_n)$},
 ]
-\addplot[ball darkblue] coordinates 
-{(0,1) (2,2.5) (3,3.5) (6,5) (8,6) (10,6.5)}
-node[pos=0.2,color=darkblue,below right] 
-{$y(t_1)=\mathring{y}+\Delta t_1\cdot f(0,\mathring{y})$}
-node[pos=0.3,color=darkblue,below right] 
-{$y(t_2)=y(t_1)+\Delta t_2\cdot f(t_1,y(t_1))$};
-\addplot[red,mark=o,domain=1:10,samples=10]{ln(x)};
-\addplot[blue,mark=o,domain=1:10,samples=10]{ret(x)};
+\addplot[name path=A,very thick,red,domain=0:7,samples=50]{ln(1+x)};
+\addplot[name path=B,ball darkblue,thin]coordinates{(0,0)(1,1)(2,1.5)(3,1.83)(4,2.08)(5,2.28)(6,2.45)(7,2.59)};
+\addplot[blue!5] fill between [of=A and B];
 \end{axis}
 %\draw[thick,red] ($(GRAPH.south)-(0,2em)$) node {a};
-\end{tikzpicture}\\
-a)
-%\par пример
+\end{tikzpicture}
 \caption{Ломаная Эйлера}
 \label{fig:EULER}
 \end{figure}
