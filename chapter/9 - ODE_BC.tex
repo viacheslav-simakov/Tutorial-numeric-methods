@@ -125,46 +125,52 @@ $\mathcal{A}$ -- область интегрирования, которая в 
 %	ВИДЫ КРАЕВЫХ ЗАДАЧ
 %
 \emptyline
-\subsection{Виды краевых условий}
-В зависимости от вида краевого условия на границе 
-$\partial\Omega$ (в одномерной задачи это отрезок
-$a \leqslant x < \leqslant b$)
+\subsection{Линейные краевые условия}
+Для систем дифференциальных уравнений специального вида
+\begin{equation}\label{eq:ODE(BC):1D}
+\left\{\begin{matrix}[rcl]
+u^{\prime}(x)&=&f_1(x)\cdot w(x)\\
+w^{\prime}(x)&=&f_2(x,u,w)
+\end{matrix}\right.
+\end{equation}
+в зависимости от вида условий на границах
+отрезка $0 \leqslant x \leqslant \ell$ (граница области поиска
+решений $\partial\Omega$)
 различают три основных типа граничных задач:
 задачу Дирихле, Неймана и смешанную краевую задачу 
-(таблица \ref{tab:ODE_BC_TYPE}).
+(таблица \ref{tab:ODE(BC)-type}).
 
-% ******* begin table *******
+%
+% Основные виды краевых условий
+%
 \begin{table}[H]
-\caption{
-Основные виды краевых условий
-для обыкновенных дифференциальных уравнений 
-второго порядка \eqref{eq:ODE_MAIN}
+\caption{Основные виды краевых условий
+для системы обыкновенных дифференциальных уравнений 
+\eqref{eq:ODE(BC):1D}
 }
-\label{tab:ODE_BC_TYPE}
-\begin{tabular}{l l l l}
+\label{tab:ODE(BC)-type}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}*4{l}}
 \toprule
-№&Краевое условие&Граница $x=a$&Граница $x=b$\\
+№&Краевое условие&Граница $x=0$&Граница $x=\ell$\\
 \midmidrule
 1&Дирихле
-&$y(a)=y_a$
-&$y(b)=y_b$\\
-\addlinespace[1ex]
+&$u(0)=u_0$
+&$u(\ell)=u_{\ell}$\\
+\addlinespace
 2&Неймана
-&$y^{\prime}(a)=y^{\prime}_a$
-&$y^{\prime}(b)=y^{\prime}_b$\\
-\addlinespace[1ex]
+&$w(0)=w_0$
+&$w(\ell)=w_{\ell}$\\
+\addlinespace
 3&Смешанная
-&$\kappa_a\cdot y^{\prime}(a)+\lambda_a\cdot y(a)=\mu_a$
-&$\kappa_b\cdot y^{\prime}(b)+\lambda_b\cdot y(b)=\mu_b$\\
-\addlinespace[1ex]
+&$a_0\cdot u(0)+b_0\cdot w(0)=\mu_0$
+&$a_{\ell}\cdot u(\ell)+b_{\ell}\cdot w(\ell)=\mu_{\ell}$\\
+\addlinespace
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \end{table}
-% ******* end table *******
 
 % *** Смешанная краевая задача ***
 \begin{figure}[H]\centering
-%\input{ODE_BC_fig/ODE_BC_fig(General)}
 \begin{tikzpicture}
 % контрольная область
 \draw[
@@ -174,108 +180,118 @@ chamfered rectangle angle=60,
 minimum height=3em,
 minimum width=10em
 ] (0,0) node[thick,color=black,draw,color=black,fill=lime!10,] (G)
-{$\kappa\cdot y^{\prime}(a)+\lambda\cdot y(a)=\mu$};
+{$a_0\cdot u(0)+b_0\cdot w(0)=\mu_0$};
 \node[above] at (G.north) {Смешанная задача};
 % Задача Дирихле
 \draw[shape=rectangle,minimum height=3em, minimum width=5em]
 ($(G.south west)+(-3em,-5em)$)
-node[thick,red,draw=red,fill=red!10] (D) {$y(a)=y_a$};
+node[thick,red,draw=red,fill=red!10] (D) {$u(0)=u_0\equiv\dfrac{\mu_0}{a_0}$};
 \node[below] at (D.south) {Задача Дирихле};
-\node[right] at (D.east) {$y_a=\dfrac{\mu}{\lambda}$};
 % Задача Неймана
 \draw[shape=rectangle, minimum height=3em, minimum width=5em]
 ($(G.south east)+(3em,-5em)$)
-node[thick,blue,draw=blue,fill=blue!10] (N) {$y^{\prime}(a)=y^{\prime}_a$};
+node[thick,blue,draw=blue,fill=blue!10] (N) {$w(0)=w_0\equiv\dfrac{\mu_0}{b_0}$};
 \node[below] at (N.south) {Задача Неймана};
-\node[right] at (N.east) {$y^{\prime}_a=\dfrac{\mu}{\kappa}$};
 % стрелки
-\draw[-latex,very thick,red] (G.west) -| (D.north) node[left,midway] {$\kappa\equiv0$};
-\draw[-latex,very thick,blue] (G.east) -| (N.north) node[right,midway] {$\lambda\equiv0$};
+\draw[-latex,very thick,red] (G.west) -| (D.north) node[left,midway] {$b_0\equiv0$};
+\draw[-latex,very thick,blue] (G.east) -| (N.north) node[right,midway] {$a_0\equiv0$};
 \end{tikzpicture}
 % *******************************************
-\caption{Виды краевых задач для дифференциальных уравнений\linebreak
-второго порядка}
+\caption{Виды краевых задач для систем обыкновенных
+дифференциальных уравнений вида \eqref{eq:ODE(BC):1D}}
 \label{fig:ODE_BC(Genaral)}
 \end{figure}
 
 С формальной точки зрения, задача Дирихле и Неймана являются
 частными случаями смешанной краевой задачи 
 (рисунок \ref{fig:ODE_BC(Genaral)}):
-например, если $\kappa_a\equiv0$, то смешанная краевая задача
+например, если $b_0\equiv0$, то смешанная краевая задача
 трансформируется в задачу Дирихле:
 \begin{gather*}
-0\cdot y^{\prime}(a)+\lambda_a\cdot y(a)=\mu_a,
-\quad \Rightarrow \quad 
-y(a) = \dfrac{\mu_a}{\lambda_a} =y_a
-,\end{gather*}
-а если полагать $\lambda_a\equiv0$, то формулируется 
-задача Неймана:
+a_0\cdot u(0)+0\cdot w(0)=\mu_0,
+\quad\Rightarrow\quad 
+u(0) = \dfrac{\mu_0}{a_0} = u_0,
+\end{gather*}
+а если полагать $a_0\equiv0$, то формулируется задача Неймана:
 \begin{gather*}
-\kappa_a\cdot y^{\prime}(a)+0\cdot y(a)=\mu_a,
-\quad \Rightarrow \quad 
-y^{\prime}(a) = \dfrac{\mu_a}{\kappa_a} =y^{\prime}_a.
+0\cdot u(0)+b_0\cdot w(0)=\mu_0,
+\quad\Rightarrow\quad 
+w(0)=\dfrac{\mu_0}{b_0}=w_0.
 \end{gather*}
 
-Поэтому для общности, далее будем рассматривать 
-только смешанную краевую задачу.
+Поэтому для общности, можно рассматривать только 
+смешанную краевую задачу стандартного вида:
+\begin{equation}\label{eq:ODE+BC:1D}
+\left\{\begin{matrix}[rcl]
+w^{\prime}(x)&=&f(x,u,w)\\
+w(x)&=&-k(x)\cdot u^{\prime}(x)\\[1em]
+w(0)&+&\alpha_0\cdot u(0) = \mu_0\\
+w(\ell)&+&\alpha_1\cdot u(\ell) = \mu_1
+\end{matrix}\right.,
+\end{equation}
+где $f(x,u,w)$ и $k(x)$ -- известные функции, в том числе может
+быть разрывные;
+$\alpha_{0,1}$ и $\mu_{0,1}$ -- известные постоянные
+коэффициенты, определяемые физическим смыслом 
+решаемой задачи.
 
 % **************************************************
 %
 %	Краевые условия для обыкновенных дифференциальных уравнений
 %
 % **************************************************
-\begin{figure}[H]\centering
-\begin{subfigure}[b]{.5\linewidth}\centering
-\begin{tikzpicture}
-%
-%	Задача Дирихле
-%
-\begin{axis}[width=8cm,
-name=plota,
-xlabel = {$x$},		% подпись оси x
-ylabel = {$y(x)$},	% подпись оси y
-xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
-ymin=0, ymax=9, ytick={3,6}, yticklabels={\empty},
-]
-\addplot[thick,black,domain=0:3,samples=50] {x^2-2*x+3};
-\addplot[
-only marks,mark=*,mark size=3pt, mark options={fill=white,draw=red,thick},
-nodes near coords,point meta=explicit symbolic,
-node near coord style={above,yshift=0.5ex,color=red}%fill=olive!10},
-] coordinates {(0,3) [$y_a$] (3,6) [$y_b$]};
-\end{axis}
-\end{tikzpicture}
-\caption{задача Дирихле}
-\end{subfigure}%
-%
-%	Задача Неймана
-%
-\begin{subfigure}[b]{.5\linewidth}\centering
-\begin{tikzpicture}
-\begin{axis}[width=8cm,
-name=plotb, at={($(plota.east)+(3cm,0)$)}, anchor=west,
-xlabel = {$x$},		% подпись оси x
-ylabel = {$y(x)$},	% подпись оси y
-xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
-ymin=0, ymax=9, ytick={\empty}, %yticklabels={$y_a$,$y_b$},
-]
-\addplot[thick,black,domain=0:3,samples=50] {x^2-2*x+3};
-\addplot[
-only marks,mark=*,mark size=3pt,mark options={fill=white,draw=red,thick},
-nodes near coords,	 point meta=explicit symbolic,
-node near coord style={above,yshift=1ex,color=red}
-] coordinates {(0,3) [$y^{\prime}_a$] (3,6) [$y^{\prime}_b$]};
-% y'(a)
-\addplot[thick,red,domain=-0.75:0.75,samples=2] {-2*x+3};
-% y'(b)
-\addplot[thick,red,domain=2.5:3.5,samples=2] {4*x-6};
-\end{axis}
-\end{tikzpicture}
-\caption{задача Неймана}
-\end{subfigure}
-\caption{ Графическая иллюстрация постановки краевых задач\\
-a) -- Дирихле; b) -- Неймана}
-\end{figure}
+%\begin{figure}[H]\centering
+%\begin{subfigure}[b]{.5\linewidth}\centering
+%\begin{tikzpicture}
+%%
+%%	Задача Дирихле
+%%
+%\begin{axis}[width=8cm,
+%name=plota,
+%xlabel = {$x$},		% подпись оси x
+%ylabel = {$y(x)$},	% подпись оси y
+%xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
+%ymin=0, ymax=9, ytick={3,6}, yticklabels={\empty},
+%]
+%\addplot[thick,black,domain=0:3,samples=50] {x^2-2*x+3};
+%\addplot[
+%only marks,mark=*,mark size=3pt, mark options={fill=white,draw=red,thick},
+%nodes near coords,point meta=explicit symbolic,
+%node near coord style={above,yshift=0.5ex,color=red}%fill=olive!10},
+%] coordinates {(0,3) [$y_a$] (3,6) [$y_b$]};
+%\end{axis}
+%\end{tikzpicture}
+%\caption{задача Дирихле}
+%\end{subfigure}%
+%%
+%%	Задача Неймана
+%%
+%\begin{subfigure}[b]{.5\linewidth}\centering
+%\begin{tikzpicture}
+%\begin{axis}[width=8cm,
+%name=plotb, at={($(plota.east)+(3cm,0)$)}, anchor=west,
+%xlabel = {$x$},		% подпись оси x
+%ylabel = {$y(x)$},	% подпись оси y
+%xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
+%ymin=0, ymax=9, ytick={\empty}, %yticklabels={$y_a$,$y_b$},
+%]
+%\addplot[thick,black,domain=0:3,samples=50] {x^2-2*x+3};
+%\addplot[
+%only marks,mark=*,mark size=3pt,mark options={fill=white,draw=red,thick},
+%nodes near coords,	 point meta=explicit symbolic,
+%node near coord style={above,yshift=1ex,color=red}
+%] coordinates {(0,3) [$y^{\prime}_a$] (3,6) [$y^{\prime}_b$]};
+%% y'(a)
+%\addplot[thick,red,domain=-0.75:0.75,samples=2] {-2*x+3};
+%% y'(b)
+%\addplot[thick,red,domain=2.5:3.5,samples=2] {4*x-6};
+%\end{axis}
+%\end{tikzpicture}
+%\caption{задача Неймана}
+%\end{subfigure}
+%\caption{ Графическая иллюстрация постановки краевых задач\\
+%a) -- Дирихле; b) -- Неймана}
+%\end{figure}
 
 %
 %	Построение разностных схем методом баланса
