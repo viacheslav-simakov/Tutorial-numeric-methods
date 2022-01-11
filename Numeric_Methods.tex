@@ -3,9 +3,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % нумерация 1a
 % https://newbedev.com/draw-arrows-outside-of-content-area-of-tikz
+%
+% Номерация подрисунков
+%https://tex.stackexchange.com/questions/123019/subfigure-numbering-%in-subfigure-environment-subcaption-package
 % Преамбула
 %
 \input{sgu.tex}
+\usepackage{subcaption}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Стиль графиков
 \pgfplotsset{
@@ -20,8 +24,8 @@ every axis/.style={% оси координат
 	major grid style={	thin,dashed,color=gray!25,},
 },
 every node near coord/.append style={
-%font=\footnotesize,%
-font=\small,%
+font=\footnotesize,%
+%font=\small,%
 color=black,%
 %fill=olive!10,%
 above,
@@ -54,6 +58,17 @@ ball darkblue/.style={
 		thin,
 		draw=darkblue,
 		ball color=darkblue!50,
+	},
+},
+ball darkgreen/.style={
+	thick,
+	mark=ball,
+	color=darkgreen,
+	mark size=3pt,
+	mark options={% маркеры
+		thin,
+		draw=darkgreen,
+		ball color=darkgreen!50,
 	},
 },
 }
@@ -107,13 +122,13 @@ ball darkblue/.style={
 % Аппроксимация
 %\input{chapter/3 - Approximation}
 % Численное дифференцирование
-\input{chapter/4 - Numerical_Differentiation}
+%\input{chapter/4 - Numerical_Differentiation}
 % Численное интегрирование
 %\input{chapter/5 - Numerical_Integration}
 % Задача Коши для систем обыкновенных дифференциальных уравнений
-%\input{chapter/8 - ODE_IC.tex}
+%\input{chapter/8 - ODE_IC}
 % Краевые задачи для обыкновенных дифференциальных уравнений
-%\input{chapter/ODE_BC}
+\input{chapter/9 - ODE_BC}
 % Нелинейные уравнения
 %\input{chapter/Nonlinear_Equations}
 
