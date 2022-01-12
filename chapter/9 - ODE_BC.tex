@@ -629,7 +629,7 @@ coordinates{(0,90)(30,90)(30,50)(55,50)(55,20)(80,20)(80,50)(100,50)}\closedcycl
 неравномерную сетку -- конечное упорядоченное 
 множество точек $\{x_i\}$, принадлежащих этому отрезку:
 \begin{gather*}
-0=x_0<x_1<x_2<\cdots<x_i<\cdots<x_{N-1}<x_N=\ell,
+0=x_0<x_1<x_2<\cdots<x_i<\cdots<x_{n-1}<x_n=\ell,
 \end{gather*}
 где $x_i\in[0,\ell]$ -- узлы сетки;
 $i=0,1,2\dots,N$ -- порядковый номер узла сетки;
@@ -640,19 +640,26 @@ $N$ -- количество узлов сетки.
 [>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]% стрелка
 % начало отсчета
 \coordinate (O) at (0mm,0mm);
-\def\dx{15mm}
 % ось OX
-\draw[->,thin] (O)% node[pos=0,yshift=-1em]{$0$}
--- +(120mm,0mm) node[pos=1,yshift=-1em]{$x$};
+\draw[->,line width=0.25mm] (O)% node[pos=0,yshift=-1em]{$0$}
+-- +(130mm,0mm) node[pos=1,yshift=-1em]{$x$};
 % сетка
-\coordinate (p0) at (O);
-\foreach \x [count=\n from 0] in {0,10,20,35}
-{
-\draw[thin] (p\n) 
--- ++(\x mm,0mm) coordinate(p\the\numexpr\n + 1\relax)
--- +(0mm,1mm) -- +(0mm,-1mm) node[below]{$x_\n$} ;
-}
-
+\coordinate (p) at (O);
+\foreach \x [count=\n from 0] in {0,17,12,15,19,16,14,17}{
+\draw[line width=0.25mm] (p) -- ++(\x mm,0mm) coordinate(p)
+-- +(0mm,1.5mm) -- +(0mm,-1.5mm) coordinate(p\n);}
+% подписи
+\draw (p0) node[yshift=-2ex]{$0$};
+\foreach \n in {0,1,2}{ \draw (p\n) node[yshift=1em]{$x_\n$}; }
+\draw (p4) node[yshift=1em]{$x_i$};
+\draw (p6) node[yshift=1em]{$x_{n-1}$};
+\draw (p7) node[yshift=1em]{$x_n$} node[yshift=-2ex]{$\ell$};
+% штриховка
+\path (p0) -- +(0mm,1mm) coordinate(x0);
+\path (p7) -- +(0mm,1mm) coordinate(x7);
+\pattern[pattern=north east lines,pattern color=gray,opacity=0.5]
+([yshift=1mm]p0) -- ([yshift=-2mm]p0) -- 
+([yshift=-2mm]p7) -- ([yshift=1mm]p7)  -- cycle;
 \end{tikzpicture}
 \end{figure}
 
