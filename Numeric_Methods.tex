@@ -72,6 +72,27 @@ ball darkgreen/.style={
 	},
 },
 }
+\pgfplotsset{
+% define the layers you need.
+% (Don't forget to add `main' somewhere in that list!!)
+	layers/my layer set/.define layer set={
+		background,
+		main,
+		foreground
+	}{
+		% you could state styles here which should be moved to
+		% corresponding layers, but that is not necessary here.
+		% That is why we don't state anything here
+	},
+        % activate the newly created layer set
+        set layers=my layer set,
+}
+%\addplot [red,
+%	% and with `on layer' you can state the layer where the
+%	% plot should be drawn on
+%	on layer=foreground,
+%	] {x};
+            
 \begin{document}
 % колонтитулы
 \pagestyle{bodypages}

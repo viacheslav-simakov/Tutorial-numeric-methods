@@ -240,58 +240,58 @@ $a_{0,1}$, $b_{0,1}$ и $c_{0,1}$ -- известные постоянные
 %	Краевые условия для обыкновенных дифференциальных уравнений
 %
 % **************************************************
-\begin{figure}[H]\centering
-\begin{subfigure}[b]{.5\linewidth}\centering
-\begin{tikzpicture}
-%
-%	Задача Дирихле
-%
-\begin{axis}[width=8cm,
-name=plota,
-xlabel = {$x$},		% подпись оси x
-ylabel = {$y(x)$},	% подпись оси y
-xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
-ymin=0, ymax=9, ytick={3,6}, yticklabels={\empty},
-]
-\addplot[thick,black,domain=0:3,samples=50] {x^2-2*x+3};
-\addplot[
-only marks,mark=*,mark size=3pt, mark options={fill=white,draw=red,thick},
-nodes near coords,point meta=explicit symbolic,
-node near coord style={above,yshift=0.5ex,color=red}%fill=olive!10},
-] coordinates {(0,3) [$y_a$] (3,6) [$y_b$]};
-\end{axis}
-\end{tikzpicture}
-\caption{задача Дирихле}
-\end{subfigure}%
-%
-%	Задача Неймана
-%
-\begin{subfigure}[b]{.5\linewidth}\centering
-\begin{tikzpicture}
-\begin{axis}[width=8cm,
-name=plotb, at={($(plota.east)+(3cm,0)$)}, anchor=west,
-xlabel = {$x$},		% подпись оси x
-ylabel = {$y(x)$},	% подпись оси y
-xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
-ymin=0, ymax=9, ytick={\empty}, %yticklabels={$y_a$,$y_b$},
-]
-\addplot[thick,black,domain=0:3,samples=50] {x^2-2*x+3};
-\addplot[
-only marks,mark=*,mark size=3pt,mark options={fill=white,draw=red,thick},
-nodes near coords,	 point meta=explicit symbolic,
-node near coord style={above,yshift=1ex,color=red}
-] coordinates {(0,3) [$y^{\prime}_a$] (3,6) [$y^{\prime}_b$]};
-% y'(a)
-\addplot[thick,red,domain=-0.75:0.75,samples=2] {-2*x+3};
-% y'(b)
-\addplot[thick,red,domain=2.5:3.5,samples=2] {4*x-6};
-\end{axis}
-\end{tikzpicture}
-\caption{задача Неймана}
-\end{subfigure}
-\caption{ Графическая иллюстрация постановки краевых задач\\
-a) -- Дирихле; b) -- Неймана}
-\end{figure}
+%\begin{figure}[H]\centering
+%\begin{subfigure}[b]{.5\linewidth}\centering
+%\begin{tikzpicture}
+%%
+%%	Задача Дирихле
+%%
+%\begin{axis}[width=8cm,
+%name=plota,
+%xlabel = {$x$},		% подпись оси x
+%ylabel = {$y(x)$},	% подпись оси y
+%xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
+%ymin=0, ymax=9, ytick={3,6}, yticklabels={\empty},
+%]
+%\addplot[thick,black,domain=0:3,samples=50] {x^2-2*x+3};
+%\addplot[
+%only marks,mark=*,mark size=3pt, mark options={fill=white,draw=red,thick},
+%nodes near coords,point meta=explicit symbolic,
+%node near coord style={above,yshift=0.5ex,color=red}%fill=olive!10},
+%] coordinates {(0,3) [$y_a$] (3,6) [$y_b$]};
+%\end{axis}
+%\end{tikzpicture}
+%\caption{задача Дирихле}
+%\end{subfigure}%
+%%
+%%	Задача Неймана
+%%
+%\begin{subfigure}[b]{.5\linewidth}\centering
+%\begin{tikzpicture}
+%\begin{axis}[width=8cm,
+%name=plotb, at={($(plota.east)+(3cm,0)$)}, anchor=west,
+%xlabel = {$x$},		% подпись оси x
+%ylabel = {$y(x)$},	% подпись оси y
+%xmin=-1, xmax=4, xtick={0,3}, xticklabels={$a$,$b$},
+%ymin=0, ymax=9, ytick={\empty}, %yticklabels={$y_a$,$y_b$},
+%]
+%\addplot[thick,black,domain=0:3,samples=50] {x^2-2*x+3};
+%\addplot[
+%only marks,mark=*,mark size=3pt,mark options={fill=white,draw=red,thick},
+%nodes near coords,	 point meta=explicit symbolic,
+%node near coord style={above,yshift=1ex,color=red}
+%] coordinates {(0,3) [$y^{\prime}_a$] (3,6) [$y^{\prime}_b$]};
+%% y'(a)
+%\addplot[thick,red,domain=-0.75:0.75,samples=2] {-2*x+3};
+%% y'(b)
+%\addplot[thick,red,domain=2.5:3.5,samples=2] {4*x-6};
+%\end{axis}
+%\end{tikzpicture}
+%\caption{задача Неймана}
+%\end{subfigure}
+%\caption{ Графическая иллюстрация постановки краевых задач\\
+%a) -- Дирихле; b) -- Неймана}
+%\end{figure}
 
 %
 %	Построение разностных схем методом баланса
@@ -400,18 +400,6 @@ $\mathring{u}$ -- температура окружающей среды.
 в объеме материала стержня.
 \end{enumerate}
 
-%\begin{figure} % *** Однородный стержень ***
-%\begin{center}
-%\input{ODE_BC_fig/ODE_BC_fig(homo_material).tex}
-%\caption{Примеры краевых задач с разрывными коэффициентами $r(x)$ и $g(x)$
-%дифференциального уравнения установившегося распределения температуры 
-%в однородном стержне длиной $\ell$:\\
-%(a) -- локальная теплоизоляция боковой поверхности стержня;\\
-%(b) -- локальный нагрев участка стержня}
-%\label{fig:ODE_BC(homo_material)}
-%\end{center}
-%\end{figure}
-
 Необходимо отметить, что в зависимости от физического смысла 
 постановки краевых задач коэффициенты 
 дифференциального уравнения задачи \eqref{eq:HT+BC:1D}
@@ -422,7 +410,7 @@ $\mathring{u}$ -- температура окружающей среды.
 \emph{однородный стержень} с локальной теплоизоляцией,
 т.е. конвекционный теплообмен участка $x\in[a,b]$
 боковой поверхности стрежня с окружающей средой
-затруднен или отсутствует (рисунок \ref{fig:BC:variants:r(x)}):
+затруднен или отсутствует (рисунок \ref{fig:BC:homo material:r(x)}):
 \begin{gather*}
 r(x)=\begin{cases}
 r_1,& 0 \leqslant x < a\\
@@ -436,7 +424,7 @@ r_1,& b < x \leqslant \ell
 \textit{однородный стержень} с локальным нагревом, т.е.
 на участке стержня $[a,b]$ происходит нагрев стержня 
 за счет внешних источников тепловой энергии
-(рисунок \ref{fig:BC:variants:q(x)}), например, 
+(рисунок \ref{fig:BC:homo material:q(x)}), например, 
 излучения:
 \begin{gather*}
 q(x)=\begin{cases}
@@ -468,51 +456,38 @@ gap axis style/.append style={
 %
 \begin{subfigure}[b]{.5\linewidth}\centering
 \begin{tikzpicture}
-\def\xa{35}\def\xb{70}
-\def\ya{80}\def\yb{20}
 \begin{axis}[gap axis style,ylabel=$r(x)$,
-xtick={0,\xa,\xb,100},xticklabels={$0$,$a$,$b$,$\ell$},
-ytick={\ya,\yb},yticklabels={$r_1$,$r_2$}]
-\begin{scope}[color=darkblue,>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
-% разрыв функции
-\draw (axis cs:0,\ya) -- (axis cs: \xa,\ya) coordinate(a);
-\draw (axis cs:\xa,\yb) coordinate(b1) -- (axis cs: \xb,\yb) coordinate(b2);
-\draw (axis cs:\xb,\ya) coordinate(c) -- (axis cs: 100,\ya);
-%
-\draw[->] (a) -- (b1) node[pos=0.5,left]{$\Delta{r}$};
-\draw[->] (b2) -- (c) node[pos=0.5,right]{$-\Delta{r}$};
-% точки разрыва
-%\pgfplotsinvokeforeach{a,b1,b2,c}{ \draw[o-point] (#1) circle[radius=3pt]; }
-\end{scope}
+xtick=data,xticklabels={$0$,$a$,$b$,$\ell$},
+ytick=data,yticklabels={$r_1$,$r_2$}]
+%\begin{scope}[color=darkred,>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
+\addplot[mark=none,darkblue,thick,
+shading=axis,top color=blue!50,bottom color=blue!5]
+coordinates{(0,80)(35,80)(35,20)(70,20)(70,80)(100,80)}\closedcycle;
+%\end{scope}
 \end{axis}
 \end{tikzpicture}
 \caption{теплоизолированный участок}
-\label{fig:BC:variants:r(x)}
+\label{fig:BC:homo material:r(x)}
 \end{subfigure}%
 %
 % второй график
 %
 \begin{subfigure}[b]{.5\linewidth}\centering
 \begin{tikzpicture}
-\def\xa{35}\def\xb{70}
-\def\ya{10}\def\yb{80}
 \begin{axis}[gap axis style,ylabel=$q(x)$,
-xtick={0,\xa,\xb,100},xticklabels={$0$,$a$,$b$,$\ell$},
-ytick={\ya,\yb},yticklabels={$0$,$q_1$}]
-\begin{scope}[color=darkred,>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
-% разрыв функции
-\draw[fill=darkred!10,shading=axis,
-top color=red!50,bottom color=red!5,very thick] 
-(axis cs:0,\ya) -- (axis cs: \xa,\ya)
--- (axis cs:\xa,\yb) -- (axis cs: \xb,\yb) 
--- (axis cs:\xb,\ya) -- (axis cs: 100,\ya);
-\end{scope}
+xtick=data,xticklabels={$0$,$a$,$b$,$\ell$},
+ymin=-10,ytick=data,yticklabels={$0$,$q_1$}]
+%\begin{scope}[color=darkred,>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
+\addplot[mark=none,darkred,thick,
+shading=axis,top color=red!50,bottom color=red!5]
+coordinates{(0,0)(35,0)(35,80)(70,80)(70,0)(100,0)}\closedcycle;
+%\end{scope}
 \end{axis}
 \end{tikzpicture}
 \caption{локальный нагрев}
-\label{fig:BC:variants:q(x)}
+\label{fig:BC:homo material:q(x)}
 \end{subfigure}
-\caption{Однородный стержень}\label{fig:BC:variants}
+\caption{Однородный образец}\label{fig:BC:variants}
 \end{figure}
 
 \item
@@ -538,6 +513,48 @@ $[0,c]$ и $(c,\ell]$ -- участки стержня, состоящие из
 температуропроводности $k_1\ne k_2$ и
 конвекционного теплообмена $r_1\ne r_2$;
 
+\begin{figure}[H]\centering
+%
+% первый график
+%
+\begin{subfigure}[b]{.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[gap axis style,ylabel=$k(x)$,
+xtick=data,xticklabels={$0$,$c$,$\ell$},
+ytick=data,yticklabels={$k_1$,$k_2$}]
+\begin{scope}[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
+% разрыв функции
+\addplot[mark=none,thick,shading=axis,
+left color=teal!5,right color=teal!50,on layer=background]
+coordinates{(0,30)(30,30)(30,80)(100,80)}\closedcycle;
+\end{scope}
+\end{axis}
+\end{tikzpicture}
+\caption{теплопроводность}
+\label{fig:BC:hetero material:k(x)}
+\end{subfigure}%
+%
+% второй график
+%
+\begin{subfigure}[b]{.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[gap axis style,ylabel=$r(x)$,
+xtick=data,xticklabels={$0$,$c$,$\ell$},
+ytick=data,yticklabels={$r_1$,$r_2$}]
+\begin{scope}[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
+% разрыв функции
+\addplot[mark=none,darkblue,thick,shading=axis,
+left color=blue!50,right color=blue!5,on layer=background]
+coordinates{(0,50)(30,50)(30,20)(100,20)}\closedcycle;
+\end{scope}
+\end{axis}
+\end{tikzpicture}
+\caption{конвекционный теплообмен}
+\label{fig:BC:hetero material:r(x)}
+\end{subfigure}
+\caption{Неоднородный образец}\label{fig:BC:hetero material}
+\end{figure}
+
 \item
 \emph{неоднородный стержень}, с локальной теплоизоляцией,
 т.е. конвекционный теплообмен на участке
@@ -556,6 +573,52 @@ r_3,\quad b < x \leqslant \ell
 \end{cases}
 ,\end{gather*}
 где $[a,b]$ -- теплоизолированный участок неоднородного стержня ($r\equiv0$).
+
+\begin{figure}[H]\centering
+%
+% первый график
+%
+\begin{subfigure}[b]{.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[gap axis style,ylabel=$k(x)$,
+xtick=data,xticklabels={$0$,$c$,$\ell$},
+ytick=data,yticklabels={$k_1$,$k_2$}]
+\begin{scope}[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
+% разрыв функции
+\addplot[mark=none,thick,shading=axis,
+left color=teal!5,right color=teal!50,on layer=background]
+coordinates{(0,30)(30,30)(30,80)(100,80)}\closedcycle;
+\end{scope}
+\end{axis}
+\end{tikzpicture}
+\caption{теплопроводность}
+\label{fig:BC:hetero2 material:k(x)}
+\end{subfigure}%
+%
+% второй график
+%
+\begin{subfigure}[b]{.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[gap axis style,ylabel=$r(x)$,
+xtick=data,xticklabels={$0$,$c$,$a$,$b$,$\ell$},
+ytick=data,yticklabels={$r_1$,$r_2$}]
+% разрыв функции
+\addplot[mark=none,darkblue,thick,shading=axis,shading angle=-45,
+left color=blue!50,right color=blue!5,on layer=background]
+coordinates{(0,90)(30,90)(30,50)(55,50)(55,20)(80,20)(80,50)(100,50)}\closedcycle;
+
+%\addplot[mark=none,darkblue,thick,shading=axis,
+%left color=blue!50,right color=blue!5,on layer=background]
+%coordinates{(0,50)(30,50)(30,20)(100,20)}\closedcycle;
+\end{axis}
+\end{tikzpicture}
+\caption{конвекционный теплообмен}
+\label{fig:BC:hetero2 material:r(x)}
+\end{subfigure}
+\caption{Неоднородный образец
+с локальной теплоизоляцией}\label{fig:BC:hetero2 material}
+\end{figure}
+
 \end{enumerate}
 
 %\begin{figure} % *** Неоднородный стержень ***
