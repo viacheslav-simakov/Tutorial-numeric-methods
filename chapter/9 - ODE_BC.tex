@@ -32,8 +32,8 @@
 задач математической физики, в особенности метод сеток 
 получили широкое распространение.
 
-Основные \textit{достоинства приближенных методов} заключаются в том, 
-что они \textit{являются универсальными и эффективными},
+Основные \emph{достоинства приближенных методов} заключаются в том, 
+что они \emph{являются универсальными и эффективными},
 так как позволяют находить приближенное решение для широкого класса задач 
 новейших областей науки, техники и технологий.
 Как правило, такие задачи формулируются в виде основного 
@@ -606,10 +606,6 @@ ytick=data,yticklabels={$r_1$,$r_2$}]
 \addplot[mark=none,darkblue,thick,shading=axis,shading angle=-45,
 left color=blue!50,right color=blue!5,on layer=background]
 coordinates{(0,90)(30,90)(30,50)(55,50)(55,20)(80,20)(80,50)(100,50)}\closedcycle;
-
-%\addplot[mark=none,darkblue,thick,shading=axis,
-%left color=blue!50,right color=blue!5,on layer=background]
-%coordinates{(0,50)(30,50)(30,20)(100,20)}\closedcycle;
 \end{axis}
 \end{tikzpicture}
 \caption{конвекционный теплообмен}
@@ -621,26 +617,14 @@ coordinates{(0,90)(30,90)(30,50)(55,50)(55,20)(80,20)(80,50)(100,50)}\closedcycl
 
 \end{enumerate}
 
-%\begin{figure} % *** Неоднородный стержень ***
-%\begin{center}
-%\input{ODE_BC_fig/ODE_BC_fig(hetero_material).tex}
-%\caption{Примеры краевых задач с разрывными коэффициентами $k(x)$ и $r(x)$
-%дифференциального уравнения установившегося распределения температуры 
-%в неоднородном стержне длиной $\ell$:\\
-%(a) -- свободный теплообмен стержня с окружающей средой;\\
-%(b) -- теплоизолированный участок боковой поверхности стержня}
-%\label{fig:ODE_BC(hetero_material)}
-%\end{center}
-%\end{figure}
-
-\end{document}
 %
 %	РАСЧЕТНАЯ СЕТКА
 %
 \subsubsection{Расчётная сетка}
-Для перехода от дифференциальной краевой задачи 
+Для перехода от дифференциальной краевой задачи
+\eqref{eq:HT+BC:1D} 
 к системе алгебраических уравнений воспользуемся 
-\textit{разностным методом}.
+\emph{разностным методом}.
 Для этого на отрезке $[0,\ell]$ введем произвольную 
 неравномерную сетку -- конечное упорядоченное 
 множество точек $\{x_i\}$, принадлежащих этому отрезку:
@@ -650,6 +634,29 @@ coordinates{(0,90)(30,90)(30,50)(55,50)(55,20)(80,20)(80,50)(100,50)}\closedcycl
 где $x_i\in[0,\ell]$ -- узлы сетки;
 $i=0,1,2\dots,N$ -- порядковый номер узла сетки;
 $N$ -- количество узлов сетки.
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]% стрелка
+% начало отсчета
+\coordinate (O) at (0mm,0mm);
+\def\dx{15mm}
+% ось OX
+\draw[->,thin] (O)% node[pos=0,yshift=-1em]{$0$}
+-- +(120mm,0mm) node[pos=1,yshift=-1em]{$x$};
+% сетка
+\coordinate (p0) at (O);
+\foreach \x [count=\n from 0] in {0,10,20,35}
+{
+\draw[thin] (p\n) 
+-- ++(\x mm,0mm) coordinate(p\the\numexpr\n + 1\relax)
+-- +(0mm,1mm) -- +(0mm,-1mm) node[below]{$x_\n$} ;
+}
+
+\end{tikzpicture}
+\end{figure}
+
+\end{document}
 
 \begin{figure} % *** График сетки ***
 \begin{center}
