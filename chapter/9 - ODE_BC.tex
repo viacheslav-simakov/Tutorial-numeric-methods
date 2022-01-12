@@ -129,8 +129,8 @@ $\mathcal{A}$ -- область интегрирования, которая в 
 Для систем дифференциальных уравнений специального вида
 \begin{equation}\label{eq:ODE(BC):1D}
 \left\{\begin{matrix}[rcl]
-u^{\prime}(x)&=&f_1(x)\cdot w(x)\\
-w^{\prime}(x)&=&f_2(x,u,w)
+w^{\prime}(x)&=&f_1(x,u,w)\\
+u^{\prime}(x)&=&f_2(x)\cdot w(x)
 \end{matrix}\right.
 \end{equation}
 в зависимости от вида условий на границах
@@ -155,15 +155,15 @@ w^{\prime}(x)&=&f_2(x,u,w)
 \midmidrule
 1&Дирихле
 &$u(0)=u_0$
-&$u(\ell)=u_{\ell}$\\
+&$u(\ell)=u_1$\\
 \addlinespace
 2&Неймана
 &$w(0)=w_0$
-&$w(\ell)=w_{\ell}$\\
+&$w(\ell)=w_1$\\
 \addlinespace
 3&Смешанная
-&$a_0\cdot u(0)+b_0\cdot w(0)=\mu_0$
-&$a_{\ell}\cdot u(\ell)+b_{\ell}\cdot w(\ell)=\mu_{\ell}$\\
+&$a_0\cdot w(0)+b_0\cdot u(0)=c_0$
+&$a_1\cdot w(\ell)+b_1\cdot u(\ell)=c_1$\\
 \addlinespace
 \bottomrule
 \end{tabular*}
@@ -180,21 +180,21 @@ chamfered rectangle angle=60,
 minimum height=3em,
 minimum width=10em
 ] (0,0) node[thick,color=black,draw,color=black,fill=lime!10,] (G)
-{$a_0\cdot u(0)+b_0\cdot w(0)=\mu_0$};
+{$a_0\cdot w(0)+b_0\cdot u(0)=c_0$};
 \node[above] at (G.north) {Смешанная задача};
 % Задача Дирихле
 \draw[shape=rectangle,minimum height=3em, minimum width=5em]
 ($(G.south west)+(-3em,-5em)$)
-node[thick,red,draw=red,fill=red!10] (D) {$u(0)=u_0\equiv\dfrac{\mu_0}{a_0}$};
+node[thick,red,draw=red,fill=red!10] (D) {$u(0)=u_0\equiv\dfrac{c_0}{b_0}$};
 \node[below] at (D.south) {Задача Дирихле};
 % Задача Неймана
 \draw[shape=rectangle, minimum height=3em, minimum width=5em]
 ($(G.south east)+(3em,-5em)$)
-node[thick,blue,draw=blue,fill=blue!10] (N) {$w(0)=w_0\equiv\dfrac{\mu_0}{b_0}$};
+node[thick,blue,draw=blue,fill=blue!10] (N) {$w(0)=w_0\equiv\dfrac{c_0}{a_0}$};
 \node[below] at (N.south) {Задача Неймана};
 % стрелки
-\draw[-latex,very thick,red] (G.west) -| (D.north) node[left,midway] {$b_0\equiv0$};
-\draw[-latex,very thick,blue] (G.east) -| (N.north) node[right,midway] {$a_0\equiv0$};
+\draw[-latex,very thick,red] (G.west) -| (D.north) node[left,midway] {$a_0\equiv0$};
+\draw[-latex,very thick,blue] (G.east) -| (N.north) node[right,midway] {$b_0\equiv0$};
 \end{tikzpicture}
 % *******************************************
 \caption{Виды краевых задач для систем обыкновенных
@@ -205,33 +205,33 @@ node[thick,blue,draw=blue,fill=blue!10] (N) {$w(0)=w_0\equiv\dfrac{\mu_0}{b_0}$}
 С формальной точки зрения, задача Дирихле и Неймана являются
 частными случаями смешанной краевой задачи 
 (рисунок \ref{fig:ODE_BC(Genaral)}):
-например, если $b_0\equiv0$, то смешанная краевая задача
+например, если $a_0\equiv0$, то смешанная краевая задача
 трансформируется в задачу Дирихле:
 \begin{gather*}
-a_0\cdot u(0)+0\cdot w(0)=\mu_0,
+0\cdot w(0)+b_0\cdot u(0)=c_0,
 \quad\Rightarrow\quad 
-u(0) = \dfrac{\mu_0}{a_0} = u_0,
+u(0) = \dfrac{c_0}{b_0} = u_0,
 \end{gather*}
-а если полагать $a_0\equiv0$, то формулируется задача Неймана:
+а если полагать $b_0\equiv0$, то формулируется задача Неймана:
 \begin{gather*}
-0\cdot u(0)+b_0\cdot w(0)=\mu_0,
+a_0\cdot w(0)+0\cdot u(0)=c_0,
 \quad\Rightarrow\quad 
-w(0)=\dfrac{\mu_0}{b_0}=w_0.
+w(0)=\dfrac{c_0}{a_0}=w_0.
 \end{gather*}
 
 Поэтому для общности, можно рассматривать только 
 смешанную краевую задачу стандартного вида:
 \begin{equation}\label{eq:ODE+BC:1D}
 \left\{\begin{matrix}[rcl]
-w^{\prime}(x)&=&f(x,u,w)\\
-w(x)&=&-k(x)\cdot u^{\prime}(x)\\
-w(0)&+&\alpha_0\cdot u(0) = \mu_0\\
-w(\ell)&+&\alpha_1\cdot u(\ell) = \mu_1
+w^{\prime}(x)&=&f_1(x,u,w)\\
+u^{\prime}(x)&=&f_2(x)\cdot w(x)\\
+a_0\cdot w(0)&+&b_0\cdot u(0) = c_0\\
+a_1\cdot w(\ell)&+&b_1\cdot u(\ell) = c_1
 \end{matrix}\right.,
 \end{equation}
-где $f(x,u,w)$ и $k(x)$ -- известные функции, в том числе может
+где $f_1(x,u,w)$ и $f_2(x)$ -- известные функции, в том числе может
 быть разрывные;
-$\alpha_{0,1}$ и $\mu_{0,1}$ -- известные постоянные
+$a_{0,1}$, $b_{0,1}$ и $c_{0,1}$ -- известные постоянные
 коэффициенты, определяемые физическим смыслом 
 решаемой задачи.
 
@@ -344,13 +344,14 @@ $\alpha_{0,1}$ и $\mu_{0,1}$ -- известные постоянные
 как уравнение установившегося распределения температуры 
 $u(x)$ в стержне длины $\ell$.
 В такой постановке краевую задачу можно записать в виде:
-\begin{gather}
-w^{\prime}(x)+r(x)\cdot u(x)=g(x)\label{eq:ODE_BC0}\\
-\left\{\begin{matrix}\label{eq:ODE_BC20}
-w(0)+\lambda_1\cdot u(0) = \mu_1\\
--w(\ell)+\lambda_2\cdot u(\ell) = \mu_2
-\end{matrix}\right.
-,\end{gather}
+\begin{gather}\label{eq:HT+BC:1D}
+\left\{\begin{matrix}[rcrcl]
+w^{\prime}(x)&+&r(x)\cdot u(x)&=&q(x)\\
+w(0)&+&r_0\cdot u(0)&=&\mathring{u}_0\\
+-w(\ell)&+&r_1\cdot u(\ell)&=&\mathring{u}_1
+\end{matrix}\right.,
+\end{gather}
+
 где
 $w(x)$ -- тепловой поток, величина которого в соответствие с 
 \href{https://en.wikipedia.org/wiki/Thermal_conductivity}
@@ -360,25 +361,27 @@ $w(x)$ -- тепловой поток, величина которого в со
 w(x)=-k(x)\cdot u^{\prime}(x)
 ;\end{gather}
 $k(x)$ -- коэффициент температуропроводности материала стержня;
-$r(x)\cdot u(x)$ -- мощность распределенных стоков тепла 
-($r(x)<0$ источников тепла) вдоль боковой поверхности стержня;
+$r(x)\cdot u(x)$ -- мощность распределенных стоков ($r>0$)
+или источников ($r<0$) тепла вдоль боковой поверхности стержня;
 $r(x)$ -- коэффициент конвекционного теплообмена боковой поверхности
 стержня с окружающей средой;
-$g(x)>0$ -- мощность распределенных источников ($g(x)<0$ стоков)
-тепла внутри стержня.
+$q(x)$ -- мощность внутренних распределенных источников ($q>0$)
+или стоков ($q<0$) тепла в стержне.
 
-Граничные условия \eqref{eq:ODE_BC20} определяют процесс теплообмена 
-концов стержня с окружающей средой по закону
+Граничные условия \eqref{eq:HT+BC:1D} определяют 
+процесс теплообмена концов стержня $x=\{0,\ell\}$
+с окружающей средой по закону
 % закон конвекционного теплообмена Ньютона
 \href{https://en.wikipedia.org/wiki/Newton\%27s_law_of_cooling}
 {конвекционного теплообмена Ньютона} -- 
-``Тепловой поток тепла $q$ через поверхность материального 
+``Тепловой поток тепла $\mathring{w}$ через поверхность материального 
 тела в окружающую среду прямо пропорционален разнице 
 температур между поверхностью тела и окружающей средой``:
 \begin{gather*}
-q=\mathring{r}\cdot(u - \mathring{u}),
+\mathring{w}=r\cdot(u - \mathring{u}),
 \end{gather*}
-где $\mathring{r}$ --  коэффициент конвективного теплообмена;
+где 
+$r$ --  коэффициент конвективного теплообмена;
 $u$ -- температура поверхности тела;
 $\mathring{u}$ -- температура окружающей среды.
 
@@ -386,12 +389,12 @@ $\mathring{u}$ -- температура окружающей среды.
 в твердом теле могут быть связаны с рядом явлений:
 \begin{enumerate}
 \item
-выделение тепла ($g(x)>0$) при пропускании 
+выделение тепла ($q(x)>0$) при пропускании 
 электрического тока через стержень (закон Джоуля-Ленца),
 вследствие протекания в объеме стержня
 каких-либо экзотермических химических реакций;
 \item
-поглощение тепла ($g(x)<0$) за счет 
+поглощение тепла ($q(x)<0$) за счет 
 термоэлектрических явлений (например, эффект Пельтье), а также
 вследствие протекания эндотермических химических реакций
 в объеме материала стержня.
