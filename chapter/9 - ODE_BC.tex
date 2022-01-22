@@ -17,11 +17,12 @@
 % интеграл
 \newcommand\intf[4][x]{ \int\limits_{#2}^{#3}{#4}\,\mathrm{d}#1 }
 \newcommand\intfcenter[1]{ \intf{ x_{i-1/2} }{ x_{i+1/2} }{#1} }
-%\newcommand\intfleft[1]{ \intf{ x_{i-1/2} }{ x_{i} }{#1} }
+\newcommand\intfleft[1]{ \intf{ x_{i-1/2} }{ x_{i} }{#1} }
+\newcommand\intfright[1]{ \intf{ x_{i} }{ x_{i+1} }{#1} }
 %\newcommand\intfCenter[1]{ \intf{ x_{i-\onehalf} }{ x_{i+\onehalf} }{#1} }
 %\newcommand\intfCenter[1]{ \intf{ x_{i-1/2} }{ x_{i+1/2} }{#1} }
 %\newcommand\intfright[1]{ \intf{ x_{i} }{ x_{i+1/2} }{#1} }
-%\newcommand\intfRight[1]{ \intf{ x_{i} }{ x_{i+1} }{#1} }
+
 
 % СОДЕРЖАНИЕ+
 %\renewcommand\contentsname{\begin{center}СОДЕРЖАНИЕ\end{center}}
@@ -716,18 +717,16 @@ $n$ -- количество узлов сетки.
 % разрыв коэффициентов
 %
 \begin{figure}[H]\centering
-\begin{tikzpicture}
+\begin{tikzpicture}[>={Straight Barb[angle=45:1.5mm 1]},shorten >=3pt,shorten <=3pt]% стрелка
 \begin{axis}[xlabel=\empty,
 xmin=-10,xmax=110,ymin=10,ymax=90,
 xtick={0,30,50,70,100},xticklabels={$0$,$x_{i-1}$,$x_i$,$x_{i+1}$,$\ell$},
 ytick={30,70},yticklabels={$f_1$,$f_2$}]
 % разрыв функции
-\addplot[mark=*,draw=darkred,thick,mark size=3pt,mark options={fill=white}]
-coordinates{(0,30)(30,30)(50,30)};
-\path (axis cs:50,30) -- (axis cs:50,70) 
-node[midway,sloped,darkred,fill=white]{разрыв};
-\addplot[mark=*,draw=darkred,thick,mark size=3pt,mark options={fill=white}]
-coordinates{(50,70)(70,70)(100,70)};
+\addplot[ball darkgreen,thick] coordinates{(0,45)(30,35)(50,30)};
+\draw[<->,thin,darkgreen] (axis cs:50,30) -- (axis cs:50,70) 
+node[midway,sloped,fill=white]{разрыв};
+\addplot[ball darkgreen,thick] coordinates{(50,70)(70,60)(100,55)};
 \end{axis}
 \end{tikzpicture}
 \caption{График функции $f(x)$, которая имеет разрыв в точке $x=x_i$}
@@ -914,50 +913,54 @@ $[x_{i-1/2},x_{i+1/2}]$ за счет распределенных
 источников тепла с плотностью $q(x)$.
 \end{enumerate}
 
-\end{document}
-
 % теплопроводность
+\emptyline
 Для определения теплового потока в промежуточных 
-узлах сетки $w(x_{i\pm\onehalf})$, воспользуемся 
+узлах сетки $w(x_{i\pm1/2})$, воспользуемся 
 закон теплопроводности Фурье \eqref{eq:FourierLaw}, 
 из которого следует:
-\begin{gather}
-\notag
-u^{\prime}(x)=-\dfrac{w(x)}{k(x)}\quad \Rightarrow \quad
-\intf{ x_i }{ x_{i+1} }{ u^{\prime}(x) }
-=-\intf{ x_i }{ x_{i+1} }{ \dfrac{w(x)}{k(x)} }
-\eqsep
-\label{eq:ODE_BC(FourierLaw)}
-u(x_{i+1})-u({x_{i}})=-\intf{ x_i }{ x_{i+1} }{ \dfrac{w(x)}{k(x)} }
-.\end{gather}
+\begin{gather*}
+u^{\prime}(x)=-\dfrac{w(x)}{k(x)}
+\qquad\Rightarrow\qquad
+\intfright{ u^{\prime}(x) }=-\intfright{ \dfrac{w(x)}{k(x)} }.
+\end{gather*}
+
+После интегрирования получим:
+\begin{gather}\label{eq:ODE+BC:FourierLaw}
+u(x_{i+1})-u({x_{i}})=-\intfright{ \dfrac{w(x)}{k(x)} }.
+\end{gather}
 
 %
 %	Приближенное значение интегралов
 %
 При построении разностной схемы,
-в выражениях \eqref{eq:ODE_BC_CON} и \eqref{eq:ODE_BC(FourierLaw)}
+в выражениях \eqref{eq:ODE+BC:heat balance} и 
+\eqref{eq:ODE+BC:FourierLaw}
 необходимо вычислять определенные интегралы.
 Однако, во многих практически важных приложениях 
 первообразные подынтегральных функций 
 не могут быть выражены в элементарных функциях.
 Кроме того, коэффициенты краевой задачи 
-могут быть заданы только в узлах расчетной сетки
-$\{k_i\}$, $\{r_i\}$, $\{g_i\}$.
+могут быть известны только в узлах расчетной сетки
+$\{k(x_i), r(x_i), q(x_i)\}$.
 В этом случае для вычислений определенных интегралов
-необходимо пользоваться численным методом интегрирования.
+необходимо пользоваться 
+\alert{численным методом интегрирования}.
 
 Для этого воспользуемся простейшими интерполяциями 
-коэффициентов дифференциального уравнения $k(x)$, $r(x)$, $g(x)$
+коэффициентов $k(x)$, $r(x)$, $q(x)$
 (рисунок \ref{fig:ODE_BC(mesh)}), неизвестной функции 
 $u(x)$ (температуры) и ее потока $w(x)$ (тепловой поток) 
 (рисунок \ref{fig:ODE_BC(u,w)}) в окрестности узлов $\{x_i\}$ в виде:
 \begin{gather}\label{eq:ODE_BC(approx)}
 \left\{\begin{array}{l l}
-u(x_i)=\mathrm{const},\quad&x\in(x_{i-\onehalf},x_{i+\onehalf}) \\
-w(x_{i+\onehalf})=\mathrm{const},\quad&x\in(x_i,x_{i+1})\\
-k(x_i), r(x_i), g(x_i)=\mathrm{const},\quad&x\in(x_i,x_{i+1})
+u(x_i)=\mathrm{const},\quad&x\in(x_{i-1/2},x_{i+1/2}) \\
+w(x_{i+1/2})=\mathrm{const},\quad&x\in(x_i,x_{i+1})\\
+k(x_i), r(x_i), q(x_i)=\mathrm{const},\quad&x\in(x_i,x_{i+1})
 \end{array}\right.
 \end{gather}
+
+\end{document}
 
 Тогда левосторонняя формула прямоугольников совпадает с точным значением интегралов
 (рисунок \ref{fig:ODE_BC(Integral)}):
