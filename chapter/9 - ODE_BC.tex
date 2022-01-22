@@ -1,16 +1,29 @@
 %\input{../../preamble}
 %\begin{document}
+\tikzset{
+	% декорация линий
+	curve line/.style={
+		decoration={
+			snake,
+			amplitude=1.5mm,%0.75mm,
+			segment length=7.5mm,
+			post length=0mm,
+			pre length=0mm,
+		},
+	},
+}
 % разделитель в многострочных формулах
 %\newcommand\eqsep{\\[1em]}
-% интегралы
-%\newcommand\intfLeft[1]{ \intf{ x_{i-1} }{ x_{i} }{#1} }
+% интеграл
+\newcommand\intf[4][x]{ \int\limits_{#2}^{#3}{#4}\,\mathrm{d}#1 }
+\newcommand\intfcenter[1]{ \intf{ x_{i-1/2} }{ x_{i+1/2} }{#1} }
 %\newcommand\intfleft[1]{ \intf{ x_{i-1/2} }{ x_{i} }{#1} }
 %\newcommand\intfCenter[1]{ \intf{ x_{i-\onehalf} }{ x_{i+\onehalf} }{#1} }
 %\newcommand\intfCenter[1]{ \intf{ x_{i-1/2} }{ x_{i+1/2} }{#1} }
 %\newcommand\intfright[1]{ \intf{ x_{i} }{ x_{i+1/2} }{#1} }
 %\newcommand\intfRight[1]{ \intf{ x_{i} }{ x_{i+1} }{#1} }
 
-% СОДЕРЖАНИЕ
+% СОДЕРЖАНИЕ+
 %\renewcommand\contentsname{\begin{center}СОДЕРЖАНИЕ\end{center}}
 %\tableofcontents
 
@@ -826,69 +839,82 @@ coordinates{(0,5)(30,-15)(75,30)(100,40)};
 \label{fig:ODE+BC:u(x) and w(x)}
 \end{figure}
 
-\end{document}
-
-\begin{figure} % *** Распределение температуры u(x) и потока тепла w(x) ***
-\begin{center}
-\input{ODE_BC_fig/ODE_BC_fig(u,w).tex}
-\caption{Схематическое изображение распределения неизвестной функции $u(x)$
-и потоковой величины $w(x)$ в пределах контрольной области $x\in[x_{i-1},x_{i+1}]$}
-\label{fig:ODE_BC(u,w)}
-\end{center}
-\end{figure}
-
 %
 %	Разностная схема для дифференциального уравнения
 %
 \subsubsection{Разностная схема для дифференциального уравнения}
 Для построения разностной схемы для краевой задачи 
-\eqref{eq:ODE_BC0}, \eqref{eq:ODE_BC20}
-воспользуемся интегро-интерполяционным методом
-(или \textit{методом баланса}) построения разностных схем.
-
-Проинтегрируем \textit{дифференциальное уравнение} \eqref{eq:ODE_BC0}
-в пределах контрольной области $[x_{i-\onehalf},x_{i+\onehalf}]$:
+воспользуемся\linebreak интегро-интерполяционным методом 
+(или \emph{методом баланса}) построения разностных схем.
+Проинтегрируем \emph{дифференциальное уравнение} 
+\eqref{eq:HT+BC:1D} в пределах контрольной области 
+$[x_{i-1/2},x_{i+1/2}]$:
 \begin{gather*}
-\intfCenter{w^{\prime}(x)}+\intfCenter{r(x)\cdot u(x)}=\intfCenter{g(x)}
+\intfcenter{w^{\prime}(x)}+\intfcenter{r(x)\cdot u(x)}=\intfcenter{q(x)}
 \end{gather*}
 
 Тогда уравнение теплового баланса для контрольной области 
 запишется в виде:
-\begin{gather}\label{eq:ODE_BC_CON}
-w(x_{i+\onehalf})-w(x_{i-\onehalf})+\intfCenter{r(x)\cdot u(x)}=\intfCenter{g(x)}
+\begin{gather}\label{eq:ODE+BC:heat balance}
+w(x_{i+1/2})-w(x_{i-1/2})+\intfcenter{r(x)\cdot u(x)}=\intfcenter{q(x)}
+%w(x_{i+\onehalf})-w(x_{i-\onehalf})+\intfCenter{r(x)\cdot u(x)}=\intfCenter{g(x)}
 \end{gather}
 
-\begin{figure} % *** Баланс тепла ***
-\begin{center}
-\input{ODE_BC_fig/ODE_BC_fig(heat_balance).tex}
-\caption{Иллюстрация баланса тепла \eqref{eq:ODE_BC_CON}
-на участке стержня $[x_{i-\onehalf},x_{i+\onehalf}]$}
-\label{fig:ODE_BC(heat_balance)}
-\end{center}
-\end{figure}
-
-На рисунке \ref{fig:ODE_BC(heat_balance)} представлена 
+На рисунке \ref{fig:ODE+BC:heat_balance} представлена 
 графическая иллюстрация процессов переноса тепла, теплообмена
 и тепловыделения (теплопоглощения) для контрольной области
-$[x_{i-\onehalf},x_{i+\onehalf}]$. 
+$[x_{i-1/2},x_{i+1/2}]$.
+
+% *** Баланс тепла ***
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+% контрольная область
+\draw[shape=rectangle, minimum height=2.5cm, minimum width=4.5cm] 
+(0,0) node[thick,color=black,draw,color=black,fill=orange!10,] (A)
+{$\intfcenter{q(x)}$};
+% слагаемые уравнения баланса
+\begin{scope}[ultra thick]
+\draw[-to,darkred] (A.east) -- +(3,0) node[above,midway] {$w(x_{i+1/2})$};
+\draw[to-,darkred] (A.west) -- +(-3,0) node[above,midway] {$w(x_{i-1/2})$};
+\draw[-to,curve line,darkblue,decorate] (A.north) -- +(0,3) 
+node[right,midway,xshift=1ex] {$\intfcenter{r(x)\cdot u(x)}$};
+\end{scope}
+% ось OX
+\draw[very thick,black] ($(A.south west)+(-4,-1em)$) -- ($(A.south west) + (0,-1em)$);
+\draw[ultra thick,orange] ($(A.south west)+(0,-1em)$) -- ($(A.south east) + (0,-1em)$);
+\draw[-{Straight Barb[angle=45:2mm 1]},very thick,black] ($(A.south east)+(0,-1em)$) -- ($(A.south east) + (4,-1em)$) node[below,yshift=-1ex] {$x$};
+% границы отрезка (относительно границ прямоугольника)
+\draw[very thick,black] ($(A.south west)+(0,-0.75em)$) -- ($(A.south west) + (0,-1.25em)$) node[below] {$x_{i-1/2}$};
+\draw[ultra thick,orange] ($(A.south)+(0,-0.75em)$) -- ($(A.south) + (0,-1.25em)$) node[below,black] {$x_{i}$};
+\draw[very thick,black] ($(A.south east)+(0,-0.75em)$) -- ($(A.south east) + (0,-1.25em)$) node[below] {$x_{i+1/2}$};
+\end{tikzpicture}
+\caption{Иллюстрация баланса тепла \eqref{eq:ODE+BC:heat balance}
+для контрольной области $[x_{i-1/2},x_{i+1/2}]$}
+\label{fig:ODE+BC:heat_balance}
+\end{figure}
+
+ 
 Рассмотрим физический смысл каждого члена
-уравнения теплового баланса \eqref{eq:ODE_BC_CON}:
+уравнения теплового баланса \eqref{eq:ODE+BC:heat balance}:
 \begin{enumerate}
 \item
-первое слагаемое $w(x_{i-\onehalf})$ определяет количество тепла, 
-``втекающего`` через сечение $x=x_{i-\onehalf}$;
+первое слагаемое $w(x_{i-1/2})$ определяет количество тепла, 
+``втекающего`` через сечение $x=x_{i-1/2}$;
 \item
-второе слагаемое $w(x_{i+\onehalf})$ это количество 
-``вытекающего`` тепла через сечение $x=x_{i+\onehalf}$;
+второе слагаемое $w(x_{i+1/2})$ это количество 
+``вытекающего`` тепла через сечение $x=x_{i+1/2}$;
 \item
 третье слагаемое в левой части представляет собой количество тепла, 
 отдаваемое стержнем внешней среде за счет конвекционного теплообмена 
 на его боковой поверхности;
 \item
-правая честь \eqref{eq:ODE_BC_CON} соответствует количеству тепла, 
-выделяющегося на отрезке $[x_{i-\onehalf},x_{i+\onehalf}]$ 
-за счет распределенных источников тепла с плотностью $g(x)$.
+правая честь \eqref{eq:ODE+BC:heat balance} соответствует 
+количеству тепла, выделяющегося на отрезке 
+$[x_{i-1/2},x_{i+1/2}]$ за счет распределенных 
+источников тепла с плотностью $q(x)$.
 \end{enumerate}
+
+\end{document}
 
 % теплопроводность
 Для определения теплового потока в промежуточных 
