@@ -776,23 +776,21 @@ h_{i+1/2}&=&x_{i+1/2}-x_{i-1/2}=\dfrac{h_{i+1}+h_i}{2}.
 \end{gather*}
 
 Значения неизвестной функции $u(x)$ (температуры) 
-рассмотрим в узлах сетки $\{x_i\}$
-(рисунок \ref{fig:ODE_BC(u,w)}~a), 
+рассмотрим в узлах сетки $\{x_i\}$, 
 а потоковую величину $w(x)$ (тепловой поток) -- 
 в промежуточных узлах $\{x_{i\pm1/2}\}$ 
-(рисунок \ref{fig:ODE_BC(u,w)}~b).
+(рисунок \ref{fig:ODE+BC:u(x) and w(x)}).
 
 %
 % Температура и тепловой поток
 %
 \pgfplotsset{
 uxwx axis style/.append style={
-	width=7.5cm,% размер графиков
 	font=\small,% размер шрифта
 	xlabel=\empty,xmin=-10,xmax=110,
 	xtick={0,30,50,75,100},
 	xticklabels={$x_{i-1}$,$x_{i-1/2}$,$x_i$,$x_{i+1/2}$,$x_{i+1}$},
-	ylabel=\empty,ymin=0,ymax=100,
+	ylabel=\empty,
 %	grid=none,% сетка
 },
 }
@@ -800,31 +798,27 @@ uxwx axis style/.append style={
 %
 % первый график
 %
-\begin{subfigure}[b]{.5\linewidth}\centering
 \begin{tikzpicture}
-\begin{axis}[uxwx axis style,%xlabel=$u(x)$,
-ytick=data,yticklabels={$u_{i-1}$,$u_i$,$u_{i+1}$}]
+% левая ось OY
+\begin{axis}[uxwx axis style,
+axis y line*=left,
+ymin=0,ymax=100,ytick=data,
+yticklabels={$u_{i-1}$,$u_i$,$u_{i+1}$}]
 \addplot[ball darkblue,thick]
 coordinates{(0,80)(50,30)(100,50)};
+\addplot[draw=none,fill=blue!5,on layer=background]
+coordinates{(0,80)(50,30)(100,50)}\closedcycle;
 \end{axis}
-\end{tikzpicture}
-\caption{температура $u(x)$}
-\label{fig:ODE+BC:temperature:u(x)}
-\end{subfigure}%
-%
-% второй график
-%
-\begin{subfigure}[b]{.5\linewidth}\centering
-\begin{tikzpicture}
+% правая ось OY
 \begin{axis}[uxwx axis style,
-ytick=data,yticklabels={$w_{i-1/2}$,$w_{i+1/2}$}]
-\addplot[ball darkred,thick,const plot mark mid]
-coordinates{(30,10)(75,70)};
+axis y line*=right,axis x line=none,grid=none,
+ymin=-30,ymax=50,ytick={-20,30},
+yticklabels={$w_{i-1/2}$,$w_{i+1/2}$}]
+\addplot[draw=darkred,thick] 
+coordinates{(0,5)(30,-15)(75,30)(100,40)};
+\addplot[ball darkred,only marks] coordinates{(30,-15)(75,30)};
 \end{axis}
 \end{tikzpicture}
-\caption{тепловой поток}
-\label{fig:ODE+BC:heat flow:w(x)}
-\end{subfigure}
 \caption{
 Схематическое изображение распределения неизвестной
 функции $u(x)$ и потоковой величины $w(x)$
