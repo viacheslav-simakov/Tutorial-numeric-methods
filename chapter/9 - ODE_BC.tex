@@ -621,6 +621,23 @@ coordinates{(0,90)(30,90)(30,50)(55,50)(55,20)(80,20)(80,50)(100,50)}\closedcycl
 %	РАСЧЕТНАЯ СЕТКА
 %
 \subsubsection{Расчётная сетка}
+При численном решении той или иной математической задачи 
+невозможно получить решение для всех значений аргумента, 
+изменяющегося внутри некоторой области евклидова 
+пространства.
+Поэтому в этой области выбирается некоторое 
+конечное множество точек и отыскивается приближенное решение 
+только в этих точках. Такое множество точек называется сеткой,
+а отдельные точки -- узлами сетки. 
+Необходимо отметить, что свойства разностного решения задачи 
+и, в частности, его близость к точному решению зависят 
+от выбора сетки. 
+
+Процедуру построения расчетной сетки можно рассматривать 
+как построение взаимно-однозначного отображения 
+области определения функции (физической области) 
+на некоторую расчетную область более простой формы.
+
 Для перехода от дифференциальной краевой задачи
 \eqref{eq:HT+BC:1D} 
 к системе алгебраических уравнений воспользуемся 
@@ -632,8 +649,8 @@ coordinates{(0,90)(30,90)(30,50)(55,50)(55,20)(80,20)(80,50)(100,50)}\closedcycl
 0=x_0<x_1<x_2<\cdots<x_i<\cdots<x_{n-1}<x_n=\ell,
 \end{gather*}
 где $x_i\in[0,\ell]$ -- узлы сетки;
-$i=0,1,2\dots,N$ -- порядковый номер узла сетки;
-$N$ -- количество узлов сетки.
+$i=0,1,2\dots,n$ -- порядковый номер узла сетки;
+$n$ -- количество узлов сетки.
 
 \begin{figure}[H]\centering
 \begin{tikzpicture}
@@ -646,8 +663,11 @@ $N$ -- количество узлов сетки.
 % сетка
 \coordinate (p) at (O);
 \foreach \x [count=\n from 0] in {0,17,12,15,19,16,14,17}{
-\draw[line width=0.25mm] (p) -- ++(\x mm,0mm) coordinate(p)
--- +(0mm,1.5mm) -- +(0mm,-1.5mm) coordinate(p\n);}
+%\draw[line width=0.25mm] (p) -- ++(\x mm,0mm) coordinate(p)
+%-- +(0mm,1.5mm) -- +(0mm,-1.5mm) coordinate(p\n);}
+\path (p) -- ++(\x mm,0mm) coordinate(p);
+\draw[line width=0.3mm,fill=white] (p) circle[radius=0.75mm] coordinate(p\n);
+}
 % подписи
 \draw (p0) node[yshift=-2ex]{$0$};
 \foreach \n in {0,1,2}{ \draw (p\n) node[yshift=1em]{$x_\n$}; }
@@ -658,24 +678,90 @@ $N$ -- количество узлов сетки.
 \path (p0) -- +(0mm,1mm) coordinate(x0);
 \path (p7) -- +(0mm,1mm) coordinate(x7);
 \pattern[pattern=north east lines,pattern color=gray,opacity=0.5]
-([yshift=1mm]p0) -- ([yshift=-2mm]p0) -- 
-([yshift=-2mm]p7) -- ([yshift=1mm]p7)  -- cycle;
+%([yshift=1mm]p0) -- ([yshift=-2mm]p0) -- 
+%([yshift=-2mm]p7) -- ([yshift=1mm]p7)  -- cycle;
+(p0) -- ([yshift=-2mm]p0) -- ([yshift=-2mm]p7) -- (p7) -- cycle;
 \end{tikzpicture}
+\caption{Схематическое изображение расположения узлов $x_i$
+\linebreak расчетной сетки $\{x_0,x_1,\ldots,x_n\}$}
 \end{figure}
 
 \end{document}
 
-\begin{figure} % *** График сетки ***
-\begin{center}
-\input{ODE_BC_fig/ODE_BC_fig(mesh).tex}
+ % *** График сетки ***
+\begin{figure}[H]\centering
+%\input{ODE_BC_fig/ODE_BC_fig(mesh).tex}
+\begin{tikzpicture}[framed]
+\pgfplotsset{set layers=standard}
+\pgfsetlayers{background,axis grid,main,axis ticks,axis lines, axis tick labels,axis descriptions,axis foreground}
+% узлы сетки
+\def\xLeft{0.5}
+\def\x{4}
+\def\xRight{9.5}
+% промежуточные узлы
+\def\xleft{(\x+\xLeft)/2}
+\def\xright{\x+\xRight)/2}
+\begin{pgfonlayer}{main}
+\begin{axis}
+[	width=7cm, %height=10cm,
+	name=plot1,
+	title={a)},
+	xmin=0, xmax=10, xlabel={$x$}, 
+	xtick={\xLeft,\xleft,\x,\xright,\xRight}, xticklabels={$x_{i-1}$,$x_{i-\onehalf}$,$x_i$,$x_{i+\onehalf}$,$x_{i+1}$},
+	ymin=-3.5, ymax=10, ylabel={$k(x)$}, ytick={3,7}, yticklabels={\empty},
+]
+\addplot[
+	const plot mark right,
+	thick,black,
+	mark=*, mark size=4pt, mark options={fill=lime,draw=black,solid,thick},
+%	nodes near coords,
+%	point meta=explicit symbolic,
+%	node near coord style={midway,yshift=-1ex,black,fill=olive!10},
+] coordinates { (\xLeft,3) (\x,3) (\xRight,7) };
+\draw[thick,draw=black,fill=white] (axis cs:\x,7) circle[radius=4pt];
+\path (axis cs:\xLeft,3) -- (axis cs:\x,3) node[midway,above,yshift=0.5ex,fill=olive!10] {$k_{i}$};
+\path (axis cs:\x,7) -- (axis cs:\xRight,7) node[midway,above,yshift=0.5ex,fill=olive!10] {$k_{i+1}$};
+% hi
+\draw[draw=red,fill=red] (axis cs:\x,0.75) rectangle (axis cs:\xRight,1)
+node[midway,above,red,yshift=0.25ex,fill=olive!10] {$h_{i+1}$};
+% hi+1/2
+\draw[draw=blue,fill=blue] (axis cs:{\xleft},-2.5) rectangle (axis cs:{\xright},-2.25) 
+node[midway,above,blue,fill=olive!10,yshift=0.25ex] {$h_{i+1/2}$};
+\end{axis}
+%
+% Правый график
+%
+\begin{axis}
+[	width=7cm, %height=10cm,
+	name=plot2,
+	at={($(plot1.east)+(\GraphShiftToRight,0)$)},
+	anchor=west,
+	title={b)},
+	xmin=0, xmax=10, xlabel={$x$}, 
+	xtick={\xLeft,\xleft,\x,\xright,\xRight}, xticklabels={$x_{i-2}$,$x_{i-1}$,$x_i$,$x_{i+1}$,$x_{i+2}$},
+	ymin=1, ymax=10, ylabel={$r(x)$}, ytick={3,7}, yticklabels={\empty},
+]
+\addplot[
+	const plot mark right,
+	thick,black,
+	mark=*, mark size=4pt, mark options={fill=lime,draw=black,solid,thick},
+] coordinates { (\xLeft,7) (\xleft,7) (\x,3) (\xright,3) (\xRight,7) };
+\draw[thick,draw=black,fill=white] (axis cs:{\xleft},3) circle[radius=4pt];
+\draw[thick,draw=black,fill=white] (axis cs:{\xright},7) circle[radius=4pt];
+\path (axis cs:{\xLeft},7) -- (axis cs:{\xleft},7) node[midway,above,yshift=0.5ex,fill=olive!10] {$r_{i-1}$};
+\path (axis cs:{\xleft},3) -- (axis cs:{\xright},3) node[midway,above,yshift=0.5ex,fill=olive!10] {$r_{i,i+1}=0$};
+\path (axis cs:{\xright},7) -- (axis cs:{\xRight},7) node[midway,above,yshift=0.5ex,fill=olive!10] {$r_{i+2}$};
+\end{axis}
+\end{pgfonlayer}{main}
+\end{tikzpicture}
 \caption{Схематическое изображение разрывных коэффициентов\\ 
 (a) температуропроводности $k(x)$ и
 (b) конвекционного теплообмена $r(x)$\\
 в узлах расчётной сетки $\{x_i\}$\\
 (точки разрыва коэффициентов указаны $\medcirc$ -- маркером)}
 \label{fig:ODE_BC(mesh)}
-\end{center}
 \end{figure}
+
 
 \begin{tcolorbox}
 Если заданы коэффициенты дифференциального уравнения 
@@ -1405,7 +1491,7 @@ u(\ell)-u(x_{N-1})=-w(x_{N-\onehalf})\cdot\int\limits_{x_{N-1}}^{\ell}\dfrac{dx}
 	every axis/.style={color=black, solid, thick},
 	ytick pos=right,			% ось OY - справа
 	ylabel = {\empty},	% подпись оси y
-	xmin=0, xmax=10, xtick={\xxxl,(\xxxl+\xxl)/2,\xxl,(\xxl+\xl)/2,\xl}, xticklabels={$x_{N-2}$,$x_{N-\nicefrac{3}{2}}$,$x_{N-1}$,$x_{N-\onehalf}$,$\ell$},
+	xmin=0, xmax=10, xtick={\xxxl,(\xxxl+\xxl)/2,\xxl,(\xxl+\xl)/2,\xl}, xticklabels={$x_{N-2}$,$x_{N-\frac{3}{2}}$,$x_{N-1}$,$x_{N-1/2}$,$\ell$},
 	ymin=0, ymax=10, ytick={\uuul,\uul,\ul}, yticklabels={$u(x_{N-2})$,$u(x_{N-1})$,$u(\ell)$},
 	xtick style={thick, black},
 	ytick style={thick, black},
