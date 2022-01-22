@@ -694,31 +694,40 @@ $n$ -- количество узлов сетки.
 Если заданы коэффициенты системы дифференциальных уравнений
 \eqref{eq:HT+BC:1D} и \emph{известны их точки разрывов}, 
 то всегда можно выбрать неравномерную сетку так, 
-чтобы точки разрыва коэффициентов $k(x)$, $r(x)$, $q(x)$ 
-совпадали с узлами расчетной сетки (рисунок \ref{fig:ODE_BC(mesh)}).
+чтобы точки разрыва коэффициентов $f(x)=\{k(x), r(x), q(x)\}$ 
+совпадали с узлами расчетной сетки 
+(рисунок \ref{fig:ODE+BC:gap-function}).
 \end{tcolorbox}
 
+%
+% разрыв коэффициентов
+%
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+\begin{axis}[xlabel=\empty,
+xmin=-10,xmax=110,ymin=10,ymax=90,
+xtick={0,30,50,70,100},xticklabels={$0$,$x_{i-1}$,$x_i$,$x_{i+1}$,$\ell$},
+ytick={30,70},yticklabels={$f_1$,$f_2$}]
+% разрыв функции
+\addplot[mark=*,draw=darkred,thick,mark size=3pt,mark options={fill=white}]
+coordinates{(0,30)(30,30)(50,30)};
+\path (axis cs:50,30) -- (axis cs:50,70) 
+node[midway,sloped,darkred,fill=white]{разрыв};
+\addplot[mark=*,draw=darkred,thick,mark size=3pt,mark options={fill=white}]
+coordinates{(50,70)(70,70)(100,70)};
+\end{axis}
+\end{tikzpicture}
+\caption{График функции $f(x)$, которая имеет разрыв в точке $x=x_i$}
+\label{fig:ODE+BC:gap-function}
+\end{figure}
 
 Выделим на отрезке $[0,\ell]$ подмножество промежуточных 
-узлов $\{x_{i\pm1/2}\}$:
+узлов $\{x_{i\pm1/2}\}$ (рисунок \ref{fig:ODE+BC:mesh:main+secound}):
 \begin{gather*}
 x_{i\pm1/2}=\dfrac{x_i+x_{i\pm1}}{2},\quad i=1,2,\ldots,n-1
 ,\end{gather*}
 где $x_{i\pm1/2}$ -- середины отрезков 
 $[x_{i-1}, x_i]$ и $[x_i, x_{i+1}]$, соответственно.
-
-Расстояние между соседними узлами расчётной сетки 
-$h_i$ (шаг сетки), как и расстояние между соседними 
-промежуточными узлами, 
-$h_{i+1/2}$ (шаг промежуточной сетки) 
-зависят от номера узла $i$ сетки
-(рисунок \ref{fig:ODE+BC:mesh:main+secound}):
-\begin{gather*}
-\begin{array}{rcl}
-h_i&=&x_i-x_{i-1},\\
-h_{i+1/2}&=&x_{i+1/2}-x_{i-1/2}=\dfrac{h_{i+1}+h_i}{2}.
-\end{array}
-\end{gather*}
 
 % Промежуточная сетка
 \begin{figure}[H]\centering
@@ -754,15 +763,76 @@ h_{i+1/2}&=&x_{i+1/2}-x_{i-1/2}=\dfrac{h_{i+1}+h_i}{2}.
 \label{fig:ODE+BC:mesh:main+secound}
 \end{figure}
 
+Расстояние между соседними узлами расчётной сетки 
+$h_i$ (шаг сетки), как и расстояние между соседними 
+промежуточными узлами, 
+$h_{i+1/2}$ (шаг промежуточной сетки) 
+зависят от номера узла $i$ сетки:
+\begin{gather*}
+\begin{array}{rcl}
+h_i&=&x_i-x_{i-1},\\
+h_{i+1/2}&=&x_{i+1/2}-x_{i-1/2}=\dfrac{h_{i+1}+h_i}{2}.
+\end{array}
+\end{gather*}
 
-\end{document}
-
-Значения неизвестной функции $u(x)$ (температуры) рассмотрим в узлах сетки $\{x_i\}$
+Значения неизвестной функции $u(x)$ (температуры) 
+рассмотрим в узлах сетки $\{x_i\}$
 (рисунок \ref{fig:ODE_BC(u,w)}~a), 
-а потоковую величину $w(x)$ (тепловой поток) -- в промежуточных узлах $\{x_{i\pm\onehalf}\}$ 
+а потоковую величину $w(x)$ (тепловой поток) -- 
+в промежуточных узлах $\{x_{i\pm1/2}\}$ 
 (рисунок \ref{fig:ODE_BC(u,w)}~b).
 
+%
+% Температура и тепловой поток
+%
+\pgfplotsset{
+uxwx axis style/.append style={
+	width=7.5cm,% размер графиков
+	font=\small,% размер шрифта
+	xlabel=\empty,xmin=-10,xmax=110,
+	xtick={0,30,50,75,100},
+	xticklabels={$x_{i-1}$,$x_{i-1/2}$,$x_i$,$x_{i+1/2}$,$x_{i+1}$},
+	ylabel=\empty,ymin=0,ymax=100,
+%	grid=none,% сетка
+},
+}
+\begin{figure}[H]\centering
+%
+% первый график
+%
+\begin{subfigure}[b]{.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[uxwx axis style,%xlabel=$u(x)$,
+ytick=data,yticklabels={$u_{i-1}$,$u_i$,$u_{i+1}$}]
+\addplot[ball darkblue,thick]
+coordinates{(0,80)(50,30)(100,50)};
+\end{axis}
+\end{tikzpicture}
+\caption{температура $u(x)$}
+\label{fig:ODE+BC:temperature:u(x)}
+\end{subfigure}%
+%
+% второй график
+%
+\begin{subfigure}[b]{.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[uxwx axis style,
+ytick=data,yticklabels={$w_{i-1/2}$,$w_{i+1/2}$}]
+\addplot[ball darkred,thick,const plot mark mid]
+coordinates{(30,10)(75,70)};
+\end{axis}
+\end{tikzpicture}
+\caption{тепловой поток}
+\label{fig:ODE+BC:heat flow:w(x)}
+\end{subfigure}
+\caption{
+Схематическое изображение распределения неизвестной
+функции $u(x)$ и потоковой величины $w(x)$
+в пределах контрольной области $[x_{i-1},x_{i+1}]$}
+\label{fig:ODE+BC:u(x) and w(x)}
+\end{figure}
 
+\end{document}
 
 \begin{figure} % *** Распределение температуры u(x) и потока тепла w(x) ***
 \begin{center}
