@@ -723,10 +723,12 @@ xmin=-10,xmax=110,ymin=10,ymax=90,
 xtick={0,30,50,70,100},xticklabels={$0$,$x_{i-1}$,$x_i$,$x_{i+1}$,$\ell$},
 ytick={30,70},yticklabels={$f_1$,$f_2$}]
 % разрыв функции
-\addplot[ball darkgreen,thick] coordinates{(0,45)(30,35)(50,30)};
+\addplot[ball darkgreen,thick,const plot mark mid]
+coordinates{(0,45)(30,35)(50,30)};
 \draw[<->,thin,darkgreen] (axis cs:50,30) -- (axis cs:50,70) 
 node[midway,sloped,fill=white]{разрыв};
-\addplot[ball darkgreen,thick] coordinates{(50,70)(70,60)(100,55)};
+\addplot[ball darkgreen,thick,const plot mark mid]
+coordinates{(50,70)(70,60)(100,55)};
 \end{axis}
 \end{tikzpicture}
 \caption{График функции $f(x)$, которая имеет разрыв в точке $x=x_i$}
@@ -800,7 +802,7 @@ h_{i+1/2}&=&x_{i+1/2}-x_{i-1/2}=\dfrac{h_{i+1}+h_i}{2}.
 uxwx axis style/.append style={
 	font=\small,% размер шрифта
 	xlabel=\empty,xmin=-10,xmax=110,
-	xtick={0,30,50,75,100},
+	xtick={0,20,40,70,100},
 	xticklabels={$x_{i-1}$,$x_{i-1/2}$,$x_i$,$x_{i+1/2}$,$x_{i+1}$},
 	ylabel=\empty,
 %	grid=none,% сетка
@@ -816,8 +818,8 @@ uxwx axis style/.append style={
 axis y line*=left,
 ymin=0,ymax=100,ytick=data,
 yticklabels={$u_{i-1}$,$u_i$,$u_{i+1}$}]
-\addplot[ball darkblue,thick]
-coordinates{(0,80)(50,30)(100,50)};
+\addplot[ball darkblue,thick,const plot mark mid]
+coordinates{(0,80)(40,30)(100,50)};
 \addplot[draw=none,fill=blue!5,on layer=background]
 coordinates{(0,80)(50,30)(100,50)}\closedcycle;
 \end{axis}
