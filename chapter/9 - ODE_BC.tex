@@ -708,7 +708,7 @@ $n$ -- количество узлов сетки.
 Если заданы коэффициенты системы дифференциальных уравнений
 \eqref{eq:HT+BC:1D} и \emph{известны их точки разрывов}, 
 то всегда можно выбрать неравномерную сетку так, 
-чтобы точки разрыва коэффициентов $f(x)=\{k(x), r(x), q(x)\}$ 
+чтобы точки разрыва коэффициентов $\vect{f}(x)=\{k(x), r(x), q(x)\}$ 
 совпадали с узлами расчетной сетки 
 (рисунок \ref{fig:ODE+BC:gap-function}).
 \end{tcolorbox}
@@ -717,18 +717,24 @@ $n$ -- количество узлов сетки.
 % разрыв коэффициентов
 %
 \begin{figure}[H]\centering
-\begin{tikzpicture}[>={Straight Barb[angle=45:1.5mm 1]},shorten >=3pt,shorten <=3pt]% стрелка
+\begin{tikzpicture}
 \begin{axis}[xlabel=\empty,
-xmin=-10,xmax=110,ymin=10,ymax=90,
-xtick={0,30,50,70,100},xticklabels={$0$,$x_{i-1}$,$x_i$,$x_{i+1}$,$\ell$},
+xmin=10,xmax=100,ymin=10,ymax=90,
+xtick={20,50,90},xticklabels={$x_{i-1}$,$x_i$,$x_{i+1}$},
 ytick={30,70},yticklabels={$f_1$,$f_2$}]
-% разрыв функции
-\addplot[ball darkgreen,thick,const plot mark mid]
-coordinates{(0,45)(30,35)(50,30)};
-\draw[<->,thin,darkgreen] (axis cs:50,30) -- (axis cs:50,70) 
-node[midway,sloped,fill=white]{разрыв};
-\addplot[ball darkgreen,thick,const plot mark mid]
-coordinates{(50,70)(70,60)(100,55)};
+% заполнение
+\addplot[draw=none,thick,fill=darkgreen!7,on layer=background]
+coordinates{(20,0)(20,30)(50,30)(50,70)(90,70)(90,0)}\closedcycle;
+% линии и стрелки
+\begin{scope}[>={Straight Barb[angle=45:1.5mm 1]},shorten >=1pt,shorten <=1pt]
+\addplot[->,draw=darkgreen,thick]coordinates{(20,30)(50,30)};
+\addplot[<-,draw=darkgreen,thick]coordinates{(50,70)(90,70)};
+\path (axis cs:50,30) -- (axis cs:50,70)
+node[midway,sloped,above,fill=white]{$f_1\ne f_2$}
+node[midway,sloped,below,color=darkgreen]{разрыв};
+\end{scope}
+% маркеры
+\addplot[ball darkgreen,thick,only marks]coordinates{(20,30)(90,70)};
 \end{axis}
 \end{tikzpicture}
 \caption{График функции $f(x)$, которая имеет разрыв в точке $x=x_i$}
@@ -816,21 +822,27 @@ uxwx axis style/.append style={
 % левая ось OY
 \begin{axis}[uxwx axis style,
 axis y line*=left,
-ymin=0,ymax=100,ytick=data,
-yticklabels={$u_{i-1}$,$u_i$,$u_{i+1}$}]
-\addplot[ball darkblue,thick,const plot mark mid]
-coordinates{(0,80)(40,30)(100,50)};
-\addplot[draw=none,fill=blue!5,on layer=background]
-coordinates{(0,80)(50,30)(100,50)}\closedcycle;
+ymin=0,ymax=100,ytick={10,60},
+yticklabels={$w_{i-1/2}$,$w_{i+1/2}$}]
+% заполнение
+\addplot[draw=none,fill=darkred!7,on layer=background] 
+coordinates{(0,0)(0,10)(40,10)(40,60)(100,60)(100,0)}\closedcycle;
+\addplot[draw=none,fill=blue!14,opacity=0.25,on layer=background]
+coordinates{(0,80)(20,80)(20,30)(40,30)(70,30)(70,50)(100,50)}\closedcycle;
+% линии
+\addplot[draw=darkred,thick] 
+coordinates{(0,10)(40,10)(40,60)(100,60)};
+\addplot[draw=darkblue]
+coordinates{(0,80)(20,80)(20,30)(40,30)(70,30)(70,50)(100,50)};
+% маркеры
+\addplot[ball darkred,only marks] coordinates{(20,10)(70,60)};
+\addplot[ball darkblue,only marks] coordinates{(0,80)(40,30)(100,50)};
 \end{axis}
 % правая ось OY
 \begin{axis}[uxwx axis style,
-axis y line*=right,axis x line=none,grid=none,
-ymin=-30,ymax=50,ytick={-20,30},
-yticklabels={$w_{i-1/2}$,$w_{i+1/2}$}]
-\addplot[draw=darkred,thick] 
-coordinates{(0,5)(30,-15)(75,30)(100,40)};
-\addplot[ball darkred,only marks] coordinates{(30,-15)(75,30)};
+axis y line*=right,axis x line=none,ymajorgrids,
+ymin=0,ymax=100,ytick={80,30,50},
+yticklabels={$u_{i-1}$,$u_i$,$u_{i+1}$}]
 \end{axis}
 \end{tikzpicture}
 \caption{
@@ -950,16 +962,22 @@ $\{k(x_i), r(x_i), q(x_i)\}$.
 \alert{численным методом интегрирования}.
 
 Для этого воспользуемся простейшими интерполяциями 
-коэффициентов $k(x)$, $r(x)$, $q(x)$
-(рисунок \ref{fig:ODE_BC(mesh)}), неизвестной функции 
+коэффициентов $\vect{f}(x)=\{k(x), r(x), q(x)\}$
+(рисунок \ref{fig:ODE+BC:gap-function}), неизвестной функции 
 $u(x)$ (температуры) и ее потока $w(x)$ (тепловой поток) 
-(рисунок \ref{fig:ODE_BC(u,w)}) в окрестности узлов $\{x_i\}$ в виде:
+(рисунок \ref{fig:ODE+BC:u(x) and w(x)}) 
+в окрестности узлов $\{x_i\}$ в виде:
 \begin{gather}\label{eq:ODE_BC(approx)}
-\left\{\begin{array}{l l}
-u(x_i)=\mathrm{const},\quad&x\in(x_{i-1/2},x_{i+1/2}) \\
-w(x_{i+1/2})=\mathrm{const},\quad&x\in(x_i,x_{i+1})\\
-k(x_i), r(x_i), q(x_i)=\mathrm{const},\quad&x\in(x_i,x_{i+1})
-\end{array}\right.
+%\left\{\begin{array}{l l}
+%u(x_i)=\mathrm{const},\quad&x\in(x_{i-1/2},x_{i+1/2}) \\
+%w(x_{i+1/2})=\mathrm{const},\quad&x\in(x_i,x_{i+1})\\
+%k(x_i), r(x_i), q(x_i)=\mathrm{const},\quad&x\in(x_i,x_{i+1})
+%\end{array}\right.
+\begin{cases}
+u(x_i)=\const,&x_{i-1/2} \leqslant x \leqslant x_{i+1/2}\\
+w(x_{i+1/2})=\const,&x_i \leqslant x \leqslant x_{i+1}\\
+k(x_i), r(x_i), q(x_i)=\const,&x_{i-1/2} \leqslant x \leqslant x_{i+1/2}
+\end{cases}.
 \end{gather}
 
 \end{document}
