@@ -1,0 +1,460 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{../../sgu.tex}
+% обозначение пути
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{decorations.pathmorphing}
+% единицы измерений СИ
+\usepackage{siunitx}
+% образец
+\newcounter{sample}% номер образца
+\def\length{1}% длина
+\def\radius{1}% высота
+\def\aspect{0.25}% соотношение радиусов
+% \Sample{начало}{конец}
+\newcommand{\Sample}[2]{%
+% боковая поверхность
+\path #1 coordinate (B) 
+arc [start angle=90,end angle=270,
+x radius={\aspect*\radius},y radius=\radius]
+coordinate (A) -- ++(\length,0) coordinate (D)
+arc [start angle=270,end angle=90,
+x radius={\aspect*\radius},y radius=\radius]
+coordinate (C) -- cycle;
+% обратная сторона
+\path #2 (C)
+arc [start angle=90,end angle=-270,
+x radius={\aspect*\radius},y radius=\radius];
+% счетчик
+\stepcounter{sample}
+}
+% подписи
+\def\shifttoptext{1em}
+\def\shiftbottomtext{1em}
+\newcommand{\SampleText}[3]{%
+\path (B) -- +(0,\shifttoptext) coordinate (b);
+\path (C) -- +(0,\shifttoptext) coordinate (c);
+\draw[|{to}-{to}|,help lines] (b) -- (c) 
+node[midway,above,black] {#1};
+\path (A) -- (C) node[midway,text width=3em] {#2};
+\path (A) -- (D) node[midway,below,black] {#3};
+}
+% диэлектрик
+\newcommand{\Insulator}{%
+\Sample{[draw,fill=orange!25] (C)};%
+}
+% левый контакт
+\newcommand{\LeftContact}[1]{%
+\def\length{0.3}% толщина
+\begin{scope}[color=darkred]
+\Sample
+{[draw,shading=axis,
+top color=darkred!25,bottom color=darkred!50] (C)}
+{[draw,shading=axis,
+top color=darkred!25,bottom color=darkred!50
+]};
+\draw[-{Circle},thick] 
+($0.5*(A)+0.5*(B)$) -- +(-1.5em,0)
+node [above,rotate=90] {#1};
+\end{scope};%
+\setcounter{sample}{0};% сброс счетчика
+}
+% правый контакт
+\newcommand{\RightContact}[1]{%
+\def\length{0.3}% толщина
+\begin{scope}[color=darkblue]
+\Sample
+{[draw,shading=axis,
+top color=darkblue!25,bottom color=darkblue!50] (C)}
+{[draw,shading=axis,
+top color=darkblue!25,bottom color=darkblue!50]}
+\draw[-{Circle},thick] 
+($0.5*(C)+0.5*(D)$) -- +(1.5em,0)
+node [above,rotate=-90] {#1};
+\end{scope}%
+}
+% образец-нагреватель
+% \SampleHeater{начало}
+\newcommand{\SampleHeater}{%
+\def\length{0.3}% толщина
+\begin{scope}[color=darkred]
+\Sample
+{[draw,shading=axis,
+top color=darkred!25,bottom color=darkred!50] (C)}
+{[draw,shading=axis,
+top color=darkred!25,bottom color=darkred!50
+]};
+%\draw (A) -- (D) node[midway,below] {$T_{heat}$};
+%\path (A) -- (B) node[sloped,midway,above,yshift=1ex] {нагреватель};
+\end{scope}%
+}
+% образец-теплоотвод
+% \SampleSink{начало}
+\newcommand{\SampleSink}[1]{%
+\def\length{0.3}% толщина
+\begin{scope}[color=darkblue]
+\Sample
+{[draw,shading=axis,
+top color=darkblue!25,bottom color=darkblue!50] (C)}
+{[draw,shading=axis,
+top color=darkblue!25,bottom color=darkblue!50]}
+\path (A) -- (D) node[midway,below] {$T_{cool}$};
+\end{scope}%
+}
+% Определение *** Новых Цветов ***
+\colorlet{darkgreen}{green!40!black}% темно-зеленый
+\colorlet{darkred}{red!80!black}% темно-красный
+\colorlet{darkorange}{orange!50!black}% темно-оранжевый
+\colorlet{darkblue}{blue!70!black}% темно-синий
+% градусы Цельсия
+\newcommand{\degC}[1]{\SI[mode=text]{#1}{\degreeCelsius}}
+%
+% новые математические операторы
+%
+\DeclareMathOperator{\Rot}{rot}% ротор
+\DeclareMathOperator{\Div}{div}% дивергенция
+%\DeclareMathOperator{\const}{const}
+% Система координат
+% \drawCS{xmax}
+\newcommand{\drawCS}[1]{%
+% начало координат
+\coordinate (O) at (0,0);
+% оси координат
+\begin{scope}[color=gray,font=\scriptsize]
+\draw[below] (O) node {0};
+\draw[|-latex] (O) -- ({#1},0) node[below] {$x$};
+\end{scope}}
+% выделение текста красным цветом
+%\newcommand{\alert}[1]{%
+%\textcolor{darkred}{\emph{#1}}%
+%}
+% выделение текста зеленым цветом
+\newcommand{\note}[1]{%
+\textcolor{darkgreen}{\emph{#1}}%
+}
+%--------------------------------------------------------------------
+%
+%	ДАННЫЕ ДЛЯ ТИТУЛЬНОГО ЛИСТА
+%
+%--------------------------------------------------------------------
+% ВАРИАНТ
+\def\VARIANT{1}
+% Фамилия Имя Отчество
+\def\SurnameAuthor{Петрова Петра Петровича}
+% Подпись
+\def\Signature{П.П. Петров}
+% Пол
+\def\Gender{1}
+% Группа
+\def\NoGroup{221}
+% Курс
+\def\NoCourse{2}
+% Дисциплина
+\def\SubjectName{%
+Численные методы в менеджменте}
+%--------------------------------------------------------------------
+%
+%	БАРС
+%
+%--------------------------------------------------------------------
+% Название работы
+\def\WorkName{%
+Процессы теплопереноса}%
+\def\WORKNAME{%
+ПРОЦЕССЫ ТЕПЛОПЕРЕНОСА}%
+\def\Exec{?}% Выполнение
+\def\Polygraphy{?}% Оформление
+\def\OralReport{?}% Устный отчет
+%--------------------------------------------------------------------
+%	Новое окружение ВАРИАНТ
+%	\newenvirorment{name}[num arguments]{begin}{end}
+%--------------------------------------------------------------------
+\newenvironment{variant}{% begin
+\par%
+}{% end
+%\vspace{1em}
+\textbf{Порядок выполнения работы}
+\begin{enumerate}
+\item
+Сформулировать основные уравнения 
+математической модели системы.
+\item
+Построить произвольную неравномерную сетку, 
+которая отражает специфику системы в 
+рассматриваемой области пространства.
+\item
+Привести математическую модель к 
+дискретному виду на основе 
+метода баланса и разработать 
+расчетную схему для нахождения целевой функции.
+\item
+Выполнить численный эксперимент и найти 
+распределение целевой функции 
+в рассматриваемой области.
+\item
+Визуализировать результаты численного 
+эксперимента в виде XY-графика 
+распределени целевой функции в рассматриваемой области.
+\end{enumerate}\newpage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\begin{document}
+%
+% ТИТУЛЬНЫЙ ЛИСТ
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{TitlePage}{%
+ЛАБОРАТОРНАЯ РАБОТА НА ТЕМУ\linebreak[3]
+\\
+\textbf{\WORKNAME}\linebreak[3]%
+}
+% Ф.И.О. (родительный падеж)
+\begin{center}
+\SurnameAuthor%\linebreak[3]
+\end{center}
+% таблица БАРС
+%\TitleBARS{1}
+\end{TitlePage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ЗАДАНИЕ
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\TaskPages{по дисциплине
+%<<\SubjectName>>\\
+%на выполнение лабораторной работы на тему
+%\textbf{<<\WorkName>>}
+%}
+%>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+%
+%	ТЕПЛОПРЕРЕНОС №1
+%
+%<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+%\ifnum\VARIANT=1
+\begin{variant}
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[framed,font=\footnotesize]
+\coordinate (C) at (-0.3,3);
+% нагреватель
+\SampleHeater;
+\path (A) -- (B) node[sloped,midway,above,color=darkred,yshift=1ex]
+{термостат};
+\begin{scope}[thick]
+% первая часть
+\def\length{4}
+\Sample{[draw,shading=axis,
+left color=red!50,right color=blue!25] (C)};
+% подпись
+\SampleText{$\ell_1=\length$}
+{$k_1=0.5$}{$\upalpha_1=1$}
+% вторая часть
+\def\length{5}
+\Sample
+{[draw,shading=axis,
+left color=blue!25,right color=blue!50] (C)};
+% подпись
+\SampleText
+{$\ell_2=\length$}{$k_2=4$}{$\upalpha_2=0.5$}
+\end{scope}
+% теплоотвод
+\SampleSink;
+\path (C) -- (D) node[sloped,midway,above,color=darkblue,yshift=1ex]
+{термостат};
+%
+%%\draw (A) node {a};
+%%\draw (B) node {b};
+%%\draw (C) node {c};
+%%\draw (D) node {d};
+%
+% система координат
+\drawCS{10}
+\end{tikzpicture}\vspace{-1em}
+\end{center}
+\caption*{Рисунок -- 
+Перенос тепла в неоднородном теле
+в условиях \emph{конвекционного теплообмена} 
+поверхности образца с окружающей средой:\\
+здесь
+$T_{heat}=\SI{100}{\degreeCelsius}$  -- 
+температуры нагревателя;
+$T_{cool}=\SI{20}{\degreeCelsius}$  -- 
+температуры теплоотвода;
+$k$ -- коэффициент теплопроводности;
+$\upalpha$ -- коэффициент теплоотдачи
+поверхности образца;
+$\ell$ -- размер области}
+\end{figure}
+\end{variant}
+
+\end{document}
+%\fi
+%>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+%
+%	УРАВНЕНИЕ ПУАССОНА №1
+%
+%<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+\ifnum\VARIANT=1
+\begin{variant}
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[framed,font=\footnotesize]
+\coordinate (C) at (-0.3,3);
+% левый контакт
+\LeftContact{$\varphi(0)=\SI{10}{\volt}$};
+\begin{scope}[thick]
+% 1 часть
+\def\length{4}
+\Sample{[draw,shading=axis,
+left color=red!50,right color=blue!15] (C)};
+% подпись
+\draw (0,0) node {\thesample};
+\SampleText{$\ell_\thesample=\length$}
+{$\uprho_\thesample=0.5$\\$\upvarepsilon_\thesample=2$}{}
+% 2 часть
+\def\length{2.5}
+\Sample
+{[draw,shading=axis,
+left color=blue!15,right color=blue!25] (C)};
+% подпись
+\SampleText
+{$\ell_\thesample=\length$}
+{$\uprho_\thesample=-2$\\$\upvarepsilon_\thesample=3$}{}
+% 3 часть
+\def\length{3}
+\Sample
+{[draw,shading=axis,
+left color=blue!25,right color=blue!50] (C)};
+% подпись
+\SampleText
+{$\ell_\thesample=\length$}
+{$\uprho_\thesample=2$\\$\upvarepsilon_\thesample=4$}{}
+\end{scope}
+% правый контакт
+\RightContact{$\varphi(\ell)=\SI{1}{\volt}$};
+% система координат
+\drawCS{10}
+\end{tikzpicture}\vspace{-1em}
+\end{center}
+\caption*{Рисунок -- 
+Распределение электрического потенциала 
+$\varphi(x)$ в необнородных образцах:
+здесь
+$\varphi(0)$ и $\varphi(\ell)$ -- потенциалы
+на границе рассматриваемой области;
+$\uprho$ -- объемная плотность заряда;
+$\upvarepsilon$ -- диэлектрическая проницаемость материала;
+$\ell$ -- размер области}
+\end{figure}
+\end{variant}\fi
+%>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+%
+%	УРАВНЕНИЕ ПУАССОНА №2
+%
+%<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+\ifnum\VARIANT=1
+\begin{variant}
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[framed,font=\footnotesize]
+\coordinate (C) at (-0.3,3);
+% левый контакт
+\LeftContact{$\varphi(0)=\SI{5}{\volt}$};
+\begin{scope}[thick]
+% 1 часть
+\def\length{3}
+\Sample{[draw,shading=axis,
+left color=red!50,right color=blue!15] (C)};
+% подпись
+\SampleText{$\ell_\thesample=\length$}
+{$\uprho_\thesample=1.5$\\$\upvarepsilon_\thesample=2$}{}
+% 2 часть
+\def\length{2}
+\Sample{[draw,fill=orange!25] (C)};
+% подпись
+\SampleText{$\ell_\thesample=\length$}
+{$\uprho_\thesample=0$\\$\upvarepsilon_\thesample=4$}{}
+% 3 часть
+\def\length{4}
+\Sample
+{[draw,shading=axis,
+left color=blue!25,right color=blue!50] (C)};
+% подпись
+\SampleText
+{$\ell_3=\length$}{$\uprho_3=-2$\\$\upvarepsilon_3=2$}{}
+\end{scope}
+% правый контакт
+\RightContact{$\varphi(\ell)=\SI{3}{\volt}$};
+% система координат
+\drawCS{10}
+\end{tikzpicture}\vspace{-1em}
+\end{center}
+\caption*{Рисунок -- 
+Распределение электрического потенциала 
+$\varphi(x)$ в необнородных образцах:
+здесь
+$\varphi(0)$ и $\varphi(\ell)$ -- потенциалы
+на границе рассматриваемой области;
+$\uprho$ -- объемная плотность заряда;
+$\upvarepsilon$ -- диэлектрическая проницаемость материала;
+$\ell$ -- размер области}
+\end{figure}
+\end{variant}\fi
+%>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+%
+%	УРАВНЕНИЕ ПУАССОНА №3
+%
+%<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+\ifnum\VARIANT=1
+\begin{variant}
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[framed,font=\footnotesize]
+\coordinate (C) at (-0.3,3);
+% левый контакт
+\LeftContact{$\varphi(0)=\SI{0}{\volt}$};
+\begin{scope}[thick]
+% 1 часть
+\def\length{2.5}
+\Sample{[draw,shading=axis,
+left color=red!50,right color=blue!15] (C)};
+% подпись
+\SampleText{$\ell_\thesample=\length$}
+{$\uprho_\thesample=1.5$\\$\upvarepsilon_\thesample=2$}{}
+% 2 часть
+\def\length{2}
+\Sample
+{[draw,shading=axis,
+left color=blue!15,right color=blue!25] (C)};
+% подпись
+\SampleText{$\ell_\thesample=\length$}
+{$\uprho_\thesample=3$\\$\upvarepsilon_\thesample=4$}{}
+% 3 часть
+\def\length{4}
+\Insulator% диэлектрик
+% подпись
+\SampleText{$\ell_\thesample=\length$}
+{$\uprho_\thesample=0$\\$\upvarepsilon_\thesample=3$}{}
+\end{scope}
+% правый контакт
+\RightContact{$\varphi(\ell)=\SI{-3}{\volt}$};
+% система координат
+\drawCS{10}
+\end{tikzpicture}\vspace{-1em}
+\end{center}
+\caption*{Рисунок -- 
+Распределение электрического потенциала 
+$\varphi(x)$ в необнородных образцах:
+здесь
+$\varphi(0)$ и $\varphi(\ell)$ -- потенциалы
+на границе рассматриваемой области;
+$\uprho$ -- объемная плотность заряда;
+$\upvarepsilon$ -- диэлектрическая проницаемость материала;
+$\ell$ -- размер области}
+\end{figure}
+\end{variant}\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
