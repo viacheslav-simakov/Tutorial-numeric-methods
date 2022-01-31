@@ -668,33 +668,29 @@ $n$ -- количество узлов сетки.
 
 \begin{figure}[H]\centering
 \begin{tikzpicture}
-[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]% стрелка
+[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt,font=\small]% стрелка
 % начало отсчета
 \coordinate (O) at (0mm,0mm);
 % ось OX
-\draw[->,line width=0.25mm] (O)% node[pos=0,yshift=-1em]{$0$}
+\draw[->,line width=0.25mm] (O)
 -- +(130mm,0mm) node[pos=1,yshift=-1em]{$x$};
 % сетка
 \coordinate (p) at (O);
 \foreach \x [count=\n from 0] in {0,17,12,15,19,16,14,17}{
-%\draw[line width=0.25mm] (p) -- ++(\x mm,0mm) coordinate(p)
-%-- +(0mm,1.5mm) -- +(0mm,-1.5mm) coordinate(p\n);}
 \path (p) -- ++(\x mm,0mm) coordinate(p);
 \draw[fill=black] (p) circle[radius=0.8mm] coordinate(p\n);
 }
 % подписи
-\draw (p0) node[yshift=-2ex]{$0$};
-\foreach \n in {0,1,2}{ \draw (p\n) node[yshift=1em]{$x_\n$}; }
-\draw (p4) node[yshift=1em]{$x_i$};
-\draw (p6) node[yshift=1em]{$x_{n-1}$};
-\draw (p7) node[yshift=1em]{$x_n$} node[yshift=-2ex]{$\ell$};
+\draw (p0) node[yshift=-1em]{$0$};
+\foreach \n in {0,1,2}{ \draw (p\n) node[above]{$x_\n$}; }
+\draw (p4) node[above]{$x_i$};
+\draw (p6) node[above]{$x_{n-1}$};
+\draw (p7) node[above]{$x_n$} node[yshift=-1em]{$\ell$};
 % штриховка
 \path (p0) -- +(0mm,1mm) coordinate(x0);
 \path (p7) -- +(0mm,1mm) coordinate(x7);
 \begin{scope}[on background layer]
 \pattern[pattern=north east lines,pattern color=gray,opacity=0.5]
-%([yshift=1mm]p0) -- ([yshift=-2mm]p0) -- 
-%([yshift=-2mm]p7) -- ([yshift=1mm]p7)  -- cycle;
 (p0) -- ([yshift=-2mm]p0) -- ([yshift=-2mm]p7) -- (p7) -- cycle;
 \end{scope}
 \end{tikzpicture}
@@ -703,14 +699,12 @@ $n$ -- количество узлов сетки.
 \label{fig:ODE+BC:mesh}
 \end{figure}
 
-%\begin{tcolorbox}
 Если \emph{известны точки разрывов} коэффициентов
 $\vect{f}(x)=\{k(x), r(x), q(x)\}$ системы 
 дифференциальных уравнений \eqref{eq:HT+BC:1D}, 
 то всегда можно выбрать неравномерную сетку так, 
 чтобы эти точки разрывов совпадали с узлами расчетной сетки 
 (рисунок \ref{fig:ODE+BC:gap-function}).
-%\end{tcolorbox}
 
 %
 % График разрыва коэффициентов
@@ -750,6 +744,31 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 \mathring{x}_i=\dfrac{i}{n}\cdot\ell,
 \quad i=0,1,\ldots,n,
 \end{equation*}
+
+% рисунок
+\begin{center}%
+\begin{tikzpicture}
+[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt,font=\small]% стрелка
+% начало отсчета
+\coordinate (O) at (0mm,0mm);
+% ось OX
+\draw[->,line width=0.25mm] (O)
+-- +(135mm,0mm) node[pos=1,yshift=-1em]{$x$};
+% узлы сетки
+\foreach \i in {0,1,2,...,8}{
+\draw[fill=black] (\i*15mm,0mm) circle[radius=0.8mm] coordinate(p\i);
+}
+% штриховка
+\begin{scope}[on background layer]
+\pattern[pattern=north east lines,pattern color=gray,opacity=0.5]
+(p0) -- ([yshift=-2mm]p0) -- ([yshift=-2mm]p8) -- (p8) -- cycle;
+\end{scope}
+% обозначения
+\draw (p0) node[yshift=-1em]{$0$};
+\foreach \i in {0,1,2}{\draw (p\i) node[above]{$\mathring{x}_\i$};}
+\draw (p8) node[above]{$\mathring{x}_n$} node[yshift=-1em]{$\ell$};
+\end{tikzpicture}%
+\end{center}
 
 \item
 Упорядочиваются все точки разрыва $\xi_j$ ($j=0,1,2,\ldots,m$)
