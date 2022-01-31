@@ -746,7 +746,7 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 \end{equation*}
 
 % рисунок
-\begin{center}%
+\begin{figure}[H]\centering
 \begin{tikzpicture}
 [>={Straight Barb[angle=45:2mm 1]},shorten >=1pt,font=\small]% стрелка
 % начало отсчета
@@ -768,7 +768,7 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 \foreach \i in {0,1,2}{\draw (p\i) node[above]{$\mathring{x}_\i$};}
 \draw (p8) node[above]{$\mathring{x}_n$} node[yshift=-1em]{$\ell$};
 \end{tikzpicture}%
-\end{center}
+\end{figure}
 
 \item
 Упорядочиваются все точки разрыва $\xi_j$ ($j=0,1,2,\ldots,m$)
