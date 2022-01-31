@@ -752,19 +752,53 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 \end{equation*}
 
 \item
-Упорядочиваются все точки разрыва $\xi_j$ ($j=1,2,\ldots,m$)
-коэффициентов краевой задачи:
+Упорядочиваются все точки разрыва $\xi_j$ ($j=0,1,2,\ldots,m$)
+коэффициентов краевой задачи, включая 
+левую ($\xi_0=0$) и правую ($\xi_{m+1}=\ell$) границы 
+расчётной области:
 \begin{equation*}
-\xi_1<\xi_2<\ldots<\xi_m,
+0=\xi_0<\xi_1<\xi_2<\ldots<\xi_m<\xi_{m+1}=\ell,
 \end{equation*}
-где $m$ -- количество точек разрыва коэффициентов краевой задачи.
+где $m$ -- количество внутренних точек разрыва 
+коэффициентов краевой задачи.
 
 \item
 Определяются области непрерывности 
+$\mathcal{A}_j=[\xi_j,\xi_{j+1})$
 \emph{всех коэффициентов} краевой задачи в расчётной области:
 \begin{equation*}
-[0,\xi_1)\cup[\xi_1,\xi_2)\cup\ldots\cup[\xi_{m-1},\xi_m]=[0,\ell]
+\mathcal{A}_0\cup\mathcal{A}_1\cup\ldots\cup\mathcal{A}_m=[0,\ell].
 \end{equation*}
+
+\item
+Находится количество узлов $p_j$ 
+равномерной сетки $\{\mathring{x}_i\}$,
+которые принадлежат каждой области непрерывности:
+\begin{equation*}
+p_j=p_j+
+\begin{cases}
+1&\textrm{if}\quad\mathring{x}_i\in\mathcal{A}_j\\
+0&\textrm{otherwise}\\
+\end{cases}.
+\end{equation*}
+
+\item
+Строятся равномерные сетки в пределах 
+каждой области непрерывности $\mathcal{A}_j$:
+\begin{equation*}
+\{\hat{x}_{i}\}_j=\xi_j+\dfrac{i}{p_j}\cdot(\xi_{j+1}-\xi_j),
+\quad i=0,1,\ldots,p_j-1,
+\end{equation*}
+
+\item
+Формируется локально равномерная сетка с помощью
+объединения всех равномерных сеток и правой границы
+расчётной области:
+\begin{equation*}
+\{x_{i}\}=\{\hat{x}_i\}_0\cup\{\hat{x}_i\}_1\cup\ldots\cup\{\hat{x}_i\}_m\cup{\ell}
+\end{equation*}
+
+
 \end{enumerate}
 
 \subsubsection{Локально равномерная сетка}
