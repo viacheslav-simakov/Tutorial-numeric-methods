@@ -1305,23 +1305,24 @@ w_{i-1/2}=-\sigma_{i-1}\cdot(u_{i}-u_{i-1})
 боковую поверхность контрольной области
 $[x_{i-1/2},x_{i+1/2}]$:
 \begin{gather*}
-\intfcenter{ r(x)\cdot u(x) }\approx u(x_i)\cdot\overline{r}_i,
+\intfcenter{ r(x)\cdot u(x) }\approx
+u(x_i)\intfcenter{ r(x)}=
+\mathring{\sigma}_i\cdot u_i,
 \end{gather*}
-где $\overline{r}_i$ -- интегральный коэффициент 
-конвекционного теплообмена:
+где $\mathring{\sigma}_i$ -- параметр имеющий смысл
+проводимости контактной области между средой и окружением:
 \begin{gather*}
-\overline{r}_i=\intfcenter{r(x)}.
+\mathring{\sigma}_i=\intfcenter{r(x)}.
 \end{gather*}
 
-Для определения интегрального коэффициента 
-конвекционного теплообмена $\overline{r}_i$ 
-используем кусочную аппроксимацию
+Для определения контактной проводимости среды
+$\mathring{\sigma}_i$  используем кусочную аппроксимацию
 (рисунок \ref{fig:ODE+BC:approx integral}), 
 а также условие расположения узлов сетки $\{x_i\}$,
-таких что коэффициент 
+таких что коэффициент конвекционного теплообмена
 $r(x)$ имеет \emph{точки разрыва только в узлах расчётной сетки}:
 \begin{gather}\label{eq:ODE_BC(<r>)}
-\overline{r}_i=\intfleft{r(x)}+\intfright{r(x)}
+\mathring{\sigma}_i=\intfleft{r(x)}+\intfright{r(x)}
 =\dfrac{r_{i}h_i+r_{i+1}h_{i+1}}{2},
 \end{gather}
 где $r_i=r(x_i)$ -- коэффициент конвекционного теплообмена
