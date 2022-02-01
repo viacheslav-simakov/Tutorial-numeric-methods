@@ -808,14 +808,13 @@ circle[radius=0.8mm] coordinate(p\i);
 circle[radius=0.8mm] coordinate(q\n) node[above]{$\xi_\n$};
 }
 % фигурные скобки
-\begin{scope}[darkred,
-decoration={brace,mirror,amplitude=5mm,raise=1mm}]
-\draw[decorate] (p0) -- (q1) 
+\begin{scope}[decoration={brace,mirror,amplitude=5mm,raise=1mm}]
+\draw[gray,decorate] (p0) -- (q1) 
 node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_0$};
-\draw[decorate] (q1) -- (q2) 
+\draw[darkred,decorate] (q1) -- (q2) 
 node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_1$};
-\draw[decorate] (q2) -- (p8) 
-node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_2$};
+%\draw[decorate] (q2) -- (p8) 
+%node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_2$};
 \end{scope}
 \end{tikzpicture}
 \caption{Схематическое расположение узлов 
