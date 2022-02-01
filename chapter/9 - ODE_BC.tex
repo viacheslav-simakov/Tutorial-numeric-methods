@@ -539,7 +539,7 @@ ytick=data,yticklabels={$k_1$,$k_2$}]
 \begin{scope}[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
 % разрыв функции
 \addplot[mark=none,thick,shading=axis,
-left color=teal!5,right color=teal!50,on layer=background]
+left color=darkgreen!5,right color=darkgreen!50,on layer=background]
 coordinates{(0,30)(30,30)(30,80)(100,80)}\closedcycle;
 \end{scope}
 \end{axis}
@@ -600,7 +600,7 @@ ytick=data,yticklabels={$k_1$,$k_2$}]
 \begin{scope}[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
 % разрыв функции
 \addplot[mark=none,thick,shading=axis,
-left color=teal!5,right color=teal!50,on layer=background]
+left color=darkgreen!5,right color=darkgreen!50,on layer=background]
 coordinates{(0,30)(30,30)(30,80)(100,80)}\closedcycle;
 \end{scope}
 \end{axis}
@@ -761,7 +761,7 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 %
 \begin{figure}[H]\centering
 \begin{tikzpicture}
-[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt,font=\small]% стрелка
+[>={Straight Barb[angle=45:2mm 1]},font=\small]% стрелка
 % начало отсчета
 \coordinate (O) at (0mm,0mm);
 % ось OX
@@ -849,7 +849,7 @@ p_j=p_j+
 %
 \begin{figure}[H]\centering
 \begin{tikzpicture}
-[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt,font=\small]% стрелка
+[>={Straight Barb[angle=45:2mm 1]},shorten >=0pt,font=\small]% стрелка
 % начало отсчета
 \coordinate (O) at (0mm,0mm);
 % ось OX
@@ -972,7 +972,7 @@ $[x_{i-1}, x_i]$ и $[x_i, x_{i+1}]$, соответственно.
 % Промежуточная сетка
 \begin{figure}[H]\centering
 \begin{tikzpicture}
-[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]% стрелка
+[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt,font=\small]% стрелка
 % начало отсчета
 \coordinate (O) at (0mm,0mm);
 % ось OX
@@ -1082,15 +1082,14 @@ yticklabels={$u_{i-1}$,$u_i$,$u_{i+1}$}]
 Проинтегрируем \emph{дифференциальное уравнение} 
 \eqref{eq:HT+BC:1D} в пределах контрольной области 
 $[x_{i-1/2},x_{i+1/2}]$:
-\begin{gather*}
+\begin{gather}\label{eq:ODE+BC:diff scheme}
 \intfcenter{w^{\prime}(x)}+\intfcenter{r(x)\cdot u(x)}=\intfcenter{q(x)}
-\end{gather*}
+\end{gather}
 
 Тогда уравнение теплового баланса для контрольной области 
-запишется в виде:
+\eqref{eq:ODE+BC:diff scheme} запишется в виде:
 \begin{gather}\label{eq:ODE+BC:heat balance}
 w(x_{i+1/2})-w(x_{i-1/2})+\intfcenter{r(x)\cdot u(x)}=\intfcenter{q(x)}
-%w(x_{i+\onehalf})-w(x_{i-\onehalf})+\intfCenter{r(x)\cdot u(x)}=\intfCenter{g(x)}
 \end{gather}
 
 На рисунке \ref{fig:ODE+BC:heat_balance} представлена 
@@ -1195,13 +1194,78 @@ u(x)=u(x_i),&x_{i-1/2} \leqslant x \leqslant x_{i+1/2}\\
 \end{cases}.
 \end{gather}
 
-Тогда левосторонняя формула прямоугольников совпадает с точным значением интегралов
-(рисунок \ref{fig:ODE_BC(Integral)}):
+Тогда левосторонняя формула прямоугольников совпадает 
+с точным значением интегралов
+(рисунок \ref{fig:ODE+BC:approx integral}):
 \begin{gather}\label{eq:ODE+BC:integral}
 \intf{ x_i }{ x_{i+1} }{ y(x) }\approx
 y(x_i)\cdot (x_{i+1}-x_i)=y_i\cdot h_{i+1},
 \end{gather}
 где $y_{i}=y(x_{i})$ -- значение функции в левом узле $x_{i-1}$ расчётной сетки.
+
+
+%
+% Аппроксимация интегралов
+%
+\begin{figure}[H]\centering
+% первый график
+\begin{subfigure}[b]{.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[width=7cm,
+xlabel=\empty,ylabel=$k^{-1}(x)$,
+xmin=0,xmax=100,ymin=10,ymax=90,
+xtick={0,22,44,72,100},
+xticklabels={$x_{i-1}$,$x_{i-1/2}$,$x_i$,$x_{i+1/2}$,$x_{i+1}$},
+ytick={30,70},yticklabels={}]
+% заполнение
+\addplot[draw=none,thick,fill=darkgreen!7,on layer=background]
+coordinates{(44,0)(44,70)(100,70)(100,0)}\closedcycle;
+% линии и стрелки
+\begin{scope}[>={Straight Barb[angle=45:1.5mm 1]},
+shorten >=0pt,shorten <=3pt]
+\addplot[->,draw=darkgreen,thick]coordinates{(0,30)(44,30)};
+\addplot[<-,draw=darkgreen,thick]coordinates{(44,70)(100,70)};
+\end{scope}
+% маркеры
+\addplot[ball darkgreen,thick,only marks]coordinates{(0,30)(44,70)};
+% формула
+\draw (axis cs: 72,50) node[darkgreen]{$\intfright{k^{-1}(x)}$};
+\end{axis}
+\end{tikzpicture}
+\caption{теплопроводность}
+\end{subfigure}% <- ВАЖНО!!!
+% второй график
+\begin{subfigure}[b]{.5\linewidth}\centering
+\begin{tikzpicture}
+\begin{axis}[width=7cm,
+xlabel=\empty,ylabel=$r(x)$,
+xmin=0,xmax=100,ymin=10,ymax=90,
+xtick={0,22,44,72,100},
+xticklabels={$x_{i-1}$,$x_{i-1/2}$,$x_i$,$x_{i+1/2}$,$x_{i+1}$},
+ytick={30,70},yticklabels={}]
+% заполнение
+\addplot[draw=none,thick,fill=blue!7,on layer=background]
+coordinates{(22,0)(22,50)(44,50)(44,70)(72,70)(72,0)}\closedcycle;
+% линии и стрелки
+\begin{scope}[>={Straight Barb[angle=45:1.5mm 1]},
+shorten >=0pt,shorten <=3pt]
+\addplot[->,draw=darkblue,thick]coordinates{(0,50)(44,50)};
+\addplot[<-,draw=darkblue,thick]coordinates{(44,70)(100,70)};
+\end{scope}
+% маркеры
+\addplot[ball darkblue,thick,only marks]coordinates{(0,50)(44,70)};
+% формула
+\draw (axis cs: 48,30) node[darkblue]{$\intfcenter{r(x)}$};
+\end{axis}
+\end{tikzpicture}
+\caption{конвекционный теплообмен}
+\end{subfigure}
+\caption{Приближенное вычисление значения 
+определенных интегралов в уравнении баланса тепла
+\eqref{eq:ODE+BC:heat balance} и законе Фурье
+\eqref{eq:ODE+BC:FourierLaw}}
+\label{fig:ODE+BC:approx integral}
+\end{figure}
 
 \end{document}
 
