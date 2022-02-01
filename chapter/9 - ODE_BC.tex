@@ -756,27 +756,6 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 где $m$ -- количество внутренних точек разрыва 
 коэффициентов краевой задачи.
 
-\item
-Определяются области непрерывности 
-$\mathcal{A}_j=[\xi_j,\xi_{j+1})$
-\emph{всех коэффициентов} краевой задачи в расчётной области
-(рисунок \ref{fig:uniform mesh}):
-\begin{equation*}
-\mathcal{A}_0\cup\mathcal{A}_1\cup\ldots\cup\mathcal{A}_m=[0,\ell].
-\end{equation*}
-
-\item
-Находится количество узлов $p_j$ 
-равномерной сетки $\{\mathring{x}_i\}$,
-которые принадлежат каждой области непрерывности:
-\begin{equation*}
-p_j=p_j+
-\begin{cases}
-1&\textrm{if}\quad\mathring{x}_i\in\mathcal{A}_j\\
-0&\textrm{otherwise}\\
-\end{cases}.
-\end{equation*}
-
 %
 % Равномерная сетка
 %
@@ -789,8 +768,12 @@ p_j=p_j+
 \draw[->,line width=0.25mm] (O)
 -- +(135mm,0mm) node[pos=1,yshift=-1em]{$x$};
 % узлы сетки
-\foreach \i in {0,1,2,...,8}{
+\foreach \i in {0,1,2,6,7,8}{
 \draw[fill=black] (\i*15mm,0mm)
+circle[radius=0.8mm] coordinate(p\i);
+}
+\foreach \i in {3,4,5}{
+\draw[fill=gray!50,thick] (\i*15mm,0mm)
 circle[radius=0.8mm] coordinate(p\i);
 }
 % штриховка
@@ -801,18 +784,21 @@ circle[radius=0.8mm] coordinate(p\i);
 % обозначения
 \draw (p0) node[yshift=-1em]{$0$};
 \foreach \i in {0,1,2}{\draw (p\i) node[above]{$\mathring{x}_\i$};}
+\draw (p4) node[above]{$\mathring{x}_i$};
 \draw (p8) node[above]{$\mathring{x}_n$} node[yshift=-1em]{$\ell$};
 % точки разрыва
 \foreach \x [count=\n from 1] in {40mm,80mm}{
 \draw[color=darkred,thick,fill=white] (\x,0mm) 
-circle[radius=0.8mm] coordinate(q\n) node[above]{$\xi_\n$};
+circle[radius=0.8mm] coordinate(q\n);
 }
 % фигурные скобки
 \begin{scope}[decoration={brace,mirror,amplitude=5mm,raise=1mm}]
-\draw[gray,decorate] (p0) -- (q1) 
-node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_0$};
-\draw[darkred,decorate] (q1) -- (q2) 
-node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_1$};
+%\draw[gray,decorate] (p0) -- (q1) 
+%node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_0$};
+\draw[darkred,decorate] (q1) -- (q2)
+node[pos=0,above]{$\xi_j$}
+node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_j$}
+node[pos=1,above]{$\xi_{j+1}$};
 %\draw[decorate] (q2) -- (p8) 
 %node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_2$};
 \end{scope}
@@ -822,6 +808,27 @@ node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_1$};
 \label{fig:uniform mesh}
 \end{figure}
 
+\item
+Определяются области непрерывности 
+$\mathcal{A}_j=[\xi_j,\xi_{j+1})$
+\emph{всех коэффициентов} краевой задачи в расчётной области
+(рисунок \ref{fig:uniform mesh}):
+\begin{equation*}
+\mathcal{A}_0\cup\mathcal{A}_1\cup\ldots\cup\mathcal{A}_m=[0,\ell].
+\end{equation*}
+
+
+\item
+Находится количество узлов $p_j$ 
+равномерной сетки $\{\mathring{x}_i\}$,
+которые принадлежат каждой области непрерывности:
+\begin{equation*}
+p_j=p_j+
+\begin{cases}
+1&\textrm{if}\quad\mathring{x}_i\in\mathcal{A}_j\\
+0&\textrm{otherwise}\\
+\end{cases}.
+\end{equation*}
 
 \item
 Строятся равномерные сетки в пределах 
