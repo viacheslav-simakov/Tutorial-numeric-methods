@@ -749,7 +749,7 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 Упорядочиваются все точки разрыва $\xi_j$ ($j=0,1,2,\ldots,m$)
 коэффициентов краевой задачи, включая 
 левую ($\xi_0=0$) и правую ($\xi_{m+1}=\ell$) границы 
-расчётной области:
+расчётной области (рисунок \ref{fig:uniform mesh}):
 \begin{equation*}
 0=\xi_0<\xi_1<\xi_2<\ldots<\xi_m<\xi_{m+1}=\ell,
 \end{equation*}
@@ -773,7 +773,7 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 circle[radius=0.8mm] coordinate(p\i);
 }
 \foreach \i in {3,4,5}{
-\draw[fill=gray!50,thick] (\i*15mm,0mm)
+\draw[fill=darkred] (\i*15mm,0mm)
 circle[radius=0.8mm] coordinate(p\i);
 }
 % штриховка
@@ -795,7 +795,7 @@ circle[radius=0.8mm] coordinate(q\n);
 \begin{scope}[decoration={brace,mirror,amplitude=5mm,raise=1mm}]
 %\draw[gray,decorate] (p0) -- (q1) 
 %node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_0$};
-\draw[darkred,decorate] (q1) -- (q2)
+\draw[darkred,decorate,thick] (q1) -- (q2)
 node[pos=0,above]{$\xi_j$}
 node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_j$}
 node[pos=1,above]{$\xi_{j+1}$};
@@ -811,12 +811,10 @@ node[pos=1,above]{$\xi_{j+1}$};
 \item
 Определяются области непрерывности 
 $\mathcal{A}_j=[\xi_j,\xi_{j+1})$
-\emph{всех коэффициентов} краевой задачи в расчётной области
-(рисунок \ref{fig:uniform mesh}):
+\emph{всех коэффициентов} краевой задачи в расчётной области:
 \begin{equation*}
 \mathcal{A}_0\cup\mathcal{A}_1\cup\ldots\cup\mathcal{A}_m=[0,\ell].
 \end{equation*}
-
 
 \item
 Находится количество узлов $p_j$ 
@@ -846,6 +844,53 @@ p_j=p_j+
 \{x_{i}\}=\{\hat{x}_i\}_0\cup\{\hat{x}_i\}_1\cup\ldots\cup\{\hat{x}_i\}_m\cup{\ell}
 \end{equation*}
 
+%
+% Равномерная сетка
+%
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt,font=\small]% стрелка
+% начало отсчета
+\coordinate (O) at (0mm,0mm);
+% ось OX
+\draw[->,line width=0.25mm] (O)
+-- +(135mm,0mm) node[pos=1,yshift=-1em]{$x$};
+% узлы сетки
+\foreach \i in {0,1,2}{
+\draw[fill=white,thick] (\i*13.333mm,0mm)
+circle[radius=0.8mm] coordinate(p\i);
+}
+%\foreach \i in {3,4,5}{
+%\draw[fill=darkred] (\i*15mm,0mm)
+%circle[radius=0.8mm] coordinate(p\i);
+%}
+% штриховка
+\begin{scope}[on background layer]
+\pattern[pattern=north east lines,pattern color=gray,opacity=0.5]
+(p0) -- ([yshift=-2mm]p0) -- ([yshift=-2mm]p8) -- (p8) -- cycle;
+\end{scope}
+% обозначения
+\draw (p0) node[yshift=-1em]{$0$};
+\foreach \i in {0,1,2}{\draw (p\i) node[above]{$\mathring{x}_\i$};}
+\draw (p4) node[above]{$\mathring{x}_i$};
+\draw (p8) node[above]{$\mathring{x}_n$} node[yshift=-1em]{$\ell$};
+% точки разрыва
+\foreach \x [count=\n from 1] in {40mm,80mm}{
+\draw[color=darkred,thick,fill=white] (\x,0mm) 
+circle[radius=0.8mm] coordinate(q\n);
+}
+% фигурные скобки
+\begin{scope}[decoration={brace,mirror,amplitude=5mm,raise=1mm}]
+\draw[darkred,decorate,thick] (q1) -- (q2)
+node[pos=0,above]{$\xi_j$}
+node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_j$}
+node[pos=1,above]{$\xi_{j+1}$};
+\end{scope}
+\end{tikzpicture}
+\caption{Расположение узлов 
+\alert{локально равномерной} сетки $\{x_i\}$}
+\label{fig:local uniform mesh}
+\end{figure}
 
 \end{enumerate}
 
