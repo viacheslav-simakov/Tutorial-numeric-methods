@@ -773,7 +773,7 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 circle[radius=0.8mm] coordinate(p\i);
 }
 \foreach \i in {3,4,5}{
-\draw[fill=darkred] (\i*15mm,0mm)
+\fill[darkred] (\i*15mm,0mm)
 circle[radius=0.8mm] coordinate(p\i);
 }
 % штриховка
@@ -784,7 +784,7 @@ circle[radius=0.8mm] coordinate(p\i);
 % обозначения
 \draw (p0) node[yshift=-1em]{$0$};
 \foreach \i in {0,1,2}{\draw (p\i) node[above]{$\mathring{x}_\i$};}
-\draw (p4) node[above]{$\mathring{x}_i$};
+\draw[darkred] (p4) node[above]{$\mathring{x}_i$};
 \draw (p8) node[above]{$\mathring{x}_n$} node[yshift=-1em]{$\ell$};
 % точки разрыва
 \foreach \x [count=\n from 1] in {40mm,80mm}{
@@ -855,36 +855,34 @@ p_j=p_j+
 % ось OX
 \draw[->,line width=0.25mm] (O)
 -- +(135mm,0mm) node[pos=1,yshift=-1em]{$x$};
-% узлы сетки
-\foreach \i in {0,1,2}{
-\draw[fill=white,thick] (\i*13.333mm,0mm)
-circle[radius=0.8mm] coordinate(p\i);
-}
-%\foreach \i in {3,4,5}{
-%\draw[fill=darkred] (\i*15mm,0mm)
-%circle[radius=0.8mm] coordinate(p\i);
-%}
+% оцифровка
+\draw (O) node[yshift=-1em]{$0$};
+\draw[fill=white,thick] (120mm,0mm) circle[radius=0.8mm] 
+node[above]{$x_n$} node[yshift=-1em]{$\ell$};
 % штриховка
 \begin{scope}[on background layer]
 \pattern[pattern=north east lines,pattern color=gray,opacity=0.5]
 (p0) -- ([yshift=-2mm]p0) -- ([yshift=-2mm]p8) -- (p8) -- cycle;
 \end{scope}
-% обозначения
-\draw (p0) node[yshift=-1em]{$0$};
-\foreach \i in {0,1,2}{\draw (p\i) node[above]{$\mathring{x}_\i$};}
-\draw (p4) node[above]{$\mathring{x}_i$};
-\draw (p8) node[above]{$\mathring{x}_n$} node[yshift=-1em]{$\ell$};
-% точки разрыва
-\foreach \x [count=\n from 1] in {40mm,80mm}{
-\draw[color=darkred,thick,fill=white] (\x,0mm) 
-circle[radius=0.8mm] coordinate(q\n);
+% узлы сетки
+\begin{scope}[thick]
+\foreach \i in {0,1,2}{
+\draw[fill=white] (\i*13.333mm,0mm)
+circle[radius=0.8mm] node[above]{$x_\i$};
 }
+\foreach \i in {3,4,5,6}{
+\draw[darkred,fill=white] (10mm+\i*10mm,0mm)
+circle[radius=0.8mm] node[above]{$x_\i$};
+}
+\foreach \i in {7,8,9}{
+\draw[fill=white] (80mm+\i*13.333mm-7*13.333mm,0mm)
+circle[radius=0.8mm] node[above]{$x_\i$};
+}
+\end{scope}
 % фигурные скобки
 \begin{scope}[decoration={brace,mirror,amplitude=5mm,raise=1mm}]
-\draw[darkred,decorate,thick] (q1) -- (q2)
-node[pos=0,above]{$\xi_j$}
-node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_j$}
-node[pos=1,above]{$\xi_{j+1}$};
+\draw[darkred,decorate,thick] (40mm,0mm) -- (80mm,0mm)
+node[pos=0.5,below,yshift=-6mm]{$\mathcal{A}_j$};
 \end{scope}
 \end{tikzpicture}
 \caption{Расположение узлов 
@@ -894,74 +892,74 @@ node[pos=1,above]{$\xi_{j+1}$};
 
 \end{enumerate}
 
-\subsubsection{Локально равномерная сетка}
-Например, рассмотрим нагревательную систему, 
-состоящую из разнородных металлов, локальная область
-которой тепло изолирована. Известные геометрические размеры
-и взаимное положение всех частей системы.
-Нагрев этой системы осуществляется
-с помощью пропускания постоянного электрического тока,
-который вызывает выделения джоулева тепла в объеме металлов.
-
-Начало отсчета $\mathcal{O}$ пространственной координаты $x$
-можно выбрать на одном из концов первого проводника, 
-ось координат $\mathcal{O}x$ -- в направлении 
-места контакта двух проводников.
-
-Так как системы состоит из разнородных металлических 
-проводников, то коэффициент теплопроводности $k$ и 
-удельная мощность внутренних источников тепла $q$
-терпят разрыв в точке контакта этих проводников:
-\begin{gather*}
-k(x)=\begin{cases}
-k_1,& 0\leqslant x \leqslant \ell_1\\
-k_2,& \ell_1 < x \leqslant L
-\end{cases},
-\qquad
-q(x)=\begin{cases}
-q_1,& 0\leqslant x \leqslant \ell_1\\
-q_2,& \ell_1 < x \leqslant L
-\end{cases},
-\end{gather*}
-где $k_1$ и $k_2$, $q_1$ и $q_2$, $\ell_1$ и $\ell_2$ --
-коэффициенты теплопроводности, 
-удельная мощность внутренних источников тепла, 
-длина первого и второго металлического проводника,
-соответственно;
-$L=\ell_1+\ell_2$ -- общая длина нагревательной системы.
-
-Если теплообмен металлических проводников с окружающей средой 
-осуществляется за счет свободной конвекции, то локальная 
-тепловая изоляция нагревательной системы означает отсутствие
-конвекционного теплового потока на локальном участке,
-т.е. коэффициент теплообмена имеет разрывы:
-\begin{gather*}
-r(x)=\begin{cases}
-0,& 0\leqslant x \leqslant \lambda_1\\
-r,& \lambda_1 < x \leqslant \lambda_2\\
-0,& \lambda_2 < x \leqslant L\\
-\end{cases},
-\end{gather*}
-где $\lambda_1$ и $\lambda_2$ -- начальное и конечное
-положение области тепловой изоляции.
-
-Построим равномерную сетки в рассматриваемой 
-пространственной области $0\leqslant x \leqslant L$,
-задав произвольное количество интервалов $n$:
-\begin{equation}
-\{x_0=0, x_1=x_0+h, \ldots, x_{i+1} = x_i + h, \ldots,x_n=L\},
-\end{equation}
- где $h$ -- шаг сетки
- 
-Алгоритм построения квазиравномерной пространственной сетки,
-согласованной с точками разрыва коэффициентов $\vect{f}(x)$
-краевой задачи:
-\begin{enumerate}
-\item
-Определяются границы всех областей однородности, 
-в которых коэффициенты краевой задачи непрерывны:
-
-\end{enumerate}
+%\subsubsection{Локально равномерная сетка}
+%Например, рассмотрим нагревательную систему, 
+%состоящую из разнородных металлов, локальная область
+%которой тепло изолирована. Известные геометрические размеры
+%и взаимное положение всех частей системы.
+%Нагрев этой системы осуществляется
+%с помощью пропускания постоянного электрического тока,
+%который вызывает выделения джоулева тепла в объеме металлов.
+%
+%Начало отсчета $\mathcal{O}$ пространственной координаты $x$
+%можно выбрать на одном из концов первого проводника, 
+%ось координат $\mathcal{O}x$ -- в направлении 
+%места контакта двух проводников.
+%
+%Так как системы состоит из разнородных металлических 
+%проводников, то коэффициент теплопроводности $k$ и 
+%удельная мощность внутренних источников тепла $q$
+%терпят разрыв в точке контакта этих проводников:
+%\begin{gather*}
+%k(x)=\begin{cases}
+%k_1,& 0\leqslant x \leqslant \ell_1\\
+%k_2,& \ell_1 < x \leqslant L
+%\end{cases},
+%\qquad
+%q(x)=\begin{cases}
+%q_1,& 0\leqslant x \leqslant \ell_1\\
+%q_2,& \ell_1 < x \leqslant L
+%\end{cases},
+%\end{gather*}
+%где $k_1$ и $k_2$, $q_1$ и $q_2$, $\ell_1$ и $\ell_2$ --
+%коэффициенты теплопроводности, 
+%удельная мощность внутренних источников тепла, 
+%длина первого и второго металлического проводника,
+%соответственно;
+%$L=\ell_1+\ell_2$ -- общая длина нагревательной системы.
+%
+%Если теплообмен металлических проводников с окружающей средой 
+%осуществляется за счет свободной конвекции, то локальная 
+%тепловая изоляция нагревательной системы означает отсутствие
+%конвекционного теплового потока на локальном участке,
+%т.е. коэффициент теплообмена имеет разрывы:
+%\begin{gather*}
+%r(x)=\begin{cases}
+%0,& 0\leqslant x \leqslant \lambda_1\\
+%r,& \lambda_1 < x \leqslant \lambda_2\\
+%0,& \lambda_2 < x \leqslant L\\
+%\end{cases},
+%\end{gather*}
+%где $\lambda_1$ и $\lambda_2$ -- начальное и конечное
+%положение области тепловой изоляции.
+%
+%Построим равномерную сетки в рассматриваемой 
+%пространственной области $0\leqslant x \leqslant L$,
+%задав произвольное количество интервалов $n$:
+%\begin{equation}
+%\{x_0=0, x_1=x_0+h, \ldots, x_{i+1} = x_i + h, \ldots,x_n=L\},
+%\end{equation}
+% где $h$ -- шаг сетки
+% 
+%Алгоритм построения квазиравномерной пространственной сетки,
+%согласованной с точками разрыва коэффициентов $\vect{f}(x)$
+%краевой задачи:
+%\begin{enumerate}
+%\item
+%Определяются границы всех областей однородности, 
+%в которых коэффициенты краевой задачи непрерывны:
+%
+%\end{enumerate}
 
 Выделим на отрезке $[0,\ell]$ подмножество промежуточных 
 узлов $\{x_{i\pm1/2}\}$ (рисунок \ref{fig:ODE+BC:mesh:main+secound}):
