@@ -1160,7 +1160,7 @@ u^{\prime}(x)=-\dfrac{w(x)}{k(x)}
 
 После интегрирования получим:
 \begin{gather}\label{eq:ODE+BC:FourierLaw}
-u(x_{i+1})-u({x_{i}})=-\intfright{ \dfrac{w(x)}{k(x)} }.
+u(x_{i+1})-u({x_{i}})=-\intfright{ w(x)\cdot k^{-1}(x) }.
 \end{gather}
 
 %
@@ -1199,10 +1199,8 @@ u(x)=u(x_i),&x_{i-1/2} \leqslant x \leqslant x_{i+1/2}\\
 (рисунок \ref{fig:ODE+BC:approx integral}):
 \begin{gather}\label{eq:ODE+BC:integral}
 \intf{ x_i }{ x_{i+1} }{ y(x) }\approx
-y(x_i)\cdot (x_{i+1}-x_i)=y_i\cdot h_{i+1},
+y(x_i)\,(x_{i+1}-x_i).
 \end{gather}
-где $y_{i}=y(x_{i})$ -- значение функции в левом узле $x_{i-1}$ расчётной сетки.
-
 
 %
 % Аппроксимация интегралов
@@ -1267,33 +1265,35 @@ shorten >=0pt,shorten <=3pt]
 \label{fig:ODE+BC:approx integral}
 \end{figure}
 
-\end{document}
-
-\begin{figure} % *** Приближенное значение интегралов ***
-\begin{center}
-\input{ODE_BC_fig/ODE_BC_fig(Int).tex}
-\caption{Приближенное вычисление значения определенных интегралов
-в уравнении баланса тепла \eqref{eq:ODE_BC_CON}}
-\label{fig:ODE_BC(Integral)}
-\end{center}
-\end{figure}
-
-Приближенное значение интеграла в \eqref{eq:ODE_BC(FourierLaw)}
-выразим воспользовавшись кусочной аппроксимацией \eqref{eq:ODE_BC(approx)}
-теплового потока $w(x)\approx w(x_{i+\onehalf})$ на интервале $(x_{i},x_{i+1})$
+Приближенное значение интеграла в \eqref{eq:ODE+BC:FourierLaw}
+выразим воспользовавшись кусочной аппроксимацией 
+\eqref{eq:ODE_BC(approx)}
+теплового потока $w(x)\approx w(x_{i+1/2})$ 
+на интервале $(x_{i},x_{i+1})$
 и левосторонней формулой прямоугольников 
-\eqref{eq:ODE_BC(Integral)}:
+\eqref{eq:ODE+BC:integral}:
 \begin{gather}
-\begin{array}{rcl}
-u(x_{i+1})-u(x_{i})&\approx&-\dfrac{w(x_{i+\onehalf})}{k_{i+1}}\cdot h_{i+1}
-\end{array}
-,\end{gather}
-и найдем поток тепла в промежуточных узлах сетки $w(x_{i+\onehalf})$:
-\begin{gather}\label{eq:ODE_BC(w)}
-w(x_{i+\onehalf})\approx -{k}_{i+1}\cdot\dfrac{u(x_{i+1})-u(x_{i})}{h_{i+1}}
+u(x_{i+1})-u(x_{i})\approx
+-w(x_{i+1/2})\cdot k^{-1}(x_{i})\,(x_{i+1}-x_i),
 \end{gather}
-где $k_{i+1}=k(x_{i+1})$ -- значение коэффициента 
-температуропроводности в узлах расчётной сетки $\{x_{i+1}\}$.
+и найдем поток тепла в промежуточных узлах сетки 
+$w(x_{i+1/2})$:
+\begin{gather}\label{eq:ODE_BC(w)}
+w_{i+1/2}=-\sigma_{i}\cdot(u_{i+1}-u_{i})
+\end{gather}
+где 
+$w_{i+1/2}$ -- величина теплового потока в узле
+вспомогательной сетки $x_{i+1/2}$;
+$u_{i+1}$ и $u_i$ -- значение температуры в узлах
+расчётной сетки $x_{i+1}$ и $x_i$, соответственно;
+$\sigma_i$ -- параметр, имеющий смысл тепловой проводимости
+среды на участке $x_i\leqslant x \leqslant x_{i+1}$:
+\begin{equation*}
+\sigma_i=\dfrac{k(x_i)}{x_{i+1}-x_i}
+\end{equation*} 
+
+
+\end{document}
 
 % Конвекционный теплообмен
 Приближенное значение интегрального (суммарного) 
