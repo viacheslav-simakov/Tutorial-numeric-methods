@@ -1273,25 +1273,25 @@ u(x_{i+1})-u(x_{i})\approx
 для вычисления интеграла \eqref{eq:ODE+BC:integral}, 
 найдем поток тепла в промежуточных узлах сетки 
 $w(x_{i+1/2})$:
-\begin{gather}\label{eq:ODE+BC:w}
-w_{i+1/2}=-\sigma_{i}\cdot(u_{i+1}-u_{i})
+\begin{gather}\label{eq:ODE+BC:thermal conduction}
+w_{i+1/2}=-\sigma(x_{i})\cdot(u_{i+1}-u_{i})
 \end{gather}
 где 
 $w_{i+1/2}$ -- величина теплового потока в узле
 вспомогательной сетки $x_{i+1/2}$;
 $u_{i+1}$ и $u_i$ -- значение температуры в узлах
 расчётной сетки $x_{i+1}$ и $x_i$, соответственно;
-$\sigma_i$ -- параметр, имеющий смысл тепловой проводимости
-среды на участке $x_i\leqslant x \leqslant x_{i+1}$:
+$\sigma$ -- параметр, имеющий смысл тепловой проводимости
+среды на участке $x_i\leqslant x < x_{i+1}$:
 \begin{equation*}
-\sigma_i=\dfrac{k(x_i)}{x_{i+1}-x_i}
+\sigma(x_i)=\dfrac{k(x_i)}{x_{i+1}-x_i}
 \end{equation*} 
 
-Аналогично, рассматривая участок $[x_{i-1},x_i]$, 
+Аналогично, рассматривая участок $[x_{i-1},x_i)$, 
 можно получить выражение для теплового потока
 во вспомогательном узле $x_{i-1/2}$:
 \begin{gather}
-w_{i-1/2}=-\sigma_{i-1}\cdot(u_{i}-u_{i-1})
+w_{i-1/2}=-\sigma(x_{i-1})\cdot(u_{i}-u_{i-1})
 \end{gather}
 
 % Конвекционный теплообмен
@@ -1302,68 +1302,66 @@ $[x_{i-1/2},x_{i+1/2}]$:
 \begin{gather*}
 \intfcenter{ r(x)\cdot u(x) }\approx
 u(x_i)\intfcenter{ r(x)}=
-\mathring{\sigma}_i\cdot u_i,
+\mathring{\sigma}(x_i)\cdot u_i,
 \end{gather*}
-где $\mathring{\sigma}_i$ -- параметр имеющий смысл
+где $\mathring{\sigma}$ -- параметр имеющий смысл
 проводимости контактной области между средой и окружением:
 \begin{gather*}
-\mathring{\sigma}_i=\intfcenter{r(x)}.
+\mathring{\sigma}(x_i)=\intfcenter{r(x)}.
 \end{gather*}
 
 Для определения контактной проводимости среды
-$\mathring{\sigma}_i$  используем кусочную аппроксимацию
+$\mathring{\sigma}$  используем кусочную аппроксимацию
 (рисунок \ref{fig:ODE+BC:approx integral}), 
 а также условие расположения узлов сетки $\{x_i\}$,
 таких что коэффициент конвекционного теплообмена
 $r(x)$ имеет \emph{точки разрыва только в узлах расчётной сетки}:
 \begin{equation}\label{eq:ODE+BC:sigma convection}
 \begin{split}
-\mathring{\sigma}_i&=\intflefthalf{r(x)}+\intfrighthalf{r(x)}=\\[1ex]
-&=r(x_i)\cdot(x_i-x_{i-1/2})+r(x_{i+1})\cdot(x_{i+1/2}-x_i)=\\[1em]
-&=\dfrac{r(x_i)\cdot(x_i-x_{i-1})+r(x_{i+1})\cdot(x_{i+1}-x_i)}{2},
+\mathring{\sigma}(x_i)&=\intflefthalf{r(x)}+\intfrighthalf{r(x)}\approx\\[1ex]
+&\approx r(x_i)\cdot(x_i-x_{i-1/2})+r(x_{i+1})\cdot(x_{i+1/2}-x_i)=\\[1em]
+&=\dfrac{r(x_i)\cdot(x_i-x_{i-1})+r(x_{i+1})\cdot(x_{i+1}-x_i)}{2}.
 \end{split}
 \end{equation}
-где $r_i=r(x_i)$ -- коэффициент конвекционного теплообмена
-стержня с окружающей средов в узлах сетки $\{x_i\}$.
 
 % Распределенные источники
-Суммарное количество тепла $\overline{q}_i$,
+Суммарное количество тепла,
 выделяемого распределенными источниками
 в пределах контрольной области $[x_{i-1/2},x_{i+1/2}]$,
 определяется аналогично:
-\begin{gather}\label{eq:ODE_BC(<g>)}
-% <g>
-\overline{q}_i=\intfcenter{g(x)}\approx
-\dfrac{g_{i}h_i+g_{i+1}h_{i+1}}{2}
+\begin{gather}\label{eq:ODE+BC:epsilon source}
+\begin{split}
+\varepsilon(x_i)&=\intfcenter{q(x)}=\intflefthalf{q(x)}+\intfrighthalf{q(x)}\approx\\[1ex]
+&\approx\dfrac{q(x_i)\cdot(x_i-x_{i-1})+q(x_{i+1})\cdot(x_{i+1}-x_i)}{2}.
+\end{split}
 \end{gather}
-где $q_i=q(x_i)$ -- плотность распределенных источников тепла 
-в узлах сетки $\{x_i\}$.
+
+Таким образом, баланс тепловой энергии в контрольной области
+$[x_{i-1/2}$, $x_{i+1/2}]$ с учетом соотношений
+для переноса тепла за счет теплопроводности материала среды
+\eqref{eq:ODE+BC:thermal conduction}, конвекционного теплообмена с окружающей средой
+\eqref{eq:ODE+BC:sigma convection} и распределенных источников
+\eqref{eq:ODE+BC:epsilon source}, можно записать в виде системы разностных уравнений: 
+\begin{gather}\label{eq:ODE+BC:mesh element}
+\begin{cases}
+w_{i+1/2} - w_{i-1/2} + \mathring{\sigma}(x_i)\cdot u_i = \varepsilon(x_i)\\
+w_{i+1/2}=-\sigma(x_{i})\cdot(u_{i+1}-u_i)\\
+w_{i-1/2}=-\sigma(x_{i-1})\cdot(u_i-u_{i-1})
+\end{cases}
+\end{gather} 
+
+Система уравнений \eqref{eq:ODE+BC:mesh element} 
+по своему построению является разностным аналогом основного 
+дифференциального уравнения \eqref{eq:HT+BC:1D}.
+Записывая уравнение \eqref{eq:ODE+BC:mesh element} 
+во всех узлах сетки, в которых оно определено ($i=1,2,\dots, n-1$), 
+получим систему из $2n-1$ линейных алгебраических уравнений 
+относительно $2n+1$ неизвестных 
+$u_0, u_1,\ldots, u_i,\ldots, u_{n-1},u_n$.
+Два недостающих уравнения получаются путем 
+\emph{аппроксимации краевых условий} \eqref{eq:HT+BC:1D}. 
 
 \end{document}
-
-Таким образом, баланс тепловой энергии на участке стержня 
-$[x_{i-\onehalf}$, $x_{i+\onehalf}]$ с учетом соотношений
-для переноса тепла за счет теплопроводности материала стержня
-\eqref{eq:ODE_BC(w)}, конвекционного теплообмена с окружающей средой
-\eqref{eq:ODE_BC(<r>)} и распределенных источников
-\eqref{eq:ODE_BC(<g>)}, можно записать в виде системы разностных уравнений: 
-\begin{gather}\label{eq:ODE_BC(FD)}
-\left\{\begin{matrix}
-w(x_{i+\onehalf}) - w(x_{i-\onehalf}) + \overline{r}_i\cdot u(x_i) = \overline{g}_i
-\eqsep
-w(x_{i+\onehalf})=-{k}_{i+1}\cdot\dfrac{u(x_{i+1})-u(x_{i})}{h_{i+1}}
-\end{matrix}\right.
-\end{gather} 
- 
-\begin{tcolorbox}%[colback=blue!10]
-Система уравнений \eqref{eq:ODE_BC(FD)} по своему построению является разностным аналогом 
-основного дифференциального уравнения \eqref{eq:ODE_BC0}.
-Записывая уравнение \eqref{eq:ODE_BC(FD)} во всех узлах сетки, в которых оно определено
-($i=1,2,\dots, N-1$), получим систему из $2N-1$ линейных алгебраических уравнений 
-относительно $2N+1$ неизвестных $u(0), u(x_1),\dots, u(x_i),\dots, u(x_{N-1}),u(\ell)$.
-Два недостающих уравнения получаются путем \textit{аппроксимации 
-краевых условий} \eqref{eq:ODE_BC20}. 
-\end{tcolorbox}
 
 %
 %	Разностная схема для краевых условий
