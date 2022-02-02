@@ -1,5 +1,4 @@
-%\input{../../preamble}
-%\begin{document}
+% Декорация линий
 \tikzset{
 	% декорация линий
 	curve line/.style={
@@ -12,21 +11,15 @@
 		},
 	},
 }
-% разделитель в многострочных формулах
-%\newcommand\eqsep{\\[1em]}
-% интеграл
+%
+% Интегралы
+%
 \newcommand\intf[4][x]{ \int\limits_{#2}^{#3}{#4}\,\mathrm{d}#1 }
 \newcommand\intfcenter[1]{ \intf{ x_{i-1/2} }{ x_{i+1/2} }{#1} }
-\newcommand\intfleft[1]{ \intf{ x_{i-1/2} }{ x_{i} }{#1} }
-\newcommand\intfright[1]{ \intf{ x_{i} }{ x_{i+1/2} }{#1} }
-%\newcommand\intfCenter[1]{ \intf{ x_{i-\onehalf} }{ x_{i+\onehalf} }{#1} }
-%\newcommand\intfCenter[1]{ \intf{ x_{i-1/2} }{ x_{i+1/2} }{#1} }
-%\newcommand\intfright[1]{ \intf{ x_{i} }{ x_{i+1/2} }{#1} }
-
-
-% СОДЕРЖАНИЕ+
-%\renewcommand\contentsname{\begin{center}СОДЕРЖАНИЕ\end{center}}
-%\tableofcontents
+\newcommand\intfleft[1]{ \intf{ x_{i-1} }{ x_{i} }{#1} }
+\newcommand\intfright[1]{ \intf{ x_{i} }{ x_{i+1} }{#1} }
+\newcommand\intflefthalf[1]{ \intf{ x_{i-1/2} }{ x_{i} }{#1} }
+\newcommand\intfrighthalf[1]{ \intf{ x_{i} }{ x_{i+1/2} }{#1} }
 
 %
 %	Краевые задачи для обыкновенных дифференциальных уравнений
@@ -1186,10 +1179,10 @@ $\{k(x_i), r(x_i), q(x_i)\}$.
 $u(x)$ (температуры) и ее потока $w(x)$ (тепловой поток) 
 (рисунок \ref{fig:ODE+BC:u(x) and w(x)}) 
 в окрестности узлов $\{x_i\}$ в виде:
-\begin{gather}\label{eq:ODE_BC(approx)}
+\begin{gather}\label{eq:ODE+BC:approx piecewise}
 \begin{cases}
 w(x)=w(x_{i+1/2}),&x_i \leqslant x \leqslant x_{i+1}\\
-\vect{f}(x)=\vect{f}(x_i),&x_i \leqslant x \leqslant x_{i+1}\\
+\vect{f}(x)=\vect{f}(x_i),&x_i \leqslant x < x_{i+1}\\
 u(x)=u(x_i),&x_{i-1/2} \leqslant x \leqslant x_{i+1/2}\\
 \end{cases}.
 \end{gather}
@@ -1199,7 +1192,7 @@ u(x)=u(x_i),&x_{i-1/2} \leqslant x \leqslant x_{i+1/2}\\
 (рисунок \ref{fig:ODE+BC:approx integral}):
 \begin{gather}\label{eq:ODE+BC:integral}
 \intf{ x_i }{ x_{i+1} }{ y(x) }\approx
-y(x_i)\,(x_{i+1}-x_i).
+y(x_i)\cdot(x_{i+1}-x_i).
 \end{gather}
 
 %
@@ -1267,16 +1260,18 @@ shorten >=0pt,shorten <=3pt]
 
 Приближенное значение интеграла в \eqref{eq:ODE+BC:FourierLaw}
 выразим воспользовавшись кусочной аппроксимацией 
-\eqref{eq:ODE_BC(approx)}
+\eqref{eq:ODE+BC:approx piecewise}
 теплового потока $w(x)\approx w(x_{i+1/2})$ 
-на интервале $(x_{i},x_{i+1})$
-и левосторонней формулой прямоугольников 
-\eqref{eq:ODE+BC:integral}:
+на интервале $(x_{i},x_{i+1})$:
 \begin{gather}
 u(x_{i+1})-u(x_{i})\approx
--w(x_{i+1/2})\cdot k^{-1}(x_{i})\,(x_{i+1}-x_i),
+-w(x_{i+1/2})\cdot\intfright{k^{-1}(x)}
+%k^{-1}(x_{i})\,(x_{i+1}-x_i),
 \end{gather}
-и найдем поток тепла в промежуточных узлах сетки 
+
+Применяя левостороннюю формулу прямоугольников 
+для вычисления интеграла \eqref{eq:ODE+BC:integral}, 
+найдем поток тепла в промежуточных узлах сетки 
 $w(x_{i+1/2})$:
 \begin{gather}\label{eq:ODE+BC:w}
 w_{i+1/2}=-\sigma_{i}\cdot(u_{i+1}-u_{i})
@@ -1321,10 +1316,13 @@ $\mathring{\sigma}_i$  используем кусочную аппроксим�
 а также условие расположения узлов сетки $\{x_i\}$,
 таких что коэффициент конвекционного теплообмена
 $r(x)$ имеет \emph{точки разрыва только в узлах расчётной сетки}:
-\begin{gather}\label{eq:ODE_BC(<r>)}
-\mathring{\sigma}_i=\intfleft{r(x)}+\intfright{r(x)}
-=\dfrac{r_{i}h_i+r_{i+1}h_{i+1}}{2},
-\end{gather}
+\begin{equation}\label{eq:ODE+BC:sigma convection}
+\begin{split}
+\mathring{\sigma}_i&=\intflefthalf{r(x)}+\intfrighthalf{r(x)}=\\[1ex]
+&=r(x_i)\cdot(x_i-x_{i-1/2})+r(x_{i+1})\cdot(x_{i+1/2}-x_i)=\\[1em]
+&=\dfrac{r(x_i)\cdot(x_i-x_{i-1})+r(x_{i+1})\cdot(x_{i+1}-x_i)}{2},
+\end{split}
+\end{equation}
 где $r_i=r(x_i)$ -- коэффициент конвекционного теплообмена
 стержня с окружающей средов в узлах сетки $\{x_i\}$.
 
