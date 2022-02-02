@@ -1361,62 +1361,76 @@ $u_0, u_1,\ldots, u_i,\ldots, u_{n-1},u_n$.
 Два недостающих уравнения получаются путем 
 \emph{аппроксимации краевых условий} \eqref{eq:HT+BC:1D}. 
 
-\end{document}
-
 %
 %	Разностная схема для краевых условий
 %
+\emptyline
 \subsubsection{Разностная аппроксимация краевых условий}
-Воспользуемся \textit{интегро-интерноляционным методом} и 
-проинтегрируем основное уравнение \eqref{eq:ODE_BC0} 
+Воспользуемся \emph{интегро-интерноляционным методом} и 
+проинтегрируем основное уравнение \eqref{eq:HT+BC:1D} 
 вблизи левой границы рассматриваемой области $x=0$:
 \begin{gather*}
-\intf{0}{ x_{1/2} }{ w^{\prime}(x) }
-+\intf{0}{ x_{1/2} }{ r(x)u(x) }
-=\intf{0}{ x_{1/2} }{ g(x) }
+\intf{x_0}{ x_{1/2} }{ w^{\prime}(x) }
++\intf{x_0}{ x_{1/2} }{ r(x)\cdot u(x) }
+=\intf{x_0}{ x_{1/2} }{ q(x) }
 \end{gather*}
 
-Тогда уравнение теплового баланса близи границ области $x=0$ и $x=\ell$:
-\begin{gather}\label{eq:ODE_BC(LEFT)}
-w(x_{\onehalf})-w(0)+\overline{r}_0u(0)=\overline{g}_0
-,\end{gather}
+Уравнение теплового баланса вблизи левой 
+границы области $x=x_0$:
+\begin{gather}\label{eq:ODE+BC:LEFT}
+w_{1/2}-w_0+\mathring{\sigma}(x_0)\cdot u_0=\varepsilon(x_0),
+\end{gather}
 где
-$w(x_{\onehalf})$ -- тепловой поток в первом промежуточном узле $x_{\onehalf}$;
-$w(0)$ -- тепловой поток на левой границе области;
-$\overline{r}_0$ и $\overline{g}_0$ -- интегральный коэффициент
-конвекционного теплообмена стержня с окружающей средой 
-и количество тепла выделяемое распределенными источникам 
-на левой границе $x=0$:
-\begin{gather}\label{eq:ODE_BC(r0,g0)}
-\overline{r}_0=\intf{0}{ x_{1/2} }{ r(x) }=\dfrac{r_0h_1}{2},
-\quad%\eqsep
-\overline{g}_0=\intf{0}{ x_{1/2} }{ g(x) }=\dfrac{g_0h_1}{2}.
+$w_{1/2}$ -- тепловой поток в первом промежуточном 
+узле $x_{1/2}$; $w_0$ -- тепловой поток на левой границе области;
+$\mathring{\sigma}(x_0)$ и $\varepsilon(x_0)$ -- 
+контактная проводимость и 
+количество тепла выделяемое распределенными источникам 
+на левой границе:
+\begin{gather}\label{eq:ODE+BC:LEFT:convection conduction}
+\mathring{\sigma}(x_0)=\intf{x_0}{ x_{1/2} }{ r(x) }
+\approx r(x_0)\cdot(x_{1/2}-x_0)=r(x_0)\cdot\dfrac{x_1-x_0}{2},
+\end{gather}
+\begin{gather}\label{eq:ODE+BC:LEFT:heat + source}
+\varepsilon(x_0)=\intf{x_0}{ x_{1/2} }{ q(x) }
+\approx q(x_0)\cdot(x_{1/2}-x_0)=q(x_0)\cdot\dfrac{x_1-x_0}{2}.
 \end{gather}
 
 Аналогично рассматривая правую границу области $x=\ell$,
 уравнение теплового баланса можно записать в виде:
-\begin{gather}\label{eq:ODE_BC(RIGHT)}
-w(\ell)-w(x_{N-\onehalf})+\overline{r}_N u(\ell)=\overline{g}_N
-,\end{gather}
-где
-$w(\ell)$ -- тепловой поток на правой границе области;
-$w(x_{N-\onehalf})$ -- тепловой поток в последнем промежуточном узле $x_{N-\onehalf}$;
-$\overline{r}_N$ и $\overline{g}_N$ -- интегральный коэффициент
-конвекционного теплообмена стержня с окружающей средой 
-и количество тепла выделяемое распределенными источникам 
-на левой границе $x=\ell$:
-\begin{gather}\label{eq:ODE_BC(rN,gN)}
-\overline{r}_{N}=\intf{x_{N-1/2}}{ \ell }{ r(x) }=\dfrac{r_{N}h_N}{2},
-\quad%\eqsep
-\overline{g}_{N}=\intf{x_{N-1/2}}{ \ell }{ g(x) }=\dfrac{g_{N}h_N}{2}.
+\begin{gather}\label{eq:ODE+BC:RIGHT}
+w_n-w_{n-1/2}+\mathring{\sigma}(x_n)\cdot u_n=\varepsilon(x_n),
 \end{gather}
+где
+$w_n$ -- тепловой поток на правой границе области;
+$w_{n-1/2}$ -- тепловой поток в последнем 
+промежуточном узле $x_{n-1/2}$;
+$\mathring{\sigma}(x_n)$ и $\varepsilon(x_n)$ -- 
+контактная проводимость и 
+количество тепла выделяемое распределенными источникам 
+на правой границе $x=\ell$:
+\begin{gather}\label{eq:ODE+BC:RIGHT:convection conduction}
+\mathring{\sigma}(x_n)=\intf{x_{n-1/2}}{x_n}{ r(x) }
+\approx r(x_n)\cdot(x_n-x_{n-1/2})=
+r(x_n)\cdot\dfrac{x_n-x_{n-1}}{2},
+\end{gather}
+\begin{gather}\label{eq:ODE+BC:RIGHT:heat + source}
+\varepsilon(x_n)=\intf{x_{n-1/2}}{x_n}{ q(x) }
+\approx q(x_n)\cdot(x_n-x_{n-1/2})=
+q(x_n)\cdot\dfrac{x_n-x_{n-1}}{2}.
+\end{gather}
+
+\end{document}
 
 %
 %	РАЗНОСТНАЯ СХЕМА
 %
 Объединяя все разностные соотношения 
 для дифференциального уравнения \eqref{eq:ODE_BC(FD)} 
-и граничных условий \eqref{eq:ODE_BC20}, \eqref{eq:ODE_BC(LEFT)}, \eqref{eq:ODE_BC(RIGHT)}
+и граничных условия
+\eqref{eq:ODE_BC20}, 
+\eqref{eq:ODE_BC(LEFT)}, 
+\eqref{eq:ODE_BC(RIGHT)}
 получаем следующую разностную схему 
 для граничной задачи \eqref{eq:ODE_BC0}, \eqref{eq:ODE_BC20}:
 \begin{tcolorbox}
