@@ -1627,21 +1627,19 @@ u_{i-1}=\alpha_{i}~\alpha_{i+1}\cdot u_{i+1}+(\alpha_{i}~\beta_{i+1} + \beta_{i}
 \begin{gather*}
 \begin{cases}
 (c_i-a_i\cdot\alpha_{i})\cdot\alpha_{i+1}=b_i\\
-(c_i-a_i\cdot\alpha_{i})\cdot\beta_{i+1}=(y_i-a_i\cdot\beta_i)
+(c_i-a_i\cdot\alpha_{i})\cdot\beta_{i+1}=a_i\cdot\beta_i+y_i
 \end{cases}
 \end{gather*}
-
-\end{document}
 
 Из последнего выражения получаем рекуррентные соотношения 
 для определения значений неизвестных коэффициентов
 $\alpha_{i+1}$ и $\beta_{i+1}$:
-\begin{gather}\label{eq:ODE_ALPHA_BETA}
+\begin{gather}\label{eq:ODE+BC:ALPHA+BETA}
 \alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}},\quad
-\beta_{i+1}=\dfrac{a_i\cdot\beta_i+f_i}{c_i-a_i\cdot\alpha_{i}}
+\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}
 \end{gather}
 
-Соотношения \eqref{eq:ODE_ALPHA_BETA} представляют собой 
+Соотношения \eqref{eq:ODE+BC:ALPHA+BETA} представляют собой 
 нелинейные разностные уравнения первого порядка.
 Для их решения необходимо задать начальные значения 
 $\alpha_1$ и $\beta_1$.
@@ -1656,8 +1654,10 @@ u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
 \begin{cases}
 u_0=\dfrac{b_0}{c_0}\cdot u_1+\dfrac{f_0}{c_0}\\
 u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
-\end{cases}
-.\end{gather*}
+\end{cases}.
+\end{gather*}
+
+\end{document}
 
 Сопоставляя выражение для $u_0$ получим:
 \begin{gather}\label{eq:ODE_ALPHA1_BETA1}
