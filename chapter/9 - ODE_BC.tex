@@ -1668,29 +1668,30 @@ u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
 \end{cases}.
 \end{gather*}
 
-\end{document}
-
 Сопоставляя выражение для $u_0$ получим:
-\begin{gather}\label{eq:ODE_ALPHA1_BETA1}
-\alpha_{1}=\dfrac{b_0}{c_0},\quad \beta_{1}=\dfrac{f_0}{c_0}
+\begin{gather}\label{eq:ODE+BC:ALPHA1+BETA1}
+\alpha_{1}=\dfrac{b_0}{c_0},\quad \beta_{1}=\dfrac{y_0}{c_0}
 \end{gather}
 
-Нахождение коэффициентов $\alpha_{i+1}$ и $\beta_{i+1}$ 
-по рекуррентным соотношениям 
-\eqref{eq:ODE_ALPHA_BETA} и \eqref{eq:ODE_ALPHA1_BETA1}
-называется \textit{прямой прогонкой}.
-После того как прогоночные коэффициенты $\alpha_{i+1}$ и $\beta_{i+1}$
-($i=1,2,\dots,N-1$), найдены, решение системы \eqref{eq:ODE_BC_SYS} 
-находится по рекуррентному соотношению \eqref{eq:ODE_ALPHA},
-если известно значение функции $u_N$ на правой границе области.
-Неизвестное значение функции $u_N$ можно определить 
-из краевого условия на правой границе области $x=\ell$:
-\begin{gather}\label{eq:ODE_SYS_uN}
+Процесс вычисления коэффициентов $\alpha_{i+1}$ и $\beta_{i+1}$
+($i=1,2,\dots,n-1$) по рекуррентным соотношениям 
+\eqref{eq:ODE+BC:ALPHA+BETA} и \eqref{eq:ODE+BC:ALPHA1+BETA1}
+называется \emph{прямой прогонкой}.
+
+После того как коэффициенты прогонки
+найдены, решение системы находится 
+по рекуррентному соотношению \eqref{eq:ODE+BC:ALPHA},
+если известно значение функции $u_n$,
+которое можно определить из краевого условия 
+на правой границе области $x=\ell$:
+\begin{gather}\label{eq:ODE+BC:u(n)}
 \begin{cases}
-a_N\cdot u_{N-1}-c_N\cdot u_N = -f_N\\
-u_{N-1}=\alpha_{N}\cdot u_{N} + \beta_{N}
+-a_n\cdot u_{n-1}+c_n\cdot u_n = y_n\\
+u_{n-1}=\alpha_n\cdot u_n + \beta_n
 \end{cases}
 .\end{gather}
+
+\end{document}
 
 Из решения системы уравнений \eqref{eq:ODE_SYS_uN} 
 определяется значение неизвестной функции $u_N$
