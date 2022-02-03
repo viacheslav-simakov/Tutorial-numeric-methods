@@ -1615,7 +1615,8 @@ c_0&-b_0&0\\
 \begin{gather}\label{eq:ODE+BC:ALPHA}
 u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1},
 \end{gather}
-где $\alpha_{i+1}$ и $\beta_{i+1}$ -- неизвестные коэффициенты, 
+где $\alpha_{i+1}$ и $\beta_{i+1}$ -- 
+неизвестные коэффициенты прогонки, 
 которые необходимо определить.
 
 Пользуясь уравнением \eqref{eq:ODE+BC:ALPHA} выразим $u_{i-1}$:
@@ -1644,18 +1645,19 @@ u_{i-1}=\alpha_{i}~\alpha_{i+1}\cdot u_{i+1}+(\alpha_{i}~\beta_{i+1} + \beta_{i}
 \end{gather*}
 
 Из последнего выражения получаем рекуррентные соотношения 
-для определения значений неизвестных коэффициентов
+для определения значений неизвестных коэффициентов прогонки
 $\alpha_{i+1}$ и $\beta_{i+1}$:
-\begin{gather}\label{eq:ODE+BC:ALPHA+BETA}
+\begin{gather*}
 \alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}},\quad
 \beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}
-\end{gather}
+\end{gather*}
 
-Соотношения \eqref{eq:ODE+BC:ALPHA+BETA} представляют собой 
-нелинейные разностные уравнения первого порядка.
-Для их решения необходимо задать начальные значения 
-$\alpha_1$ и $\beta_1$, которые определяются из краевого условия
-на левой границе рассматриваемой области $x=0$:
+Соотношения этих коэффициентов представляют собой 
+нелинейные разностные уравнения первого порядка, 
+для решения которых необходимо задать 
+начальные значения $\alpha_1$ и $\beta_1$, определяемые
+из краевого условия на левой границе 
+рассматриваемой области $x=0$:
 \begin{gather*}
 \begin{cases}
 c_0\cdot u_0-b_0\cdot u_1 = y_0\\
@@ -1675,8 +1677,18 @@ u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
 
 Процесс вычисления коэффициентов $\alpha_{i+1}$ и $\beta_{i+1}$
 ($i=1,2,\dots,n-1$) по рекуррентным соотношениям 
-\eqref{eq:ODE+BC:ALPHA+BETA} и \eqref{eq:ODE+BC:ALPHA1+BETA1}
-называется \emph{прямой прогонкой}.
+\eqref{eq:ODE+BC:ALPHA+BETA} и \eqref{eq:ODE+BC:ALPHA,BETA}
+называется \emph{прямой прогонкой}:
+\begin{gather}\label{eq:ODE+BC:ALPHA+BETA}
+\left\{\begin{matrix}
+\alpha_{1}=\dfrac{b_0}{c_0},&
+\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}}\\[1em]
+\beta_{1}=\dfrac{y_0}{c_0},&
+\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}\\
+\end{matrix}\right.
+,\qquad
+i=1,2,\ldots,n-1
+\end{gather}
 
 После того как коэффициенты прогонки
 найдены, решение системы находится 
@@ -1684,33 +1696,38 @@ u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
 если известно значение функции $u_n$,
 которое можно определить из краевого условия 
 на правой границе области $x=\ell$:
-\begin{gather}\label{eq:ODE+BC:u(n)}
+\begin{gather}\label{eq:ODE+BC:eq u(n)}
 \begin{cases}
 -a_n\cdot u_{n-1}+c_n\cdot u_n = y_n\\
 u_{n-1}=\alpha_n\cdot u_n + \beta_n
-\end{cases}
-.\end{gather}
+\end{cases}.
+\end{gather}
 
-\end{document}
-
-Из решения системы уравнений \eqref{eq:ODE_SYS_uN} 
-определяется значение неизвестной функции $u_N$
+Из решения системы уравнений \eqref{eq:ODE+BC:eq u(n)} 
+определяется значение неизвестной функции $u_n$
 на правой границе:
-\begin{gather}\label{eq:ODE_uN}
-u_N=\dfrac{a_N\cdot\beta_N+f_N}{c_N-a_N\cdot\alpha_N}
+\begin{gather}\label{eq:ODE+BC:u(n)}
+u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}
 \end{gather}
 
 Последовательное нахождение значений 
 неизвестной функции $u(x)$ в узлах сетки 
-по рекуррентному соотношению \eqref{eq:ODE_ALPHA}
-называется \textit{обратной прогонкой}.
-
+по рекуррентному соотношению \eqref{eq:ODE+BC:ALPHA}
+называется \emph{обратной прогонкой}:
+\begin{gather}\label{eq:ODE+BC:solve u}
+\begin{matrix}
+u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n},&
+u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1},
+\end{matrix},\quad
+i=(n-1),\ldots,1,0
+\end{gather}
 
 % *************************************************************
 %
 %	МЕТОД ПОТОКОВОЙ ПРОГОНКИ
 %
 % *************************************************************
+\emptyline
 \subsubsection{Потоковый вариант метода прогонки}
 Потоковый вариант метода прогонки применяется при решении задач 
 с сильно меняющимися коэффициентами в выражениях для потоков
@@ -1732,7 +1749,9 @@ u_N=\dfrac{a_N\cdot\beta_N+f_N}{c_N-a_N\cdot\alpha_N}
 Последующее использование численного дифференцирования для вычисления потока 
 приводит к неудовлетворительному результату. 
 Избавиться от этого недостатка удается путем перехода к так называемому 
-потоковому варианту метода прогонки. 
+\alert{потоковому варианту метода прогонки}. 
+
+\end{document}
 
 Предположим наличие между искомой функцией $u$ и ее потоком $w$ связи вида:
 \begin{gather*}
