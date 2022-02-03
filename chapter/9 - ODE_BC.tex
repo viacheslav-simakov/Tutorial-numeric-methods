@@ -1647,10 +1647,10 @@ u_{i-1}=\alpha_{i}~\alpha_{i+1}\cdot u_{i+1}+(\alpha_{i}~\beta_{i+1} + \beta_{i}
 Из последнего выражения получаем рекуррентные соотношения 
 для определения значений неизвестных коэффициентов прогонки
 $\alpha_{i+1}$ и $\beta_{i+1}$:
-\begin{gather*}
+\begin{gather}\label{eq:ODE+BC:ALPHA+BETA}
 \alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}},\quad
 \beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}
-\end{gather*}
+\end{gather}
 
 Соотношения этих коэффициентов представляют собой 
 нелинейные разностные уравнения первого порядка, 
@@ -1671,15 +1671,15 @@ u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
 \end{gather*}
 
 Сопоставляя выражение для $u_0$ получим:
-\begin{gather}\label{eq:ODE+BC:ALPHA1+BETA1}
+\begin{gather*}
 \alpha_{1}=\dfrac{b_0}{c_0},\quad \beta_{1}=\dfrac{y_0}{c_0}
-\end{gather}
+\end{gather*}
 
 Процесс вычисления коэффициентов $\alpha_{i+1}$ и $\beta_{i+1}$
-($i=1,2,\dots,n-1$) по рекуррентным соотношениям 
-\eqref{eq:ODE+BC:ALPHA+BETA} и \eqref{eq:ODE+BC:ALPHA,BETA}
+($i=1,2,\dots,n-1$) по рекуррентным соотношениям
+\eqref{eq:ODE+BC:ALPHA+BETA} 
 называется \emph{прямой прогонкой}:
-\begin{gather}\label{eq:ODE+BC:ALPHA+BETA}
+\begin{gather}\label{eq:ODE+BC:ALPHA,BETA}
 \left\{\begin{matrix}
 \alpha_{1}=\dfrac{b_0}{c_0},&
 \alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}}\\[1em]
@@ -1706,9 +1706,9 @@ u_{n-1}=\alpha_n\cdot u_n + \beta_n
 Из решения системы уравнений \eqref{eq:ODE+BC:eq u(n)} 
 определяется значение неизвестной функции $u_n$
 на правой границе:
-\begin{gather}\label{eq:ODE+BC:u(n)}
+\begin{gather*}
 u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}
-\end{gather}
+\end{gather*}
 
 Последовательное нахождение значений 
 неизвестной функции $u(x)$ в узлах сетки 
@@ -1717,7 +1717,7 @@ u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}
 \begin{gather}\label{eq:ODE+BC:solve u}
 \begin{matrix}
 u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n},&
-u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1},
+u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}
 \end{matrix},\quad
 i=(n-1),\ldots,1,0
 \end{gather}
