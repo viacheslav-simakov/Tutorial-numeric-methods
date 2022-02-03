@@ -20,7 +20,8 @@
 \newcommand\intfright[1]{ \intf{ x_{i} }{ x_{i+1} }{#1} }
 \newcommand\intflefthalf[1]{ \intf{ x_{i-1/2} }{ x_{i} }{#1} }
 \newcommand\intfrighthalf[1]{ \intf{ x_{i} }{ x_{i+1/2} }{#1} }
-
+% Вектор-столбец
+\newcommand\transpose[1]{#1^\mathrm{T}}
 %
 %	Краевые задачи для обыкновенных дифференциальных уравнений
 %
@@ -1485,18 +1486,68 @@ w_n+\sigma(x_{n-1})\cdot(u_n-u_{n-1})+\mathring{\sigma}(x_n)\cdot u_n=\varepsilo
 $u_{i-1}$, $u_i$, $u_{i+1}$:
 \begin{equation}\label{eq:ODE+BC:SLE(u)}
 \begin{cases}
-с_0\cdot u_0 - b_0\cdot u_1=y_0\\
--a_i\cdot u_{i-1} + c_i\cdot u_i - b_i\cdot u_{i+1}=y_1,&i=1,2,\ldots,n-1
+c_0\cdot u_0 - b_0\cdot u_1=y_0\\
+-a_i\cdot u_{i-1} + c_i\cdot u_i - b_i\cdot u_{i+1}=y_i,&i=1,2,\ldots,n-1\\
+-a_n\cdot u_{n-1}+c_n\cdot u_n=y_n\\
 \end{cases}
 \end{equation}
 где $a_i$, $b_i$ и $c_i$ -- коэффициенты матрицы:
 \begin{equation*}
+\begin{cases}
+b_0=\sigma(x_0),\;
+c_0=b_0+\mathring{\sigma}(x_0),\;
+y_0=\varepsilon(x_0)+w_0\\
 a_i=\sigma(x_{i-1}),\;
 b_i=\sigma(x_i),\;
-c_i=a_i+b_i+\mathring{\sigma}(x_i)
+c_i=a_i+b_i+\mathring{\sigma}(x_i),\;
+y_i=\varepsilon(x_i)\\
+a_n=\sigma(x_{n-1}),\;
+c_n=a_n+\mathring{\sigma}(x_n),\;
+y_n=\varepsilon(x_n)-w_n\\
+\end{cases}
 \end{equation*}
 
+Система линейных уравнений в матричном виде:
+\begin{equation*}
+\mathbf{M}\cdot\vect{u}=\vect{y},
+\end{equation*}
+где 
+$\vect{u}=\transpose{(u_0,u_1,\ldots,u_n)}$ -- вектор неизвестных,
+$\vect{y}=\transpose{(y_0,y_1,\ldots,y_n)}$ -- вектор правых частей системы,
+$\mathbf{M}$ -- матрица системы линейных уравнений:
+\begin{equation}
+\mathbf{M}=
+\begin{pmatrix}
+c_0&-b_0&0\\
+-a_1&c_1&-b_1&0\\
+0&-a_2&c_2&-b_2&0\\
+&0&\ldots&\ldots&\ldots&0\\
+&&0&-a_i&c_i&-b_i&0\\
+&&&0&\ldots&\ldots&\ldots&0\\
+&&&&0&-a_{n-1}&c_{n-1}&-b_{n-1}\\
+&&&&&0&-a_n&c_n\\
+\end{pmatrix}
+\end{equation}
 
+%Аналогично построим независимую систему для неизвестных 
+%$w_{i+1/2}$\linebreak ($i=0,1,\ldots,n-1$).
+%Из соотношения для потоков в узлах вспомогательной сетки:
+%\begin{equation*}
+%\left\{\begin{matrix}[rcl]
+%u_i&=&\sigma^{-1}(x_{i})\cdot w_{i+1/2}+u_{i+1}\\
+%u_{i-1}&=&\sigma^{-1}(x_{i-1})\cdot w_{i-1/2}+u_i\\
+%\end{matrix}\right.
+%\end{equation*}
+%
+%Для этого в уравнение теплового баланса для каждого 
+%контрольного объема
+%\begin{equation*}
+%w_{i+1/2} - w_{i-1/2} + \mathring{\sigma}(x_i)\cdot u_i = \varepsilon(x_i),
+%\quad
+%i=1,2,\ldots,n-1
+%\end{equation*}
+
+\emptyline
 \subsection{Метод решения систем линейных уравнений 
 с матрицами специального вида}
 
@@ -1526,86 +1577,61 @@ c_i=a_i+b_i+\mathring{\sigma}(x_i)
 %переменными, когда область изменения независимых переменных 
 %является прямоугольник.
 
-\end{document}
 % *************************************************************
 %
 %	МЕТОД ПРОГОНКИ
 %
 % *************************************************************
+\emptyline
 \subsubsection{Метод прогонки для трехточечных уравнений}
-Система уравнений \eqref{eq:ODE_BC_FD} представляет собой 
-частный случай систем линейных алгебраических уравнений:
-\begin{gather*}
-\vec{A}\cdot\vec{u}=\vec{f}
-\end{gather*}
-с трехдиагональной матрицей $\vec{А}$, т.е. с матрицей, 
-все элементы которой, не лежащие на главной и двух побочных диагоналях, равны нулю.
-\begin{gather}\label{eq:ODE_BC_SYS}
-\begin{pmatrix}
--c_0&b_0&0&\dots&\dots&\dots&0\\
-a_1&-c_1&b_1&0&\dots&\dots&0\\
-0&a_2&-c_2&b_2&0&\cdots&0\\
-\dots&\dots&\dots&\dots&\dots&\dots&\dots\\
-0&\dots&0&a_{N-2}&-c_{N-2}&b_{N-2}&0\\
-0&\dots&\dots&0&a_{N-1}&-c_{N-1}&b_{N-1}\\
-0&\dots&\dots&\dots&0&a_N&-c_N\\
-\end{pmatrix}
-\cdot
-\begin{pmatrix}
-u_0\\u_1\\u_2\\ \cdots\\u_{N-2}\\u_{N-1}\\u_{N}
-\end{pmatrix}
-=
-\begin{pmatrix}
-f_0\\f_1\\f_2\\ \cdots\\f_{N-2}\\f_{N-1}\\f_{N}
-\end{pmatrix}
-,\end{gather}
-где $u_i=u(x_i)$ -- значение неизвестной функции в узлах сетки.
-
-В общем случае системы линейных алгебраических уравнений 
-с трехдиагональной матрицей имеют вид:
-\begin{gather}\label{eq:ODE_BC_SOL}
-a_i\cdot u_{i-1} - c_i\cdot u_{i} + b_i\cdot u_{i+1} = -f_i,\quad i=1,2,\dots,N-1
-\end{gather}
-
-Для численного решения систем с трехдиагональными матрицами 
-применяется \textit{метод прогонки}, который представляет 
-собой вариант метода последовательного исключения неизвестных.
+Система уравнений \eqref{eq:ODE+BC:SLE(u)} представляет собой 
+частный случай систем линейных алгебраических уравнений
+с трехдиагональной матрицей $\mathbf{M}$, т.е. с матрицей, 
+все элементы которой, не лежащие на главной и 
+двух побочных диагоналях, равны нулю.
+Для численного решения таких систем уравнений 
+применяется \alert{метод прогонки}, который представляет 
+собой вариант \emph{метода Гаусса} последовательного 
+исключения неизвестных.
 
 Особенно широкое применение метод прогонки получил при решении 
 систем разностных уравнений, возникающих при аппроксимации 
 краевых задач для дифференциальных уравнений второго порядка.
 
-Решение системы линейных уравнений \eqref{eq:ODE_BC_SOL}
+Решение системы линейных уравнений \eqref{eq:ODE+BC:SLE(u)}
 будем искать в виде:
-\begin{gather}\label{eq:ODE_ALPHA}
-u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}
-,\end{gather}
+\begin{gather}\label{eq:ODE+BC:ALPHA}
+u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1},
+\end{gather}
 где $\alpha_{i+1}$ и $\beta_{i+1}$ -- неизвестные коэффициенты, 
 которые необходимо определить.
 
-Пользуясь уравнением \eqref{eq:ODE_ALPHA} и выражая $u_{i-1}$ получим:
-\begin{gather}\label{eq:ODE_ALPHA2}
-u_{i-1}=\alpha_{i}\cdot u_{i} + \beta_{i}=
-\alpha_{i}~\alpha_{i+1}\cdot u_{i+1}+(\alpha_{i}~\beta_{i+1} + \beta_{i})
-.\end{gather}
+Пользуясь уравнением \eqref{eq:ODE+BC:ALPHA} выразим $u_{i-1}$:
+\begin{gather}\label{eq:ODE+BC:ALPHA2}
+u_{i-1}=\alpha_{i}\cdot u_{i} + \beta_{i},\quad\to\quad
+u_{i-1}=\alpha_{i}~\alpha_{i+1}\cdot u_{i+1}+(\alpha_{i}~\beta_{i+1} + \beta_{i}).
+\end{gather}
 
-Подставляя соотношения для $u_{i-1}$ \eqref{eq:ODE_ALPHA2}
-и $u_{i}$ \eqref{eq:ODE_ALPHA} в выражение \eqref{eq:ODE_BC_SOL} получим:
+Подставляя соотношения для $u_{i-1}$ \eqref{eq:ODE+BC:ALPHA2}
+и $u_{i}$ \eqref{eq:ODE+BC:ALPHA} в систему
+\eqref{eq:ODE+BC:SLE(u)} получим:
 \begin{gather*}
-a_i\cdot(\alpha_{i}~\alpha_{i+1}\cdot u_{i+1}+(\alpha_{i}~\beta_{i+1} + \beta_{i}))
--c_i\cdot(\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1})
-+b_i\cdot u_{i+1} = -f_i
+-a_i\cdot(\alpha_{i}~\alpha_{i+1}\cdot u_{i+1}+(\alpha_{i}~\beta_{i+1} + \beta_{i}))
++c_i\cdot(\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1})
+-b_i\cdot u_{i+1} = y_i
 \end{gather*}
 
-Это уравнение будет выполнено для всех $i=1,2,\dots,N-1$, 
+Это уравнение будет выполнено для всех $i=1,2,\dots,n-1$, 
 если потребовать равенство нулю всех коэффициентов 
 при неизвестных $u_{i+1}$ и свободных членов:
 \begin{gather*}
 \begin{cases}
-(a_i\cdot\alpha_{i}-c_i)\cdot\alpha_{i+1}=-b_i\\
-(a_i\cdot\alpha_{i}-c_i)\cdot\beta_{i+1}=-(a_i\cdot\beta_i+f_i)
+(c_i-a_i\cdot\alpha_{i})\cdot\alpha_{i+1}=b_i\\
+(c_i-a_i\cdot\alpha_{i})\cdot\beta_{i+1}=(y_i-a_i\cdot\beta_i)
 \end{cases}
 \end{gather*}
+
+\end{document}
 
 Из последнего выражения получаем рекуррентные соотношения 
 для определения значений неизвестных коэффициентов
