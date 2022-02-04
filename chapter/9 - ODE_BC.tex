@@ -1767,12 +1767,12 @@ w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i)\\
 
 Основная идея метода потоковой прогонки заключается в 
 организации метода прогонки (раздел \ref{subsec:shuttle method})
-для расчёта неизвестной функции $u_i$
-и её потока $w_{i+1/2}$, используя линейную связь между ними:
+для расчёта неизвестных функций $w_{i+1/2}$ и $u_i$, 
+используя линейную связь между ними:
 \begin{equation*}
 \left\{\begin{matrix}[rcl]
-u_i&=&\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}\\
 w_{i+1/2}&=&-\sigma(x_i)\cdot(u_{i+1}-u_i)\\
+u_i&=&\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}\\
 \end{matrix}\right.
 \end{equation*}
 
@@ -1788,12 +1788,12 @@ u_{i+1}-u_i&=&(\alpha^{-1}_{i+1}-1)\cdot u_i - \alpha^{-1}_{i+1}\cdot\beta_{i+1}
 
 Баланс тепловой энергии \eqref{eq:ODE+BC:mesh element}
 с учетом линейной связи \eqref{eq:ODE+BC:shuttle flow}
-неизвестной функции и её потока:
-\begin{equation}
+запишется в виде:
+\begin{equation*}
 w_{i+1/2} - w_{i-1/2} 
 + \mathring{\alpha}_{i+1}\cdot w_{i+1/2} - \mathring{\beta}_{i+1} 
 = \varepsilon(x_i),
-\end{equation}
+\end{equation*}
 где $\mathring{\beta}_i$ и $\mathring{\alpha}_i$ --
 потоковые коэффициенты прогонки:
 \begin{equation}
@@ -1805,8 +1805,8 @@ w_{i+1/2} - w_{i-1/2}
 %+\dfrac{\mathring{\sigma}(x_i)}{1-\alpha_i}\cdot\left(\beta_i-\rho(x_{i-1})\cdot w_{i-1/2}\right)
 \end{equation}
 
-Рекуррентные соотношение для нахождения потока 
-можно записать в виде:
+Из последнего соотношения можно найти рекуррентные соотношение 
+для определения неизвестных:
 \begin{equation}
 w_{i-1/2}=\bar{\alpha}_{i+1}\cdot w_{i+1/2}
 + \bar{\beta}_{i+1}\\
