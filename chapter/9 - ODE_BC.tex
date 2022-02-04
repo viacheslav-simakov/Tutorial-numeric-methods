@@ -1768,11 +1768,11 @@ w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i)\\
 Основная идея метода потоковой прогонки заключается в 
 организации метода прогонки (раздел \ref{subsec:shuttle method})
 для расчёта неизвестной функции $u_i$
-и её потока $w_{i-1/2}$, используя линейную связь между ними:
+и её потока $w_{i+1/2}$, используя линейную связь между ними:
 \begin{equation*}
 \left\{\begin{matrix}[rcl]
-u_{i-1}&=&\alpha_i\cdot u_i + \beta_i\\
-w_{i-1/2}&=&-\sigma(x_{i-1})\cdot(u_i-u_{i-1})\\
+u_i&=&\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}\\
+w_{i+1/2}&=&-\sigma(x_i)\cdot(u_{i+1}-u_i)\\
 \end{matrix}\right.
 \end{equation*}
 
@@ -1780,42 +1780,36 @@ w_{i-1/2}&=&-\sigma(x_{i-1})\cdot(u_i-u_{i-1})\\
 линейную связь между неизвестными $u_{i}$ и $w_{i-1/2}$:
 \begin{equation}\label{eq:ODE+BC:shuttle flow}
 \left\{\begin{matrix}[rcl]
-u_i-u_{i-1}&=&(1-\alpha_i)\cdot u_i - \beta_i\\
- u_i&=&(1-\alpha_i)^{-1}\cdot\left(\beta_i-\rho(x_{i-1})\cdot w_{i-1/2}\right)\\
-\end{matrix}\right.,
+u_{i+1}-u_i&=&(\alpha^{-1}_{i+1}-1)\cdot u_i - \alpha^{-1}_{i+1}\cdot\beta_{i+1}\\
+ u_i&=&(\alpha^{-1}_{i+1}-1)^{-1}\cdot
+ \left(\alpha^{-1}_{i+1}\cdot\beta_{i+1}-\sigma^{-1}(x_i)\cdot w_{i+1/2}\right)\\
+\end{matrix}\right.
 \end{equation}
-где $\rho(x_{i-1})=\sigma^{-1}(x_{i-1})$ -- коэффициент
-численно равный тепловому сопротивлению среды
-на участке $x_{i-1}\leqslant x < x_i$.
 
 Баланс тепловой энергии \eqref{eq:ODE+BC:mesh element}
 с учетом линейной связи \eqref{eq:ODE+BC:shuttle flow}
 неизвестной функции и её потока:
 \begin{equation}
 w_{i+1/2} - w_{i-1/2} 
-%+\dfrac{\mathring{\sigma}(x_i)}{1-\alpha_i}\cdot\left(\beta_i-\rho(x_{i-1})\cdot w_{i-1/2}\right)
-+\mathring{\beta}_i - \mathring{\alpha}_i\cdot w_{i-1/2}
++ \mathring{\alpha}_{i+1}\cdot w_{i+1/2} - \mathring{\beta}_{i+1} 
 = \varepsilon(x_i),
 \end{equation}
 где $\mathring{\beta}_i$ и $\mathring{\alpha}_i$ --
 потоковые коэффициенты прогонки:
 \begin{equation}
-\mathring{\beta}_i=\beta_i\cdot\dfrac{\mathring{\sigma}(x_i)}{1-\alpha_i}
+\mathring{\alpha}_i=\dfrac{1}{(1-\alpha_i)}\cdot
+\dfrac{\mathring{\sigma}(x_i)}{\sigma(x_{i-1})},
+\quad
+\mathring{\beta}_i=\beta_i\cdot
+\dfrac{\mathring{\sigma}(x_i)}{1-\alpha_i}
 %+\dfrac{\mathring{\sigma}(x_i)}{1-\alpha_i}\cdot\left(\beta_i-\rho(x_{i-1})\cdot w_{i-1/2}\right)
 \end{equation}
-
-
 
 Рекуррентные соотношение для нахождения потока 
 можно записать в виде:
 \begin{equation}
-w_{i-1/2}=w_{i+1/2}+ \mathring{\sigma}(x_i)\cdot\dfrac{\beta_i}{1-\alpha_i} 
-%= \left(
-%1+\dfrac{\mathring{\sigma}(x_i)\cdot\rho(x_{i-1})}{1-\alpha_i}
-%\right)\cdot w_{i-1/2}
-%- \mathring{\sigma}(x_i)\cdot\dfrac{\beta_i}{1-\alpha_i}
-%+\dfrac{\mathring{\sigma}(x_i)}{1-\alpha_i}\cdot\left(\beta_i-\rho(x_{i-1})\cdot w_{i-1/2}\right)
-- \varepsilon(x_i)\\
+w_{i-1/2}=\bar{\alpha}_{i+1}\cdot w_{i+1/2}
++ \bar{\beta}_{i+1}\\
 \end{equation}
 
 
