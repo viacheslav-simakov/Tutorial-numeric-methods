@@ -1596,6 +1596,7 @@ c_0&-b_0&0\\
 % *************************************************************
 \emptyline
 \subsubsection{Метод прогонки для трехточечных уравнений}
+\label{subsec:shuttle method}
 Система уравнений \eqref{eq:ODE+BC:SLE(u)} представляет собой 
 частный случай систем линейных алгебраических уравнений
 с трехдиагональной матрицей $\mathbf{M}$, то есть с матрицей, 
@@ -1729,7 +1730,10 @@ i=(n-1),\ldots,1,0
 как рекуррентное соотношение, выражающее поток в одном
 промежуточном узле через поток в соседнем узле:
 \begin{gather}
-w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i)
+\begin{cases}
+w_{1/2}=w_0-\mathring{\sigma}(x_0)\cdot u_0+\varepsilon(x_0)\\
+w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i)\\
+\end{cases}
 \end{gather}
 
 % *************************************************************
@@ -1759,7 +1763,41 @@ w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i)
 Последующее использование численного дифференцирования для вычисления потока 
 приводит к неудовлетворительному результату. 
 Избавиться от этого недостатка удается путем перехода к так называемому 
-\alert{потоковому варианту метода прогонки}. 
+\alert{потоковому варианту метода прогонки}.
+
+Основная идея метода потоковой прогонки заключается в 
+организации метода прогонки (раздел \ref{subsec:shuttle method})
+для расчёта неизвестной функции $u_i$
+и её потока $w_{i-1/2}$, используя линейную связь между ними:
+\begin{equation*}
+\left\{\begin{matrix}[rcl]
+u_{i-1}&=&\alpha_i\cdot u_i + \beta_i\\
+w_{i-1/2}&=&-\sigma(x_{i-1})\cdot(u_i-u_{i-1})\\
+\end{matrix}\right.
+\end{equation*}
+
+Из последнего соотношения можно определить в явном виде 
+линейную связь между неизвестными $u_{i}$ и $w_{i-1/2}$:
+\begin{equation}\label{eq:ODE+BC:shuttle flow}
+\left\{\begin{matrix}[rcl]
+u_i-u_{i-1}&=&(1-\alpha_i)\cdot u_i - \beta_i\\
+\rho(x_{i-1})\cdot w_{i-1/2}&=&-(1-\alpha_i)\cdot u_i+\beta_i\\
+\end{matrix}\right.,
+\end{equation}
+где $\rho(x_{i-1})=\sigma^{-1}(x_{i-1})$ -- коэффициент
+численно равный тепловому сопротивлению среды
+на участке $x_{i-1}\leqslant x < x_i$.
+
+Баланс тепловой энергии \eqref{eq:ODE+BC:mesh element}
+с учетом линейной связи неизвестной функции и её потока:
+\begin{equation}
+\begin{cases}
+w_{i+1/2} - w_{i-1/2} + \mathring{\sigma}(x_i)\cdot u_i = \varepsilon(x_i)\\
+w_{i+1/2}=-\sigma(x_{i})\cdot(u_{i+1}-u_i)\\
+w_{i-1/2}=-\sigma(x_{i-1})\cdot(u_i-u_{i-1})
+\end{cases}
+\end{equation}
+
 
 \end{document}
 
