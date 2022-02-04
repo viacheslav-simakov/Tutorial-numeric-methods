@@ -963,6 +963,11 @@ x_{i\pm1/2}=\dfrac{x_i+x_{i\pm1}}{2},\quad i=1,2,\ldots,n-1
 где $x_{i\pm1/2}$ -- середины отрезков 
 $[x_{i-1}, x_i]$ и $[x_i, x_{i+1}]$, соответственно.
 
+Значения неизвестной функции $u(x)$ (температуры) 
+рассмотрим в узлах сетки $\{x_i\}$, 
+а потоковую величину $w(x)$ (тепловой поток) -- 
+в промежуточных узлах $\{x_{i\pm1/2}\}$.
+
 % Промежуточная сетка
 \begin{figure}[H]\centering
 \begin{tikzpicture}
@@ -982,6 +987,15 @@ $[x_{i-1}, x_i]$ и $[x_i, x_{i+1}]$, соответственно.
 \draw (p0) node[yshift=1em]{$x_{i-1}$};
 \draw (p1) node[yshift=1em]{$x_i$};
 \draw (p2) node[yshift=1em]{$x_{i+1}$};
+% u(x)
+\begin{scope}[shading=ball,ball color=darkblue,color=darkblue,on background layer]
+\draw[gray] (p0) -- ([yshift=-15mm]p0) coordinate (y0);
+\shadedraw (y0) circle[radius=1.2mm] node[below]{$u_{i-1}$};
+\draw[gray] (p1) -- ([yshift=-25mm]p1) coordinate (y1);
+\shadedraw (y1) circle[radius=1.2mm] node[below]{$u_i$};
+\draw[gray] (p2) -- ([yshift=-20mm]p2) coordinate (y2);
+\shadedraw (y2) circle[radius=1.2mm] node[below]{$u_{i+1}$};
+\end{scope}
 % промежуточная сетка
 \coordinate (p) at (O);
 \foreach \x [count=\n from 0] in {37,39}{
@@ -991,80 +1005,69 @@ $[x_{i-1}, x_i]$ и $[x_i, x_{i+1}]$, соответственно.
 % подписи
 \draw (p0) node[yshift=-1em]{$x_{i-1/2}$};
 \draw (p1) node[yshift=-1em]{$x_{i+1/2}$};
+% w(i+1/2)
+\begin{scope}[shading=ball,ball color=darkred,color=darkred,on background layer]]
+\draw[gray] (p0) -- ([yshift=25mm]p0) coordinate (y0);
+\shadedraw (y0) circle[radius=1.2mm] node[above]{$w_{i-1/2}$};
+\draw[gray] (p1) -- ([yshift=15mm]p1) coordinate (y1);
+\shadedraw (y1) circle[radius=1.2mm] node[above]{$w_{i+1/2}$};
+\end{scope}
 \end{tikzpicture}
 \caption{Схематическое изображение расположения узлов 
 основной и промежуточной расчетной сеток}
 \label{fig:ODE+BC:mesh:main+secound}
 \end{figure}
 
-Расстояние между соседними узлами расчётной сетки 
-$h_i$ (шаг сетки), как и расстояние между соседними 
-промежуточными узлами, 
-$h_{i+1/2}$ (шаг промежуточной сетки) 
-зависят от номера узла $i$ сетки:
-\begin{gather*}
-\begin{array}{rcl}
-h_i&=&x_i-x_{i-1},\\
-h_{i+1/2}&=&x_{i+1/2}-x_{i-1/2}=\dfrac{h_{i+1}+h_i}{2}.
-\end{array}
-\end{gather*}
-
-Значения неизвестной функции $u(x)$ (температуры) 
-рассмотрим в узлах сетки $\{x_i\}$, 
-а потоковую величину $w(x)$ (тепловой поток) -- 
-в промежуточных узлах $\{x_{i\pm1/2}\}$ 
-(рисунок \ref{fig:ODE+BC:u(x) and w(x)}).
-
-%
-% Температура и тепловой поток
-%
-\pgfplotsset{
-uxwx axis style/.append style={
-	font=\small,% размер шрифта
-	xlabel=\empty,xmin=-10,xmax=110,
-	xtick={0,20,40,70,100},
-	xticklabels={$x_{i-1}$,$x_{i-1/2}$,$x_i$,$x_{i+1/2}$,$x_{i+1}$},
-	ylabel=\empty,
-%	grid=none,% сетка
-},
-}
-\begin{figure}[H]\centering
-%
-% первый график
-%
-\begin{tikzpicture}
-% левая ось OY
-\begin{axis}[uxwx axis style,
-axis y line*=left,
-ymin=0,ymax=100,ytick={10,60},
-yticklabels={$w_{i-1/2}$,$w_{i+1/2}$}]
-% заполнение
-\addplot[draw=none,fill=darkred!7,on layer=background] 
-coordinates{(0,0)(0,10)(40,10)(40,60)(100,60)(100,0)}\closedcycle;
-\addplot[draw=none,fill=blue!14,opacity=0.25,on layer=background]
-coordinates{(0,80)(20,80)(20,30)(40,30)(70,30)(70,50)(100,50)}\closedcycle;
-% линии
-\addplot[draw=darkred,thick] 
-coordinates{(0,10)(40,10)(40,60)(100,60)};
-\addplot[draw=darkblue]
-coordinates{(0,80)(20,80)(20,30)(40,30)(70,30)(70,50)(100,50)};
-% маркеры
-\addplot[ball darkred,only marks] coordinates{(20,10)(70,60)};
-\addplot[ball darkblue,only marks] coordinates{(0,80)(40,30)(100,50)};
-\end{axis}
-% правая ось OY
-\begin{axis}[uxwx axis style,
-axis y line*=right,axis x line=none,ymajorgrids,
-ymin=0,ymax=100,ytick={80,30,50},
-yticklabels={$u_{i-1}$,$u_i$,$u_{i+1}$}]
-\end{axis}
-\end{tikzpicture}
-\caption{
-Схематическое изображение распределения неизвестной
-функции $u(x)$ и потоковой величины $w(x)$
-в пределах контрольной области $[x_{i-1},x_{i+1}]$}
-\label{fig:ODE+BC:u(x) and w(x)}
-\end{figure}
+%%
+%% Температура и тепловой поток
+%%
+%\pgfplotsset{
+%uxwx axis style/.append style={
+%	font=\small,% размер шрифта
+%	xlabel=\empty,xmin=-10,xmax=110,
+%	xtick={0,20,40,70,100},
+%	xticklabels={$x_{i-1}$,$x_{i-1/2}$,$x_i$,$x_{i+1/2}$,$x_{i+1}$},
+%	ylabel=\empty,
+%%	grid=none,% сетка
+%},
+%}
+%\begin{figure}[H]\centering
+%%
+%% первый график
+%%
+%\begin{tikzpicture}
+%% левая ось OY
+%\begin{axis}[uxwx axis style,
+%axis y line*=left,
+%ymin=0,ymax=100,ytick={10,60},
+%yticklabels={$w_{i-1/2}$,$w_{i+1/2}$}]
+%% заполнение
+%\addplot[draw=none,fill=darkred!7,on layer=background] 
+%coordinates{(0,0)(0,10)(40,10)(40,60)(100,60)(100,0)}\closedcycle;
+%\addplot[draw=none,fill=blue!14,opacity=0.25,on layer=background]
+%coordinates{(0,80)(20,80)(20,30)(40,30)(70,30)(70,50)(100,50)}\closedcycle;
+%% линии
+%\addplot[draw=darkred,thick] 
+%coordinates{(0,10)(40,10)(40,60)(100,60)};
+%\addplot[draw=darkblue]
+%coordinates{(0,80)(20,80)(20,30)(40,30)(70,30)(70,50)(100,50)};
+%% маркеры
+%\addplot[ball darkred,only marks] coordinates{(20,10)(70,60)};
+%\addplot[ball darkblue,only marks] coordinates{(0,80)(40,30)(100,50)};
+%\end{axis}
+%% правая ось OY
+%\begin{axis}[uxwx axis style,
+%axis y line*=right,axis x line=none,ymajorgrids,
+%ymin=0,ymax=100,ytick={80,30,50},
+%yticklabels={$u_{i-1}$,$u_i$,$u_{i+1}$}]
+%\end{axis}
+%\end{tikzpicture}
+%\caption{
+%Схематическое изображение распределения неизвестной
+%функции $u(x)$ и потоковой величины $w(x)$
+%в пределах контрольной области $[x_{i-1},x_{i+1}]$}
+%\label{fig:ODE+BC:u(x) and w(x)}
+%\end{figure}
 
 %
 %	Разностная схема для дифференциального уравнения
