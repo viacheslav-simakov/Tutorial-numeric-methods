@@ -1006,7 +1006,7 @@ $[x_{i-1}, x_i]$ и $[x_i, x_{i+1}]$, соответственно.
 \draw (p0) node[yshift=-1em]{$x_{i-1/2}$};
 \draw (p1) node[yshift=-1em]{$x_{i+1/2}$};
 % w(i+1/2)
-\begin{scope}[shading=ball,ball color=darkred!75,color=darkred,on background layer]]
+\begin{scope}[shading=ball,ball color=darkred!75,color=darkred,on background layer]
 \draw[gray] (p0) -- ([yshift=25mm]p0) coordinate (y0);
 \shadedraw (y0) circle[radius=1.2mm] node[above]{$w_{i-1/2}$};
 \draw[gray] (p1) -- ([yshift=15mm]p1) coordinate (y1);
@@ -1676,7 +1676,9 @@ u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
 
 Сопоставляя выражение для $u_0$ получим:
 \begin{gather*}
-\alpha_{1}=\dfrac{b_0}{c_0},\quad \beta_{1}=\dfrac{y_0}{c_0}
+\alpha_{1}=\dfrac{b_0}{c_0},
+\quad
+\beta_{1}=\dfrac{y_0}{c_0}
 \end{gather*}
 
 Процесс вычисления коэффициентов $\alpha_{i+1}$ и $\beta_{i+1}$
@@ -1739,6 +1741,46 @@ w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i)\\
 \end{cases}
 \end{gather}
 
+% *** Смешанная краевая задача ***
+\begin{figure}[H]\centering
+\begin{tikzpicture}[font=\small,>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
+% alpha[1] и beta[1]
+\draw[shape=rectangle,minimum height=3em,minimum width=10em]
+(0,0) node[thick,draw] (O)
+{$\alpha_{1}=\dfrac{b_0}{c_0},\quad\beta_{1}=\dfrac{y_0}{c_0}$};
+% начало цикла
+\draw[shape=trapezium, minimum height=2em, minimum width=5em]
+([yshift=-4em]O.south) node[thick,draw] (START CYCLE) {$i=1,2,\ldots,n$};
+% стрелка
+\draw[->,thick] (O.south) -- (START CYCLE.north);
+% alpha[i] и beta[i]
+\draw[shape=rectangle, minimum height=4em, minimum width=5em]
+([yshift=-3em]{START CYCLE.south}) node[thick,draw] (ABI)
+{
+$\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}}$,\quad
+$\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}$
+};
+% стрелка
+\draw[->,thick] (START CYCLE.south) -- (ABI.north);
+% конец цикла
+\draw[shape=trapezium,minimum height=2em,minimum width=5em,shape border rotate=180]
+([yshift=-8em]{START CYCLE.south}) node[thick,draw] (END CYCLE) {конец цикла};
+% стрелка
+\draw[->,thick] (ABI.south) -- (END CYCLE.north);
+% u[n]
+\draw[shape=rectangle, minimum height=3em, minimum width=5em]
+([yshift=-4em]{END CYCLE.south}) node[thick,draw] (un)
+{$u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}$};
+% стрелка
+\draw[->,thick] (END CYCLE.south) -- (un.north);
+
+\end{tikzpicture}
+% *******************************************
+\caption{Схема вычислений неизвестных краевой задачи\linebreak
+методом прогонки}
+\label{fig:ODE+BC:scheme shuttle}
+\end{figure}
+
 % *************************************************************
 %
 %	МЕТОД ПОТОКОВОЙ ПРОГОНКИ
@@ -1770,8 +1812,8 @@ w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i)\\
 
 Основная идея метода потоковой прогонки заключается в 
 организации метода прогонки (раздел \ref{subsec:shuttle method})
-для расчёта неизвестных функций $w_{i+1/2}$ и $u_i$, 
-используя линейную связь между ними:
+для одновременного расчёта неизвестных функций 
+$w_{i+1/2}$ и $u_i$, используя линейную связь между ними:
 \begin{equation*}
 \left\{\begin{matrix}[rcl]
 w_{i+1/2}&=&-\sigma(x_i)\cdot(u_{i+1}-u_i)\\
@@ -1780,42 +1822,44 @@ u_i&=&\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}\\
 \end{equation*}
 
 Из последнего соотношения можно определить в явном виде 
-линейную связь между неизвестными $u_{i}$ и $w_{i-1/2}$:
+линейную связь между неизвестными $u_{i}$ и $w_{i+1/2}$:
 \begin{equation}\label{eq:ODE+BC:shuttle flow}
 \left\{\begin{matrix}[rcl]
-u_{i+1}-u_i&=&(\alpha^{-1}_{i+1}-1)\cdot u_i - \alpha^{-1}_{i+1}\cdot\beta_{i+1}\\
- u_i&=&(\alpha^{-1}_{i+1}-1)^{-1}\cdot
- \left(\alpha^{-1}_{i+1}\cdot\beta_{i+1}-\sigma^{-1}(x_i)\cdot w_{i+1/2}\right)\\
-\end{matrix}\right.
+(u_{i+1}-u_i)&=&(\alpha^{-1}_{i+1}-1)\cdot u_i - \alpha^{-1}_{i+1}\cdot\beta_{i+1}\\
+u_i&=&\bar{\alpha}_{i+1}\cdot w_{i+1/2} + \bar{\beta}_{i+1}\\
+\end{matrix}\right.,
+\end{equation}
+где $\bar{\alpha}_{i+1}$ и $\bar{\beta}_{i+1}$ --
+коэффициенты потоковой прогонки:
+\begin{equation}
+\bar{\alpha}_{i+1}=\dfrac{\alpha_{i+1}}{\alpha_{i+1}-1}\cdot\sigma^{-1}(x_i),
+\quad
+\bar{\beta}_{i+1}=\dfrac{\beta_{i+1}}{1-\alpha_{i+1}}
 \end{equation}
 
 Баланс тепловой энергии \eqref{eq:ODE+BC:mesh element}
-с учетом линейной связи \eqref{eq:ODE+BC:shuttle flow}
-запишется в виде:
+с учетом \eqref{eq:ODE+BC:shuttle flow} запишется в виде:
 \begin{equation*}
 w_{i+1/2} - w_{i-1/2} 
-+ \mathring{\alpha}_{i+1}\cdot w_{i+1/2} - \mathring{\beta}_{i+1} 
++ \mathring{\sigma}(x_i)\cdot
+\left(\bar{\alpha}_{i+1}\cdot w_{i+1/2} + \bar{\beta}_{i+1}\right)
 = \varepsilon(x_i),
 \end{equation*}
-где $\mathring{\beta}_i$ и $\mathring{\alpha}_i$ --
-потоковые коэффициенты прогонки:
-\begin{equation}
-\mathring{\alpha}_i=\dfrac{1}{(1-\alpha_i)}\cdot
-\dfrac{\mathring{\sigma}(x_i)}{\sigma(x_{i-1})},
-\quad
-\mathring{\beta}_i=\beta_i\cdot
-\dfrac{\mathring{\sigma}(x_i)}{1-\alpha_i}
-%+\dfrac{\mathring{\sigma}(x_i)}{1-\alpha_i}\cdot\left(\beta_i-\rho(x_{i-1})\cdot w_{i-1/2}\right)
-\end{equation}
 
-Из последнего соотношения можно найти рекуррентные соотношение 
+Из последнего выражения можно найти рекуррентные соотношение 
 для определения неизвестных:
 \begin{equation}
-w_{i-1/2}=\bar{\alpha}_{i+1}\cdot w_{i+1/2}
-+ \bar{\beta}_{i+1}\\
+w_{i-1/2}=\left(1+\bar{\alpha}_{i+1}\cdot\mathring{\sigma}(x_i)\right)
+\cdot w_{i+1/2}
++ \bar{\beta}_{i+1}\cdot\mathring{\sigma}(x_i)
+- \varepsilon(x_i)\\
 \end{equation}
 
-
+Таким образом, при обратном ходе потоковой прогонки вычисляются
+все неизвестные задачи:
+\begin{equation}
+1
+\end{equation}
 
 \end{document}
 
