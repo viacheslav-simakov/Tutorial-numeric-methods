@@ -179,7 +179,7 @@ u^{\prime}(x)&=&f_2(x)\cdot w(x)
 
 % *** Смешанная краевая задача ***
 \begin{figure}[H]\centering
-\begin{tikzpicture}
+\begin{tikzpicture}[font=\small]
 % контрольная область
 \draw[
 chamfered rectangle,
@@ -1181,7 +1181,6 @@ $\{k(x_i), r(x_i), q(x_i)\}$.
 коэффициентов $\vect{f}(x)=\{k(x), r(x), q(x)\}$
 (рисунок \ref{fig:ODE+BC:gap-function}), неизвестной функции 
 $u(x)$ (температуры) и ее потока $w(x)$ (тепловой поток) 
-(рисунок \ref{fig:ODE+BC:u(x) and w(x)}) 
 в окрестности узлов $\{x_i\}$ в виде:
 \begin{gather}\label{eq:ODE+BC:approx piecewise}
 \begin{cases}
@@ -1324,7 +1323,7 @@ $r(x)$ имеет \emph{точки разрыва только в узлах р�
 \begin{split}
 \mathring{\sigma}(x_i)&=\intflefthalf{r(x)}+\intfrighthalf{r(x)}\approx\\[1ex]
 &\approx r(x_i)\cdot(x_i-x_{i-1/2})+r(x_{i+1})\cdot(x_{i+1/2}-x_i)=\\[1em]
-&=\dfrac{r(x_i)\cdot(x_i-x_{i-1})+r(x_{i+1})\cdot(x_{i+1}-x_i)}{2}.
+&=r(x_i)\cdot\dfrac{x_i-x_{i-1}}{2}+r(x_{i+1})\cdot\dfrac{x_{i+1}-x_i}{2}.
 \end{split}
 \end{equation}
 
@@ -1336,7 +1335,8 @@ $r(x)$ имеет \emph{точки разрыва только в узлах р�
 \begin{gather}\label{eq:ODE+BC:epsilon source}
 \begin{split}
 \varepsilon(x_i)&=\intfcenter{q(x)}=\intflefthalf{q(x)}+\intfrighthalf{q(x)}\approx\\[1ex]
-&\approx\dfrac{q(x_i)\cdot(x_i-x_{i-1})+q(x_{i+1})\cdot(x_{i+1}-x_i)}{2}.
+%&\approx\dfrac{q(x_i)\cdot(x_i-x_{i-1})+q(x_{i+1})\cdot(x_{i+1}-x_i)}{2}.
+&\approx q(x_i)\cdot\dfrac{x_i-x_{i-1}}{2}+q(x_{i+1})\cdot\dfrac{x_{i+1}-x_i}{2}.
 \end{split}
 \end{gather}
 
