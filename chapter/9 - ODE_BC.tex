@@ -1750,12 +1750,12 @@ w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i)\\
 {$\alpha_{1}=\dfrac{b_0}{c_0},\quad\beta_{1}=\dfrac{y_0}{c_0}$};
 % начало цикла
 \draw[shape=trapezium, minimum height=2em, minimum width=5em]
-([yshift=-15mm]O.south) node[thick,draw] (START CYCLE) {$i=1,2,\ldots,n$};
+([yshift=-25mm]O) node[thick,draw] (START CYCLE) {$i=1,2,\ldots,n$};
 % стрелка
 \draw[->,thick] (O.south) -- (START CYCLE.north);
 % alpha[i] и beta[i]
 \draw[shape=rectangle, minimum height=4em, minimum width=5em]
-([yshift=-45mm]{O.south}) node[thick,draw] (ABI)
+([yshift=-45mm]{O}) node[thick,draw] (ABI)
 {
 $\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}}$,\quad
 $\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}$
@@ -1764,7 +1764,8 @@ $\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}$
 \draw[->,thick] (START CYCLE.south) -- (ABI.north);
 % конец цикла
 \draw[shape=trapezium,minimum height=2em,minimum width=5em,shape border rotate=180]
-([yshift=-6em]{START CYCLE.south}) node[thick,draw] (END CYCLE) {конец цикла};
+%([yshift=-6em]{START CYCLE.south}) node[thick,draw] (END CYCLE) {конец цикла};
+([yshift=-65mm]O) node[thick,draw] (END CYCLE) {конец цикла};
 % стрелка
 \draw[->,thick] (ABI.south) -- (END CYCLE.north);
 % u[n]
