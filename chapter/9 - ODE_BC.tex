@@ -1742,6 +1742,7 @@ w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i)\\
 \end{gather}
 
 % *** Алгоритм прогонки ***
+% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
 \begin{tikzpicture}[font=\small,>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
 % alpha[1] и beta[1]
@@ -1775,15 +1776,15 @@ $\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}$
 % стрелка
 \draw[->,thick] (END CYCLE.south) -- (un.north);
 % начало цикла
-\draw[shape=trapezium, minimum height=2em, minimum width=10em]
+\draw[shape=trapezium,minimum height=3em,minimum width=3em]
 ([yshift=-4em]un.south) node[thick,draw] (START CYCLE) {$i=(n-1),\ldots,1,0$};
 % u[i]
-\draw[shape=rectangle, minimum height=3em, minimum width=7em]
+\draw[shape=rectangle,minimum height=3em,minimum width=6em]
 ([yshift=-3em]{START CYCLE.south}) node[thick,draw] (UI)
 {$u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
 % конец цикла
-\draw[shape=trapezium,minimum height=2em,minimum width=10em,shape border rotate=180]
-([yshift=-6em]{START CYCLE.south}) node[thick,draw] (END CYCLE) {конец цикла};
+\draw[shape=trapezium,shape border rotate=180,minimum height=3em,minimum width=6em]
+([yshift=-0em]{START CYCLE.south}) node[thick,draw] (END CYCLE) {конец цикла};
 
 \end{tikzpicture}
 % *******************************************
