@@ -684,7 +684,7 @@ $n$ -- количество узлов сетки.
 \path (p0) -- +(0mm,1mm) coordinate(x0);
 \path (p7) -- +(0mm,1mm) coordinate(x7);
 \begin{scope}[on background layer]
-\pattern[pattern=north east lines,pattern color=gray,opacity=0.5]
+\pattern[pattern=north east lines,pattern color=gray,opacity=0.75]
 (p0) -- ([yshift=-2mm]p0) -- ([yshift=-2mm]p7) -- (p7) -- cycle;
 \end{scope}
 \end{tikzpicture}
@@ -772,7 +772,7 @@ circle[radius=0.8mm] coordinate(p\i);
 }
 % штриховка
 \begin{scope}[on background layer]
-\pattern[pattern=north east lines,pattern color=gray,opacity=0.5]
+\pattern[pattern=north east lines,pattern color=gray,opacity=0.75]
 (p0) -- ([yshift=-2mm]p0) -- ([yshift=-2mm]p8) -- (p8) -- cycle;
 \end{scope}
 % обозначения
@@ -855,7 +855,7 @@ p_j=p_j+
 node[above]{$x_n$} node[yshift=-1em]{$\ell$};
 % штриховка
 \begin{scope}[on background layer]
-\pattern[pattern=north east lines,pattern color=gray,opacity=0.5]
+\pattern[pattern=north east lines,pattern color=gray,opacity=0.75]
 (p0) -- ([yshift=-2mm]p0) -- ([yshift=-2mm]p8) -- (p8) -- cycle;
 \end{scope}
 % узлы сетки
@@ -1392,7 +1392,15 @@ w_{1/2}-w_0+\mathring{\sigma}(x_0)\cdot u_0=\varepsilon(x_0),
 \end{gather}
 где
 $w_{1/2}$ -- тепловой поток в первом промежуточном 
-узле $x_{1/2}$; $w_0$ -- тепловой поток на левой границе области;
+узле $x_{1/2}$:
+\begin{equation}\label{eq:ODE+BC:w(1/2)} 
+w_{1/2} = -\sigma(x_0)\cdot(u_1-u_0);
+\end{equation}
+$w_0$ -- тепловой поток на левой границе области
+\eqref{eq:HT+BC:1D}:
+\begin{equation}\label{eq:ODE+BC:w(0)}
+w_0\equiv w(0)=-r_0\cdot u(0)-\mathring{u}_0;
+\end{equation}
 $\mathring{\sigma}(x_0)$ и $\varepsilon(x_0)$ -- 
 контактная проводимость и 
 количество тепла выделяемое распределенными источникам 
@@ -1403,8 +1411,20 @@ $\mathring{\sigma}(x_0)$ и $\varepsilon(x_0)$ --
 \end{gather*}
 \begin{gather*}%\label{eq:ODE+BC:LEFT:heat source}
 \varepsilon(x_0)=\intf{x_0}{ x_{1/2} }{ q(x) }
-\approx q(x_0)\cdot(x_{1/2}-x_0)=q(x_0)\cdot\dfrac{x_1-x_0}{2}.
+\approx q(x_0)\cdot(x_{1/2}-x_0)=q(x_0)\cdot\dfrac{x_1-x_0}{2}
 \end{gather*}
+
+Из соотношений
+\eqref{eq:ODE+BC:LEFT},
+\eqref{eq:ODE+BC:w(1/2)} и \eqref{eq:ODE+BC:w(0)} 
+следует дискретный аналог краевого условия 
+на левой границе рассматриваемой области:
+\begin{equation}
+-\sigma(x_0)\cdot(u_1-u_0)
++r_0\cdot u_0+\mathring{u}_0
++\mathring{\sigma}(x_0)\cdot u_0
+=\varepsilon(x_0)
+\end{equation}
 
 Аналогично рассматривая правую границу области $x=\ell$,
 уравнение теплового баланса можно записать в виде:
