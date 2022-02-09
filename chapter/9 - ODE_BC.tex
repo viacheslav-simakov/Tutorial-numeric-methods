@@ -355,8 +355,8 @@ $u(x)$ в стержне длины $\ell$.
 \begin{gather}\label{eq:HT+BC:1D}
 \left\{\begin{matrix}[rcrcl]
 w^{\prime}(x)&+&r(x)\cdot u(x)&=&q(x)\\
-w(0)&+&r_0\cdot u(0)&=&s_0\\
--w(\ell)&+&r_{\ell}\cdot u(\ell)&=&s_{\ell}
+w(0)&+&p_0\cdot u(0)&=&s_0\\
+-w(\ell)&+&p_{\ell}\cdot u(\ell)&=&s_{\ell}
 \end{matrix}\right.,
 \end{gather}
 
@@ -811,11 +811,11 @@ $\mathcal{A}_j=[\xi_j,\xi_{j+1})$
 \end{equation*}
 
 \item
-Находится количество узлов $p_j$ 
+Находится количество узлов $m_j$ 
 равномерной сетки $\{\mathring{x}_i\}$,
 которые принадлежат каждой области непрерывности:
 \begin{equation*}
-p_j=p_j+
+m_j=m_j+
 \begin{cases}
 1&\textrm{if}\quad\mathring{x}_i\in\mathcal{A}_j\\
 0&\textrm{otherwise}\\
@@ -826,8 +826,8 @@ p_j=p_j+
 Строятся равномерные сетки в пределах 
 каждой области непрерывности $\mathcal{A}_j$:
 \begin{equation*}
-\{\hat{x}_{i}\}_j=\xi_j+\dfrac{i}{p_j}\cdot(\xi_{j+1}-\xi_j),
-\quad i=0,1,\ldots,p_j-1,
+\{\hat{x}_{i}\}_j=\xi_j+\dfrac{i}{m_j}\cdot(\xi_{j+1}-\xi_j),
+\quad i=0,1,\ldots,m_j-1,
 \end{equation*}
 
 \item
@@ -1272,7 +1272,7 @@ u(x_{i+1})-u(x_{i})\approx
 %k^{-1}(x_{i})\,(x_{i+1}-x_i),
 \end{gather}
 
-Применяя левостороннюю формулу прямоугольников 
+Применяя \alert{левостороннюю формулу прямоугольников} 
 для вычисления интеграла \eqref{eq:ODE+BC:integral}, 
 найдем поток тепла в промежуточных узлах сетки 
 $w(x_{i+1/2})$:
@@ -1399,7 +1399,7 @@ w_{1/2} = -\sigma(x_0)\cdot(u_1-u_0);
 $w_0$ -- тепловой поток на левой границе области
 \eqref{eq:HT+BC:1D}:
 \begin{equation}\label{eq:ODE+BC:w(0)}
-w_0\equiv w(0)=s_0-r_0\cdot u(0);
+w_0\equiv w(0)=s_0-p_0\cdot u(0)=s_0-p_0\cdot u_0;
 \end{equation}
 $\mathring{\sigma}(x_0)$ и $\varepsilon(x_0)$ -- 
 контактная проводимость и 
@@ -1423,7 +1423,8 @@ w_n-w_{n-1/2}+\mathring{\sigma}(x_n)\cdot u_n=\varepsilon(x_n),
 $w_n$ -- тепловой поток на правой границе области
 \eqref{eq:HT+BC:1D}:
 \begin{equation}\label{eq:ODE+BC:w(n)}
-w_n\equiv w(\ell)=r_{\ell}\cdot u(\ell)-s_{\ell};
+w_n\equiv w(\ell)=p_{\ell}\cdot u(\ell)-s_{\ell}
+=p_{\ell}\cdot u_n-s_{\ell};
 \end{equation}
 $w_{n-1/2}$ -- тепловой поток в последнем 
 промежуточном узле $x_{n-1/2}$:
@@ -1491,14 +1492,14 @@ i=1,2,\ldots,n-1
 получим:
 \begin{equation*}
 \left\{\begin{matrix}[rcl]
--\sigma(x_0)\cdot(u_1-u_0)-(s_0-r_0\cdot u_0)
+-\sigma(x_0)\cdot(u_1-u_0)-(s_0-p_0\cdot u_0)
 +\mathring{\sigma}(x_0)\cdot u_0
 &=&\varepsilon(x_0)\\
 -\sigma(x_{i})\cdot(u_{i+1}-u_i) + 
 \sigma(x_{i-1})\cdot(u_i-u_{i-1})
 + \mathring{\sigma}(x_i)\cdot u_i
 &=&\varepsilon(x_i)\\
-(r_{\ell}\cdot u_n-s_{\ell})+\sigma(x_{n-1})\cdot(u_n-u_{n-1})+
+(p_{\ell}\cdot u_n-s_{\ell})+\sigma(x_{n-1})\cdot(u_n-u_{n-1})+
 \mathring{\sigma}(x_n)\cdot u_n
 &=&\varepsilon(x_n)\\
 \end{matrix}\right.
@@ -1518,7 +1519,7 @@ c_0\cdot u_0-b_0\cdot u_1=y_0\\
 \left\{\begin{matrix}[llll]
 &
 b_0=\sigma(x_0),&
-c_0=b_0+\mathring{\sigma}(x_0)+r_0,&
+c_0=b_0+\mathring{\sigma}(x_0)+p_0,&
 y_0=\varepsilon(x_0)+s_0\\
 a_i=\sigma(x_{i-1}),&
 b_i=\sigma(x_i),&
@@ -1526,7 +1527,7 @@ c_i=a_i+b_i+\mathring{\sigma}(x_i),&
 y_i=\varepsilon(x_i)\\
 a_n=\sigma(x_{n-1}),&
 &
-c_n=a_n+\mathring{\sigma}(x_n)+r_{\ell},&
+c_n=a_n+\mathring{\sigma}(x_n)+p_{\ell},&
 y_n=\varepsilon(x_n)+s_{\ell}\\
 \end{matrix}\right.
 \end{equation*}
@@ -1704,7 +1705,7 @@ u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
 \end{gather*}
 
 Процесс вычисления коэффициентов $\alpha_{i+1}$ и $\beta_{i+1}$
-($i=1,2,\dots,n-1$) по рекуррентным соотношениям
+по рекуррентным соотношениям
 \eqref{eq:ODE+BC:ALPHA+BETA} 
 называется \emph{прямой прогонкой}:
 \begin{gather}\label{eq:ODE+BC:ALPHA,BETA}
@@ -1715,7 +1716,7 @@ u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
 \beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}\\
 \end{matrix}\right.
 ,\qquad
-i=1,2,\ldots,n-1
+i=1,2,\ldots,(n-1)
 \end{gather}
 
 После того как коэффициенты прогонки
@@ -1758,8 +1759,10 @@ i=(n-1),\ldots,1,0
 промежуточном узле через поток в соседнем узле:
 \begin{gather}
 \begin{cases}
+w_0=s_0-p_0\cdot u_0\\
 w_{1/2}=w_0-\mathring{\sigma}(x_0)\cdot u_0+\varepsilon(x_0)\\
-w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i)\\
+w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i),&i=1,2,\ldots,(n-1)\\
+w_n=w_{n-1/2}-\mathring{\sigma}(x_n)\cdot u_n + \varepsilon(x_n)\\
 \end{cases}
 \end{gather}
 
