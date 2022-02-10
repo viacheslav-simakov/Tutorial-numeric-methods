@@ -10,6 +10,43 @@
 			pre length=0mm,
 		},
 	},
+	pointnode/.style={
+		join=by -,
+		circle,
+		fill=red,
+		minimum size=3pt,
+		inner sep=0pt,
+	},
+	circlenode/.style={
+		draw,thick,fill=gray!25,
+		shape=circle,
+		inner sep=4pt,
+	},
+	rectnode/.style={
+		draw,
+		shape=rectangle,
+		rounded corners=8pt, 
+		inner sep=12pt,
+	},
+	startcyclenode/.style={
+		draw,
+		shape=chamfered rectangle,
+		chamfered rectangle corners={north west,north east},
+		minimum height=3em,minimum width=5cm,
+	},
+	endcyclenode/.style={
+		draw,
+		shape=chamfered rectangle,
+		chamfered rectangle corners={south west,south east},
+		minimum height=3em,minimum width=5cm,
+	},
+	signalnode/.style={
+		draw,
+		shape=chamfered rectangle,
+		chamfered rectangle angle=45,
+		chamfered rectangle xsep=1cm,
+		inner sep=8pt,
+	},
 }
 %
 % Интегралы
@@ -1769,47 +1806,55 @@ w_n=w_{n-1/2}-\mathring{\sigma}(x_n)\cdot u_n + \varepsilon(x_n)\\
 % *** Алгоритм прогонки ***
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
-\begin{tikzpicture}[font=\small,>={Straight Barb[angle=45:2mm 1]},shorten >=1pt]
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,every join/.style=->,%
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
 % alpha[1] и beta[1]
-\draw[shape=rectangle,minimum height=3em,minimum width=10em]
-(0,0) node[thick,draw] (O)
+\node[rectnode,on chain]
 {$\alpha_{1}=\dfrac{b_0}{c_0},\quad\beta_{1}=\dfrac{y_0}{c_0}$};
 % начало цикла
-\draw[shape=trapezium, minimum height=2em, minimum width=5em]
-([yshift=-25mm]O) node[thick,draw] (START CYCLE) {$i=1,2,\ldots,n$};
-% стрелка
-\draw[->,thick] (O.south) -- (START CYCLE.north);
+\node[startcyclenode,on chain,join]{$i=1,2,\ldots,n$};
 % alpha[i] и beta[i]
-\draw[shape=rectangle, minimum height=4em, minimum width=5em]
-([yshift=-45mm]{O}) node[thick,draw] (ABI)
-{
-$\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}}$,\quad
-$\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}$
-};
-% стрелка
-\draw[->,thick] (START CYCLE.south) -- (ABI.north);
+\node[rectnode,on chain,join]
+{$\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_i}$};
+\node[rectnode,on chain,join]
+{$\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_i}$};
 % конец цикла
-\draw[shape=trapezium,minimum height=2em,minimum width=5em,shape border rotate=180]
-([yshift=-6em]{START CYCLE.south}) node[thick,draw] (END CYCLE) {конец цикла};
-%([yshift=-75mm]O) node[thick,draw] (END CYCLE) {конец цикла};
-% стрелка
-\draw[->,thick] (ABI.south) -- (END CYCLE.north);
-% u[n]
-\draw[shape=rectangle, minimum height=3em, minimum width=5em]
-([yshift=-4em]{END CYCLE.south}) node[thick,draw] (un)
-{$u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}$};
-% стрелка
-\draw[->,thick] (END CYCLE.south) -- (un.north);
-% начало цикла
-\draw[shape=trapezium,minimum height=3em,minimum width=3em]
-([yshift=-4em]un.south) node[thick,draw] (START CYCLE) {$i=(n-1),\ldots,1,0$};
-% u[i]
-\draw[shape=rectangle,minimum height=3em,minimum width=6em]
-([yshift=-3em]{START CYCLE.south}) node[thick,draw] (UI)
-{$u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
-% конец цикла
-\draw[shape=trapezium,shape border rotate=180,minimum height=3em,minimum width=6em]
-([yshift=-0em]{START CYCLE.south}) node[thick,draw] (END CYCLE) {конец цикла};
+\node[endcyclenode,on chain,join]{конец цикла};
+%
+\node[circlenode,on chain,join]{1};
+%\draw[shape=rectangle, minimum height=4em, minimum width=5em]
+%([yshift=-45mm]{O}) node[thick,draw] (ABI)
+%{
+%$\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}}$,\quad
+%$\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}$
+%};
+%% стрелка
+%\draw[->,thick] (START CYCLE.south) -- (ABI.north);
+%% конец цикла
+%\draw[shape=trapezium,minimum height=2em,minimum width=5em,shape border rotate=180]
+%([yshift=-6em]{START CYCLE.south}) node[thick,draw] (END CYCLE) {конец цикла};
+%%([yshift=-75mm]O) node[thick,draw] (END CYCLE) {конец цикла};
+%% стрелка
+%\draw[->,thick] (ABI.south) -- (END CYCLE.north);
+%% u[n]
+%\draw[shape=rectangle, minimum height=3em, minimum width=5em]
+%([yshift=-4em]{END CYCLE.south}) node[thick,draw] (un)
+%{$u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}$};
+%% стрелка
+%\draw[->,thick] (END CYCLE.south) -- (un.north);
+%% начало цикла
+%\draw[shape=trapezium,minimum height=3em,minimum width=3em]
+%([yshift=-4em]un.south) node[thick,draw] (START CYCLE) {$i=(n-1),\ldots,1,0$};
+%% u[i]
+%\draw[shape=rectangle,minimum height=3em,minimum width=6em]
+%([yshift=-3em]{START CYCLE.south}) node[thick,draw] (UI)
+%{$u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
+%% конец цикла
+%\draw[shape=trapezium,shape border rotate=180,minimum height=3em,minimum width=6em]
+%([yshift=-0em]{START CYCLE.south}) node[thick,draw] (END CYCLE) {конец цикла};
 
 \end{tikzpicture}
 % *******************************************
@@ -1900,51 +1945,19 @@ w_{i-1/2}=\left(1+\bar{\alpha}_{i+1}\cdot\mathring{\sigma}(x_i)\right)
 
 % *** Блок-схема прогонки
 \begin{figure}[H]\centering
-\begin{tikzpicture}[font=\small,
-start chain=going below,node distance=10mm,
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,
-every join/.style=->,
-pointnode/.style={
-	join=by -,
-	circle,
-	fill=red,
-	minimum size=2pt,
-	inner sep=0pt,
-	},
-rectnode/.style={
-	draw,
-	shape=rectangle,
-	rounded corners=8pt, 
-	inner sep=12pt,
-	},
-cyclenode/.style={
-	draw,
-	shape=chamfered rectangle,
-	chamfered rectangle angle=45,
-	chamfered rectangle xsep=1cm,
-	inner sep=8pt,
-	},
-cyclestart/.style={
-	draw,
-	shape=chamfered rectangle,
-	chamfered rectangle corners={north west,north east},
-	minimum height=3em,minimum width=5cm,
-	},
-cycleend/.style={
-	draw,
-	shape=chamfered rectangle,
-	chamfered rectangle corners={south west,south east},
-	minimum height=3em,minimum width=5cm,
-	},
+\begin{tikzpicture}[%
+font=\small,%
+start chain=going below,node distance=10mm,every join/.style=->,%
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
 ]
 \node[on chain,rectnode]
 {$\alpha_{1}=\dfrac{b_0}{c_0},\quad\beta_{1}=\dfrac{y_0}{c_0}$};
 % alpha[i+1], beta[i+1]
 \node[pointnode,on chain=going left]{};
 \begin{scope}[every node/.style={fill=darkblue!10}]
-\node[cyclenode,on chain,join,continue chain=going below] (SC)
+\node[rectnode,on chain,join,continue chain=going below] (SC)
 {$i=1,2,\ldots,n$};
-\node[on chain,rectnode,join] (ABI)
+\node[rectnode,on chain,join] (ABI)
 {$\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}}$,\quad
 $\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}$};
 % стрелка
@@ -1954,12 +1967,11 @@ $\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}$};
 {$u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}$};
 % u[i]
 \begin{scope}[every node/.style={fill=darkred!10}]
-%\node[cyclenode,on chain,join,continue chain=going below] (SC)
-\node[cyclestart,on chain,join,continue chain=going below] (SC)
+\node[startcyclenode,on chain,join,continue chain=going below] (SC)
 {$i=(n-1),\ldots,1,0$};
 \node[rectnode,on chain,join] (UI)
 {$u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
-\node[cycleend,on chain,join,continue chain=going below]
+\node[endcyclenode,on chain,join]
 {конец цикла};
 % стрелка
 \draw[->] (UI.east) -- ++(10mm,0mm) |- (SC.east);
