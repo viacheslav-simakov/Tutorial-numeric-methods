@@ -18,30 +18,30 @@
 		inner sep=0pt,
 	},
 	circlenode/.style={
-		draw,thick,fill=blue!10,
+		draw,thick,fill=blue!10,line width=0.25mm,
 		shape=circle,
 		inner sep=4pt,
 	},
 	rectnode/.style={
-		draw,
+		draw,line width=0.25mm,
 		shape=rectangle,
-		rounded corners=8pt, 
-		inner sep=12pt,
+%		rounded corners=2pt, 
+		inner sep=8pt,
 	},
 	startcyclenode/.style={
-		draw,text width=4cm,align=center,
+		draw,text width=4cm,align=center,line width=0.25mm,
 		shape=chamfered rectangle,
 		chamfered rectangle corners={north west,north east},
 		minimum height=3em,minimum width=5cm,
 	},
 	endcyclenode/.style={
-		draw,text width=4cm,align=center,
+		draw,text width=4cm,align=center,line width=0.25mm,
 		shape=chamfered rectangle,
 		chamfered rectangle corners={south west,south east},
 		minimum height=3em,minimum width=5cm,
 	},
 	signalnode/.style={
-		draw,
+		draw,line width=0.25mm,
 		shape=chamfered rectangle,
 		chamfered rectangle angle=45,
 		chamfered rectangle xsep=1cm,
@@ -1744,7 +1744,8 @@ u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
 Процесс вычисления коэффициентов $\alpha_{i+1}$ и $\beta_{i+1}$
 по рекуррентным соотношениям
 \eqref{eq:ODE+BC:ALPHA+BETA} 
-называется \emph{прямой прогонкой}:
+называется \emph{прямой прогонкой}
+(рисунок \ref{fig:ODE+BC:scheme shuttle:alpha+beta}):
 \begin{gather}\label{eq:ODE+BC:ALPHA,BETA}
 \left\{\begin{matrix}
 \alpha_{1}=\dfrac{b_0}{c_0},&
@@ -1756,8 +1757,8 @@ u_0=\alpha_{1}\cdot u_{1} + \beta_{1}
 i=1,2,\ldots,(n-1)
 \end{gather}
 
-После того как коэффициенты прогонки
-найдены, решение системы находится 
+После того как коэффициенты прогонки найдены, 
+решение системы находится 
 по рекуррентному соотношению \eqref{eq:ODE+BC:ALPHA},
 если известно значение функции $u_n$,
 которое можно определить из краевого условия 
@@ -1803,7 +1804,7 @@ w_n=w_{n-1/2}-\mathring{\sigma}(x_n)\cdot u_n + \varepsilon(x_n)\\
 \end{cases}
 \end{gather}
 
-% *** Алгоритм прогонки ***
+% *** Алгоритм вычислений коэффициентов прогонки alpha и beta ***
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
@@ -1822,22 +1823,29 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 % начало цикла
 \begin{scope}[every node/.style={fill=gray!10}]
 \node[startcyclenode,on chain,join,text width=4cm]
-{расчёт $\alpha$, $\beta$\\$i=1,2,\ldots,(n-1)$};
+{
+расчёт $\{\alpha_i\}$ и $\{\beta_i\}$\\
+$i=1,2,\ldots,(n-1)$
+};
 % alpha[i] и beta[i]
 \node[rectnode,on chain,join]
 {$\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_i}$};
 \node[rectnode,on chain,join]
 {$\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_i}$};
 % конец цикла
-\node[endcyclenode,on chain,join]{расчёт $\alpha$, $\beta$};
+\node[endcyclenode,on chain,join]
+{
+\phantom{$i=1,2,\ldots,(n-1)$}\\
+расчёт $\{\alpha_i\}$ и $\{\beta_i\}$
+};
 \end{scope}
 % соединитель
 \node[circlenode,on chain,join,fill=red!10]{2};
 \end{tikzpicture}
 % *******************************************
-\caption{Схема вычислений неизвестных краевой задачи\linebreak
-методом прогонки}
-\label{fig:ODE+BC:scheme shuttle}
+\caption{Блок-схема алгоритма вычислений\linebreak 
+коэффициентов прогонки $\alpha$ и $\beta$}
+\label{fig:ODE+BC:scheme shuttle:alpha+beta}
 \end{figure}
 
 % *************************************************************
@@ -1920,45 +1928,7 @@ w_{i-1/2}=\left(1+\bar{\alpha}_{i+1}\cdot\mathring{\sigma}(x_i)\right)
 1
 \end{equation}
 
-% *** Блок-схема прогонки
-\begin{figure}[H]\centering
-\begin{tikzpicture}[%
-font=\small,%
-start chain=going below,node distance=10mm,every join/.style=->,%
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
-]
-\node[on chain,rectnode]
-{$\alpha_{1}=\dfrac{b_0}{c_0},\quad\beta_{1}=\dfrac{y_0}{c_0}$};
-% alpha[i+1], beta[i+1]
-\node[pointnode,on chain=going left]{};
-\begin{scope}[every node/.style={fill=darkblue!10}]
-\node[rectnode,on chain,join,continue chain=going below] (SC)
-{$i=1,2,\ldots,n$};
-\node[rectnode,on chain,join] (ABI)
-{$\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}}$,\quad
-$\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_{i}}$};
-% стрелка
-\draw[->] (ABI.east) -- ++(10mm,0mm) |- (SC.east);
-\end{scope}
-\node[rectnode,on chain,join]
-{$u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}$};
-% u[i]
-\begin{scope}[every node/.style={fill=darkred!10}]
-\node[startcyclenode,on chain,join,continue chain=going below] (SC)
-{$i=(n-1),\ldots,1,0$};
-\node[rectnode,on chain,join] (UI)
-{$u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
-\node[endcyclenode,on chain,join]
-{конец цикла};
-% стрелка
-\draw[->] (UI.east) -- ++(10mm,0mm) |- (SC.east);
-\end{scope}
-\draw[->] (SC.west) -- ++(-10mm,0mm) -- +(0mm,-30mm);
-\end{tikzpicture}
-\caption{Блок-схема метода прогонки}
-\end{figure}
-
-% *** Алгоритм вычисления потока ***
+% *** Алгоритм вычислений неизвестных u(x) и w(x) ***
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
 font=\small,
@@ -1982,7 +1952,10 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 % начало цикла
 \begin{scope}[every node/.style={fill=gray!10}]
 \node[startcyclenode,on chain,join,text width=4cm]
-{расчёт $u$, $w$\\$i=(n-1),\ldots,2,1$};
+{
+расчёт $\{u_i\}$ и $\{w_i\}$\\
+$i=(n-1),\ldots,2,1$
+};
 % u[i-1]
 \node[rectnode,on chain,join]
 {$u_{i-1}=\alpha_i\cdot u_i - \beta_i$};
@@ -1990,13 +1963,17 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \node[rectnode,on chain,join]
 {$w_{i-1/2}=w_{i+1/2}+\mathring{\sigma}_i\cdot u_i-\varepsilon_i$};
 % конец цикла
-\node[endcyclenode,on chain,join]{расчёт $u$, $w$};
+\node[endcyclenode,on chain,join]
+{
+\phantom{$i=(n-1),\ldots,2,1$}\\
+расчёт $\{u_i\}$ и $\{w_i\}$
+};
 \end{scope}
 % соединитель
 \node[circlenode,on chain,join,fill=red!10]{3};
 \end{tikzpicture}
-\caption{Блок-схема алгоритма вычисления
-неизвестной величины $w(x)$}
+\caption{Блок-схема алгоритма вычислений\linebreak
+неизвестных краевой задачи $u$ и $w$}
 \end{figure}
 
 
