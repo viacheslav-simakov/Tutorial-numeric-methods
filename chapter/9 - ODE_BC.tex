@@ -1187,12 +1187,12 @@ $[x_{i-1/2},x_{i+1/2}]$ за счет распределенных
 закон теплопроводности Фурье \eqref{eq:FourierLaw}, 
 из которого следует:
 \begin{gather*}
-u^{\prime}(x)=-\dfrac{w(x)}{k(x)}
-\qquad\Rightarrow\qquad
-\intfright{ u^{\prime}(x) }=-\intfright{ \dfrac{w(x)}{k(x)} }.
+u^{\prime}(x)=-w(x)\cdot k^{-1}(x)
+\quad\Rightarrow\quad
+\intfright{ u^{\prime}(x) }=-\intfright{ w(x)\cdot k^{-1}(x) }.
 \end{gather*}
 
-После интегрирования получим:
+После интегрирования левой части:
 \begin{gather}\label{eq:ODE+BC:FourierLaw}
 u(x_{i+1})-u({x_{i}})=-\intfright{ w(x)\cdot k^{-1}(x) }.
 \end{gather}
@@ -1324,7 +1324,8 @@ $u_{i+1}$ и $u_i$ -- значение температуры в узлах
 $\sigma$ -- параметр, имеющий смысл тепловой проводимости
 среды на участке $x_i\leqslant x < x_{i+1}$:
 \begin{equation*}
-\sigma(x_i)=\dfrac{k(x_i)}{x_{i+1}-x_i}
+\sigma(x_i)=\dfrac{2k(x_i)\cdot k(x_{i+1})}{k(x_i)+k(x_{i+1})}
+\cdot\dfrac{1}{x_{i+1}-x_i}
 \end{equation*} 
 
 Аналогично, рассматривая участок $[x_{i-1},x_i)$, 
@@ -1658,7 +1659,7 @@ c_0&-b_0&0\\
 %
 % *************************************************************
 \emptyline
-\subsubsection{Метод прогонки для трехточечных уравнений}
+\subsubsection{Метод прогонки}
 \label{subsec:shuttle method}
 Система уравнений \eqref{eq:ODE+BC:SLE(u)} представляет собой 
 частный случай систем линейных алгебраических уравнений
