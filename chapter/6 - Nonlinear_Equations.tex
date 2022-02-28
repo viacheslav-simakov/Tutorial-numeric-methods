@@ -5,9 +5,9 @@
 \section{Решение нелинейных уравнений}
 Пусть задана функция $f(x)$ действительного переменного и 
 необходимо найти корни уравнения или, что то же самое, нули функции $f(x)$:
-\begin{gather*}
+\begin{gather}\label{eq:NLE:f(x)=0}
 f(x)=0.
-\end{gather*}
+\end{gather}
 
 На примере алгебраического многочлена известно, что нули $f(x)$ могут быть 
 как действительными, так и комплексными числами.
@@ -18,29 +18,27 @@ f(x)=0.
 % *******************************
 %	График функций
 %
-\begin{center}
-\begin{tikzpicture}[background rectangle/.style={fill=olive!10}, show background rectangle]
+\begin{figure}[H]\centering
+\begin{tikzpicture}%[background rectangle/.style={fill=olive!10}, show background rectangle]
 \begin{axis}
 [
-	every axis/.style={color=black, solid, thick},
-	xlabel = {\empty},		% подпись оси x
-	ylabel = {\empty},	% подпись оси y
-	xmin=-1.5, xmax=2.75, xtick={-1,0,1,1.5,2}, xticklabels={$x_1$,$\vec a$,$x_2$,$\vec b$,$x_3$},
-	ymin=-2, ymax=3, ytick={0}, yticklabels={$f(x)=0$},
-	xtick style={thick, black},
-	ytick style={thick, black},
-	grid=major,		
-	major grid style={color=black!20, dashed, thin},
+xlabel={\empty},		% подпись оси x
+ylabel={\empty},	% подпись оси y
+xmin=-1.5, xmax=2.75, xtick={-1,0,1,1.5,2}, xticklabels={$x_1$,$\mathbf{a}$,$x_2$,$\mathbf{b}$,$x_3$},
+ymin=-2, ymax=3, ytick={0}, yticklabels={$f(x)=0$},
 ]
-\addplot[very thick, color=black,domain=-1.5:2.75, samples=2] {0};
-\addplot[very thick, color=red,domain=-1.25:2.5, samples=100] {(x-1)*(x+1)*(x-2)};
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=lime, draw=black, solid}]
-coordinates {(-1,0) (1,0) (2,0)};
+\addplot[color=black,domain=-1.5:2.75, samples=2] {0};
+\addplot[thick,color=darkred,domain=-1.25:2.5, samples=100] {(x-1)*(x+1)*(x-2)};
+\addplot[only marks,ball darkred] coordinates {(-1,0) (1,0) (2,0)};
 \draw[red] (axis cs:0,2.2) node[right] {$f(x)$};
 \end{axis}
 \end{tikzpicture}
-$x_1$, $x_2$ и $x_3$ -- действительные корни уравнения $f(x)=0$,\\ т.е. $f(x_1)=0, f(x_2)=0, f(x_3)=0,$
-\end{center}
+\caption{График функции $y=f(x)$}
+\label{fig:NLE:f(x)=0}
+\end{figure}
+На рисунке \eqref{fig:NLE:f(x)=0} представлены 
+$x_1$, $x_2$ и $x_3$ -- действительные корни уравнения
+\eqref{eq:NLE:f(x)=0}, т.е. $f(x_1)=0, f(x_2)=0, f(x_3)=0$
 
 \end{document}
 
