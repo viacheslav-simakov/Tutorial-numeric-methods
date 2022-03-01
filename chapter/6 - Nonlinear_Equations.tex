@@ -289,10 +289,10 @@ $g(x)$, а по исходной функции $f(x)$.
 Последние итерации, вычисленные по функции $g(x)$, 
 используются при этом в качестве нулевого приближения.
 
-\end{document}
 %
 %	Численное решение нелинейного уравнения методом бисекции
 %
+\emptyline
 \subsection{Численное решение нелинейного уравнения методом бисекции}
 На отрезке $x\in[-3,5]$ задана непрерывная функция:
 \begin{gather*}
@@ -304,43 +304,23 @@ $x_1>0$ нелинейного уравнения $f(x)=0$.
 % *******************************
 %	График функций
 %
-\begin{center}
+\begin{figure}[H]\centering
 \begin{tikzpicture}
 \begin{axis}
 [
-	every axis/.style={color=black, solid, thick},
 	xlabel = {$x$},		% подпись оси x
 	ylabel = {$f(x)$},	% подпись оси y
 	xmin=-4, xmax=6, xtick={-3,-1,0,1,3,5}, %xticklabels={$a$,$c$,$b$},
 	ymin=-2, ymax=1, ytick={-2,-1.5,-1,-0.5,0,0.5,1}, yticklabels={-2,-1.5,-1,-0.5,0,0.5,1},	
-	xtick style={thick, black},
-	ytick style={thick, black},
-	grid=major,		
-	major grid style={color=black!20, dashed, thin},
 ]
-\addplot[very thick, color=black,domain=-4:6, samples=2] {0};
-\addplot[name path=A,very thick, color=red,domain=-3:5, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\addplot[gray,thin,domain=-4:6, samples=2] {0};
+\addplot[name path=A,thick,color=red,domain=-3:5, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
 \path [name path=B] (axis cs: -4,-2) -- (axis cs: 6,-2);
-\addplot [orange!20] fill between [of=A and B, soft clip={domain=1:3}];
-%
-%\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
-%coordinates {(0,20)};
-%\addplot[thin,dashed,color=black] coordinates {(0,-15) (0,20)};
-%
-%\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
-%coordinates {(3,-10)};
-%\draw[blue] (axis cs:3,-12) node[left] {$f(b)<0$};
-%\addplot[thin,dashed,color=black] coordinates {(3,-15) (3,-10)};
-%
-%\addplot[only marks, mark=*, mark size=4pt, mark options={fill=green, draw=black, solid}]
-%coordinates {(1.5,6.125)};
-%\draw[black] (axis cs:1.5,8) node[right] {$f(c)>0$};
-%\addplot[thin,dashed,color=black] coordinates {(1.5,-15) (1.5,6.125)};
-%
-%\addplot [olive!10] fill between [of=A and B, soft clip={domain=0:1.5},];
+\addplot [orange!15] fill between [of=A and B, soft clip={domain=1:3}];
 \end{axis}
 \end{tikzpicture}
-\end{center}
+\caption{График функции $f(x)=\tanh(x)\cdot(1+\cos(x))-\dfrac{1}{2}$}
+\end{figure}
 
 На основе анализа графика функции $f(x)$ выбираем область поиска первого положительного корня
 уравнения $(x>0)$, на границах которой функция $f(x)$ принимает значения разных знаков 
@@ -357,6 +337,7 @@ f(3)&=&\tanh(3)\cdot(1+\cos(3))-\dfrac{1}{2}\approx-0.49<0
 \end{array}
 \end{gather*}
 
+\end{document}
 Зададим погрешность поиска корня уравнения $\varepsilon=0.1$ и
 используем метод бисекции для поиска первого положительного корня уравнения:
 \begin{enumerate}
