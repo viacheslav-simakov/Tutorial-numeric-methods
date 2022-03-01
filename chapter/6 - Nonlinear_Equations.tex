@@ -385,11 +385,11 @@ f(a)\cdot f(c)=f(1)\cdot f(2)=0.67\cdot0.06285=0.0423>0
 \addplot[only marks,ball darkred]coordinates {(1,.6731)}
 node[above] {$f(a)$};
 % f(c)
-\addplot[only marks,ball darkred]coordinates {(2,.628505523e-1)};
-\draw[red] (axis cs:2.2,0.2) node {$f(c)$};
+\addplot[only marks,ball darkred]coordinates {(2,.628505523e-1)}
+node[above right] {$f(c)$};
 % f(b)
-\addplot[only marks,ball darkblue]coordinates {(3,-.4900419862)};
-\draw[blue] (axis cs:3,-0.3) node {$f(b)$};
+\addplot[only marks,ball darkblue]coordinates {(3,-.4900419862)}
+node[above] {$f(b)$};
 \end{axis}
 \end{tikzpicture}
 \end{center}
@@ -441,9 +441,6 @@ node[above] {$f(b)$};
 \end{tikzpicture}
 \end{center}
 % *****************************************
-\end{enumerate}
-\end{document}
-
 \item
 Область поиска корня уравнения отрезок $[2,2.5]$ делится пополам
 и вычисляется значение функции в середине отрезка $f(c)$:
@@ -470,32 +467,22 @@ f(a)\cdot f(c)=f(2)\cdot f(2.25)=0.6285\cdot(-0.13634)=-0.00857<0
 \begin{tikzpicture}
 \begin{axis}
 [
-	every axis/.style={color=black, solid, thick},
-	xlabel = {$x$},		% подпись оси x
-	ylabel = {$f(x)$},	% подпись оси y
-	xmin=1.9, xmax=2.6, xtick={2,2.25,2.5}, %xticklabels={$a$,$c$,$b$},
-	ymin=-0.4, ymax=0.2, %ytick={0}, %yticklabels={$f(x)=0$},
-	xtick style={thick, black},
-	ytick style={thick, black},
-	grid=major,		
-	major grid style={color=black!20, dashed, thin},
+	xmin=1.9, xmax=2.6, xtick={2,2.25,2.5},
+	ymin=-0.4, ymax=0.2, %ytick={0},
 ]
-\addplot[very thick, color=black,domain=1.9:2.6, samples=2] {0};
-\addplot[name path=A,very thick, color=red,domain=2:2.5, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\addplot[gray,thin,domain=1.9:2.6, samples=2] {0};
+\addplot[name path=A,thick,domain=2:2.5, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
 \path [name path=B] (axis cs: 2,-0.4) -- (axis cs: 3,-0.4);
 \addplot [orange!20] fill between [of=A and B, soft clip={domain=2:2.25}];
 % f(a)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
-coordinates {(2,.628505523e-1)};
-\draw[red] (axis cs:2,0.1) node {$f(a)$};
+\addplot[only marks,ball darkred] coordinates {(2,.628505523e-1)}
+node[above] {$f(a)$};
 % f(c)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
-coordinates {(2.25,-.1363440929)};
-\draw[blue] (axis cs:2.3,-0.1) node {$f(c)$};
+\addplot[only marks,ball darkblue] coordinates {(2.25,-.1363440929)}
+node[above right] {$f(c)$};
 % f(b)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
-coordinates {(2.5,-.3038054478)};
-\draw[blue] (axis cs:2.5,-0.25) node {$f(b)$};
+\addplot[only marks,ball darkblue] coordinates {(2.5,-.3038054478)}
+node[above right] {$f(b)$};
 \end{axis}
 \end{tikzpicture}
 \end{center}
@@ -526,32 +513,22 @@ f(a)\cdot f(c)=f(2)\cdot f(2.125)=0.6285\cdot(-0.03959)=-0.002488<0
 \begin{tikzpicture}
 \begin{axis}
 [
-	every axis/.style={color=black, solid, thick},
-	xlabel = {$x$},		% подпись оси x
-	ylabel = {$f(x)$},	% подпись оси y
-	xmin=1.95, xmax=2.3, xtick={2,2.125,2.25}, %xticklabels={$a$,$c$,$b$},
-	ymin=-0.2, ymax=0.2, %ytick={0}, %yticklabels={$f(x)=0$},
-	xtick style={thick, black},
-	ytick style={thick, black},
-	grid=major,		
-	major grid style={color=black!20, dashed, thin},
+	xmin=1.95, xmax=2.3, xtick={2,2.125,2.25},
+	ymin=-0.2, ymax=0.2, %ytick={0},
 ]
-\addplot[very thick, color=black,domain=1.95:2.3, samples=2] {0};
-\addplot[name path=A,very thick, color=red,domain=2:2.25, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\addplot[gray,thin,domain=1.95:2.3, samples=2] {0};
+\addplot[name path=A,domain=2:2.25, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
 \path [name path=B] (axis cs: 2,-0.2) -- (axis cs: 2.25,-0.2);
 \addplot [orange!20] fill between [of=A and B, soft clip={domain=2:2.125}];
 % f(a)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
-coordinates {(2,.628505523e-1)};
-\draw[red] (axis cs:2,0.1) node {$f(a)$};
+\addplot[only marks,ball darkred] coordinates {(2,.628505523e-1)}
+node[above] {$f(a)$};
 % f(c)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
-coordinates {(2.125,-.395911619e-1)};
-\draw[blue] (axis cs:2.155,-0.025) node {$f(c)$};
+\addplot[only marks,ball darkblue] coordinates {(2.125,-.395911619e-1)}
+node[right,yshift=1ex] {$f(c)$};
 % f(b)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
-coordinates {(2.25,-.1363440929)};
-\draw[blue] (axis cs:2.25,-0.1) node {$f(b)$};
+\addplot[only marks,ball darkblue] coordinates {(2.25,-.1363440929)}
+node[above,xshift=1ex] {$f(b)$};
 \end{axis}
 \end{tikzpicture}
 \end{center}
@@ -568,7 +545,8 @@ f(c)=f(2.0625)=\tanh(2.0625)\cdot(1+\cos(2.0625))-\dfrac{1}{2}\approx0.01108>0
 \begin{gather*}
 f(a)\cdot f(c)=f(2)\cdot f(2.0625)=0.6285\cdot0.01108=0.0007>0
 \end{gather*}
-Следовательно, искомый корень уравнения находится внутри отрезка $[2.0625,2.125]$.
+Следовательно, искомый корень уравнения находится внутри отрезка\linebreak 
+$[2.0625,2.125]$.
 Проведем сравнение длины отрезка и погрешности поиска корня:
 \begin{gather*}
 |a,b|=b-a=2.125-2.0625=0.0625<\varepsilon=0.1
@@ -582,37 +560,29 @@ f(a)\cdot f(c)=f(2)\cdot f(2.0625)=0.6285\cdot0.01108=0.0007>0
 \begin{tikzpicture}
 \begin{axis}
 [
-	every axis/.style={color=black, solid, thick},
-	xlabel = {$x$},		% подпись оси x
-	ylabel = {$f(x)$},	% подпись оси y
-	xmin=1.985, xmax=2.14, xtick={2,2.0625,2.125}, %xticklabels={$a$,$c$,$b$},
-	ymin=-0.1, ymax=0.1, ytick={-0.1,-0.05,0,0.05,0.1}, yticklabels={-0.1,,0,,0.1},
-	xtick style={thick, black},
-	ytick style={thick, black},
-	grid=major,		
-	major grid style={color=black!20, dashed, thin},
+	xmin=1.985, xmax=2.14, xtick={2,2.0625,2.125},
+	ymin=-0.1, ymax=0.1, ytick={-0.1,-0.05,0,0.05,0.1},% yticklabels={-0.1,,0,,0.1},
 ]
-\addplot[very thick, color=black,domain=1.95:2.14, samples=2] {0};
-\addplot[name path=A,very thick, color=red,domain=2:2.125, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
+\addplot[gray,thin,domain=1.95:2.14, samples=2] {0};
+\addplot[name path=A,domain=2:2.125, samples=100] {tanh(x)*(1+cos(deg(x)))-0.5};
 \path [name path=B] (axis cs: 2,-0.1) -- (axis cs: 2.125,-0.1);
 \addplot [orange!20] fill between [of=A and B, soft clip={domain=2.0625:2.125}];
 % f(a)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
-coordinates {(2,.628505523e-1)};
-\draw[red] (axis cs:2,0.08) node {$f(a)$};
+\addplot[only marks,ball darkred] coordinates {(2,.628505523e-1)}
+node[above] {$f(a)$};
 % f(c)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
-coordinates {(2.0625,.110785242e-1)};
-\draw[red] (axis cs:2.07,0.025) node {$f(c)$};
+\addplot[only marks,ball darkred] coordinates {(2.0625,.110785242e-1)}
+node[above,xshift=1ex] {$f(c)$};
 % f(b)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
-coordinates {(2.125,-.395911619e-1)};
-\draw[blue] (axis cs:2.125,-0.02) node {$f(b)$};
+\addplot[only marks,ball darkblue] coordinates {(2.125,-.395911619e-1)}
+node[above,xshift=1ex] {$f(b)$};
 \end{axis}
 \end{tikzpicture}
 \end{center}
 % *****************************************
 \end{enumerate}
+
+\end{document}
 
 В качестве первого положительного корня $x_1$ уравнения $f(x)=0$ 
 приближенно выберем середину последнего полученного интервала 
