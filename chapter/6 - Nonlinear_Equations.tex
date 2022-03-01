@@ -213,61 +213,48 @@ $\varepsilon$ (погрешности поиска корня уравнения
 % *******************************
 %	График функций
 %
-\begin{figure}
-\begin{center}
+\begin{figure}[H]\centering
 \begin{tikzpicture}
 \begin{axis}
 [
-	every axis/.style={color=black, solid, thick},
 	xlabel = {\empty},		% подпись оси x
 	ylabel = {\empty},	% подпись оси y
 	xmin=-0.5, xmax=3.5, xtick={0,1.5,3}, xticklabels={a,c,b},
 	ymin=-15, ymax=25, ytick={0}, yticklabels={$f(x)=0$},
-	xtick style={thick, black},
-	ytick style={thick, black},
-%	grid=major,		
-	major grid style={color=black!20, dashed, thin},
 ]
-\path [name path=B] (axis cs: 0,-15) -- (axis cs: 3,-15);
-\addplot[very thick, color=black,domain=-0.5:3.5, samples=2] {0};
-\addplot[name path=A,very thick, color=black,domain=0:3, samples=100] {(x+2)*(x-2)*(x-5)};
-\addplot[orange!20] fill between [of=A and B, soft clip={domain=1.5:3}];
+\path[name path=B] (axis cs: 0,-15) -- (axis cs: 3,-15);
+\addplot[gray,thin,domain=-0.5:3.5, samples=2] {0};
+\addplot[name path=A,thick, color=black,domain=0:3, samples=100] {(x+2)*(x-2)*(x-5)};
+\addplot[orange!15] fill between [of=A and B, soft clip={domain=1.5:3}];
 % f(a)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
-coordinates {(0,20)};
+\addplot[only marks,ball darkred] coordinates {(0,20)};
 \draw[red] (axis cs:0,22) node[right] {$f(a)>0$};
-\addplot[thin,dashed,color=black] coordinates {(0,-15) (0,20)};
+%\addplot[thin,dashed,color=black] coordinates {(0,-15) (0,20)};
 % f(c)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=red, draw=black, solid}]
-coordinates {(1.5,6.125)};
+\addplot[only marks,ball darkred] coordinates {(1.5,6.125)};
 \draw[red] (axis cs:1.5,8) node[right] {$f(c)>0$};
-\addplot[thin,dashed,color=black] coordinates {(1.5,-15) (1.5,6.125)};
+%\addplot[thin,dashed,color=black] coordinates {(1.5,-15) (1.5,6.125)};
 % f(b)
-\addplot[only marks, mark=*, mark size=4pt, mark options={fill=blue!75, draw=black, solid}]
-coordinates {(3,-10)};
+\addplot[only marks,ball darkblue] coordinates {(3,-10)};
 \draw[blue] (axis cs:3,-12) node[left] {$f(b)<0$};
-\addplot[thin,dashed,color=black] coordinates {(3,-15) (3,-10)};
+%\addplot[thin,dashed,color=black] coordinates {(3,-15) (3,-10)};
 %\addplot [olive!10] fill between [of=A and B, soft clip={domain=0:1.5},];
 \end{axis}
 \end{tikzpicture}
-\caption{Иллюстрация метода бисекции (деления отрезка пополам)}
-
-$f(a)\cdot f(c)>0$, поэтому новая область поиска корня отрезок $[c,b]$
-\end{center}
+\caption{Иллюстрация метода бисекции (деления отрезка пополам):
+$f(a)\cdot f(c)>0$, поэтому новая область поиска корня отрезок $[c,b]$}
 \end{figure}
 
-\end{document}
-
-\begin{tcolorbox}[width=\textwidth,colback={orange!10}, boxrule=0mm, arc=0mm]
-Следует отметить, что если условие строгой монотонности для функции $f(x)$
-на отрезке $[a,b]$ не выполняется и на отрезке имеется несколько корней,
-то указанный процесс сойдется к одному из корней, 
-но \textit{заранее неизвестно, к какому именно}.
-\end{tcolorbox}
+Следует отметить, что если условие строгой монотонности 
+для функции $f(x)$ на отрезке $[a,b]$ не выполняется и на этом отрезке 
+имеется несколько корней, то указанный итерационный процесс 
+сойдется к одному из корней, 
+но \emph{заранее неизвестно, к какому именно}.
 
 %
 %	Метод выделения корней
 %
+\emptyline
 \subsection{Метод выделения корней}
 Один из недостатков интервального метода и метода бисекции 
 является сходимость итерационного процесса к заранее неизвестному
@@ -295,12 +282,14 @@ g(x)=\dfrac{f(x)}{(x-x_1)}
 
 Таким образом, можно последовательно найти все корни исходного уравнения $f(x)=0$.
 
-В любом методе поиска корней уравнения $f(x)$ окончательные итерации вблизи 
-определяемого корня рекомендуется делать не по функциям типа 
-$g(x)$, а по исходной функции $f(х)$. 
-Последние итерации, вычисленные по функции $g(x)$, используются при этом в качестве 
-нулевого приближения.
+В любом методе поиска корней уравнения $f(x)$ 
+окончательные итерации вблизи определяемого корня 
+рекомендуется делать не по функциям типа 
+$g(x)$, а по исходной функции $f(x)$. 
+Последние итерации, вычисленные по функции $g(x)$, 
+используются при этом в качестве нулевого приближения.
 
+\end{document}
 %
 %	Численное решение нелинейного уравнения методом бисекции
 %
