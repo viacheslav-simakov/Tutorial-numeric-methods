@@ -1,6 +1,11 @@
 % Required Package and Librarie
 %\pgfplotsset{compat=1.18}
 %\usepgfplotslibrary{fillbetween}
+\pgfdeclarelayer{pre main}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,pre main,main,foreground} 
+%\usetikzlibrary{backgrounds}
 %
 %	Нелинейные уравнения
 %
@@ -108,13 +113,13 @@ $\varepsilon$ (погрешности поиска корня уравнения
 \begin{tikzpicture}
 \begin{axis}
 [
-axis on top,
+%axis on top,
 xlabel={\empty},	% подпись оси x
 ylabel={\empty},	% подпись оси y
 xmin=-0.5, xmax=2.15, xtick={0,0.75,1.25,1.75}, xticklabels={a,$x_i$,$x_{i+1}$,b},
 ymin=-2, ymax=3, ytick={0}, yticklabels={$f(x)=0$},
 ]
-\addplot[color=black,domain=-0.5:2.15, samples=2] {0};
+\addplot[gray,thin,domain=-0.5:2.15, samples=2] {0};
 \addplot[name path=A,color=black,domain=-0.35:1.95,samples=100] {(x-1)*(x+1)*(x-2)};
 \addplot[only marks,ball darkred] coordinates {(0,2) (0.25,1.640625) (0.5,1.125) (0.75,0.546875)};
 \draw[darkred] (axis cs:0.72,0.47) node[left] {$f(x_i)>0$};
@@ -122,8 +127,8 @@ ymin=-2, ymax=3, ytick={0}, yticklabels={$f(x)=0$},
 \draw[darkblue] (axis cs:1.2,-0.5) node[left] {$f(x_{i+1})<0$};
 %
 \path [name path=B] (axis cs: 0,-2) -- (axis cs: 1.75,-2);
-\addplot [orange!20] fill between [of=A and B, soft clip={domain=0:1.75}];
-\addplot [olive!10] fill between [of=A and B, soft clip={domain=0.75:1.25},];
+\addplot[orange!15] fill between [of=A and B, soft clip={domain=0:1.75}];
+\addplot[blue!15] fill between [of=A and B, soft clip={domain=0.75:1.25},];
 \end{axis}
 \end{tikzpicture}
 \caption{Иллюстрация итервального метода поиска корня уравнения}
