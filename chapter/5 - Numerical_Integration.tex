@@ -1,3 +1,8 @@
+\pgfdeclarelayer{pre main}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,pre main,main,foreground} 
+
 \newpage
 %
 %	Численное интегрирование
@@ -167,7 +172,7 @@ domain=#1:#2,samples=50] #3 \closedcycle;
 \end{axis}
 % дополнительно
 %\draw[thick,red] ($(GRAPH.south)-(0,0em)$) node {a};
-\draw[thick,red] ($(current bounding box.south)-(0,1em)$) node {a)};
+%\draw[thick,red] ($(current bounding box.south)-(0,1em)$) node {a)};
 \end{tikzpicture}
 }
 %
@@ -184,7 +189,7 @@ node[pos=0.7,color=darkred,opacity=1,above] {$L_0(x)$}
 node[pos=0.8,color=darkred,opacity=1,above] {$L_0(x)$}
 }\\
 %\linebreak
-a)\hspace{6cm}b)
+%a)\hspace{6cm}b)
 \caption{График подынтегральной функции $f(x)$
 и аппроксимирующего полинома $L_0(x)$ на частичном отрезке
 для формулы прямоугольников}
@@ -595,6 +600,7 @@ l@{\extracolsep{\fill}}lp{3cm}}
 \bottomrule
 \end{tabular*}
 \end{table}
+
 Значение определенного интеграла от функции заданной таблично,
 рассчитанное по методу Симпсона является наибольшим, а 
 значение рассчитанное по методу левых прямоугольников 
