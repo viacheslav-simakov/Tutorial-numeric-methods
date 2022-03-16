@@ -65,20 +65,41 @@ $\nabla$ \emph{не коммутативны} и не антикоммутати
 Минимизация целевой функции $f(\vect{x})$ 
 сводится к итерационному процессу 
 последовательного выбора нового 
-вектора неизвестных, такого чтобы
-значение функции в новой точки $\vect{x}_{k+1}$
-было меньше чем в предыдущих:
-\begin{equation}
+вектора неизвестных $\vect{x}_{k+1}$, такого чтобы
+значение функции в новой точки было меньше чем в предыдущих:
+\begin{equation*}
 f(\vect{x}_0)>f(\vect{x}_1)>\ldots>f(\vect{x}_k)>f(\vect{x}_{k+1})>\ldots
-\end{equation}
+\end{equation*}
 
-Если воспользоваться линейным приближением
-\begin{equation}
+Предполагая, что новый вектор неизвестных мало отличается 
+от предыдущего ($\vect{x}_{k+1}-\vect{x}_k\approx\vect{0}$),
+можно воспользоваться линейным приближением
+для разложения в ряд Тейлора целевой функции:
+\begin{equation}\label{eq:GD:Taylor}
 f(\vect{x}_{k+1}) = f(\vect{x}_k)
 +\left(\nabla{f}(\vect{x}_k),\vect{x}_{k+1}-\vect{x}_k\right)
 \end{equation}
 
-%дана точка $x$, найти точку $\bar{x}$ такую, что $f(\bar{x})<f(x)$. Давайте возьмем точку рядом с $x$, опять же используя линейное приближение $f(\bar{x})\approx f(x)+\nabla f(x)^T(\bar{x}-x)$. Если взять $\bar{x}=x-\alpha\nabla f(x)$, $ \alpha>0$ то мы получим
+Если в качестве нового вектора неизвестных выбрать:
+\begin{equation}
+\vect{x}_{k+1}=\vect{x}_k - \lambda\cdot\nabla{f(\vect{x}_k)},
+\end{equation}
+то из \eqref{eq:GD:Taylor} получим:
+\begin{equation}
+f(\vect{x}_{k+1}) = f(\vect{x}_k)
+-\lambda\cdot\norma{\nabla{f}(\vect{x}_k)}^2
+\end{equation}
+где $\lambda>0$ -- малое положительное число;
+$\norma{\nabla{f}(\vect{x}_k)}\geqslant0$ -- 
+норма вектора градиента:
+\begin{equation*}
+\norma{\nabla{f}}=\sqrt{\left(\nabla{f},\nabla{f}\right)}
+\end{equation*}
+
+%дана точка $x$, найти точку $\bar{x}$ такую, что $f(\bar{x})<f(x)$. 
+%Давайте возьмем точку рядом с $x$, опять же используя линейное приближение 
+%$f(\bar{x})\approx f(x)+\nabla f(x)^T(\bar{x}-x)$. 
+%Если взять $\bar{x}=x-\alpha\nabla f(x)$, $ \alpha>0$ то мы получим
 %$ f(\bar{x})\approx f(x)-\alpha\|\nabla f(x)\|^2<f(x). $
 
 
