@@ -1,3 +1,54 @@
+% Декорация линий
+\tikzset{
+	% декорация линий
+	curve line/.style={
+		decoration={
+			snake,
+			amplitude=1.5mm,%0.75mm,
+			segment length=7.5mm,
+			post length=0mm,
+			pre length=0mm,
+		},
+	},
+	pointnode/.style={
+		join=by -,
+		circle,
+		fill=red,
+		minimum size=3pt,
+		inner sep=0pt,
+	},
+	circlenode/.style={
+		draw,thick,fill=blue!10,line width=0.25mm,
+		shape=circle,
+		inner sep=4pt,
+	},
+	rectnode/.style={
+		draw,line width=0.25mm,
+		shape=rectangle,
+%		rounded corners=2pt, 
+		inner sep=8pt,
+	},
+	startcyclenode/.style={
+		draw,text width=4cm,align=center,line width=0.25mm,
+		shape=chamfered rectangle,
+		chamfered rectangle corners={north west,north east},
+		minimum height=3em,minimum width=5cm,
+	},
+	endcyclenode/.style={
+		draw,text width=4cm,align=center,line width=0.25mm,
+		shape=chamfered rectangle,
+		chamfered rectangle corners={south west,south east},
+		minimum height=3em,minimum width=5cm,
+	},
+	signalnode/.style={
+		draw,line width=0.25mm,
+		shape=chamfered rectangle,
+		chamfered rectangle angle=45,
+		chamfered rectangle xsep=1cm,
+		inner sep=8pt,
+	},
+}
+
 \newpage
 
 \section{Методы локальной оптимизации}
@@ -181,6 +232,50 @@ $\ell_k$ была менее $\epsilon$, для числа итераций $k$
 \quad\to\quad
 k=\left\lceil\dfrac{\ln(b-a)-\ln(\epsilon)}{\ln(3)-\ln(2)}\right\rceil
 \end{equation*}
+
+% *** Алгоритм вычислений коэффициентов прогонки alpha и beta ***
+% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,every join/.style=->,%
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% соединитель
+\node[circlenode,on chain,join]{1};
+% alpha[1]
+\node[rectnode,on chain,join]
+{$\alpha_{1}=\dfrac{b_0}{c_0}$};
+% beta[1]
+\node[rectnode,on chain,join]
+{$\beta_{1}=\dfrac{y_0}{c_0}$};
+% начало цикла
+\begin{scope}[every node/.style={fill=gray!10}]
+\node[startcyclenode,on chain,join,text width=4cm]
+{
+расчёт $\{\alpha_i\}$ и $\{\beta_i\}$\\
+$i=1,2,\ldots,(n-1)$
+};
+% alpha[i] и beta[i]
+\node[rectnode,on chain,join]
+{$\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_i}$};
+\node[rectnode,on chain,join]
+{$\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_i}$};
+% конец цикла
+\node[endcyclenode,on chain,join]
+{
+\phantom{$i=1,2,\ldots,(n-1)$}\\
+расчёт $\{\alpha_i\}$ и $\{\beta_i\}$
+};
+\end{scope}
+% соединитель
+\node[circlenode,on chain,join,fill=red!10]{2};
+\end{tikzpicture}
+% *******************************************
+\caption{Блок-схема алгоритма нахождения минимума\linebreak 
+функции $f(x)$ одного переменного}
+\label{fig:GD:scheme f(x)->min}
+\end{figure}
 
 % Метод градиентного спуска
 \emptyline
