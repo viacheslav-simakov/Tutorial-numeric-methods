@@ -110,23 +110,66 @@ f(x_1)<f(a)<f(x_2)<f(b)
 значения функции, и сделать следующий шаг итерационного процесса. 
 
 Практически на каждом шаге выбирается две точки $x_1$ и $x_2$
-внутри отрезка $[a,b]$, симметрично расположенных относительно 
-центра этого отрезка:
-\begin{equation*}
-x_1=\dfrac{a+b}{2}-\delta,
-\quad
-x_2=\dfrac{a+b}{2}+\delta,
-\end{equation*}
-где $\delta>0$ -- параметр метода, который может быть выбран, таким
-образом, чтобы точки $x_1$ и $x_2$ делили отрезок на три равные части:
+внутри отрезка $[a,b]$, равноудаленные от концов этого отрезка.
+Например, если точки $x_1$ и $x_2$ делят отрезок $[a,b]$
+на три равные части (рисунок \ref{fig:GD:ab}), 
+то координаты этих точек могут быть 
+определены из соотношений:
 \begin{equation*}
 x_1=a+\dfrac{b-a}{3}=\dfrac{2a+b}{3},
 \quad
 x_2=b-\dfrac{b-a}{3}=\dfrac{a+2b}{3}.
 \end{equation*}
 
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+[>={Straight Barb[angle=45:2mm 1]},shorten >=1pt,font=\small]% стрелка
+% начало отсчета
+\coordinate (O) at (0mm,0mm);
+% ось OX
+\draw[->,line width=0.25mm] ([xshift=-20mm]O) -- (80mm,0mm)
+node[pos=1,yshift=-1em]{$x$};
+% сетка
+\coordinate (p) at (O);
+\foreach \x [count=\n from 0] in {0,20,20,20}{
+\path (p) -- ++(\x mm,0mm) coordinate(p);
+\draw[fill=black] (p) circle[radius=0.8mm] coordinate(p\n);
+}
+% подписи
+\draw (p0) node[above]{$a$};
+\draw (p1) node[above]{$x_1$};
+\draw (p2) node[above]{$x_2$};
+\draw (p3) node[above]{$b$};
+% штриховка
+\begin{scope}[on background layer]
+\pattern[pattern=north east lines,pattern color=gray,opacity=0.75]
+(p0) -- ([yshift=-2mm]p0) -- ([yshift=-2mm]p3) -- (p3) -- cycle;
+\end{scope}
+\end{tikzpicture}
+\caption{Схематическое изображение точек деления отрезка $[a,b]$}
+\label{fig:GD:ab}
+\end{figure}
 
-Дальнейшие действия определяются свойством унимодальной функции:
+Оценка длины отрезка после первого итерационного шага составит:
+\begin{equation*}
+\ell_1=(b-a) - \dfrac{b-a}{3}=\dfrac{2}{3}\cdot(b-a),
+\end{equation*}
+после второго шага:
+\begin{equation*}
+\ell_2=\ell_1-\dfrac{\ell_1}{3}=\dfrac{2}{3}\cdot\ell_1=
+\left(\dfrac{2}{3}\right)^2\cdot(b-a),
+\end{equation*}
+а после $k$-ого итерационного шага:
+\begin{equation*}
+\ell_k=\left(\dfrac{2}{3}\right)^k\cdot(b-a).
+\end{equation*}
+
+Таким образом, чтобы погрешность вычисления 
+$\abs{x_k-x_{k-1}}$ была менее $\epsilon$, 
+должна выполняться оценка числа итераций $k$:
+\begin{equation*}
+\ell_k=\left(\dfrac{2}{3}\right)^k\cdot(b-a)\leqslant\epsilon
+\end{equation*}
 
 % Метод градиентного спуска
 \emptyline
