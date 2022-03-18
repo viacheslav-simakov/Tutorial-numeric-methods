@@ -28,13 +28,30 @@
 %		rounded corners=2pt, 
 		inner sep=8pt,
 	},
-	startcyclenode/.style={
+	datanode/.style={
+		draw,line width=0.25mm,
+		shape=	trapezium,
+		trapezium left angle=70,
+		trapezium right angle=110, 
+		text centered,
+		inner sep=8pt,
+	},
+	ifthenelsenode/.style={
+		draw,line width=0.25mm,
+		shape=diamond,
+		aspect=2,
+%		trapezium left angle=70,
+%		trapezium right angle=110, 
+		text centered,
+		inner sep=4pt,
+	},
+	startloopnode/.style={
 		draw,text width=4cm,align=center,line width=0.25mm,
 		shape=chamfered rectangle,
 		chamfered rectangle corners={north west,north east},
 		minimum height=3em,minimum width=5cm,
 	},
-	endcyclenode/.style={
+	endloopnode/.style={
 		draw,text width=4cm,align=center,line width=0.25mm,
 		shape=chamfered rectangle,
 		chamfered rectangle corners={south west,south east},
@@ -76,6 +93,7 @@ $\min$ -- минимальное значение функции в ограни
 в котором функция принимает наименьшее значение.
 
 % Минимум функции одного переменного 
+% http://www.machinelearning.ru/wiki/index.php?title=%D0%9C%D0%B5%D1%82%D0%BE%D0%B4_%D0%B7%D0%BE%D0%BB%D0%BE%D1%82%D0%BE%D0%B3%D0%BE_%D1%81%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F._%D0%A1%D0%B8%D0%BC%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B
 \emptyline
 \subsection{Минимум функции одного переменного}
 Для функции одной переменной $f(x)$, задача нахождения минимума
@@ -151,7 +169,7 @@ f(x_1)<f(a)<f(x_2)<f(b)
 Поэтому на первом шаге итерационного процесса 
 отбрасывается отрезок $[x_2,b]$, и для поиска 
 минимума функции $f(x)$ рассматривается отрезок $[a,x_2]$,
-то есть область поиска минимума функции сужается:
+при этом область поиска минимума функции сужается:
 \begin{equation*}
 \abs{a-x_2}<\abs{a-b},\quad\text{так как}\quad x_2<b.
 \end{equation*} 
@@ -169,8 +187,10 @@ f(x_1)<f(a)<f(x_2)<f(b)
 \end{equation*}
 где $\epsilon$ -- погрешность метода.
 
-Практически на каждом шаге выбирается две точки $x_1$ и $x_2$
-внутри отрезка $[a,b]$, равноудаленные от концов этого отрезка.
+\emph{Симметричный метод} поиска минимума функции 
+одной переменной $f(x)$ основан на выборе внутренних точек 
+$x_1$ и $x_2$ отрезка $[a,b]$, 
+которые равноудалены от концов этого отрезка.
 Например, если точки $x_1$ и $x_2$ делят отрезок $[a,b]$
 на три равные части (рисунок \ref{fig:GD:ab}), 
 то координаты этих точек могут быть 
@@ -233,7 +253,16 @@ $\ell_k$ была менее $\epsilon$, для числа итераций $k$
 k=\left\lceil\dfrac{\ln(b-a)-\ln(\epsilon)}{\ln(3)-\ln(2)}\right\rceil
 \end{equation*}
 
-% *** Алгоритм вычислений коэффициентов прогонки alpha и beta ***
+Симметричный метод поиска минимума функции является 
+аналогом метода дихотомии для нахождения корня уравнения $f(x)=0$. 
+Метод применим к недифференцируемым функциям и всегда 
+сходится. 
+Следует отметить, что если на отрезке $[a,b]$
+функция $f(x)$ имеет несколько локальных минимумов, 
+то итерационный процесс сойдется к одному из этих минимумов, 
+но не обязательно к наименьшему. 
+
+% *** Алгоритм поиска минимума функции одной переменной
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
@@ -243,33 +272,39 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 ]
 % соединитель
 \node[circlenode,on chain,join]{1};
-% alpha[1]
-\node[rectnode,on chain,join]
-{$\alpha_{1}=\dfrac{b_0}{c_0}$};
-% beta[1]
-\node[rectnode,on chain,join]
-{$\beta_{1}=\dfrac{y_0}{c_0}$};
-% начало цикла
-\begin{scope}[every node/.style={fill=gray!10}]
-\node[startcyclenode,on chain,join,text width=4cm]
-{
-расчёт $\{\alpha_i\}$ и $\{\beta_i\}$\\
-$i=1,2,\ldots,(n-1)$
-};
-% alpha[i] и beta[i]
-\node[rectnode,on chain,join]
-{$\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_i}$};
-\node[rectnode,on chain,join]
-{$\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_i}$};
-% конец цикла
-\node[endcyclenode,on chain,join]
-{
-\phantom{$i=1,2,\ldots,(n-1)$}\\
-расчёт $\{\alpha_i\}$ и $\{\beta_i\}$
-};
+% данные
+\node[datanode,on chain,join]
+{$a, b, \epsilon$};
+% x1, x2
+\node[rectnode,on chain,join](x1x2)
+{$x_1=\dfrac{2a+b}{3},\;x_2=\dfrac{a+2b}{3}$};
+% f(x1) < f(x2)
+\node[ifthenelsenode,on chain,join](compare)
+{$f(x_1)<f(x_2)$};
+% да
+\begin{scope}[start branch=a,node distance=15mm]
+\node[rectnode,on chain=going left,join](a)
+{$a=x_1$};
+\draw(compare.west) node[above left]{да};
 \end{scope}
+% нет
+\begin{scope}[start branch=b,node distance=15mm]
+\node[rectnode,on chain=going right,join](b)
+{$b=x_2$};
+\draw(compare.east) node[above right]{нет};
+\end{scope}
+% ошибка
+\node[rectnode,on chain](error)
+{$\Delta=b-a$};
+% связи
+\draw[->,thick] (a.south) |- (error.west);
+\draw[->,thick] (b.south) |- (error.east);
+% выход?
+\node[ifthenelsenode,on chain,join](exit)
+{$\Delta<\epsilon$};
+\draw (exit.east) -- ++(5cm,0cm) -| (x1x2.east);
 % соединитель
-\node[circlenode,on chain,join,fill=red!10]{2};
+\node[circlenode,on chain=going left,join,fill=red!10]{2};
 \end{tikzpicture}
 % *******************************************
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
