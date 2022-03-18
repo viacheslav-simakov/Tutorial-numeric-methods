@@ -473,36 +473,23 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \node[datanode,on chain,join]
 {$\vect{x}_0, \lambda, \varepsilon_1$};
 % grad(f)
-\node[rectnode,on chain,join](x1x2)
-{$\nabla{f(\vect{x}_0})$};
-% f(x1) < f(x2)
-\node[ifthenelsenode,on chain,join,fill=gray!10](compare)
-{$f(x_1)>f(x_2)$};
-% да
-\begin{scope}[start branch=a,node distance=15mm]
-\node[rectnode,on chain=going left,join,fill=gray!10](a)
-{$a=x_1$};
-\draw(compare.west) node[above left]{да};
-\end{scope}
+\node[rectnode,on chain,join](grad0)
+{$\nabla_0=\nabla{f(\vect{x}_0})$};
+% x1
+\node[rectnode,on chain,join](x1)
+{$\vect{x}_1=\vect{x}_0-\lambda\cdot\nabla_0$};
+% сравнение
+\node[ifthenelsenode,on chain,join,fill=red!10](compare)
+{$\norma{\vect{x}_1-\vect{x}_0}\leqslant\varepsilon_1$};
 % нет
-\begin{scope}[start branch=b,node distance=15mm]
-\node[rectnode,on chain=going right,join,fill=gray!10](b)
-{$b=x_2$};
-\draw(compare.east) node[above right]{нет};
+\begin{scope}[start branch=b,node distance=15mm,darkred]
+\node[rectnode,on chain=going right,join,fill=gray!10](no)
+{$\vect{x}_0=\vect{x}_1$};
+\draw(compare.east) node[above right,darkred]{нет};
+\draw[->,darkred,thick] (no.north) |- (grad0.east);
 \end{scope}
-% ошибка
-\node[rectnode,on chain](error)
-{$\Delta=b-a$};
-% связи
-\draw[->,thick] (a.south) |- (error.west);
-\draw[->,thick] (b.south) |- (error.east);
-% выход?
-\node[ifthenelsenode,on chain,join,fill=red!10](exit)
-{$\Delta<\epsilon$};
-\draw (exit.east) node[above right,darkred]{нет};
-\draw[->,darkred,thick] (exit.east) -- ([xshift=5cm]exit.east) |- (x1x2.east);
-% соединитель
-\draw (exit.south) node[below left]{да};
+% выход
+\draw (compare.south) node[below left]{да};
 \begin{scope}[node distance=12mm]
 \node[rrectnode,on chain,join]{стоп};
 \end{scope}
