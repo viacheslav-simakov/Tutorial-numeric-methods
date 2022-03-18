@@ -902,55 +902,61 @@ R_2=f(4.48,3.53)=
 \left.\pdiff{f}{y}\right\rvert_{
 \begin{smallmatrix}x_2&=&4.48\\y_2&=&3.53\end{smallmatrix}
 }=
--&\dfrac{2-3,53}{\sqrt{(4-4,48)^2+(2-3,53)^2}}\\
--&\dfrac{7-3,53}{\sqrt{(1-4,48)^2+(7-3,53)^2}}\\
--&\dfrac{4-3,53}{\sqrt{(8-4,48)^2+(4-3,53)^2}}=0.11
+-&\dfrac{2-3.53}{\sqrt{(4-4.48)^2+(2-3.53)^2}}\\
+-&\dfrac{7-3.53}{\sqrt{(1-4.48)^2+(7-3.53)^2}}\\
+-&\dfrac{4-3.53}{\sqrt{(8-4.48)^2+(4-3.53)^2}}=0.11
 \end{split}
 \end{gather*}
 
-\end{enumerate}
-\end{document}
-
-
-Зная градиент целевой функции в текущей точке $\nabla^{(2)}=(0,02; 0,11)$,
+Зная градиент целевой функции в текущей точке 
+$\nabla f(x_2,y_2)=(0.02,0.11)$,
 определяют новое географическое положение склада:
 \begin{gather*}
-\begin{matrix}
-x_0^{(3)}&=&x_0^{(2)} - \lambda_x^{(2)}\cdot\nabla_{x}^{(2)}&=4,48-2\cdot0,02=4,45\\
-y_0^{(3)}&=&y_0^{(2)} - \lambda_y^{(2)}\cdot\nabla_{y}^{(2)}&=3,53-2\cdot0,11=3,30\\
-\end{matrix} 
+x_3=x_2 - \lambda\cdot
+\left.\pdiff{f}{x}\right\rvert_{
+\begin{smallmatrix}x=4.48\\y=3.53\end{smallmatrix}
+}=4.48-2\cdot0.02=4.45\\
+y_3=y_2 - \lambda\cdot
+\left.\pdiff{f}{y}\right\rvert_{
+\begin{smallmatrix}x=4.48\\y=3.53\end{smallmatrix}
+}=3.53-2\cdot0.11=3.30\\
 \end{gather*}
 
-\hl{Новые географические координаты склада} $(x_0=4,45; y_0=3,30)$.
+\emph{Новые географические координаты склада} 
+$(x_0=4.45, y_0=3.30)$.
 % *******************************
 %	График функций
 %
 \begin{center}
-\begin{tikzpicture}
+\begin{tikzpicture}[% стрелка
+>={Straight Barb[angle=45:2mm 1]},shorten >=2.5pt,
+]
 \begin{axis}[
-	every axis/.style={color=black, solid, thick},
+	enlargelimits=true,
 	xlabel = {широта ($x$)},	% подпись оси x
 	ylabel = {долгота ($y$)},	% подпись оси y
 	xmin = 0, ymin = 0,
 	xmax = 10, ymax = 10,	
-	xtick style={thick, black},
-	ytick style={thick, black},
-	grid=major,		
-	major grid style={color=black!20, dashed, thin},
 ]
-\addplot[only marks, mark=square*, mark size=5pt, mark options={fill=yellow, draw=black, solid}]
-coordinates {(4,2) (1,7) (8,4)};
-\draw[color=black] (axis cs: 4,2.5) node {Ниппур};
-\draw[color=black] (axis cs: 1,7.5) node {Эриду};
-\draw[color=black] (axis cs: 8,4.5) node {Шуруппак};
-% Склад
+% склад
 \addplot[color=red, mark=*, mark size=4pt, mark options={fill=red!75, draw=black, solid}]
 coordinates {(5,9) (3.96,4.41) (4.48,3.53) (4.45,3.30)};
 \draw[color=red] (axis cs: 5.5,3.2) node {Склад};
+% города
+\addplot[ball darkblue] coordinates {(4,2)}
+node[below]{Ниппур};
+\addplot[ball darkblue] coordinates {(1,7)}
+node[above]{Эриду};
+\addplot[ball darkblue] coordinates {(8,4)}
+node[above]{Шуруппак};
 \end{axis}
 \end{tikzpicture}
 \end{center}
 % *******************************
+
+\end{enumerate}
+\end{document}
+
 Рассчитаем величину ``шага`` -- расстояния между двумя последовательными положениями склада:
 \begin{gather*}
 r=\sqrt{(4,48-4,45)^2+(3,53-3,30)^2}=0,23
