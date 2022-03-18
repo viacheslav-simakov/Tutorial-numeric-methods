@@ -28,6 +28,12 @@
 %		rounded corners=2pt, 
 		inner sep=8pt,
 	},
+	rrectnode/.style={
+		draw,line width=0.25mm,
+		shape=rounded rectangle,
+%		rounded corners=2pt, 
+		inner sep=8pt,
+	},
 	datanode/.style={
 		draw,line width=0.25mm,
 		shape=	trapezium,
@@ -271,7 +277,7 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 >={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
 ]
 % соединитель
-\node[circlenode,on chain,join]{1};
+\node[rrectnode,on chain,join]{старт};
 % данные
 \node[datanode,on chain,join]
 {$a, b, \epsilon$};
@@ -279,17 +285,17 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \node[rectnode,on chain,join](x1x2)
 {$x_1=\dfrac{2a+b}{3},\;x_2=\dfrac{a+2b}{3}$};
 % f(x1) < f(x2)
-\node[ifthenelsenode,on chain,join](compare)
-{$f(x_1)<f(x_2)$};
+\node[ifthenelsenode,on chain,join,fill=gray!10](compare)
+{$f(x_1)>f(x_2)$};
 % да
 \begin{scope}[start branch=a,node distance=15mm]
-\node[rectnode,on chain=going left,join](a)
+\node[rectnode,on chain=going left,join,fill=gray!10](a)
 {$a=x_1$};
 \draw(compare.west) node[above left]{да};
 \end{scope}
 % нет
 \begin{scope}[start branch=b,node distance=15mm]
-\node[rectnode,on chain=going right,join](b)
+\node[rectnode,on chain=going right,join,fill=gray!10](b)
 {$b=x_2$};
 \draw(compare.east) node[above right]{нет};
 \end{scope}
@@ -300,11 +306,15 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \draw[->,thick] (a.south) |- (error.west);
 \draw[->,thick] (b.south) |- (error.east);
 % выход?
-\node[ifthenelsenode,on chain,join](exit)
+\node[ifthenelsenode,on chain,join,fill=red!10](exit)
 {$\Delta<\epsilon$};
-\draw (exit.east) -- ++(5cm,0cm) -| (x1x2.east);
+\draw (exit.east) node[above right,darkred]{нет};
+\draw[->,darkred,thick] (exit.east) -- ([xshift=5cm]exit.east) |- (x1x2.east);
 % соединитель
-\node[circlenode,on chain=going left,join,fill=red!10]{2};
+\draw (exit.south) node[below left]{да};
+\begin{scope}[node distance=12mm]
+\node[rrectnode,on chain,join]{стоп};
+\end{scope}
 \end{tikzpicture}
 % *******************************************
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
@@ -411,7 +421,7 @@ $-\nabla{f}(\vect{x})$.
 \begin{equation}
 \norma{\vect{x}_k - \vect{x}_{k-1}} < \varepsilon_1,
 \quad
-\norma{f(\vect{x}_k)-f(\vect{x}_{k-1})} < \varepsilon_2
+\abs{f(\vect{x}_k)-f(\vect{x}_{k-1})} < \varepsilon_2
 \end{equation}
 
 % Алгоритм метода градиентного спуска
@@ -447,6 +457,63 @@ r=\sqrt{(x_0-x_1)^2+(y_0-y_1)^2}
 $x_0=x_1$ и $y_0=y_1$ и переходят к шагу (2) 
 итерационного процесса.
 \end{enumerate}
+
+
+% *** Алгоритм поиска минимума функции одной переменной
+% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,every join/.style=->,%
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% соединитель
+\node[rrectnode,on chain,join]{старт};
+% данные
+\node[datanode,on chain,join]
+{$\vect{x}_0, \lambda, \varepsilon_1$};
+% grad(f)
+\node[rectnode,on chain,join](x1x2)
+{$\nabla{f(\vect{x}_0})$};
+% f(x1) < f(x2)
+\node[ifthenelsenode,on chain,join,fill=gray!10](compare)
+{$f(x_1)>f(x_2)$};
+% да
+\begin{scope}[start branch=a,node distance=15mm]
+\node[rectnode,on chain=going left,join,fill=gray!10](a)
+{$a=x_1$};
+\draw(compare.west) node[above left]{да};
+\end{scope}
+% нет
+\begin{scope}[start branch=b,node distance=15mm]
+\node[rectnode,on chain=going right,join,fill=gray!10](b)
+{$b=x_2$};
+\draw(compare.east) node[above right]{нет};
+\end{scope}
+% ошибка
+\node[rectnode,on chain](error)
+{$\Delta=b-a$};
+% связи
+\draw[->,thick] (a.south) |- (error.west);
+\draw[->,thick] (b.south) |- (error.east);
+% выход?
+\node[ifthenelsenode,on chain,join,fill=red!10](exit)
+{$\Delta<\epsilon$};
+\draw (exit.east) node[above right,darkred]{нет};
+\draw[->,darkred,thick] (exit.east) -- ([xshift=5cm]exit.east) |- (x1x2.east);
+% соединитель
+\draw (exit.south) node[below left]{да};
+\begin{scope}[node distance=12mm]
+\node[rrectnode,on chain,join]{стоп};
+\end{scope}
+\end{tikzpicture}
+% *******************************************
+\caption{Блок-схема алгоритма нахождения минимума\linebreak 
+функции $f(\vect{x})$ многих переменных 
+методом градиентного спуска}
+\label{fig:GD:scheme gradf(x)->min}
+\end{figure}
+
 
 \emptyline
 \subsection{Метод тяжелого шара}
