@@ -885,23 +885,27 @@ R_2=f(4.48,3.53)=
 \end{split}
 \end{gather*}
 
-Рассчитаем градиент целевой функции в новой точке положения склада\\
-$\nabla^{(2)} S(4,48;3,53)$:
+Рассчитаем градиент целевой функции в новой точке 
+положения склада\linebreak $x_2=4.48$ и $y_2=3.53$:
 \begin{gather*}
-\begin{matrix}
-\nabla^{(2)}_{x_0}{S}(4,48;3,53)=
-&&-&\dfrac{4-4,48}{\sqrt{(4-4,48)^2+(2-3,53)^2}}&-\\[1em]
-&&-&\dfrac{1-4,48}{\sqrt{(1-4,48)^2+(7-3,53)^2}}&-\\[1em]
-&&-&\dfrac{8-4,48}{\sqrt{(8-4,48)^2+(4-3,53)^2}}&=0,02\\
-\end{matrix}
+\begin{split}
+\left.\pdiff{f}{x}\right\rvert_{
+\begin{smallmatrix}x_2&=&4.48\\y_2&=&3.53\end{smallmatrix}
+}=
+-&\dfrac{4-4.48}{\sqrt{(4-4.48)^2+(2-3.53)^2}}\\
+-&\dfrac{1-4.48}{\sqrt{(1-4.48)^2+(7-3.53)^2}}\\
+-&\dfrac{8-4.48}{\sqrt{(8-4.48)^2+(4-3.53)^2}}=0.02
+\end{split}
 \end{gather*}
 \begin{gather*}
-\begin{matrix}
-\nabla^{(2)}_{y_0}{S}(4,48;3,53)=
-&&-&\dfrac{2-3,53}{\sqrt{(4-4,48)^2+(2-3,53)^2}}&-\\[1em]
-&&-&\dfrac{7-3,53}{\sqrt{(1-4,48)^2+(7-3,53)^2}}&-\\[1em]
-&&-&\dfrac{4-3,53}{\sqrt{(8-4,48)^2+(4-3,53)^2}}&=0,11\\
-\end{matrix}
+\begin{split}
+\left.\pdiff{f}{y}\right\rvert_{
+\begin{smallmatrix}x_2&=&4.48\\y_2&=&3.53\end{smallmatrix}
+}=
+-&\dfrac{2-3,53}{\sqrt{(4-4,48)^2+(2-3,53)^2}}\\
+-&\dfrac{7-3,53}{\sqrt{(1-4,48)^2+(7-3,53)^2}}\\
+-&\dfrac{4-3,53}{\sqrt{(8-4,48)^2+(4-3,53)^2}}=0.11
+\end{split}
 \end{gather*}
 
 \end{enumerate}
