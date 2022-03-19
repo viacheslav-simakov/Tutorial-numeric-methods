@@ -431,6 +431,27 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 \end{equation}
 
 
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+\begin{axis}[
+ylabel={$y$},zlabel={$f(x,y)$},
+width=\textwidth,
+axis equal,
+%xmin=-1,xmax=1,ymin=-1,ymax=1,%zmin=-0.4,zmax=7,
+xtick=\empty,ytick=\empty,ztick=\empty,
+axis lines=center]
+
+%\addplot3[surf,opacity=0.5,domain=0.4:2.2,y domain=0:360,samples=40]
+%({x*cos(y)+3}, {x*sin(y)+2}, {1/(x^2)});
+
+\addplot3[surf,opacity=0.5,domain=0:1,y domain=-1:0,samples=40]
+({x}, {y}, {((x-0.5)^2+2*(y+0.5)^2)^0.5-0.5});
+
+\end{axis}
+\end{tikzpicture}
+\end{figure}
+    
+
 % Метод градиентного спуска
 \emptyline
 \subsubsection{Метод градиентного спуска}
