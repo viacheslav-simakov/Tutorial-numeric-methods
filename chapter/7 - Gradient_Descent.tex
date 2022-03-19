@@ -1,3 +1,7 @@
+\pgfdeclarelayer{pre main}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,pre main,main,foreground} 
 % Декорация линий
 \tikzset{
 	% декорация линий
@@ -142,9 +146,13 @@ xmin=0, xmax=3, xtick={0,0.75,2.25,3}, xticklabels={$a$,$x_1$,$x_2$,$b$},
 ymin=0, ymax=2, ytick={1,{0.25^2},{1+ln(2.25-0.75)},{1+ln(3-0.75)}}, yticklabels={},
 %ytick={\empty}
 ]
+\path[name path=O] (axis cs:0,0) -- (axis cs:2.25,0);
 % функция f(x)
-\addplot[thick,color=darkred,domain=0:1.5, samples=50] {(x-1)^2};
-\addplot[thick,color=darkred,domain=1.5:3, samples=50] {1+ln(x-0.75)};
+\addplot[name path=A1,thick,color=darkred,domain=0:1.5, samples=50] {(x-1)^2};
+\addplot[name path=A2,thick,color=darkred,domain=1.5:3, samples=50] {1+ln(x-0.75)};
+% область
+\addplot [orange!15] fill between [of=A1 and O, soft clip={domain=0:1.5}];
+\addplot [orange!15] fill between [of=A2 and O, soft clip={domain=1.5:2.25}];
 % маркеры
 \addplot[only marks,ball darkred] coordinates{(0,1)}
 node[above]{$f(a)$};
@@ -168,9 +176,9 @@ f(x_1)<f(a)<f(x_2)<f(b)
 \end{equation*}
 
 Очевидно, что минимум функции $f(x)$ расположен в одном 
-из прилегающих к точке $x=x_1$ отрезков, то есть
-минимум находится либо в пределах отрезка $[a,x_1]$,
-либо в $[x_1,x_2]$.
+из прилегающих к точке $x=x_1$ отрезков, то есть минимум 
+находится либо в пределах отрезка $[a,x_1]$, либо в $[x_1,x_2]$
+(рисунок \ref{fig:GD:f(x)=min}, выделенная область).
 
 Поэтому на первом шаге итерационного процесса 
 отбрасывается отрезок $[x_2,b]$, и для поиска 
