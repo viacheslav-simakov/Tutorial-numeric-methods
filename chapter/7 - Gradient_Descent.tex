@@ -437,7 +437,7 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 \begin{subfigure}[b]{.5\linewidth}\centering
 \begin{tikzpicture}[
 declare function={
-	myfunc(\x,\y) = {1 - exp(-(x-1)^2-(y-2)^2)};
+	myfunc(\x,\y) = {1 - x*exp(-(x-1)^2-(y-2)^2)};
 }
 ]
 \begin{axis}[clip=false,ylabel={$y$},zlabel={$f(x,y)$},
@@ -467,10 +467,10 @@ xmin=-1,xmax=3,ymin=0,ymax=4,
 %colormap/blackwhite,
 %z buffer=sort,
 ]
-\foreach \r in {25,50,75,90} {
-	\addplot[fill={gray!50!white},variable=\t,domain=0:360,samples=50]
-	( {1+0.02*\r*cos(t)}, {2+0.02*\r*sin(t)} );
-}
+\foreach \r in {1.5,1,0.5}{
+\addplot[fill=gray!25,opacity=0.5,variable=\t,domain=0:360,samples=100]
+( {1+\r*cos(t)}, {2+\r*sin(t)} );}
+
 %\addplot3[surf,opacity=1,thin,
 %domain=0:2,y domain=0:360,samples=20,
 %]({x*cos(y)},{1+(0.5+x)*sin(y)},{1-exp(-x^2)});
