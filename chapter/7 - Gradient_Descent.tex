@@ -445,9 +445,9 @@ declare function={
 }
 ]
 \begin{axis}[clip=false,ylabel={$y$},zlabel={$f(x,y)$},
-%view={60}{-50},%colorbar,
+view={30}{30},%colorbar,
 xtick=\empty,ytick=\empty,ztick=\empty,
-xmin=-7,xmax=7,ymin=-11,ymax=3,
+xmin=-8,xmax=12,ymin=-14,ymax=6,
 axis lines=center,axis on top,
 colormap/blackwhite,z buffer=sort]
 % целевая функция
@@ -469,16 +469,20 @@ node[below]{$(x_0,y_0)$};
 ylabel={$y$},
 xtick=\empty,ytick=\empty,ztick=\empty,
 axis lines=center,axis on top,
-xmin=-7,xmax=7,ymin=-11,ymax=3,
+xmin=-8,xmax=12,ymin=-14,ymax=6,
 ]
 \addplot[black!90] plot table [x={X},y={Y}]{chapter/counter1.txt};
-\addplot[black!50] plot table [x={X},y={Y}]{chapter/counter2.txt};
-\addplot[black!35] plot table [x={X},y={Y}]{chapter/counter3.txt};
-\addplot[black!20] plot table [x={X},y={Y}]{chapter/counter4.txt};
+%\addplot[black!50] plot table [x={X},y={Y}]{chapter/counter2.txt};
+%\addplot[black!35] plot table [x={X},y={Y}]{chapter/counter3.txt};
+%\addplot[black!20] plot table [x={X},y={Y}]{chapter/counter4.txt};
 % начальная точка
-\addplot[->,ball darkblue]
-coordinates {(-4,-8) (0.747,-8.000) (0.747,-2.006)} 
-node[below]{$(x_0,y_0)$};
+\addplot[darkblue]
+coordinates {
+(-4,-8) (0.747,-8.000) (0.747,-2.006)
+(0.747,-2.006) (-0.496,-2.006) (-0.496,-2.000)
+(-0.496,-2.000) (-0.500,-2.000) (-0.500,-2.000)
+};
+%node[below]{$(x_0,y_0)$};
 \end{axis}
 \end{tikzpicture}
 \end{subfigure}
