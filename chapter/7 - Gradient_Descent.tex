@@ -447,12 +447,12 @@ declare function={
 \begin{axis}[clip=false,ylabel={$y$},zlabel={$f(x,y)$},
 view={30}{30},%colorbar,
 xtick=\empty,ytick=\empty,ztick=\empty,
-xmin=-8,xmax=12,ymin=-14,ymax=6,
+xmin=-6,xmax=6,ymin=-10,ymax=4,
 axis lines=center,axis on top,
 colormap/blackwhite,z buffer=sort]
 % целевая функция
 \addplot3[surf,opacity=0.5,thin,samples=20,
-domain=-7:7,y domain=-11:3]{myfunc(x,y)};
+domain=-6:6,y domain=-10:4]{myfunc(x,y)};
 % начальная точка
 \addplot3[only marks,ball darkblue]
 coordinates {({-4},{-8},{myfunc(-0.5,3)})}
@@ -469,20 +469,25 @@ node[below]{$(x_0,y_0)$};
 ylabel={$y$},
 xtick=\empty,ytick=\empty,ztick=\empty,
 axis lines=center,axis on top,
-xmin=-8,xmax=12,ymin=-14,ymax=6,
+xmin=-6,xmax=6,ymin=-10,ymax=4,
 ]
-\addplot[black!90] plot table [x={X},y={Y}]{chapter/counter1.txt};
-%\addplot[black!50] plot table [x={X},y={Y}]{chapter/counter2.txt};
-%\addplot[black!35] plot table [x={X},y={Y}]{chapter/counter3.txt};
-%\addplot[black!20] plot table [x={X},y={Y}]{chapter/counter4.txt};
+\addplot[black!90] plot table [x={X0},y={Y0}]{chapter/counter1.txt}
+node[pos=0.25,fill=white]{\tiny$10$};
+\addplot[black!50] plot table [x={X1},y={Y1}]{chapter/counter2.txt}
+node[pos=0.25,fill=white]{\tiny$12$};
+\addplot[black!35] plot table [x={X2},y={Y2}]{chapter/counter3.txt}
+node[pos=0.25,fill=white]{\tiny$15$};
+\addplot[black!20] plot table [x={X3},y={Y3}]{chapter/counter4.txt}
+node[pos=0.25,fill=white]{\tiny$18$};
 % начальная точка
+\addplot[only marks,ball darkblue]
+coordinates {(-3,-10)} node[below]{$(x_0,y_0)$};
 \addplot[darkblue]
 coordinates {
-(-4,-8) (0.747,-8.000) (0.747,-2.006)
-(0.747,-2.006) (-0.496,-2.006) (-0.496,-2.000)
-(-0.496,-2.000) (-0.500,-2.000) (-0.500,-2.000)
+(-3.000,-10.000) (0.552,-10.000) (0.552,-1.998)
+(0.552,-1.998) (-0.498,-1.998) (-0.498,-2.000)
+(-0.498,-2.000) (-0.500,-2.000)
 };
-%node[below]{$(x_0,y_0)$};
 \end{axis}
 \end{tikzpicture}
 \end{subfigure}
