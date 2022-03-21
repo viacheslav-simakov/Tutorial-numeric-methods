@@ -455,7 +455,7 @@ colormap/blackwhite,z buffer=sort]
 domain=-6:6,y domain=-10:4]{myfunc(x,y)};
 % начальная точка
 \addplot3[only marks,ball darkblue]
-coordinates {({-4},{-8},{myfunc(-0.5,3)})}
+coordinates {({-3},{-8},{myfunc(-3,-8)})}
 node[below]{$(x_0,y_0)$};
 \end{axis}
 \end{tikzpicture}
@@ -480,14 +480,14 @@ node[pos=0.25,fill=white]{\tiny$15$};
 \addplot[black!20] plot table [x={X3},y={Y3}]{chapter/counter4.txt}
 node[pos=0.25,fill=white]{\tiny$18$};
 % начальная точка
-\addplot[only marks,ball darkblue]
-coordinates {(-3,-10)} node[below]{$(x_0,y_0)$};
-\addplot[darkblue]
-coordinates {
-(-3.000,-10.000) (0.552,-10.000) (0.552,-1.998)
-(0.552,-1.998) (-0.498,-1.998) (-0.498,-2.000)
-(-0.498,-2.000) (-0.500,-2.000)
-};
+\addplot[only marks,ball darkred]
+coordinates {(-3,-8)} node[below]{$(x_0,y_0)$};
+\addplot[->,darkred]
+coordinates {(-3.000,-8.000) (0.747,-8.000) (0.747,-2.006) (-0.496,-2.006)};
+% конечная точка
+\addplot[only marks,ball darkred]
+coordinates {(-0.5,-2.0)};% node[left]{$(x_{\min},y_{\min})$};
+
 \end{axis}
 \end{tikzpicture}
 \end{subfigure}
