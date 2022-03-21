@@ -437,47 +437,57 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 \begin{subfigure}[b]{.5\linewidth}\centering
 \begin{tikzpicture}[
 declare function={
-	myfunc(\x,\y) = {1 - x*exp(-(x-1)^2-(y-2)^2)};
+	myfunc(\x,\y) = {
+		sqrt(	(x-0.35)^2	+ (y-1.5)^2		)	+ 
+		sqrt(	(x+0.5)^2	+ (y+2)^2		)	+ 
+		sqrt(	(x-1)^2		+ (y+7)^2		)
+	};
 }
 ]
 \begin{axis}[clip=false,ylabel={$y$},zlabel={$f(x,y)$},
-view={30}{30},%colorbar,
+%view={60}{-50},%colorbar,
 xtick=\empty,ytick=\empty,ztick=\empty,
+xmin=-7,xmax=7,ymin=-11,ymax=3,
 axis lines=center,axis on top,
 colormap/blackwhite,z buffer=sort]
 % целевая функция
-\addplot3[surf,opacity=0.75,thin,samples=20,
-domain=-1:3,y domain=0:4]{myfunc(x,y)};
+\addplot3[surf,opacity=0.5,thin,samples=20,
+domain=-7:7,y domain=-11:3]{myfunc(x,y)};
 % начальная точка
 \addplot3[only marks,ball darkblue]
-coordinates {({-0.5},{3},{myfunc(-0.5,3)})}
-node[left]{$(x_0,y_0)$};
+coordinates {({-4},{-8},{myfunc(-0.5,3)})}
+node[below]{$(x_0,y_0)$};
 \end{axis}
 \end{tikzpicture}
 \end{subfigure}% ВАЖНО!
 %
 \begin{subfigure}[b]{.5\linewidth}\centering
-\begin{tikzpicture}
+\begin{tikzpicture}[%
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=2pt,%
+]
 \begin{axis}[
 ylabel={$y$},
-%view={0}{90},%colorbar,
 xtick=\empty,ytick=\empty,ztick=\empty,
 axis lines=center,axis on top,
-xmin=-1,xmax=3,ymin=0,ymax=4,
-%colormap/blackwhite,
-%z buffer=sort,
+xmin=-7,xmax=7,ymin=-11,ymax=3,
 ]
-\foreach \r in {1.5,1,0.5}{
-\addplot[fill=gray!25,opacity=0.5,variable=\t,domain=0:360,samples=100]
-( {1+\r*cos(t)}, {2+\r*sin(t)} );}
-
-%\addplot3[surf,opacity=1,thin,
-%domain=0:2,y domain=0:360,samples=20,
-%]({x*cos(y)},{1+(0.5+x)*sin(y)},{1-exp(-x^2)});
+\addplot[black!90] plot table [x={X},y={Y}]{chapter/counter1.txt};
+\addplot[black!50] plot table [x={X},y={Y}]{chapter/counter2.txt};
+\addplot[black!35] plot table [x={X},y={Y}]{chapter/counter3.txt};
+\addplot[black!20] plot table [x={X},y={Y}]{chapter/counter4.txt};
+% начальная точка
+\addplot[->,ball darkblue]
+coordinates {(-4,-8) (0.747,-8.000) (0.747,-2.006)} 
+node[below]{$(x_0,y_0)$};
 \end{axis}
 \end{tikzpicture}
 \end{subfigure}
-\caption{График функции $f(x,y)=1-x\cdot e^{-(x-1)^2-y^2}$}
+\caption{График и ``рельеф`` функции двух переменных
+\scalebox{0.85}{$f(x,y)=
+\sqrt{	(x-0.35)^2	+ (y-1.5)^2	} +
+\sqrt{	(x+0.5)^2	+ (y+2)^2	} +
+\sqrt{	(x-1)^2		+ (y+7)^2	}$}
+}
 \end{figure}
     
 
