@@ -445,7 +445,7 @@ declare function={
 }
 ]
 \begin{axis}[clip=false,ylabel={$y$},zlabel={$f(x,y)$},
-view={30}{30},%colorbar,
+view={20}{60},%colorbar,
 xtick=\empty,ytick=\empty,ztick=\empty,
 xmin=-6,xmax=6,ymin=-10,ymax=4,
 axis lines=center,axis on top,
@@ -454,9 +454,19 @@ colormap/blackwhite,z buffer=sort]
 \addplot3[surf,opacity=0.5,thin,samples=20,
 domain=-6:6,y domain=-10:4]{myfunc(x,y)};
 % начальная точка
-\addplot3[only marks,ball darkblue]
+\addplot3[only marks,ball darkred]
 coordinates {({-3},{-8},{myfunc(-3,-8)})}
 node[below]{$(x_0,y_0)$};
+\addplot3[<-,darkred]
+coordinates{
+(-3.000,-8.000,{myfunc(-3,-8)})
+(0.747,-8.000,{myfunc(0.747,-8)})
+(0.747,-2.006,{myfunc(0.747,-2.006)})
+(-0.496,-2.006,{myfunc(-0.496,-2.006)})
+};
+% конечная точка
+\addplot3[only marks,ball darkred]
+coordinates{(-0.5,-2.0,{myfunc(-0.5,-2.0)})};
 \end{axis}
 \end{tikzpicture}
 \end{subfigure}% ВАЖНО!
@@ -487,7 +497,6 @@ coordinates {(-3.000,-8.000) (0.747,-8.000) (0.747,-2.006) (-0.496,-2.006)};
 % конечная точка
 \addplot[only marks,ball darkred]
 coordinates {(-0.5,-2.0)};% node[left]{$(x_{\min},y_{\min})$};
-
 \end{axis}
 \end{tikzpicture}
 \end{subfigure}
