@@ -434,80 +434,79 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 % 3D-график
 %
 \begin{figure}[H]\centering
-\begin{subfigure}[b]{.5\linewidth}\centering
-\begin{tikzpicture}[
->={Straight Barb[angle=45:1.5mm 1]},shorten >=-4pt,
-% объявление функции
-declare function={
-	myfunc(\x,\y) = {
-		sqrt(	(x-0.35)^2	+ (y-1.5)^2		)	+ 
-		sqrt(	(x+0.5)^2	+ (y+2)^2		)	+ 
-		sqrt(	(x-1)^2		+ (y+7)^2		)
-	};
-}
-]
-\begin{axis}[clip=false,ylabel={$y$},zlabel={$f(x,y)$},
-view={-135}{35},%colorbar,
-xtick=\empty,ytick=\empty,ztick=\empty,
-xmin=-6,xmax=6,ymin=-10,ymax=4,
-axis lines=center,axis on top,
-colormap/violet,shader=faceted]
-% путь
-\addplot3[darkred]coordinates{
-(-3.000,-8.000,20.696)
-(0.747,-8.000,16.668)
-(0.747,-2.006,9.776)
-(-0.496,-2.006,8.827)
-(-0.5,-2.0,8.822)
-};
-\addplot3[->,thin,darkred]coordinates{(-0.5,-2.0,8.822) (-0.5,-2.0,0)};
-% целевая функция
-\addplot3[surf,opacity=0.65,very thin,samples=10,
-domain=-6:6,y domain=-10:4]{myfunc(x,y)};
-% начальная точка
-\addplot3[only marks,ball darkred]coordinates {(-3,-8,20.696)}
-node[below]{$(x_0,y_0)$};
-% конечная точка
-\addplot3[only marks,ball darkred]coordinates{(-0.5,-2.0,8.822)};
-\end{axis}
-\end{tikzpicture}
-\end{subfigure}% ВАЖНО!
+%\begin{subfigure}[b]{.5\linewidth}\centering
+%\begin{tikzpicture}[
+%>={Straight Barb[angle=45:1.5mm 1]},shorten >=-4pt,
+%% объявление функции
+%declare function={
+%	myfunc(\x,\y) = {
+%		sqrt(	(x-0.35)^2	+ (y-1.5)^2		)	+ 
+%		sqrt(	(x+0.5)^2	+ (y+2)^2		)	+ 
+%		sqrt(	(x-1)^2		+ (y+7)^2		)
+%	};
+%}
+%]
+%\begin{axis}[clip=false,ylabel={$y$},zlabel={$f(x,y)$},
+%view={-135}{35},%colorbar,
+%xtick=\empty,ytick=\empty,ztick=\empty,
+%xmin=-6,xmax=6,ymin=-10,ymax=4,
+%axis lines=center,axis on top,
+%colormap/violet,shader=faceted]
+%% путь
+%\addplot3[darkred]coordinates{
+%(-3.000,-8.000,20.696)
+%(0.747,-8.000,16.668)
+%(0.747,-2.006,9.776)
+%(-0.496,-2.006,8.827)
+%(-0.5,-2.0,8.822)
+%};
+%\addplot3[->,thin,darkred]coordinates{(-0.5,-2.0,8.822) (-0.5,-2.0,0)};
+%% целевая функция
+%\addplot3[surf,opacity=0.65,very thin,samples=10,
+%domain=-6:6,y domain=-10:4]{myfunc(x,y)};
+%% начальная точка
+%\addplot3[only marks,ball darkred]coordinates {(-3,-8,20.696)}
+%node[below]{$(x_0,y_0)$};
+%% конечная точка
+%\addplot3[only marks,ball darkred]coordinates{(-0.5,-2.0,8.822)};
+%\end{axis}
+%\end{tikzpicture}
+%\end{subfigure}% ВАЖНО!
 %
-\begin{subfigure}[b]{.5\linewidth}\centering
+%\begin{subfigure}[b]{.5\linewidth}\centering
 \begin{tikzpicture}[%
 >={Straight Barb[angle=45:1.5mm 1]},shorten >=2pt,%
 ]
 \begin{axis}[
-ylabel={$y$},
-xtick=\empty,ytick=\empty,ztick=\empty,
-axis lines=center,axis on top,
-xmin=-6,xmax=6,ymin=-10,ymax=4,
+axis on top,enlargelimits=true,
+xlabel={широта $\phi$},ylabel={долгота $\lambda$},
+%xtick=\empty,ytick=\empty,
+xmin=53,xmax=58,ymin=36,ymax=44,
 ]
-\addplot[black!90] plot table [x={X0},y={Y0}]{chapter/counter1.txt}
-node[pos=0.25,xshift=+7pt]{\tiny$10$};
-\addplot[black!50] plot table [x={X1},y={Y1}]{chapter/counter2.txt}
-node[pos=0.25,xshift=+7pt]{\tiny$12$};
-\addplot[black!35] plot table [x={X2},y={Y2}]{chapter/counter3.txt}
-node[pos=0.25,xshift=+7pt]{\tiny$15$};
-\addplot[black!20] plot table [x={X3},y={Y3}]{chapter/counter4.txt}
-node[pos=0.25,xshift=+7pt]{\tiny$18$};
+\addplot[black!90,smooth]
+plot table [x={latitude},y={longitude}]{chapter/counter1.txt}
+node[pos=0.65,fill=white,yshift=+7pt]{\tiny$850$};
+\addplot[black!50,smooth]
+plot table [x={latitude},y={longitude}]{chapter/counter2.txt}
+node[pos=0.6,fill=white]{\tiny$900$};
+\addplot[black!35,smooth]
+plot table [x={latitude},y={longitude}]{chapter/counter3.txt}
+node[pos=0.6,fill=white]{\tiny$1000$};
+\addplot[black!20,smooth]
+plot table [x={latitude},y={longitude}]{chapter/counter4.txt}
+node[pos=0.6,fill=white]{\tiny$1100$};
 % начальная точка
-\addplot[only marks,ball darkred]
-coordinates {(-3,-8)} node[below]{$(x_0,y_0)$};
-\addplot[->,darkred]
-coordinates {(-3.000,-8.000) (0.747,-8.000) (0.747,-2.006) (-0.496,-2.006)};
-% конечная точка
-\addplot[only marks,ball darkred]
-coordinates {(-0.5,-2.0)};% node[left]{$(x_{\min},y_{\min})$};
+%\addplot[only marks,ball darkred]
+%coordinates {(-3,-8)} node[below]{$(x_0,y_0)$};
+%\addplot[->,darkred]
+%coordinates {(-3.000,-8.000) (0.747,-8.000) (0.747,-2.006) (-0.496,-2.006)};
+%% конечная точка
+%\addplot[only marks,ball darkred]
+%coordinates {(-0.5,-2.0)};% node[left]{$(x_{\min},y_{\min})$};
 \end{axis}
 \end{tikzpicture}
-\end{subfigure}
-\caption{График и ``рельеф`` функции двух переменных
-\scalebox{0.85}{$f(x,y)=
-\sqrt{	(x-0.35)^2	+ (y-1.5)^2	} +
-\sqrt{	(x+0.5)^2	+ (y+2)^2	} +
-\sqrt{	(x-1)^2		+ (y+7)^2	}$}
-}
+%\end{subfigure}
+\caption{``Рельеф`` функции двух переменных $r(\phi,\lambda)$}
 \end{figure}
     
 
