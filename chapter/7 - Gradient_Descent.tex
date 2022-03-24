@@ -479,30 +479,34 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 ]
 \begin{axis}[
 axis on top,enlargelimits=true,
-xlabel={широта $\phi$},ylabel={долгота $\lambda$},
+ylabel={широта $\phi$},xlabel={долгота $\lambda$},
 %xtick=\empty,ytick=\empty,
-xmin=53,xmax=58,ymin=36,ymax=44,
+%xmin=53,xmax=58,ymin=36,ymax=44,
+ymin=53,ymax=58,xmin=36,xmax=44,
 ]
 \addplot[black!90,smooth]
-plot table [x={latitude},y={longitude}]{chapter/counter1.txt}
-node[pos=0.65,fill=white,yshift=+7pt]{\tiny$850$};
+plot table [y={latitude},x={longitude}]{chapter/counter1.txt}
+node[pos=0.7,fill=white,xshift=+9pt,text=black]{\tiny$850$};
 \addplot[black!50,smooth]
-plot table [x={latitude},y={longitude}]{chapter/counter2.txt}
-node[pos=0.6,fill=white]{\tiny$900$};
+plot table [y={latitude},x={longitude}]{chapter/counter2.txt}
+node[pos=0.7,fill=white,xshift=+7pt,text=black]{\tiny$900$};
 \addplot[black!35,smooth]
-plot table [x={latitude},y={longitude}]{chapter/counter3.txt}
-node[pos=0.6,fill=white]{\tiny$1000$};
+plot table [y={latitude},x={longitude}]{chapter/counter3.txt}
+node[pos=0.7,fill=white,xshift=+7pt,text=black]{\tiny$1000$};
 \addplot[black!20,smooth]
-plot table [x={latitude},y={longitude}]{chapter/counter4.txt}
-node[pos=0.6,fill=white]{\tiny$1100$};
+plot table [y={latitude},x={longitude}]{chapter/counter4.txt}
+node[pos=0.7,fill=white,xshift=+7pt,text=black]{\tiny$1100$};
+% 'траектория' поиска минимума
+\addplot[red]
+plot table [y={latitude},x={longitude}]{chapter/path_min.txt};
 % начальная точка
-%\addplot[only marks,ball darkred]
-%coordinates {(-3,-8)} node[below]{$(x_0,y_0)$};
+\addplot[only marks,ball darkred]
+coordinates {(36.7,53.5)} node[below,fill=white]{$(\lambda_0,\phi_0)$};
 %\addplot[->,darkred]
 %coordinates {(-3.000,-8.000) (0.747,-8.000) (0.747,-2.006) (-0.496,-2.006)};
-%% конечная точка
-%\addplot[only marks,ball darkred]
-%coordinates {(-0.5,-2.0)};% node[left]{$(x_{\min},y_{\min})$};
+% конечная точка
+\addplot[only marks,ball darkred]
+coordinates {(38.840997,55.882960)};
 \end{axis}
 \end{tikzpicture}
 %\end{subfigure}
