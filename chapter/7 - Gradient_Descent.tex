@@ -557,11 +557,17 @@ $\alpha_{12}$ -- центральный угол между радиус-\linebr
 \begin{equation}
 (\vect{r}_1,\vect{r}_2) = \norma{\vect{r}_1}\cdot\norma{\vect{r}_2}
 \cdot\cos(\alpha_{12})
+\quad\to\quad
+\alpha_{12}=\arccos\left(
+\dfrac{(\vect{r}_1,\vect{r}_2)}{\norma{\vect{r}_1}\cdot\norma{\vect{r}_2}}
+\right),
 %d(\phi_1,\lambda_1,\phi_2,\lambda_2)=
 %R\cdot\mathrm{acos}(
 %\sin(\phi_1)\sin(\phi_2)+
 %\cos(\phi_1)\cos(\phi_2)\cdot\cos(\lambda_2-\lambda_1)
 \end{equation}
+где $\norma{\vect{r}_1}=\norma{\vect{r}_2}=\mathcal{R}$ --
+длины радиус-векторов, с учетом постоянства радиуса Земли.
 
 %
 % График: длина дуги большого круга
@@ -620,48 +626,57 @@ node[sloped,pos=0.5,below]{$\vect{r}_2$};
 \draw[<->] (AA.center) to [bend right=40]node[pos=0.25,above]{$\alpha_{12}$} (AB.center);
 \end{tikzpicture}
 \caption{Расстояние $d_{12}$ (длина дуги) на поверхности сферы
-между точками $1$ и $2$}
+между точками $P_1$ и $P_2$}
 \label{fig:GCS:creat circle distance}
 \end{figure}
 
-Скалярное произведение радиус-векторов точек $P_1$ и $P_2$,
-лежащих на поверхности сферы:
-\begin{equation*}
-(\vect{r}_1,\vect{r}_2) = \norma{\vect{r}_1}\cdot\norma{\vect{r_2}}
-\cdot\cos(\alpha_{12}),
-\end{equation*}
-где $\vect{r}_1$ и $\vect{r}_2$ -- радиус-вектора точек $A$ и $B$,
-соответственно:
-\begin{gather*}
-\vect{r}_1=\mathcal{R}\cdot\left(
+Скалярное произведение векторов -- это операция 
+над двумя векторами $\vect{a}$ и $\vect{b}$, 
+результатом которой является число скаляр, 
+не зависящее от системы координат, то есть инвариант:
+\begin{equation}\label{eq:vector scalar product}
+(\vect{a},\vect{b}) = 
+a_x\cdot b_x + a_y\cdot b_y + a_z\cdot b_z,
+\end{equation}
+где $a_{x,y,z}$ и $b_{x,y,z}$ -- компоненты векторов
+в ортонормированной системе координат, например, в декартовой.
+
+Компоненты радиус-векторов 
+$\vect{r}_1$ и $\vect{r}_2$ точек $P_1$ и $P_2$
+в декартовой системе координат :
+\begin{equation}
+\begin{matrix}[rcl]
+\vect{r}_1&=&\mathcal{R}\cdot\left(
 \cos(\phi_1)\cos(\lambda_1),
 \cos(\phi_1)\sin(\lambda_1),
 \sin(\phi_1)
 \right)\\
-\vect{r}_2=\mathcal{R}\cdot\left(
+\vect{r}_2&=&\mathcal{R}\cdot\left(
 \cos(\phi_2)\cos(\lambda_2),
 \cos(\phi_2)\sin(\lambda_2),
 \sin(\phi_2)
 \right);
-\end{gather*}
-$\mathcal{R}$ -- радиус планеты Земля;
+\end{matrix}
+\end{equation}
+
+
+
+\begin{equation}
+(\vect{r}_1,\vect{r}_2) = 
+\end{equation}
+
+
+
+
 $\alpha_{12}$ -- угол между двумя радиус-векторами:
 \begin{equation}
-\alpha_{12}=\mathrm{acos}\left(
+\alpha_{12}=\arccos\left(
 \dfrac{(\vect{r}_1,\vect{r}_2)}{\norma{\vect{r}_1}\cdot\norma{\vect{r}_2}}
 \right),
 \end{equation}
-$\norma{\vect{r}_1}=\norma{\vect{r}_2}=\mathcal{R}$ --
-длины радиус-векторов, с учетом постоянства радиуса Земли.
-
-Расстояние на поверхности сферы (длина дуги большого радиуса)
-можно определить из соотношения:
-\begin{equation}
-d_{12}=\mathcal{R}\cdot\alpha_{12}
-\end{equation}
 
 %
-% 3D-график
+% 2D-график
 %
 \begin{figure}[H]\centering
 \begin{tikzpicture}[%
