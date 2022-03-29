@@ -434,6 +434,31 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 \subsubsection{Нахождение оптимальных 
 географических координат склада торговой сети}
 
+Географические координаты определяют местоположение 
+точки на поверхности Земли, и строятся по принципу 
+сферических координат. Центр системы географических координат
+помещается в центр Земли, а положение точки определяется
+расстоянием $r$ от центра Земли, широтой $\lambda$ и долготой $\phi$
+(рисунок \ref{fig:GCS}).
+
+Долгота $\lambda$ -- двугранный угол между плоскостью меридиана, 
+проходящего через данную точку, и плоскостью начального 
+нулевого меридиана.
+
+Широта $\phi$ -- угол между местным направлением зенита и 
+плоскостью экватора, отсчитываемый в обе стороны от экватора.
+
+Радиус-вектор $\vect{r}$ точки $A$, находящейся 
+на поверхности Земли радиуса $\mathcal{R}$, 
+имеет в декартовой системе координат компоненты:
+\begin{equation*}
+\vect{r}=\left(
+\mathcal{R}\cdot\cos(\phi)\cos(\lambda),
+\mathcal{R}\cdot\cos(\phi)\sin(\lambda),
+\mathcal{R}\cdot\sin(\phi)
+\right)
+\end{equation*}
+
 %
 % 3D-МОДЕЛЬ географических координат
 %
@@ -509,28 +534,38 @@ to [bend right=30]node[pos=0.5,right]{$\phi$}
 \end{tikzpicture}
 \caption{
 \href{https://en.wikipedia.org/wiki/Geographic_coordinate_system\#Latitude_and_longitude}
-{Географическая система координат} на поверхности Земли:
-широта $\phi$ -- угол между местным направлением зенита и 
-плоскостью экватора, отсчитываемый в обе стороны от экватора;
-долгота $\lambda$ -- двугранный угол между плоскостью меридиана, 
-проходящего через данную точку, и плоскостью начального 
-нулевого меридиана;
-$\vect{r}$ -- радиус-вектор точки $A$, находящейся 
-на поверхности Земли радиуса $\mathcal{R}$, 
-имеющий в декартовой системе координат компоненты:
-\begin{equation*}
-\vect{r}=\left(
-\mathcal{R}\cdot\cos(\phi)\cos(\lambda),
-\mathcal{R}\cdot\cos(\phi)\sin(\lambda),
-\mathcal{R}\cdot\sin(\phi)
-\right)
-\end{equation*}
-}
+{Географическая система координат} на поверхности Земли}
+\label{fig:GCS}
 \end{figure}
 
-\newpage
+Кратчайшее расстояние между двумя точками $P_1$ и $P_2$
+находящимися на сферической поверхности Земли
+равно длине дуги большого круга.
+Если известны географические координатами точек
+$P_1(\phi_1,\lambda_1)$ и $P_2(\phi_2,\lambda_2)$, то
+расстояние на поверхности Земли между этими точками
+составляет (рисунок \ref{fig:GCS:creat circle distance}):
+\begin{equation}
+d_{12}(\phi_1,\lambda_1,\phi_2,\lambda_2)=\mathcal{R}\cdot\alpha_{12},
+\end{equation}
+где $\mathcal{R}$ -- радиус планеты Земля;
+$\alpha_{12}$ -- центральный угол между радиус-\linebreak
+векторами $\vect{r}_1$ и $\vect{r}_2$ 
+точек $P_1$ и $P_2$, лежащих на поверхности Земли,
+который можно определить из выражения 
+для скалярного произведения этих векторов:
+\begin{equation}
+(\vect{r}_1,\vect{r}_2) = \norma{\vect{r}_1}\cdot\norma{\vect{r}_2}
+\cdot\cos(\alpha_{12})
+%d(\phi_1,\lambda_1,\phi_2,\lambda_2)=
+%R\cdot\mathrm{acos}(
+%\sin(\phi_1)\sin(\phi_2)+
+%\cos(\phi_1)\cos(\phi_2)\cdot\cos(\lambda_2-\lambda_1)
+\end{equation}
 
-
+%
+% График: длина дуги большого круга
+%
 \tdplotsetmaincoords{60}{120}
 \begin{figure}[H]\centering
 \begin{tikzpicture}[tdplot_main_coords,scale=4.5,
@@ -572,8 +607,8 @@ node[sloped,pos=0.5,below,font=\small]{экватор};
 \draw[darkblue,thick,tdplot_main_coords]
 (A) to [bend right=50]node[sloped,pos=0.5,above]{$d_{12}$} (B);
 % точки на сфере 
-\draw[fill=red] (A) circle (0.5pt) node[below right]{$1$};
-\draw[fill=blue] (B) circle (0.5pt) node[above left]{$2$};
+\draw[fill=red] (A) circle (0.5pt) node[below right]{$P_1$};
+\draw[fill=blue] (B) circle (0.5pt) node[above left]{$P_2$};
 % радиус-вектор
 \draw[->,red,thick] (0,0,0) -- (A)
 node[sloped,pos=0.5,below]{$\vect{r}_1$};
@@ -586,9 +621,10 @@ node[sloped,pos=0.5,below]{$\vect{r}_2$};
 \end{tikzpicture}
 \caption{Расстояние $d_{12}$ (длина дуги) на поверхности сферы
 между точками $1$ и $2$}
+\label{fig:GCS:creat circle distance}
 \end{figure}
 
-Скалярное произведение радиус-векторов точек $1$ и $2$,
+Скалярное произведение радиус-векторов точек $P_1$ и $P_2$,
 лежащих на поверхности сферы:
 \begin{equation*}
 (\vect{r}_1,\vect{r}_2) = \norma{\vect{r}_1}\cdot\norma{\vect{r_2}}
@@ -628,46 +664,6 @@ d_{12}=\mathcal{R}\cdot\alpha_{12}
 % 3D-график
 %
 \begin{figure}[H]\centering
-%\begin{subfigure}[b]{.5\linewidth}\centering
-%\begin{tikzpicture}[
-%>={Straight Barb[angle=45:1.5mm 1]},shorten >=-4pt,
-%% объявление функции
-%declare function={
-%	myfunc(\x,\y) = {
-%		sqrt(	(x-0.35)^2	+ (y-1.5)^2		)	+ 
-%		sqrt(	(x+0.5)^2	+ (y+2)^2		)	+ 
-%		sqrt(	(x-1)^2		+ (y+7)^2		)
-%	};
-%}
-%]
-%\begin{axis}[clip=false,ylabel={$y$},zlabel={$f(x,y)$},
-%view={-135}{35},%colorbar,
-%xtick=\empty,ytick=\empty,ztick=\empty,
-%xmin=-6,xmax=6,ymin=-10,ymax=4,
-%axis lines=center,axis on top,
-%colormap/violet,shader=faceted]
-%% путь
-%\addplot3[darkred]coordinates{
-%(-3.000,-8.000,20.696)
-%(0.747,-8.000,16.668)
-%(0.747,-2.006,9.776)
-%(-0.496,-2.006,8.827)
-%(-0.5,-2.0,8.822)
-%};
-%\addplot3[->,thin,darkred]coordinates{(-0.5,-2.0,8.822) (-0.5,-2.0,0)};
-%% целевая функция
-%\addplot3[surf,opacity=0.65,very thin,samples=10,
-%domain=-6:6,y domain=-10:4]{myfunc(x,y)};
-%% начальная точка
-%\addplot3[only marks,ball darkred]coordinates {(-3,-8,20.696)}
-%node[below]{$(x_0,y_0)$};
-%% конечная точка
-%\addplot3[only marks,ball darkred]coordinates{(-0.5,-2.0,8.822)};
-%\end{axis}
-%\end{tikzpicture}
-%\end{subfigure}% ВАЖНО!
-%
-%\begin{subfigure}[b]{.5\linewidth}\centering
 \begin{tikzpicture}[%
 >={Straight Barb[angle=45:1.5mm 1]},shorten >=2pt,%
 ]
@@ -675,7 +671,6 @@ d_{12}=\mathcal{R}\cdot\alpha_{12}
 axis on top,enlargelimits=true,
 ylabel={широта $\phi$},xlabel={долгота $\lambda$},
 %xtick=\empty,ytick=\empty,
-%xmin=53,xmax=58,ymin=36,ymax=44,
 ymin=53,ymax=58,xmin=36,xmax=44,
 ]
 \addplot[black!90,smooth]
