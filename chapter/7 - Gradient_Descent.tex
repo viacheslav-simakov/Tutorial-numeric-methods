@@ -293,7 +293,7 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \node[rectnode,on chain,join](x1x2)
 {$x_1=\dfrac{2a+b}{3},\;x_2=\dfrac{a+2b}{3}$};
 % f(x1) < f(x2)
-\node[ifthenelsenode,on chain,join,fill=gray!10](compare)
+\node[ifthenelsenode,on chain,join](compare)
 {$f(x_1)>f(x_2)$};
 % да
 \begin{scope}[start branch=a,node distance=15mm]
@@ -314,10 +314,10 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \draw[->] (a.south) |- (error.west);
 \draw[->] (b.south) |- (error.east);
 % выход?
-\node[ifthenelsenode,on chain,join,fill=red!10](exit)
+\node[ifthenelsenode,on chain,join](exit)
 {$\Delta<\epsilon$};
-\draw (exit.east) node[above right,darkred]{нет};
-\draw[->,darkred,thick] (exit.east) -- ([xshift=5cm]exit.east) |- (x1x2.east);
+\draw (exit.east) node[above right]{нет};
+\draw[->,thick] (exit.east) -- ([xshift=5cm]exit.east) |- (x1x2.east);
 % соединитель
 \draw (exit.south) node[below left]{да};
 \begin{scope}[node distance=12mm]
@@ -433,6 +433,9 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 \emptyline
 \subsubsection{Нахождение оптимальных 
 географических координат склада торговой сети}
+
+
+
 
 Географические координаты определяют местоположение 
 точки на поверхности Земли, и строятся по принципу 
@@ -551,25 +554,12 @@ to [bend right=30]node[pos=0.5,right]{$\phi$}
 $A(\phi_a,\lambda_a)$ и $B(\phi_b,\lambda_b)$, то
 расстояние на поверхности Земли между этими точками
 составляет (рисунок \ref{fig:GCS:creat circle distance}):
-\begin{equation}
+\begin{equation}\label{eq:GCS:sphere distance}
 d_{AB}=\mathcal{R}\cdot\alpha,
 \end{equation}
 где $\alpha$ -- центральный угол между радиус-векторами
 $\vect{a}$ и $\vect{b}$ 
 точек $A$ и $B$, лежащих на поверхности Земли.
-
-Угол между векторами $\vect{a}$ и $\vect{b}$
-можно определить из выражения 
-для скалярного произведения этих векторов:
-\begin{equation}\label{eq:GD:cos(a,b)}
-(\vect{a},\vect{b}) = \norma{\vect{a}}\cdot\norma{\vect{b}}
-\cdot\cos(\alpha)
-\quad\to\quad
-\cos(\alpha)=
-\dfrac{(\vect{a},\vect{b})}{\norma{\vect{a}}\cdot\norma{\vect{b}}},
-\end{equation}
-где $\norma{\vect{a}}=\norma{\vect{b}}=\mathcal{R}$ --
-длины радиус-векторов, с учетом постоянства радиуса Земли.
 
 %
 % График: длина дуги большого круга
@@ -633,10 +623,25 @@ node[pos=0.25,above]{$\alpha$} (AB.center);
 \label{fig:GCS:creat circle distance}
 \end{figure}
 
-\emph{Скалярное произведение векторов} -- это операция 
+Косинус угла $\alpha$ между векторами $\vect{a}$ и $\vect{b}$
+можно определить, воспользовавшись геометрическим свойством
+скалярного произведения этих векторов:
+\begin{equation}\label{eq:GD:cos(a,b)}
+(\vect{a},\vect{b}) = \norma{\vect{a}}\cdot\norma{\vect{b}}
+\cdot\cos(\alpha)
+\quad\to\quad
+\cos(\alpha)=
+\dfrac{(\vect{a},\vect{b})}{\norma{\vect{a}}\cdot\norma{\vect{b}}},
+\end{equation}
+где $\norma{\vect{a}}=\norma{\vect{b}}=\mathcal{R}$ --
+длины радиус-векторов, с учетом постоянства радиуса Земли.
+
+С алгебраической точки зрения, 
+\emph{скалярное произведение векторов} -- это операция 
 над двумя векторами $\vect{a}$ и $\vect{b}$, 
-результатом которой является число скаляр, 
-не зависящее от системы координат, то есть \emph{инвариант}:
+результатом которой является число (скаляр), 
+значение которого не зависит от выбранной системы координат,
+то есть скалярное произведение является \emph{инвариантом}:
 \begin{equation}\label{eq:vector scalar product}
 (\vect{a},\vect{b})=a_{x}\cdot b_{x} + a_y\cdot b_y + a_z\cdot b_z,
 \end{equation}
@@ -659,47 +664,139 @@ b_z&=&\mathcal{R}\cdot\sin(\phi_b)\\
 \end{matrix}\right.
 \end{equation}
 
-Косинус угла между векторами $\vect{a}$ и $\vect{b}$
-\eqref{eq:GD:cos(a,b)} с учетом 
+Косинус угла \eqref{eq:GD:cos(a,b)} между векторами 
+$\vect{a}$ и $\vect{b}$ с учетом 
 \eqref{eq:GD:vector a} и \eqref{eq:GD:vector b}:
-\begin{equation}
+\begin{equation*}
 \begin{split}
 \cos(\alpha)=\;
 &\cos(\phi_a)\cos(\lambda_a)\cdot\cos(\phi_b)\cos(\lambda_b)\;+\\
 &\cos(\phi_a)\sin(\lambda_a)\cdot\cos(\phi_b)\sin(\lambda_b)\;+\\
 &\sin(\phi_a)\cdot\sin(\phi_b)
-%&\cos(\phi_a)\cos(\phi_b)\cdot(
-%\cos(\lambda_a)\cdot\cos(\lambda_b)\;+\\
-%&\sin(\lambda_a)\cdot\\sin(\lambda_b)\right)\;+\\
-%&\sin(\phi_a)\cdot\sin(\phi_b)\;=\\
 \end{split}
-\end{equation}
+\end{equation*}
 или
-\begin{equation}
+\begin{equation*}
 \begin{split}
-\cos(\alpha)=&\cos(\phi_a)\cos(\phi_b)\cdot(\\
+\cos(\alpha)=\cos(\phi_a)\cos(\phi_b)\cdot
+\begin{pmatrix}[l]
 \cos(\lambda_a)\cdot\cos(\lambda_b)\;+\\
-\sin(\lambda_a)\cdot\sin(\lambda_b))\;+\\
-&\sin(\phi_a)\cdot\sin(\phi_b)\;=\\
++\sin(\lambda_a)\cdot\sin(\lambda_b)
+\end{pmatrix}+
+\sin(\phi_a)\sin(\phi_b)
 \end{split}
-\end{equation}
+\end{equation*}
 
+Воспользовавшись формулой для разности углов 
+тригонометрических функций (косинуса):
+\begin{equation*}
+\cos(\lambda_a)\cdot\cos(\lambda_b)+
+\sin(\lambda_a)\cdot\sin(\lambda_b)=
+\cos(\lambda_a - \lambda_b)
+\end{equation*}
+окончательно получим:
+\begin{equation*}
+\cos(\alpha)=
+\cos(\phi_a)\cos(\phi_b)\cdot\cos(\Delta\lambda) +
+\sin(\phi_a)\sin(\phi_b),
+\end{equation*}
+где $\Delta\lambda=\lambda_a-\lambda_b$ --
+разность долготы географических координат точек $A$ и $B$,
+соответственно.
 
-
-
-
-$\alpha_{12}$ -- угол между двумя радиус-векторами:
-\begin{equation}
-\alpha_{12}=\arccos\left(
-\dfrac{(\vect{r}_1,\vect{r}_2)}{\norma{\vect{r}_1}\cdot\norma{\vect{r}_2}}
+Таким образом, кратчайшее расстояние на поверхности Земли
+между двумя точками \eqref{eq:GCS:sphere distance}
+может быть найдено из соотношения:
+\begin{equation}\label{eq:GCS:distance}
+d_{AB}=\mathcal{R}\cdot\arccos\left(
+\cos(\phi_a)\cos(\phi_b)\cdot\cos(\Delta\lambda) +
+\sin(\phi_a)\sin(\phi_b)
 \right),
 \end{equation}
 
-%d(\phi_1,\lambda_1,\phi_2,\lambda_2)=
-%R\cdot\mathrm{acos}(
-%\sin(\phi_1)\sin(\phi_2)+
-%\cos(\phi_1)\cos(\phi_2)\cdot\cos(\lambda_2-\lambda_1)
+\begin{enumerate}
+\item
+С помощью картографических веб сервисов (например, 
+\href{https://yandex.ru/maps}{Яндекс.Карты},
+\href{https://www.google.ru/maps}{карты Google}, и т.п.).
+определим 
+\href{https://ru.wikipedia.org/wiki/Географические_координаты}
+{географические координаты} всех городов, 
+в которых находятся магазины торговой сети 
+Полученные данные представим в таблице \ref{tab:cities}.
 
+%
+% Таблица: города торговой сети
+%
+\begin{table}[H]
+\caption{Географические координаты магазинов торговой сети}
+\label{tab:cities}
+\begin{tabular*}{\textwidth}{%
+@{\extracolsep{\fill}}p{7cm} p{3cm} p{3cm}}
+\toprule
+Город&%
+\multicolumn{2}{l}{Географические координаты}\\
+\cmidrule{2-3}
+&широта $\phi$&долгота $\lambda$\\
+\midmidrule
+Москва&$55.664$&$37.630$\\
+Саратов&$51.534$&$46.031$\\
+Воронеж&$56.671$&$39.162$\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\item
+Построим целевую функцию $r=f(\phi,\lambda)$ -- 
+суммарное расстояние вдоль поверхности Земли 
+от склада до магазинов в городах Москва, Саратов и Воронеж:
+\begin{equation*}\label{eq:r(phi,lambda)}
+r(\phi,\lambda)=d_1(\phi,\lambda)+d_2(\phi,\lambda)+d_3(\phi,\lambda),
+\end{equation*}
+где $\phi$ и $\lambda$ -- географическая широта и долгота 
+местоположения склада;
+$d_1$, $d_2$ и $d_3$ -- расстояние вдоль поверхности Земли
+\eqref{eq:GCS:distance} между складом и городами 
+Москва, Саратов и Воронеж, соответственно:
+\begin{gather*}
+d_1(\phi,\lambda)=\mathcal{R}\cdot\arccos\left(
+\cos(\phi)\cos(\phi_1)\cdot\cos(\lambda-\lambda_1) +
+\sin(\phi)\sin(\phi_1)
+\right)\\
+d_2(\phi,\lambda)=\mathcal{R}\cdot\arccos\left(
+\cos(\phi)\cos(\phi_2)\cdot\cos(\lambda-\lambda_2) +
+\sin(\phi)\sin(\phi_2)
+\right)\\
+d_3(\phi,\lambda)=\mathcal{R}\cdot\arccos\left(
+\cos(\phi)\cos(\phi_3)\cdot\cos(\lambda-\lambda_3) +
+\sin(\phi)\sin(\phi_3)
+\right)
+\end{gather*}
+где 
+$\phi_1=55.664$ и $\lambda_1=37.630$ -- долгота и широта города Москва;\\
+$\phi_2=51.534$ и $\lambda_2=46.031$ -- долгота и широта города Саратов;\\
+$\phi_3=56.671$ и $\lambda_3=39.162$ -- долгота и широта города Воронеж
+(таблица \ref{tab:cities}).
+
+\item
+Для решения задачи оптимизации целевой функции 
+определим область поиска минимума, например,
+в качестве границ области зададим экстремальные значения
+широты и долготы городов, в которых расположены 
+магазины торговой сети:
+\begin{gather}
+\phi_{start} =
+\end{gather}
+
+\item
+С помощью метода по координатного спуска,
+определим оптимальные географические координаты склада 
+$(\phi_{\min}, \lambda_{\min})$, при которых 
+суммарное расстояние $r(\phi,\lambda)$ от склада до 
+всех магазинов торговой сети в городах Москва, Саратов и Воронеж
+минимально.
+
+\end{enumerate}
 
 %%
 %% 2D-график
@@ -891,14 +988,14 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \node[rectnode,on chain,join](x1)
 {$\vect{x}_1=\vect{x}_0-\lambda\cdot\nabla_0$};
 % сравнение
-\node[ifthenelsenode,on chain,join,fill=red!10](compare)
+\node[ifthenelsenode,on chain,join](compare)
 {$\norma{\vect{x}_1-\vect{x}_0}\leqslant\varepsilon_1$};
 % нет
-\begin{scope}[start branch=b,node distance=15mm,darkred]
+\begin{scope}[start branch=b,node distance=15mm]
 \node[rectnode,on chain=going right,join](no)
 {$\vect{x}_0=\vect{x}_1$};
-\draw(compare.east) node[above right,darkred]{нет};
-\draw[->,darkred,thick] (no.north) |- (grad0.east);
+\draw(compare.east) node[above right]{нет};
+\draw[->,thick] (no.north) |- (grad0.east);
 \end{scope}
 % выход
 \draw (compare.south) node[below left]{да};
