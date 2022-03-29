@@ -454,8 +454,8 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 \begin{equation*}
 \vect{r}=(r_x,r_y,r_z),
 \end{equation*}
-где $r_{x,y,z}$ -- компоненты вектора $\vect{r}$ 
-(проекции вектора на оси декартовой системы координат):
+где $r_{x,y,z}$ -- компоненты вектора $\vect{r}$, 
+то есть проекции этого вектора на оси декартовой системы координат:
 \begin{equation*}
 \left\{\begin{matrix}[lcl]
 r_x&=&\mathcal{R}\cdot\cos(\phi)\cdot\cos(\lambda)\\
@@ -561,13 +561,12 @@ $\vect{a}$ и $\vect{b}$
 Угол между векторами $\vect{a}$ и $\vect{b}$
 можно определить из выражения 
 для скалярного произведения этих векторов:
-\begin{equation}\label{eq:GD:(r1,r2)}
+\begin{equation}\label{eq:GD:cos(a,b)}
 (\vect{a},\vect{b}) = \norma{\vect{a}}\cdot\norma{\vect{b}}
 \cdot\cos(\alpha)
 \quad\to\quad
-\alpha=\arccos\left(
-\dfrac{(\vect{a},\vect{b})}{\norma{\vect{a}}\cdot\norma{\vect{b}}}
-\right),
+\cos(\alpha)=
+\dfrac{(\vect{a},\vect{b})}{\norma{\vect{a}}\cdot\norma{\vect{b}}},
 \end{equation}
 где $\norma{\vect{a}}=\norma{\vect{b}}=\mathcal{R}$ --
 длины радиус-векторов, с учетом постоянства радиуса Земли.
@@ -644,7 +643,7 @@ node[pos=0.25,above]{$\alpha$} (AB.center);
 где $a_{x,y,z}$ и $b_{x,y,z}$ -- компоненты векторов
 в декартовой системе координат:
 % a
-\begin{equation}
+\begin{equation}\label{eq:GD:vector a}
 \vect{a}=\left\{\begin{matrix}[rcl]
 a_x&=&\mathcal{R}\cdot\cos(\phi_a)\cdot\cos(\lambda_a)\\
 a_y&=&\mathcal{R}\cdot\cos(\phi_a)\cdot\sin(\lambda_a)\\
@@ -652,7 +651,7 @@ a_z&=&\mathcal{R}\cdot\sin(\phi_a)\\
 \end{matrix}\right.
 \end{equation}
 % b
-\begin{equation}
+\begin{equation}\label{eq:GD:vector b}
 \vect{b}=\left\{\begin{matrix}[rcl]
 b_x&=&\mathcal{R}\cdot\cos(\phi_b)\cdot\cos(\lambda_b)\\
 b_y&=&\mathcal{R}\cdot\cos(\phi_b)\cdot\sin(\lambda_b)\\
@@ -660,11 +659,31 @@ b_z&=&\mathcal{R}\cdot\sin(\phi_b)\\
 \end{matrix}\right.
 \end{equation}
 
-
-Скалярное произведение \eqref{eq:GD:(r1,r2)}:
+Косинус угла между векторами $\vect{a}$ и $\vect{b}$
+\eqref{eq:GD:cos(a,b)} с учетом 
+\eqref{eq:GD:vector a} и \eqref{eq:GD:vector b}:
 \begin{equation}
-(\vect{r}_1,\vect{r}_2) = 
+\begin{split}
+\cos(\alpha)=\;
+&\cos(\phi_a)\cos(\lambda_a)\cdot\cos(\phi_b)\cos(\lambda_b)\;+\\
+&\cos(\phi_a)\sin(\lambda_a)\cdot\cos(\phi_b)\sin(\lambda_b)\;+\\
+&\sin(\phi_a)\cdot\sin(\phi_b)
+%&\cos(\phi_a)\cos(\phi_b)\cdot(
+%\cos(\lambda_a)\cdot\cos(\lambda_b)\;+\\
+%&\sin(\lambda_a)\cdot\\sin(\lambda_b)\right)\;+\\
+%&\sin(\phi_a)\cdot\sin(\phi_b)\;=\\
+\end{split}
 \end{equation}
+или
+\begin{equation}
+\begin{split}
+\cos(\alpha)=&\cos(\phi_a)\cos(\phi_b)\cdot(\\
+\cos(\lambda_a)\cdot\cos(\lambda_b)\;+\\
+\sin(\lambda_a)\cdot\sin(\lambda_b))\;+\\
+&\sin(\phi_a)\cdot\sin(\phi_b)\;=\\
+\end{split}
+\end{equation}
+
 
 
 
