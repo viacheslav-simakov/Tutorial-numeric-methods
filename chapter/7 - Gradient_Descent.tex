@@ -430,6 +430,200 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 \norma{f(\vect{x}_k)-f(\vect{x}_{k-1})} < \varepsilon_2
 \end{equation}
 
+\emptyline
+\subsubsection{Нахождение оптимальных 
+географических координат склада торговой сети}
+
+%
+% 3D-МОДЕЛЬ географических координат
+%
+% географическая система координат
+\newcommand\GScoordinate[4]{
+\coordinate (#1) at ({#2*cos(#3)*cos(#4)},{#2*cos(#3)*sin(#4)},{#2*sin(#3)});
+\coordinate (#1x) at ({#2*cos(#3)*cos(#4)},0,0);
+\coordinate (#1y) at (0,{#2*cos(#3)*sin(#4)},0);
+\coordinate (#1z) at (0,0,{#2*sin(#3)});
+\coordinate (#1xy) at ({#2*cos(#3)*cos(#4)},{#2*cos(#3)*sin(#4)},0);
+}
+% 3D-вид 
+\tdplotsetmaincoords{60}{120}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[tdplot_main_coords,scale=4.5,
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=2pt]
+% радиус Земли
+\def\radiusX{1.1}
+% центр Земли
+\coordinate (O) at (0,0,0);
+% Земля
+\shadedraw[color=darkblue,thick,ball color=blue!25!white,opacity=0.5,rotate=30] 
+(O)  circle({\radiusX cm});
+% экватор
+\fill[color=blue!25,opacity=0.25] 
+(0,0) circle({\radiusX});
+\tdplotsetrotatedcoords{-60}{0}{0};
+\draw[tdplot_rotated_coords,darkblue,thick]
+(\radiusX,0) arc (0:180:{\radiusX})
+node[sloped,pos=0.5,below,font=\small]{экватор};
+\draw[tdplot_rotated_coords,dashed,darkblue,opacity=0.5]
+(\radiusX,0) arc (360:180:{\radiusX});
+
+% система координат
+%\tdplotsetrotatedcoords{0}{0}{0};
+\begin{scope}[font=\footnotesize,color=gray]
+\draw[->] (O) -- (0.8,0,0) node[above left] {$x$};
+\draw[->] (O) -- (0,0.9,0) node[above right] {$y$};
+\draw[->] (O) -- (0,0,1.1) node[left] {$z$};
+\end{scope}
+% точка на поверхности Земли
+\def\radius{1.25}\def\longitude{60}\def\latitude{45}
+% xyz-координаты
+\GScoordinate{A}{\radius}{\latitude}{\longitude};
+% прорисовка проекций
+\draw[fill=orange!25,opacity=0.25] (O) -- (Az) -- (A) -- (Axy) -- (O);
+% углы
+\path (O) -- (Ax) node[pos=1](AX){};
+\path (O) -- (Axy) node[pos=0.5](AXY){};
+\path (O) -- (A) node[pos=0.5](AR){};
+% прорисовка углов
+\begin{scope}[font=\small]
+% широта
+\draw[->,thick,color=blue]  (AX.center) 
+to [bend right=30]node[sloped,pos=0.5,below]{$\lambda$}
+(AXY.center);
+% долгота
+\draw[->,thick,color=red]  (AXY.center) 
+to [bend right=30]node[pos=0.5,right]{$\phi$}
+(AR.center);
+\end{scope}
+%\begin{scope}[shift={(0,0,{\Pz})}]
+%\tdplotsetrotatedcoords{-49}{0}{0};
+%\def\radiusY{\radius*cos(\latitude)}
+%\draw[tdplot_rotated_coords,thin,blue,opacity=0.5] 
+%({\radiusY},0) arc(0:160:{\radiusY});
+%\end{scope}
+% радиус-вектор
+\draw[->,thick,black]
+(O) -- (A) node[sloped,pos=0.5,above]{$\vect{r}$};
+\draw[thick,fill=white]
+(A) circle(0.5pt) node[below right]{$A$};
+\end{tikzpicture}
+\caption{
+\href{https://en.wikipedia.org/wiki/Geographic_coordinate_system\#Latitude_and_longitude}
+{Географическая система координат} на поверхности Земли:
+широта $\phi$ -- угол между местным направлением зенита и 
+плоскостью экватора, отсчитываемый в обе стороны от экватора;
+долгота $\lambda$ -- двугранный угол между плоскостью меридиана, 
+проходящего через данную точку, и плоскостью начального 
+нулевого меридиана;
+$\vect{r}$ -- радиус-вектор точки $A$, находящейся 
+на поверхности Земли радиуса $\mathcal{R}$, 
+имеющий в декартовой системе координат компоненты:
+\begin{equation*}
+\vect{r}=\left(
+\mathcal{R}\cdot\cos(\phi)\cos(\lambda),
+\mathcal{R}\cdot\cos(\phi)\sin(\lambda),
+\mathcal{R}\cdot\sin(\phi)
+\right)
+\end{equation*}
+}
+\end{figure}
+
+\newpage
+
+
+\tdplotsetmaincoords{60}{120}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[tdplot_main_coords,scale=4.5,
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=2pt]
+% радиус Земли
+\def\radiusX{1.1}
+% центр Земли
+\coordinate (O) at (0,0,0);
+% Земля
+\shadedraw[color=darkblue,thick,ball color=blue!25!white,opacity=0.5,rotate=30] 
+(O)  circle({\radiusX cm});
+% экватор
+\fill[color=blue!25,opacity=0.25] 
+(0,0) circle({\radiusX});
+\tdplotsetrotatedcoords{-60}{0}{0};
+\draw[tdplot_rotated_coords,darkblue,thick]
+(\radiusX,0) arc (0:180:{\radiusX})
+node[sloped,pos=0.5,below,font=\small]{экватор};
+\draw[tdplot_rotated_coords,dashed,darkblue,opacity=0.5]
+(\radiusX,0) arc (360:180:{\radiusX});
+
+% система координат
+%\tdplotsetrotatedcoords{0}{0}{0};
+\begin{scope}[font=\footnotesize,color=gray]
+\draw[->] (O) -- (0.8,0,0) node[above left] {$x$};
+\draw[->] (O) -- (0,0.9,0) node[above right] {$y$};
+\draw[->] (O) -- (0,0,1.1) node[left] {$z$};
+\end{scope}
+ 
+% центр сферы
+\tdplotsetcoord{O}{0}{0}{0};
+% координат точек
+\GScoordinate{A}{1}{40}{70};
+\GScoordinate{B}{1}{60}{-30};
+% плоскость
+\filldraw[color=gray,fill=orange!20,opacity=0.5]
+(O) -- (A) to [bend right=50] (B) -- (O);
+% дуга
+\draw[darkblue,thick,tdplot_main_coords]
+(A) to [bend right=50]node[sloped,pos=0.5,above]{$d_{12}$} (B);
+% точки на сфере 
+\draw[fill=red] (A) circle (0.5pt) node[below right]{$1$};
+\draw[fill=blue] (B) circle (0.5pt) node[above left]{$2$};
+% радиус-вектор
+\draw[->,red,thick] (0,0,0) -- (A)
+node[sloped,pos=0.5,below]{$\vect{r}_1$};
+\draw[->,blue,thick] (0,0,0) -- (B)
+node[sloped,pos=0.5,below]{$\vect{r}_2$};
+% угол
+\path (O) -- (A) node[pos=0.35](AA){};
+\path (O) -- (B) node[pos=0.35](AB){};
+\draw[<->] (AA.center) to [bend right=40]node[pos=0.25,above]{$\alpha_{12}$} (AB.center);
+\end{tikzpicture}
+\caption{Расстояние $d_{12}$ (длина дуги) на поверхности сферы
+между точками $1$ и $2$}
+\end{figure}
+
+Скалярное произведение радиус-векторов точек $1$ и $2$,
+лежащих на поверхности сферы:
+\begin{equation*}
+(\vect{r}_1,\vect{r}_2) = \norma{\vect{r}_1}\cdot\norma{\vect{r_2}}
+\cdot\cos(\alpha_{12}),
+\end{equation*}
+где $\vect{r}_1$ и $\vect{r}_2$ -- радиус-вектора точек $A$ и $B$,
+соответственно:
+\begin{gather*}
+\vect{r}_1=\mathcal{R}\cdot\left(
+\cos(\phi_1)\cos(\lambda_1),
+\cos(\phi_1)\sin(\lambda_1),
+\sin(\phi_1)
+\right)\\
+\vect{r}_2=\mathcal{R}\cdot\left(
+\cos(\phi_2)\cos(\lambda_2),
+\cos(\phi_2)\sin(\lambda_2),
+\sin(\phi_2)
+\right);
+\end{gather*}
+$\mathcal{R}$ -- радиус планеты Земля;
+$\alpha_{12}$ -- угол между двумя радиус-векторами:
+\begin{equation}
+\alpha_{12}=\mathrm{acos}\left(
+\dfrac{(\vect{r}_1,\vect{r}_2)}{\norma{\vect{r}_1}\cdot\norma{\vect{r}_2}}
+\right),
+\end{equation}
+$\norma{\vect{r}_1}=\norma{\vect{r}_2}=\mathcal{R}$ --
+длины радиус-векторов, с учетом постоянства радиуса Земли.
+
+Расстояние на поверхности сферы (длина дуги большого радиуса)
+можно определить из соотношения:
+\begin{equation}
+d_{12}=\mathcal{R}\cdot\alpha_{12}
+\end{equation}
+
 %
 % 3D-график
 %
