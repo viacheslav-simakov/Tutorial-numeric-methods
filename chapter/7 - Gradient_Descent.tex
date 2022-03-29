@@ -449,15 +449,21 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 плоскостью экватора, отсчитываемый в обе стороны от экватора.
 
 Радиус-вектор $\vect{r}$ точки $A$, находящейся 
-на поверхности Земли радиуса $\mathcal{R}$, 
-имеет в декартовой системе координат компоненты:
+на поверхности Земли, имеет в декартовой системе 
+координат компоненты:
 \begin{equation*}
-\vect{r}=\left(
-\mathcal{R}\cdot\cos(\phi)\cos(\lambda),
-\mathcal{R}\cdot\cos(\phi)\sin(\lambda),
-\mathcal{R}\cdot\sin(\phi)
-\right)
+\vect{r}=(r_x,r_y,r_z),
 \end{equation*}
+где $r_{x,y,z}$ -- компоненты вектора $\vect{r}$ 
+(проекции вектора на оси декартовой системы координат):
+\begin{equation*}
+\left\{\begin{matrix}[lcl]
+r_x&=&\mathcal{R}\cdot\cos(\phi)\cdot\cos(\lambda)\\
+r_y&=&\mathcal{R}\cdot\cos(\phi)\cdot\sin(\lambda)\\
+r_z&=&\mathcal{R}\cdot\sin(\phi)\\
+\end{matrix}\right.,
+\end{equation*}
+$\mathcal{R}$ -- радиус планеты Земля.
 
 %
 % 3D-МОДЕЛЬ географических координат
@@ -538,35 +544,32 @@ to [bend right=30]node[pos=0.5,right]{$\phi$}
 \label{fig:GCS}
 \end{figure}
 
-Кратчайшее расстояние между двумя точками $P_1$ и $P_2$
+Кратчайшее расстояние между двумя точками $A$ и $B$
 находящимися на сферической поверхности Земли
 равно длине дуги большого круга.
 Если известны географические координатами точек
-$P_1(\phi_1,\lambda_1)$ и $P_2(\phi_2,\lambda_2)$, то
+$A(\phi_a,\lambda_a)$ и $B(\phi_b,\lambda_b)$, то
 расстояние на поверхности Земли между этими точками
 составляет (рисунок \ref{fig:GCS:creat circle distance}):
 \begin{equation}
-d_{12}(\phi_1,\lambda_1,\phi_2,\lambda_2)=\mathcal{R}\cdot\alpha_{12},
+d_{AB}=\mathcal{R}\cdot\alpha,
 \end{equation}
-где $\mathcal{R}$ -- радиус планеты Земля;
-$\alpha_{12}$ -- центральный угол между радиус-\linebreak
-векторами $\vect{r}_1$ и $\vect{r}_2$ 
-точек $P_1$ и $P_2$, лежащих на поверхности Земли,
-который можно определить из выражения 
+где $\alpha$ -- центральный угол между радиус-векторами
+$\vect{a}$ и $\vect{b}$ 
+точек $A$ и $B$, лежащих на поверхности Земли.
+
+Угол между векторами $\vect{a}$ и $\vect{b}$
+можно определить из выражения 
 для скалярного произведения этих векторов:
-\begin{equation}
-(\vect{r}_1,\vect{r}_2) = \norma{\vect{r}_1}\cdot\norma{\vect{r}_2}
-\cdot\cos(\alpha_{12})
+\begin{equation}\label{eq:GD:(r1,r2)}
+(\vect{a},\vect{b}) = \norma{\vect{a}}\cdot\norma{\vect{b}}
+\cdot\cos(\alpha)
 \quad\to\quad
-\alpha_{12}=\arccos\left(
-\dfrac{(\vect{r}_1,\vect{r}_2)}{\norma{\vect{r}_1}\cdot\norma{\vect{r}_2}}
+\alpha=\arccos\left(
+\dfrac{(\vect{a},\vect{b})}{\norma{\vect{a}}\cdot\norma{\vect{b}}}
 \right),
-%d(\phi_1,\lambda_1,\phi_2,\lambda_2)=
-%R\cdot\mathrm{acos}(
-%\sin(\phi_1)\sin(\phi_2)+
-%\cos(\phi_1)\cos(\phi_2)\cdot\cos(\lambda_2-\lambda_1)
 \end{equation}
-где $\norma{\vect{r}_1}=\norma{\vect{r}_2}=\mathcal{R}$ --
+где $\norma{\vect{a}}=\norma{\vect{b}}=\mathcal{R}$ --
 длины радиус-векторов, с учетом постоянства радиуса Земли.
 
 %
@@ -610,11 +613,11 @@ node[sloped,pos=0.5,below,font=\small]{экватор};
 \filldraw[color=gray,fill=orange!20,opacity=0.5]
 (O) -- (A) to [bend right=50] (B) -- (O);
 % дуга
-\draw[darkblue,thick,tdplot_main_coords]
-(A) to [bend right=50]node[sloped,pos=0.5,above]{$d_{12}$} (B);
+\draw[black,thick,tdplot_main_coords]
+(A) to [bend right=50]node[sloped,pos=0.5,above]{$d_{AB}$} (B);
 % точки на сфере 
-\draw[fill=red] (A) circle (0.5pt) node[below right]{$P_1$};
-\draw[fill=blue] (B) circle (0.5pt) node[above left]{$P_2$};
+\draw[fill=red] (A) circle (0.5pt) node[below right,color=red]{$A$};
+\draw[fill=blue] (B) circle (0.5pt) node[above left,color=blue]{$B$};
 % радиус-вектор
 \draw[->,red,thick] (0,0,0) -- (A)
 node[sloped,pos=0.5,below]{$\vect{r}_1$};
@@ -623,44 +626,42 @@ node[sloped,pos=0.5,below]{$\vect{r}_2$};
 % угол
 \path (O) -- (A) node[pos=0.35](AA){};
 \path (O) -- (B) node[pos=0.35](AB){};
-\draw[<->] (AA.center) to [bend right=40]node[pos=0.25,above]{$\alpha_{12}$} (AB.center);
+\draw[<->] (AA.center) to [bend right=40]
+node[pos=0.25,above]{$\alpha$} (AB.center);
 \end{tikzpicture}
-\caption{Расстояние $d_{12}$ (длина дуги) на поверхности сферы
-между точками $P_1$ и $P_2$}
+\caption{Расстояние $d_{AB}$ (длина дуги) на поверхности сферы
+между точками $A$ и $B$}
 \label{fig:GCS:creat circle distance}
 \end{figure}
 
-Скалярное произведение векторов -- это операция 
+\emph{Скалярное произведение векторов} -- это операция 
 над двумя векторами $\vect{a}$ и $\vect{b}$, 
 результатом которой является число скаляр, 
-не зависящее от системы координат, то есть инвариант:
+не зависящее от системы координат, то есть \emph{инвариант}:
 \begin{equation}\label{eq:vector scalar product}
-(\vect{a},\vect{b}) = 
-a_x\cdot b_x + a_y\cdot b_y + a_z\cdot b_z,
+(\vect{a},\vect{b})=a_{x}\cdot b_{x} + a_y\cdot b_y + a_z\cdot b_z,
 \end{equation}
 где $a_{x,y,z}$ и $b_{x,y,z}$ -- компоненты векторов
-в ортонормированной системе координат, например, в декартовой.
-
-Компоненты радиус-векторов 
-$\vect{r}_1$ и $\vect{r}_2$ точек $P_1$ и $P_2$
-в декартовой системе координат :
+в декартовой системе координат:
+% a
 \begin{equation}
-\begin{matrix}[rcl]
-\vect{r}_1&=&\mathcal{R}\cdot\left(
-\cos(\phi_1)\cos(\lambda_1),
-\cos(\phi_1)\sin(\lambda_1),
-\sin(\phi_1)
-\right)\\
-\vect{r}_2&=&\mathcal{R}\cdot\left(
-\cos(\phi_2)\cos(\lambda_2),
-\cos(\phi_2)\sin(\lambda_2),
-\sin(\phi_2)
-\right);
-\end{matrix}
+\vect{a}=\left\{\begin{matrix}[rcl]
+a_x&=&\mathcal{R}\cdot\cos(\phi_a)\cdot\cos(\lambda_a)\\
+a_y&=&\mathcal{R}\cdot\cos(\phi_a)\cdot\sin(\lambda_a)\\
+a_z&=&\mathcal{R}\cdot\sin(\phi_a)\\
+\end{matrix}\right.
+\end{equation}
+% b
+\begin{equation}
+\vect{b}=\left\{\begin{matrix}[rcl]
+b_x&=&\mathcal{R}\cdot\cos(\phi_b)\cdot\cos(\lambda_b)\\
+b_y&=&\mathcal{R}\cdot\cos(\phi_b)\cdot\sin(\lambda_b)\\
+b_z&=&\mathcal{R}\cdot\sin(\phi_b)\\
+\end{matrix}\right.
 \end{equation}
 
 
-
+Скалярное произведение \eqref{eq:GD:(r1,r2)}:
 \begin{equation}
 (\vect{r}_1,\vect{r}_2) = 
 \end{equation}
@@ -675,47 +676,53 @@ $\alpha_{12}$ -- угол между двумя радиус-векторами:
 \right),
 \end{equation}
 
-%
-% 2D-график
-%
-\begin{figure}[H]\centering
-\begin{tikzpicture}[%
->={Straight Barb[angle=45:1.5mm 1]},shorten >=2pt,%
-]
-\begin{axis}[
-axis on top,enlargelimits=true,
-ylabel={широта $\phi$},xlabel={долгота $\lambda$},
-%xtick=\empty,ytick=\empty,
-ymin=53,ymax=58,xmin=36,xmax=44,
-]
-\addplot[black!90,smooth]
-plot table [y={latitude},x={longitude}]{chapter/counter1.txt}
-node[pos=0.7,fill=white,xshift=+9pt,text=black]{\tiny$850$};
-\addplot[black!50,smooth]
-plot table [y={latitude},x={longitude}]{chapter/counter2.txt}
-node[pos=0.7,fill=white,xshift=+7pt,text=black]{\tiny$900$};
-\addplot[black!35,smooth]
-plot table [y={latitude},x={longitude}]{chapter/counter3.txt}
-node[pos=0.7,fill=white,xshift=+7pt,text=black]{\tiny$1000$};
-\addplot[black!20,smooth]
-plot table [y={latitude},x={longitude}]{chapter/counter4.txt}
-node[pos=0.7,fill=white,xshift=+7pt,text=black]{\tiny$1100$};
-% 'траектория' поиска минимума
-\addplot[red]
-plot table [y={latitude},x={longitude}]{chapter/path_min.txt};
-% начальная точка
-\addplot[only marks,ball darkred]
-coordinates {(36.7,53.5)} node[below,fill=white]{$(\lambda_0,\phi_0)$};
-%\addplot[->,darkred]
-%coordinates {(-3.000,-8.000) (0.747,-8.000) (0.747,-2.006) (-0.496,-2.006)};
-% конечная точка
-\addplot[only marks,ball darkred]
-coordinates {(38.840997,55.882960)};
-\end{axis}
-\end{tikzpicture}
-%\end{subfigure}
-\caption{``Рельеф`` функции двух переменных $r(\phi,\lambda)$}
-\end{figure}
+%d(\phi_1,\lambda_1,\phi_2,\lambda_2)=
+%R\cdot\mathrm{acos}(
+%\sin(\phi_1)\sin(\phi_2)+
+%\cos(\phi_1)\cos(\phi_2)\cdot\cos(\lambda_2-\lambda_1)
+
+
+%%
+%% 2D-график
+%%
+%\begin{figure}[H]\centering
+%\begin{tikzpicture}[%
+%>={Straight Barb[angle=45:1.5mm 1]},shorten >=2pt,%
+%]
+%\begin{axis}[
+%axis on top,enlargelimits=true,
+%ylabel={широта $\phi$},xlabel={долгота $\lambda$},
+%%xtick=\empty,ytick=\empty,
+%ymin=53,ymax=58,xmin=36,xmax=44,
+%]
+%\addplot[black!90,smooth]
+%plot table [y={latitude},x={longitude}]{chapter/counter1.txt}
+%node[pos=0.7,fill=white,xshift=+9pt,text=black]{\tiny$850$};
+%\addplot[black!50,smooth]
+%plot table [y={latitude},x={longitude}]{chapter/counter2.txt}
+%node[pos=0.7,fill=white,xshift=+7pt,text=black]{\tiny$900$};
+%\addplot[black!35,smooth]
+%plot table [y={latitude},x={longitude}]{chapter/counter3.txt}
+%node[pos=0.7,fill=white,xshift=+7pt,text=black]{\tiny$1000$};
+%\addplot[black!20,smooth]
+%plot table [y={latitude},x={longitude}]{chapter/counter4.txt}
+%node[pos=0.7,fill=white,xshift=+7pt,text=black]{\tiny$1100$};
+%% 'траектория' поиска минимума
+%\addplot[red]
+%plot table [y={latitude},x={longitude}]{chapter/path_min.txt};
+%% начальная точка
+%\addplot[only marks,ball darkred]
+%coordinates {(36.7,53.5)} node[below,fill=white]{$(\lambda_0,\phi_0)$};
+%%\addplot[->,darkred]
+%%coordinates {(-3.000,-8.000) (0.747,-8.000) (0.747,-2.006) (-0.496,-2.006)};
+%% конечная точка
+%\addplot[only marks,ball darkred]
+%coordinates {(38.840997,55.882960)};
+%\end{axis}
+%\end{tikzpicture}
+%%\end{subfigure}
+%\caption{``Рельеф`` функции двух переменных $r(\phi,\lambda)$}
+%\end{figure}
     
 
 % Метод градиентного спуска
