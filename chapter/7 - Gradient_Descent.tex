@@ -420,14 +420,14 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 \end{enumerate}
 
 \emptyline
-Практически можно задать некоторое число $\varepsilon > 0$, 
+Практически можно задать некоторое число $\epsilon > 0$, 
 связанное с выбранной точностью вычислений, и 
 проводить итерации до тех пор, пока на $k$-ой итерации
 не будут выполнены одно или несколько неравенств вида:
 \begin{equation}
-\norma{\vect{x}_k - \vect{x}_{k-1}} < \varepsilon_1,
+\norma{\vect{x}_k - \vect{x}_{k-1}} < \epsilon_1,
 \quad
-\norma{f(\vect{x}_k)-f(\vect{x}_{k-1})} < \varepsilon_2
+\norma{f(\vect{x}_k)-f(\vect{x}_{k-1})} < \epsilon_2
 \end{equation}
 
 \emptyline
@@ -780,13 +780,79 @@ $\phi_3=56.671$ и $\lambda_3=39.162$ -- долгота и широта горо
 
 \item
 Для решения задачи оптимизации целевой функции 
-определим область поиска минимума, например,
-в качестве границ области зададим экстремальные значения
-широты и долготы городов, в которых расположены 
-магазины торговой сети:
-\begin{gather}
-\phi_{start} =
-\end{gather}
+\alert{методом по координатного спуска} 
+определим область поиска минимума функции $r(\phi,\lambda)$.
+
+Например, в качестве границ области можно выбрать
+экстремальные значения широты и долготы городов, 
+в которых расположены магазины торговой сети:
+\begin{gather*}
+\left\{\begin{matrix}[lclcl]
+\phi_{\mathrm{start}}&=&\min(\phi_1,\phi_2,\phi_3) = \phi_2&=&51.534\\
+\phi_{\mathrm{end}}&=&\max(\phi_1,\phi_2,\phi_3) = \phi_3&=&56.671\\
+\end{matrix}\right.
+\\
+\left\{\begin{matrix}[lclcl]
+\lambda_{\mathrm{start}}&=&\min(\lambda_1,\lambda_2,\lambda_3)=\lambda_1&=&37.630\\
+\lambda_{\mathrm{end}}&=&\max(\lambda_1,\lambda_2,\lambda_3)=\lambda_2&=&46.031\\
+\end{matrix}\right.
+\end{gather*}
+
+Таким образом, минимум целевой функции будем искать в области:
+\begin{equation*}
+\left\{\begin{matrix}[rcl]
+\phi_{\mathrm{start}}&\leqslant \phi \leqslant&\phi_{\mathrm{end}}\\
+\lambda_{\mathrm{start}}&\leqslant \lambda \leqslant&\lambda_{\mathrm{end}}\\
+\end{matrix}\right.
+\quad\to\quad
+\left\{\begin{matrix}[rcl]
+51.534&\leqslant \phi \leqslant&56.671\\
+37.630&\leqslant \lambda \leqslant&46.031\\
+\end{matrix}\right.
+\end{equation*}
+
+\item
+В качестве критерия прекращения итерационного поиска
+минимума целевой функции выберем точность определения
+местоположения склада на текущем шаге итерационного процесса:
+\begin{equation}\label{eq:GCS:stop error}
+\sqrt{(\phi_k-\phi_{k-1})^2+(\lambda_k-\lambda_{k-1})^2}
+\leqslant\epsilon_1=10^{-2},
+\end{equation}
+где $\phi_k$ и $\lambda_k$ -- значение географических координат
+склада на $k$-ом шаге итерационного процесса.
+
+\item
+В качестве нулевого приближения выберем границу области поиска
+минимума целевой функции:
+\begin{equation*}
+\begin{cases}
+\phi_0 = \phi_{\mathrm{start}}\\
+\lambda_0 = \lambda_{\mathrm{end}}\\
+\end{cases}
+\quad\to\quad
+\begin{cases}
+\phi_0 = 56.671\\
+\lambda_0 = 46.031\\
+\end{cases},
+\end{equation*}
+где $(\phi_0,\lambda_0)$ -- начальное местоположение склада.
+
+\item
+Считаем постоянными значения долготы склада 
+$\lambda=\lambda_0=\const$
+и рассматриваем вспомогательную функцию
+только одной переменной $\phi$:
+\begin{equation*}
+g(\phi)=r(\phi, \lambda_0)=r(\phi, 46.031)
+\end{equation*}
+
+\item
+Находим минимум функции одной переменной,
+используя метод одномерной минимизации:
+\begin{equation*}
+g(\phi_{\min},\lambda_0)
+\end{equation*}
 
 \item
 С помощью метода по координатного спуска,
