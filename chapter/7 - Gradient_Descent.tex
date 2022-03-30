@@ -908,7 +908,8 @@ $\phi=\phi_{\min}=\const$
 \begin{figure}[H]\centering
 \begin{tikzpicture}[>={Straight Barb[angle=45:1.5mm 1]},shorten >=0pt]
 \begin{axis}[enlargelimits=0.2,xtick={},ytick={},
-xlabel={широта $\phi$},ylabel={долгота $\lambda$}]
+xlabel={широта $\phi$},ylabel={долгота $\lambda$},
+y dir=reverse]
 %% изолинии
 
 %% местонахождение городов
@@ -932,7 +933,7 @@ node[right,fill=white]{$(\phi_{\min},\lambda_0)$};
 node[left,fill=white,xshift=-5pt]{$(\phi_{\min},\lambda_{\min})$};
 %% результирующее смещение
 \addplot[black,thin,->]coordinates{(51.534,46.031) (53.946,40.209)}
-node[sloped,pos=0.5,below]{$\xi$};
+node[sloped,pos=0.5,above]{$\xi$};
 %\addplot[darkred]coordinates{(53.946,40.209)(55.808,40.209)(55.808,38.780)(55.868,38.780)(55.868,38.828)(55.880,38.828)(55.880,38.839)(55.880,38.839)(55.880,38.839)};
 %% начальное положение
 %\addplot[darkred,mark=*]coordinates{(51.534,46.031)};
