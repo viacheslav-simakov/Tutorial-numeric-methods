@@ -437,6 +437,50 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 \norma{f(\vect{x}_k)-f(\vect{x}_{k-1})} < \epsilon_2
 \end{equation}
 
+% *** Алгоритм поиска минимума функции 
+% методом по координатного спуска
+% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,every join/.style=->,%
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% соединитель
+\node[rrectnode,on chain,join]{старт};
+% данные
+\node[datanode,on chain,join]
+{$\vect{x}_0, \mathcal{D}, \epsilon_1$};
+% grad(f)
+\node[rectnode,on chain,join](grad0)
+{$\nabla_0=\nabla{f(\vect{x}_0})$};
+% x1
+\node[rectnode,on chain,join](x1)
+{$\vect{x}_1=\vect{x}_0-\lambda\cdot\nabla_0$};
+% сравнение
+\node[ifthenelsenode,on chain,join](compare)
+{$\norma{\vect{x}_1-\vect{x}_0}\leqslant\varepsilon_1$};
+% нет
+\begin{scope}[start branch=b,node distance=15mm]
+\node[rectnode,on chain=going right,join](no)
+{$\vect{x}_0=\vect{x}_1$};
+\draw(compare.east) node[above right]{нет};
+\draw[->,thick] (no.north) |- (grad0.east);
+\end{scope}
+% выход
+\draw (compare.south) node[below left]{да};
+\begin{scope}[node distance=12mm]
+\node[rrectnode,on chain,join]{стоп};
+\end{scope}
+\end{tikzpicture}
+% *******************************************
+\caption{Блок-схема алгоритма нахождения минимума\linebreak 
+функции $f(\vect{x})$ многих переменных 
+методом градиентного спуска}
+\label{fig:GD:scheme gradf(x)->min}
+\end{figure}
+
+
 % Метод градиентного спуска
 \emptyline
 \subsubsection{Метод градиентного спуска}
@@ -564,7 +608,7 @@ $-\nabla{f}(\vect{x})$.
 %\end{enumerate}
 
 
-% *** Алгоритм поиска минимума функции одной переменной
+% *** Алгоритм поиска минимума методом градиентного спуска
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
@@ -576,7 +620,7 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \node[rrectnode,on chain,join]{старт};
 % данные
 \node[datanode,on chain,join]
-{$\vect{x}_0, \lambda, \varepsilon_1$};
+{$\vect{x}_0, \lambda, \epsilon_1$};
 % grad(f)
 \node[rectnode,on chain,join](grad0)
 {$\nabla_0=\nabla{f(\vect{x}_0})$};
@@ -585,7 +629,7 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 {$\vect{x}_1=\vect{x}_0-\lambda\cdot\nabla_0$};
 % сравнение
 \node[ifthenelsenode,on chain,join](compare)
-{$\norma{\vect{x}_1-\vect{x}_0}\leqslant\varepsilon_1$};
+{$\norma{\vect{x}_1-\vect{x}_0}\leqslant\epsilon_1$};
 % нет
 \begin{scope}[start branch=b,node distance=15mm]
 \node[rectnode,on chain=going right,join](no)
