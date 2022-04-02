@@ -1553,6 +1553,78 @@ node[below,xshift=+10pt]{склад};
 \label{fig:min3}
 \end{figure}
 
+\item
+Полученные данные в процессе выполнения
+минимизации целевой функции методом 
+по координатного спуска представлены в таблице 
+\ref{tab:r(iteration)}.
+%
+% Таблица: траектория поиска минимума
+%
+\begin{table}[H]
+\caption{``Траектория`` поиска местоположения
+склада торговой сети}
+\label{tab:r(iteration)}
+\begin{tabular*}{\textwidth}{%
+@{\extracolsep{\fill}}p{2cm} p{2.5cm} p{2.5cm} p{2cm} p{5cm}}
+\toprule
+Итерация&\multicolumn{2}{l}{Местоположение склада}%
+&Шаг $\xi$&Расстояние $f(\phi,\lambda)$, км\\
+\cmidrule{2-3}
+&широта $\phi$&долгота $\lambda$\\
+\midmidrule
+$0$&$52.00000$&$44.00000$&$0.00000$&$1338.696$\\
+$1$&$54.66658$&$39.49103$&$5.23846$&$944.004$\\
+$2$&$55.94734$&$38.88818$&$1.41555$&$845.572$\\
+$3$&$55.88973$&$38.83941$&$0.07548$&$845.314$\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+На рисунке \ref{fig:f(iteration)} представлена зависимость
+суммарного расстояния между складом и всеми магазинами 
+от номера итерации $k$ поиска минимума целевой функции:
+%
+% График: уменьшение функции в итерациях
+%
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+\begin{axis}[enlargelimits=0.2,
+xtick={0,1,2,3},ytick={800,1000,1200,1400},
+xlabel={Номер итерации $k$},
+ylabel={$f(\phi,\lambda)$, км},
+y tick label style={/pgf/number format/.cd,set thousands separator={}},
+]
+\addplot[darkred,mark=*,mark size=3pt,mark options={fill=white}]coordinates{(0,1338.696)(1,944.004)(2,845.572)(3,845.314)};
+\end{axis}
+\end{tikzpicture}
+\caption{Зависимость суммарного расстояния $f(\phi,\lambda)$
+между складом и магазинами торговой сети от числа итераций}
+\label{fig:f(iteration)}
+\end{figure}
+
+На рисунке представлена зависимость изменение местоположения 
+склада $\xi$ от номера итерации $k$ процесса поиска минимума
+целевой функции:
+%
+% График: уменьшение функции ошибки
+%
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+\begin{axis}[%axis on top,
+xtick={0,1,2,3},ytick={0.1,1,10},
+enlargelimits=0.2,
+xlabel={Номер итерации $k$},
+ylabel={Шаг итерации $\xi$},ymode=log,
+%y tick label style={/pgf/number format/.cd,set thousands separator={}},
+]
+\addplot[darkred,mark=*,mark size=3pt,mark options={fill=white}]coordinates{(1,5.23846)(2,1.41555)(3,0.07548)};
+\end{axis}
+\end{tikzpicture}
+\caption{Изменение местоположения склада $\xi$ 
+на $k$-ом шаге итерационного процесса}
+\label{}
+\end{figure}
 
 %\item
 %С помощью метода по координатного спуска,
