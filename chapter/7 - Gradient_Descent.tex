@@ -1188,7 +1188,9 @@ f(\phi_{\min},\lambda_{\min})=944.004&<&f(\phi_0,\lambda_0)=1338.696\\
 %
 \begin{figure}[H]\centering
 \begin{tikzpicture}
-[>={Straight Barb[angle=45:1.5mm 1]},shorten >=0pt,shorten <=0pt]
+[>={Straight Barb[angle=45:1.5mm 1]},
+%shorten >=0pt,shorten <=0pt
+]
 \begin{axis}[enlargelimits=0.2,grid=none,
 xlabel={широта $\phi$},ylabel={долгота $\lambda$},
 xmin=51.25,xmax=56.75,xtick={51,52,53,54,55,56,57},
@@ -1213,7 +1215,6 @@ node[above,text=black]{Саратов};
 node[above,text=black]{Воронеж};
 \begin{scope}[font=\footnotesize]
 %% начальная точка
-%\addplot[darkred,mark=*,mark size=2.5pt]
 \addplot[ball darkred]
 coordinates{(\phiStart,\lambdaStart)}
 node[above]{$(\phi_0,\lambda_0)$}
@@ -1223,15 +1224,15 @@ node[below left]{склад};
 coordinates{(\phiStart,\lambdaStart) (\phiMin,\lambdaStart)}
 node[above,opacity=1,text=darkred]{$(\phi_{\min},\lambda_0)$};;
 %% смещение по lambda
-\addplot[->,gray,thin,dashed,opacity=0.5]
+\addplot[->,gray,thin,dashed,opacity=0.5,shorten >=3pt]
 coordinates{(\phiMin,\lambdaStart) (\phiMin,\lambdaMin)};
 %% конечное положение
-\addplot[darkred]
+\addplot[ball darkred]
 coordinates{(\phiMin,\lambdaMin)}
 node[below]{$(\phi_{\min},\lambda_{\min})$};
 \end{scope}
 %% результирующее смещение
-\addplot[darkred,->]
+\addplot[darkred,->,shorten >=3pt]
 coordinates{(\phiStart,\lambdaStart) (\phiMin,\lambdaMin)}
 node[sloped,pos=0.5,above]{$\xi$};
 \end{axis}
@@ -1352,8 +1353,7 @@ f(\phi_{\min},\lambda_{\min})=845.572&<&f(\phi_0,\lambda_0)=944.004\\
 % График: траектория поиска минимума
 %
 \begin{figure}[H]\centering
-\begin{tikzpicture}
-[>={Straight Barb[angle=45:1.5mm 1]},shorten >=0pt,shorten <=0pt]
+\begin{tikzpicture}[>={Straight Barb[angle=45:1.5mm 1]}]
 \begin{axis}[enlargelimits=0.2,grid=none,
 xlabel={широта $\phi$},ylabel={долгота $\lambda$},
 xmin=54.25,xmax=56.75,xtick={54,55,56,57},
@@ -1378,7 +1378,6 @@ node[above,text=black]{Саратов};
 node[above,text=black]{Воронеж};
 \begin{scope}[font=\footnotesize]
 %% начальная точка
-%\addplot[darkred,mark=*,mark size=2.5pt]
 \addplot[ball darkred]
 coordinates{(\phiStart,\lambdaStart)}
 node[below left]{$(\phi_0,\lambda_0)$};
@@ -1387,17 +1386,17 @@ node[below left]{$(\phi_0,\lambda_0)$};
 coordinates{(\phiStart,\lambdaStart) (\phiMin,\lambdaStart)}
 node[above,opacity=1,text=darkred]{$(\phi_{\min},\lambda_0)$};;
 %% смещение по lambda
-\addplot[->,gray,thin,dashed,opacity=0.5]
+\addplot[->,gray,thin,dashed,opacity=0.5,shorten >=3pt]
 coordinates{(\phiMin,\lambdaStart) (\phiMin,\lambdaMin)};
 %% конечное положение
-\addplot[darkred]
+\addplot[ball darkred]
 coordinates{(\phiMin,\lambdaMin)}
 node[below]{$(\phi_{\min},\lambda_{\min})$};
 \end{scope}
 %% результирующее смещение
-\draw[darkred,->]
+\draw[darkred,->,shorten >=3pt]
 (axis cs: 52.0,44.0) -- (axis cs: \phiStart,\lambdaStart);
-\draw[darkred,->]
+\draw[darkred,->,shorten >=3pt]
 (axis cs: \phiStart,\lambdaStart) -- (axis cs: \phiMin,\lambdaMin)
 node[sloped,pos=0.5,below]{$\xi$};
 \end{axis}
@@ -1539,9 +1538,10 @@ node[above]{$(\phi_0,\lambda_0)$};
 %% 'траектория' поиска минимума
 \addplot[gray,thin,dashed,opacity=0.5]coordinates{(52.00000,44.00000)(54.66658,44.00000)(54.66658,39.49103)(55.94734,39.49103)(55.94734,38.88818)(55.88973,38.88818)(55.890,38.839)};
 %%
-\draw[darkred,->] (axis cs:52.0,44.0) -- (axis cs:54.66658,39.49103);
-\draw[darkred,->] (axis cs:54.66658,39.49103) -- (\phiMin,\lambdaMin);
+\draw[darkred,->,shorten >= 3pt] (axis cs:52.0,44.0) -- (axis cs:54.66658,39.49103);
+\draw[darkred,->,shorten >= 3pt] (axis cs:54.66658,39.49103) -- (\phiMin,\lambdaMin);
 %% конечное положение
+\addplot[ball darkred]coordinates{(54.66658,39.49103)};
 \addplot[ball darkred]coordinates{(\phiMin,\lambdaMin)}
 node[below,xshift=+10pt]{склад};
 \end{scope}
