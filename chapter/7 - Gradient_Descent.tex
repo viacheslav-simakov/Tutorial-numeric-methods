@@ -66,13 +66,15 @@
 		draw,text width=4cm,align=center,line width=0.25mm,
 		shape=chamfered rectangle,
 		chamfered rectangle corners={north west,north east},
-		minimum height=3em,minimum width=5cm,
+		minimum height=2em,
+		minimum width=3.5cm,
 	},
 	endloopnode/.style={
 		draw,text width=4cm,align=center,line width=0.25mm,
 		shape=chamfered rectangle,
 		chamfered rectangle corners={south west,south east},
-		minimum height=3em,minimum width=5cm,
+		minimum height=2em,
+		minimum width=3.5cm,
 	},
 	signalnode/.style={
 		draw,line width=0.25mm,
@@ -439,7 +441,8 @@ f(m_1,x_{20},\ldots,x_{n0})>f(m_1,m_2,\ldots,x_{n0})
 приближение\linebreak $\vect{x}_0=\vect{x}_m$ 
 и повторить цикл спусков по координатам $x_1,x_2,\ldots,x_n$
 до тех пока, не выполнено условие останова 
-итерационного процесса.
+итерационного процесса 
+(рисунок \ref{fig:min:scheme coordinates}).
 \end{enumerate}
 
 \emptyline
@@ -467,33 +470,48 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 % данные
 \node[datanode,on chain,join]
 {$\vect{x}_0, \mathcal{D}, \epsilon_1$};
-% grad(f)
-\node[rectnode,on chain,join](grad0)
-{$\nabla_0=\nabla{f(\vect{x}_0})$};
-% x1
-\node[rectnode,on chain,join](x1)
-{$\vect{x}_1=\vect{x}_0-\lambda\cdot\nabla_0$};
+% x
+\node[rectnode,on chain,join](x){$\vect{x}=\vect{x}_0$};
+% начало цикла
+\node[startloopnode,on chain,join](loop){$i=1,2,3,\ldots$};
+% фиксирование переменных
+\node[rectnode,on chain,join]
+{$x_j=\const,
+\quad\forall j \ne i,
+\quad j=1,2,\ldots,n$};
+% min
+\node[rectnode,on chain,join](min)
+{$x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$};
+% конец цикла
+\node[endloopnode,on chain,join]{$i=n$};
+% f(x)<f(x0)
+\node[ifthenelsenode,on chain,join](compare-f)
+{$f(\vect{x})<f(\vect{x}_0)$};
+\draw(compare-f.south) node[below left]{да};
+\draw(compare-f.west) node[above left]{нет};
 % сравнение
 \node[ifthenelsenode,on chain,join](compare)
-{$\norma{\vect{x}_1-\vect{x}_0}\leqslant\varepsilon_1$};
+{$\norma{\vect{x}-\vect{x}_0}\leqslant\varepsilon_1$};
 % нет
 \begin{scope}[start branch=b,node distance=15mm]
 \node[rectnode,on chain=going right,join](no)
-{$\vect{x}_0=\vect{x}_1$};
+{$\vect{x}_0=\vect{x}$};
 \draw(compare.east) node[above right]{нет};
-\draw[->,thick] (no.north) |- (grad0.east);
+\draw[->,thick] (no.north) |- (loop.east);
 \end{scope}
 % выход
 \draw (compare.south) node[below left]{да};
 \begin{scope}[node distance=12mm]
-\node[rrectnode,on chain,join]{стоп};
+\node[rrectnode,on chain,join](stop){стоп};
+% выход f
+\draw[->](compare-f.west) -- ([xshift=-15mm]compare-f.west) |- (stop.west);
 \end{scope}
 \end{tikzpicture}
 % *******************************************
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
 функции $f(\vect{x})$ многих переменных 
-методом градиентного спуска}
-\label{fig:GD:scheme gradf(x)->min}
+методом по координатного спуска}
+\label{fig:min:scheme coordinates}
 \end{figure}
 
 
