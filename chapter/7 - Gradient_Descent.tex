@@ -821,11 +821,11 @@ $\phi_3=56.67071$ и $\lambda_3=39.16190$ -- широта и долгота го
 Критерием прекращения итерационного поиска
 минимума целевой функции считать условие выполнения
 одного из неравенств:
-\begin{equation*}
+\begin{equation}\label{eq:stop condition}
 \epsilon_1 \geqslant \xi,
 \qquad
 f(\phi_k,\lambda_k) \geqslant f(\phi_{k-1},\lambda_{k-1})
-\end{equation*}
+\end{equation}
 где $\epsilon_1=0.1$ -- заданная точность
 определения местоположения склада;\linebreak
 $\xi$ -- изменение местоположения склада 
@@ -915,13 +915,30 @@ $\phi=\phi_{\min}=\const$
 \end{split}
 \end{equation*}
 
+Находим значение целевой функции в начальной 
+$f(\phi_0,\lambda_0)$ и конечной точки 
+$f(\phi_{\min},\lambda_{\min})$ точках 
+местоположения склада:
+\begin{equation*}
+\begin{matrix}[lclcl]
+f(\phi_0,\lambda_0)&=&f(\phiStart,\lambdaStart)&=&1338.696\\
+f(\phi_{\min},\lambda_{\min})&=&f(\phiMin,\lambdaMin)&=&944.004\\
+\end{matrix}
+\end{equation*}
+
 Сравниваем величину текущего ``шага`` $\xi$ и 
-заданную точность расчетов $\epsilon_1$:
-\begin{gather*}
-\xi=\epsilonOne>0.1=\epsilon_1
-\end{gather*}
-Величина текущего ``шага`` $\xi$ больше заданной 
-точности расчетов $\epsilon_1$,
+заданную точность расчетов $\epsilon_1$,
+а также значения целевой функции $f(\phi,\lambda)$ в начальной
+и конечной точки итерационного процесса:
+\begin{equation*}
+\begin{matrix}[rcl]
+\epsilon_1=0.1&<&\xi=\epsilonOne\\
+f(\phi_{\min},\lambda_{\min})=944.004&<&f(\phi_0,\lambda_0)=1338.696\\
+\end{matrix}
+\end{equation*}
+
+Критерий остановки итерационного процесса 
+\eqref{eq:stop condition} не выполняется,
 следовательно, \emph{итерационный процесс продолжаем}!
 
 %
@@ -930,9 +947,10 @@ $\phi=\phi_{\min}=\const$
 \begin{figure}[H]\centering
 \begin{tikzpicture}
 [>={Straight Barb[angle=45:1.5mm 1]},shorten >=0pt,shorten <=0pt]
-\begin{axis}[enlargelimits=0.2,xtick={},ytick={},grid=none,
+\begin{axis}[enlargelimits=0.2,grid=none,
 xlabel={широта $\phi$},ylabel={долгота $\lambda$},
-%y dir=reverse
+xmin=51.25,xmax=56.75,xtick={51,52,53,54,55,56,57},
+ymin=36.25,ymax=45.75,ytick={36,38,40,42,44,46},
 ]
 %% изолинии
 
@@ -972,17 +990,29 @@ node[sloped,pos=0.5,above]{$\xi$};
 \label{fig:min1}
 \end{figure}
 
+
+%
+% новое положение склада
+%
+\def\phiStart{54.66658}
+\def\lambdaStart{39.49103}
+% частный минимум phi
+\def\phiMin{55.94734}
+% частный минимум lambda
+\def\lambdaMin{38.88818}
+% epsilon
+\def\epsilonOne{1.41555}
+%
 \item
 За новое местоположение склада торговой сети 
 принимается положение ``частного`` минимума 
 целевой функции на предыдущем шаге итерационного процесса:
 \begin{equation*}
 \left\{\begin{matrix}[lcl]
-\phi_0 = \phi_{\min}&=&\phiMin\\
-\lambda_0 = \lambda_{\min}&=&\lambdaMin\\
+\phi_0 = \phi_{\min}&=&\phiStart\\
+\lambda_0 = \lambda_{\min}&=&\lambdaStart\\
 \end{matrix}\right.
 \end{equation*}
-и итерационный процесс повторяется!
 
 \item
 Считаем постоянными значения долготы склада 
@@ -990,16 +1020,134 @@ $\lambda=\lambda_0=\const$
 и рассматриваем вспомогательную функцию
 только одной переменной $\phi$:
 \begin{equation*}
-\rho(\phi)=r(\phi, \lambda_0)=r(\phi,40.209)
+\rho_1(\phi)=f(\phi, \lambda_0)=f(\phi,\lambdaStart)
 \end{equation*}
 
-Находим минимум функции одной переменной $\rho(\phi)$,
+Находим минимум вспомогательной функции 
+одной переменной $\rho_1(\phi)$, используя метод 
+одномерной минимизации:
+\begin{equation*}
+\phi_{\min}
+=\arg\left(
+\min_{\phi_{\inf}\leqslant\phi\leqslant\phi_{\sup}}\rho_1(\phi)
+\right)
+=\phiMin
+\end{equation*}
+где $\phi_{\min}$ -- положение ``частного`` минимума
+функции $f(\phi, \lambdaStart)$.
+
+Считаем постоянными значения широты склада 
+$\phi=\phi_{\min}=\const$ 
+и рассматриваем вторую вспомогательную функцию
+только одной переменной $\lambda$:
+\begin{equation*}
+\rho_2(\lambda)=f(\phi_{\min},\lambda)=f(\phiMin,\lambda)
+\end{equation*}
+
+Находим минимум функции одной переменной $\rho_2(\lambda)$,
 используя метод одномерной минимизации:
 \begin{equation*}
-\rho(\phi_{\min})\to\min,\qquad\phi_{\min}=55.808
+\lambda_{\min}
+=\arg\left(
+\min_{\lambda_{\inf}\leqslant\lambda\leqslant\lambda_{\sup}}\rho_2(\lambda)
+\right)
+=\lambdaMin
 \end{equation*}
-где $\phi_{\min}$ -- положение минимума
-вспомогательной функции $\rho(\phi)=r(\phi,40.209)$.
+где $\lambda_{\min}$ -- положение ``частного`` минимума
+функции $f(\phiMin,\lambda)$.
+
+\item
+Определяем изменение местоположения склада 
+\eqref{eq:GCS:step error} в результате проведенных 
+итерационных процессов (рисунок \ref{fig:min2}):
+\begin{equation*}
+\begin{split}
+\xi=\;
+&\sqrt{(\phi_{\min}-\phi_0)^2+(\lambda_{\min}-\lambda_0)^2}=\\
+=\;&\sqrt{(\phiMin-\phiStart)^2+(\lambdaMin-\lambdaStart)^2}=\\
+=\;&\epsilonOne\\
+\end{split}
+\end{equation*}
+
+%
+% График: траектория поиска минимума
+%
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+[>={Straight Barb[angle=45:1.5mm 1]},shorten >=0pt,shorten <=0pt]
+\begin{axis}[enlargelimits=0.2,grid=none,
+xlabel={широта $\phi$},ylabel={долгота $\lambda$},
+xmin=54.25,xmax=56.75,xtick={54,55,56,57},
+ymin=37.25,ymax=39.75,ytick={37,38,39,40},
+]
+%% изолинии
+
+%% местонахождение городов
+\addplot[ball darkblue,only marks]coordinates{(55.664,37.630)}
+node[below,text=black]{Москва};
+\addplot[ball darkblue,only marks]coordinates{(51.534,46.031)}
+node[above,text=black]{Саратов};
+\addplot[ball darkblue,only marks]coordinates{(56.671,39.162)}
+node[above,text=black]{Воронеж};
+\begin{scope}[font=\footnotesize]
+%% начальная точка
+\addplot[darkred,mark=*,mark size=2.5pt]
+coordinates{(\phiStart,\lambdaStart)}
+node[below left]{$(\phi_0,\lambda_0)$};
+%% смещение по phi
+\addplot[->,gray,thin,dashed,opacity=0.5]
+coordinates{(\phiStart,\lambdaStart) (\phiMin,\lambdaStart)}
+node[above,opacity=1,text=darkred]{$(\phi_{\min},\lambda_0)$};;
+%% смещение по lambda
+\addplot[->,gray,thin,dashed,opacity=0.5]
+coordinates{(\phiMin,\lambdaStart) (\phiMin,\lambdaMin)};
+%% конечное положение
+\addplot[darkred]
+coordinates{(\phiMin,\lambdaMin)}
+node[below]{$(\phi_{\min},\lambda_{\min})$};
+\end{scope}
+%% результирующее смещение
+%\addplot[darkred,->]
+%coordinates{(52.0,44.0)(\phiStart,\lambdaStart) (\phiMin,\lambdaMin)};
+\draw[darkred,->]
+(axis cs: 52.0,44.0) -- (axis cs: \phiStart,\lambdaStart);
+\draw[darkred,->]
+(axis cs: \phiStart,\lambdaStart) -- (axis cs: \phiMin,\lambdaMin)
+node[sloped,pos=0.5,below]{$\xi$};
+\end{axis}
+\end{tikzpicture}
+\caption{``Рельеф`` целевой функции $r(\phi,\lambda)$ и 
+``траектория`` поиска местоположения склада $(\phi,\lambda)$
+торговой сети (маркерами обозначены города)}
+\label{fig:min2}
+\end{figure}
+
+
+Находим значение целевой функции в начальной 
+$f(\phi_0,\lambda_0)$ и конечной точки 
+$f(\phi_{\min},\lambda_{\min})$ точках 
+местоположения склада:
+\begin{equation*}
+\begin{matrix}[lclcl]
+f(\phi_0,\lambda_0)&=&f(\phiStart,\lambdaStart)&=&944.004\\
+f(\phi_{\min},\lambda_{\min})&=&f(\phiMin,\lambdaMin)&=&845.572\\
+\end{matrix}
+\end{equation*}
+
+Сравниваем величину текущего ``шага`` $\xi$ и 
+заданную точность расчетов $\epsilon_1$,
+а также значения целевой функции $f(\phi,\lambda)$ в начальной
+и конечной точки итерационного процесса:
+\begin{equation*}
+\begin{matrix}[rcl]
+\epsilon_1=0.1&<&\xi=\epsilonOne\\
+f(\phi_{\min},\lambda_{\min})=845.572&<&f(\phi_0,\lambda_0)=944.004\\
+\end{matrix}
+\end{equation*}
+
+Критерий остановки итерационного процесса 
+\eqref{eq:stop condition} не выполняется,
+следовательно, \emph{итерационный процесс продолжаем}!
 
 
 %\item
