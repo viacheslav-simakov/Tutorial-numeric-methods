@@ -374,18 +374,30 @@ f(x_1=\const,x_2=\const,\ldots,\textcolor{darkred}{x_n})\to\min\\
 \begin{enumerate}
 \item
 Выбирают нулевое приближение 
-$\vect{x}_0=(x_{10},x_{20},\ldots,x_{n0})$.
+$\vect{x}_0=(x_{10},x_{20},\ldots,x_{n0})$
+и определяют область поиска минимума функции:
+\begin{equation*}
+\mathcal{D}=\left\{\begin{matrix}
+a_1 \leqslant x_1 \leqslant b_1\\
+a_2 \leqslant x_2 \leqslant b_2\\
+\hdotsfor{1}\\
+a_n \leqslant x_n \leqslant b_n\\
+\end{matrix}\right.
+\end{equation*}
 \item
 Фиксируют (считают постоянными)  значения всех 
 координат кроме $x_1$. Тогда функция $f(\vect{x})$
 будет зависеть только от одной переменной $x_1$:
 \begin{equation*}
-\phi_1(x_1)=f(x_1,x_{20}=\const,\ldots,x_{n0}=\const)
+f_1(x_1)=f(x_1,x_{20}=\const,\ldots,x_{n0}=\const)
 \end{equation*}
 \item
 Используя метод одномерной минимизации, находится 
-минимум функции одной переменной $\phi_1(x_1)\to\min$, 
+минимум функции одной переменной $f_1(x_1)\to\min$, 
 который можно обозначить через $m_1$.
+\begin{equation*}
+m_1=\arg\left(\min_{a_1 \leqslant x_1 \leqslant b_1}f_1(x_1)\right)
+\end{equation*}
 \item
 Сделан переход из начальной точки $\vect{x}_0$ в точку
 ``частного`` минимума по направлению, параллельному оси $x_1$:
@@ -399,11 +411,14 @@ f(x_{10},x_{20},\ldots,x_{n0})>f(m_1,x_{20},\ldots,x_{n0})
 \item
 Затем из новой точки $(m_1,x_{20},\ldots,x_{n0})$
 осуществляется спуск по направлению, параллельному оси $x_2$,
-то есть находится минимум функции: 
+то есть находится минимум функции $f_2(x_2)$:
 \begin{equation*}
-\phi_2(x_2)=f(m_1=\const,x_2,\ldots,x_n=\const),
+f_2(x_2)=f(m_1,x_2,x_{30}=\const,\ldots,x_{n0}=\const),
 \end{equation*}
-который обозначим $m_2$.
+который обозначим $m_2$:
+\begin{equation*}
+m_2=\arg\left(\min_{a_2 \leqslant x_2 \leqslant b_2}f_2(x_2)\right)
+\end{equation*}
 \item
 Таким образом, сделан переход во вторую точку
 ``частного`` минимума по направлению, параллельному оси $x_2$:
@@ -415,9 +430,10 @@ f(x_{10},x_{20},\ldots,x_{n0})>f(m_1,x_{20},\ldots,x_{n0})
 f(m_1,x_{20},\ldots,x_{n0})>f(m_1,m_2,\ldots,x_{n0})
 \end{equation*}
 \item
-Процесс спуска по координатам повторяется для всех переменных
-задачи $x_3,x_4,\ldots,x_n$, а приход в точку 
-$\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
+Процесс спуска по координатам повторяется для всех 
+остальных переменных задачи $x_3,x_4,\ldots,x_n$, 
+а переход в точку $\vect{x}_m=(m_1,m_2,\ldots,m_n)$
+завершает цикл спусков.
 \item
 Конечную точку цикла спусков можно принять за нулевое 
 приближение\linebreak $\vect{x}_0=\vect{x}_m$ 
