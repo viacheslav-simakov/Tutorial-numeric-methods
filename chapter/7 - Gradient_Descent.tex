@@ -441,9 +441,6 @@ $\vect{x}_m=(m_1,m_2,\ldots,m_n)$ завершает цикл спусков.
 \subsubsection{Нахождение оптимальных 
 географических координат склада торговой сети}
 
-
-
-
 Географические координаты определяют местоположение 
 точки на поверхности Земли, и строятся по принципу 
 сферических координат. Центр системы географических координат
@@ -746,19 +743,19 @@ d_{AB}=\mathcal{R}\cdot\arccos\left(
 \cmidrule{2-3}
 &широта $\phi$&долгота $\lambda$\\
 \midmidrule
-Москва&$55.664$&$37.630$\\
-Саратов&$51.534$&$46.031$\\
-Воронеж&$56.671$&$39.162$\\
+Москва&$55.66352$&$37.62964$\\
+Саратов&$51.53440$&$46.03121$\\
+Воронеж&$56.67071$&$39.16190$\\
 \bottomrule
 \end{tabular*}
 \end{table}
 
 \item
-Построим целевую функцию $r=f(\phi,\lambda)$ -- 
+Построим целевую функцию $f(\phi,\lambda)$ -- 
 суммарное расстояние вдоль поверхности Земли 
 от склада до магазинов в городах Москва, Саратов и Воронеж:
 \begin{equation*}\label{eq:r(phi,lambda)}
-r(\phi,\lambda)=d_1(\phi,\lambda)+d_2(\phi,\lambda)+d_3(\phi,\lambda),
+f(\phi,\lambda)=d_1(\phi,\lambda)+d_2(\phi,\lambda)+d_3(\phi,\lambda),
 \end{equation*}
 где $\phi$ и $\lambda$ -- географическая широта и долгота 
 местоположения склада;
@@ -780,9 +777,9 @@ d_3(\phi,\lambda)=\mathcal{R}\cdot\arccos\left(
 \right)
 \end{gather*}
 где 
-$\phi_1=55.664$ и $\lambda_1=37.630$ -- долгота и широта города Москва;\\
-$\phi_2=51.534$ и $\lambda_2=46.031$ -- долгота и широта города Саратов;\\
-$\phi_3=56.671$ и $\lambda_3=39.162$ -- долгота и широта города Воронеж
+$\phi_1=55.66352$ и $\lambda_1=37.62964$ -- широта и долгота города Москва;\\
+$\phi_2=51.53440$ и $\lambda_2=46.03121$ -- широта и долгота города Саратов;\\
+$\phi_3=56.67071$ и $\lambda_3=39.16190$ -- широта и долгота города Воронеж
 (таблица \ref{tab:cities}).
 
 \item
@@ -795,39 +792,41 @@ $\phi_3=56.671$ и $\lambda_3=39.162$ -- долгота и широта горо
 в которых расположены магазины торговой сети:
 \begin{gather*}
 \left\{\begin{matrix}[lclcl]
-\phi_{\inf}&=&\min(\phi_1,\phi_2,\phi_3) = \phi_2&=&51.534\\
-\phi_{\sup}&=&\max(\phi_1,\phi_2,\phi_3) = \phi_3&=&56.671\\
+\phi_{\inf}&=&\min(\phi_1,\phi_2,\phi_3) = \phi_2&=&51.53440\\
+\phi_{\sup}&=&\max(\phi_1,\phi_2,\phi_3) = \phi_3&=&56.67071\\
 \end{matrix}\right.
 \\
 \left\{\begin{matrix}[lclcl]
-\lambda_{\inf}&=&\min(\lambda_1,\lambda_2,\lambda_3)=\lambda_1&=&37.630\\
-\lambda_{\sup}&=&\max(\lambda_1,\lambda_2,\lambda_3)=\lambda_2&=&46.031\\
+\lambda_{\inf}&=&\min(\lambda_1,\lambda_2,\lambda_3)=\lambda_1&=&37.62964\\
+\lambda_{\sup}&=&\max(\lambda_1,\lambda_2,\lambda_3)=\lambda_2&=&46.03121\\
 \end{matrix}\right.
 \end{gather*}
 
 Таким образом, минимум целевой функции будем искать 
 в области $\mathcal{D}$:
 \begin{equation*}
-\mathcal{D}=
+\mathcal{D}\;=\;
 \left\{\begin{matrix}[rcl]
 \phi_{\inf}&\leqslant \phi \leqslant&\phi_{\sup}\\
 \lambda_{\inf}&\leqslant \lambda \leqslant&\lambda_{\sup}\\
 \end{matrix}\right.
-\quad\to\quad
-\mathcal{D}=\left\{\begin{matrix}[rcl]
-51.534&\leqslant \phi \leqslant&56.671\\
-37.630&\leqslant \lambda \leqslant&46.031\\
+\;=\;
+\left\{\begin{matrix}[rcl]
+51.53440&\leqslant \phi \leqslant&56.67071\\
+37.62964&\leqslant \lambda \leqslant&46.03121\\
 \end{matrix}\right.
 \end{equation*}
 
 \item
 Критерием прекращения итерационного поиска
-минимума целевой функции будем считать условие выполнения
-неравенства:
+минимума целевой функции считать условие выполнения
+одного из неравенств:
 \begin{equation*}
-\xi\leqslant\epsilon_1,
+\epsilon_1 \geqslant \xi,
+\qquad
+f(\phi_k,\lambda_k) \geqslant f(\phi_{k-1},\lambda_{k-1})
 \end{equation*}
-где $\epsilon_1=10^{-2}$ -- заданная точность
+где $\epsilon_1=0.1$ -- заданная точность
 определения местоположения склада;\linebreak
 $\xi$ -- изменение местоположения склада 
 на текущем $k$ шаге итерационного процесса:
@@ -837,14 +836,25 @@ $\xi$ -- изменение местоположения склада
 $\phi_k$ и $\lambda_k$ -- значение географических координат
 склада на $k$-ом шаге итерационного процесса.
 
+%
+% начально положение
+%
+\def\phiStart{51.53440}
+\def\lambdaStart{46.03121}
+% частный минимум phi
+\def\phiMin{53.94557}
+% частный минимум lambda
+\def\lambdaMin{40.20867}
+%
 \item
 В качестве начального местоположение склада
 $(\phi_0,\lambda_0)$ выберем любую произвольную
-точку внутри области поиска минимума целевой функции:
+точку внутри области поиска минимума целевой функции,
+например:
 \begin{equation*}
 \begin{cases}
-\phi_0 = 51.534\\
-\lambda_0 = 46.031\\
+\phi_0 = \phiStart\\
+\lambda_0 = \lambdaStart\\
 \end{cases}.
 \end{equation*}
 
@@ -854,32 +864,41 @@ $\lambda=\lambda_0=\const$
 и рассматриваем вспомогательную функцию
 только одной переменной $\phi$:
 \begin{equation*}
-\rho(\phi)=r(\phi, \lambda_0)=r(\phi, 46.031)
+\rho_1(\phi)=f(\phi, \lambda_0)=f(\phi, \lambdaStart)
 \end{equation*}
 
-Находим минимум функции одной переменной $\rho(\phi)$,
-используя метод одномерной минимизации:
+Находим минимум вспомогательной функции 
+одной переменной $\rho_1(\phi)$, используя метод 
+одномерной минимизации:
 \begin{equation*}
-\rho(\phi_{\min})\to\min,\qquad\phi_{\min}=53.946
+\phi_{\min}
+=\arg\left(
+\min_{\phi_{\inf}\leqslant\phi\leqslant\phi_{\sup}}\rho_1(\phi)
+\right)
+=\phiMin
 \end{equation*}
-где $\phi_{\min}$ -- положение минимума
-вспомогательной функции $\rho(\phi)=r(\phi, 46.031)$.
+где $\phi_{\min}$ -- положение ``частного`` минимума
+функции $f(\phi, \lambdaStart)$.
 
 Считаем постоянными значения широты склада 
 $\phi=\phi_{\min}=\const$ 
-и рассматриваем вспомогательную функцию
+и рассматриваем вторую вспомогательную функцию
 только одной переменной $\lambda$:
 \begin{equation*}
-\rho(\lambda)=r(\phi_{\min},\lambda)=r(53.946,\lambda)
+\rho_2(\lambda)=f(\phi_{\min},\lambda)=f(\phiMin,\lambda)
 \end{equation*}
 
-Находим минимум функции одной переменной $\rho(\lambda)$,
+Находим минимум функции одной переменной $\rho_2(\lambda)$,
 используя метод одномерной минимизации:
 \begin{equation*}
-\rho(\lambda_{\min})\to\min,\qquad\lambda_{\min}=40.209
+\lambda_{\min}
+=\arg\left(
+\min_{\lambda_{\inf}\leqslant\lambda\leqslant\lambda_{\sup}}\rho_2(\lambda)
+\right)
+=\lambdaMin
 \end{equation*}
-где $\lambda_{\min}$ -- положение минимума
-вспомогательной функции $\rho(\lambda)=r(53.946 ,\lambda)$.
+где $\lambda_{\min}$ -- положение ``частного`` минимума
+функции $f(\phiMin,\lambda)$.
 
 \item
 Определяем изменение местоположения склада 
@@ -889,16 +908,15 @@ $\phi=\phi_{\min}=\const$
 \begin{split}
 \xi=\;
 &\sqrt{(\phi_{\min}-\phi_0)^2+(\lambda_{\min}-\lambda_0)^2}=\\
-=\;&\sqrt{(53.946-51.534)^2+(40.209-46.031)^2}=\\
-=\;&6.3019\\
+=\;&\sqrt{(\phiMin-\phiStart)^2+(\lambdaMin-\lambdaStart)^2}=\\
+=\;&6.30204\\
 \end{split}
-%\leqslant\epsilon_1=10^{-2},
 \end{equation*}
 
 Сравниваем величину текущего ``шага`` $\xi$ и 
 заданную точность расчетов $\epsilon_1$:
 \begin{gather*}
-\xi=6.3019>10^{-2}=\epsilon_1
+\xi=6.30204>0.1=\epsilon_1
 \end{gather*}
 Величина текущего ``шага`` $\xi$ больше заданной 
 точности расчетов $\epsilon_1$,
@@ -908,15 +926,15 @@ $\phi=\phi_{\min}=\const$
 % График: траектория поиска минимума
 %
 \begin{figure}[H]\centering
-\begin{tikzpicture}[>={Straight Barb[angle=45:1.5mm 1]},shorten >=2pt,shorten <=2pt]
-\begin{axis}[enlargelimits=0.2,xtick={},ytick={},
+\begin{tikzpicture}
+[>={Straight Barb[angle=45:1.5mm 1]},shorten >=0pt,shorten <=0pt]
+\begin{axis}[enlargelimits=0.2,xtick={},ytick={},grid=none,
 xlabel={широта $\phi$},ylabel={долгота $\lambda$},
 %y dir=reverse
 ]
 %% изолинии
 
 %% местонахождение городов
-%\addplot[ball darkblue,only marks]coordinates{(55.664,37.630)(51.534,46.031)(56.671,39.162)};
 \addplot[ball darkblue,only marks]coordinates{(55.664,37.630)}
 node[below,text=black]{Москва};
 \addplot[ball darkblue,only marks]coordinates{(51.534,46.031)}
@@ -924,22 +942,24 @@ node[above,text=black]{Саратов};
 \addplot[ball darkblue,only marks]coordinates{(56.671,39.162)}
 node[above,text=black]{Воронеж};
 %% начальная точка
-\addplot[darkred]coordinates{(51.534,46.031)}
+\addplot[darkred,mark=*,mark size=3pt]
+coordinates{(\phiStart,\lambdaStart)}
 node[below,xshift=+7pt,fill=white]{$(\phi_0,\lambda_0)$};
 %% смещение по phi
-\addplot[darkred,->]coordinates{(51.534,46.031) (53.946,46.031)}
+\addplot[->,gray,thin,opacity=0.5]
+coordinates{(\phiStart,\lambdaStart) (\phiMin,\lambdaStart)}
 node[right,fill=white]{$(\phi_{\min},\lambda_0)$};
 %% смещение по lambda
-\addplot[darkred,->]coordinates{(53.946,46.031) (53.946,40.209)};
+\addplot[->,gray,thin,opacity=0.5]
+coordinates{(\phiMin,\lambdaStart) (\phiMin,\lambdaMin)};
 %% конечное положение
-\addplot[darkred]coordinates{(53.946,40.209)}
+\addplot[darkred]
+coordinates{(\phiMin,\lambdaMin)}
 node[left,fill=white,xshift=-5pt]{$(\phi_{\min},\lambda_{\min})$};
 %% результирующее смещение
-\addplot[black,thin,->]coordinates{(51.534,46.031) (53.946,40.209)}
+\addplot[darkred,->]
+coordinates{(\phiStart,\lambdaStart) (\phiMin,\lambdaMin)}
 node[sloped,pos=0.5,above]{$\xi$};
-%\addplot[darkred]coordinates{(53.946,40.209)(55.808,40.209)(55.808,38.780)(55.868,38.780)(55.868,38.828)(55.880,38.828)(55.880,38.839)(55.880,38.839)(55.880,38.839)};
-%% начальное положение
-%\addplot[darkred,mark=*]coordinates{(51.534,46.031)};
 \end{axis}
 \end{tikzpicture}
 \caption{``Рельеф`` целевой функции $r(\phi,\lambda)$ и 
