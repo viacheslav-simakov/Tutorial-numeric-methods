@@ -839,12 +839,14 @@ $\phi_k$ и $\lambda_k$ -- значение географических коо�
 %
 % начально положение
 %
-\def\phiStart{51.53440}
-\def\lambdaStart{46.03121}
+\def\phiStart{52.0}
+\def\lambdaStart{44.0}
 % частный минимум phi
-\def\phiMin{53.94557}
+\def\phiMin{54.66658}
 % частный минимум lambda
-\def\lambdaMin{40.20867}
+\def\lambdaMin{39.49103}
+% epsilon
+\def\epsilonOne{5.23846}
 %
 \item
 В качестве начального местоположение склада
@@ -909,14 +911,14 @@ $\phi=\phi_{\min}=\const$
 \xi=\;
 &\sqrt{(\phi_{\min}-\phi_0)^2+(\lambda_{\min}-\lambda_0)^2}=\\
 =\;&\sqrt{(\phiMin-\phiStart)^2+(\lambdaMin-\lambdaStart)^2}=\\
-=\;&6.30204\\
+=\;&\epsilonOne\\
 \end{split}
 \end{equation*}
 
 Сравниваем величину текущего ``шага`` $\xi$ и 
 заданную точность расчетов $\epsilon_1$:
 \begin{gather*}
-\xi=6.30204>0.1=\epsilon_1
+\xi=\epsilonOne>0.1=\epsilon_1
 \end{gather*}
 Величина текущего ``шага`` $\xi$ больше заданной 
 точности расчетов $\epsilon_1$,
@@ -941,21 +943,23 @@ node[below,text=black]{Москва};
 node[above,text=black]{Саратов};
 \addplot[ball darkblue,only marks]coordinates{(56.671,39.162)}
 node[above,text=black]{Воронеж};
+\begin{scope}[font=\footnotesize]
 %% начальная точка
-\addplot[darkred,mark=*,mark size=3pt]
+\addplot[darkred,mark=*,mark size=2.5pt]
 coordinates{(\phiStart,\lambdaStart)}
-node[below,xshift=+7pt,fill=white]{$(\phi_0,\lambda_0)$};
+node[above]{$(\phi_0,\lambda_0)$};
 %% смещение по phi
-\addplot[->,gray,thin,opacity=0.5]
+\addplot[->,gray,thin,dashed,opacity=0.5]
 coordinates{(\phiStart,\lambdaStart) (\phiMin,\lambdaStart)}
-node[right,fill=white]{$(\phi_{\min},\lambda_0)$};
+node[above,opacity=1,text=darkred]{$(\phi_{\min},\lambda_0)$};;
 %% смещение по lambda
-\addplot[->,gray,thin,opacity=0.5]
+\addplot[->,gray,thin,dashed,opacity=0.5]
 coordinates{(\phiMin,\lambdaStart) (\phiMin,\lambdaMin)};
 %% конечное положение
 \addplot[darkred]
 coordinates{(\phiMin,\lambdaMin)}
-node[left,fill=white,xshift=-5pt]{$(\phi_{\min},\lambda_{\min})$};
+node[below]{$(\phi_{\min},\lambda_{\min})$};
+\end{scope}
 %% результирующее смещение
 \addplot[darkred,->]
 coordinates{(\phiStart,\lambdaStart) (\phiMin,\lambdaMin)}
@@ -974,8 +978,8 @@ node[sloped,pos=0.5,above]{$\xi$};
 целевой функции на предыдущем шаге итерационного процесса:
 \begin{equation*}
 \left\{\begin{matrix}[lcl]
-\phi_0 = \phi_{\min}&=&53.946\\
-\lambda_0 = \lambda_{\min}&=&40.209\\
+\phi_0 = \phi_{\min}&=&\phiMin\\
+\lambda_0 = \lambda_{\min}&=&\lambdaMin\\
 \end{matrix}\right.
 \end{equation*}
 и итерационный процесс повторяется!
