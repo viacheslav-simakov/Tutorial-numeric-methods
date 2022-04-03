@@ -1,94 +1,5 @@
-\pgfdeclarelayer{pre main}
-\pgfdeclarelayer{background}
-\pgfdeclarelayer{foreground}
-\pgfsetlayers{background,pre main,main,foreground} 
-% Декорация линий
-\tikzset{
-	% стрелки
-	FARROW/.style={
-%		line width=3mm, 
-%		arrows={-Latex[angle=40:2.5mm]}
-		arrows={-Straight Barb[angle=45:1.5mm 1]	},
-		shorten >= 0pt,
-	},
-	% декорация линий
-	curve line/.style={
-		decoration={
-			snake,
-			amplitude=1.5mm,%0.75mm,
-			segment length=7.5mm,
-			post length=0mm,
-			pre length=0mm,
-		},
-	},
-	pointnode/.style={
-		join=by -,
-		circle,
-		fill=red,
-		minimum size=3pt,
-		inner sep=0pt,
-	},
-	circlenode/.style={
-		draw,thick,fill=blue!10,line width=0.25mm,
-		shape=circle,
-		inner sep=4pt,
-	},
-	rectnode/.style={
-		draw,line width=0.25mm,
-		shape=rectangle,
-%		rounded corners=2pt, 
-		inner sep=8pt,
-	},
-	rrectnode/.style={
-		draw,line width=0.25mm,
-		shape=rounded rectangle,
-%		rounded corners=2pt, 
-		inner sep=8pt,
-	},
-	datanode/.style={
-		draw,line width=0.25mm,
-		shape=	trapezium,
-		trapezium left angle=70,
-		trapezium right angle=110, 
-		text centered,
-		inner sep=8pt,
-	},
-	ifthenelsenode/.style={
-		draw,line width=0.25mm,
-		shape=diamond,
-		aspect=2,
-%		trapezium left angle=70,
-%		trapezium right angle=110, 
-		text centered,
-		inner sep=4pt,
-	},
-	startloopnode/.style={
-		draw,text width=4cm,align=center,line width=0.25mm,
-		shape=chamfered rectangle,
-		chamfered rectangle corners={north west,north east},
-		minimum height=2em,
-		minimum width=3.5cm,
-	},
-	endloopnode/.style={
-		draw,text width=4cm,align=center,line width=0.25mm,
-		shape=chamfered rectangle,
-		chamfered rectangle corners={south west,south east},
-		minimum height=2em,
-		minimum width=3.5cm,
-	},
-	signalnode/.style={
-		draw,line width=0.25mm,
-		shape=chamfered rectangle,
-		chamfered rectangle angle=45,
-		chamfered rectangle xsep=1cm,
-		inner sep=8pt,
-	},
-}
-
 \newpage
-
 \section{Методы локальной оптимизации}
-
 Оптимизация -- это задача нахождения экстремума 
 (минимума или максимума) целевой функции в некоторой области 
 конечномерного векторного пространства, ограниченной 
@@ -330,12 +241,14 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 % соединитель
 \draw (exit.south) node[below left]{да};
 \begin{scope}[node distance=12mm]
-\node[rrectnode,on chain,join]{стоп};
+\node[rectnode,on chain,join]{$x_{\min}=\dfrac{a+b}{2}$};
 \end{scope}
+\node[rrectnode,on chain,join]{стоп};
 \end{tikzpicture}
 % *******************************************
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
-функции $f(x)$ одного переменного}
+функции одного переменного
+$x_{\min}=\arg\left(\min\limits_{a\leqslant x \leqslant b} f(x)\right)$ }
 \label{fig:GD:scheme f(x)->min}
 \end{figure}
 
@@ -473,15 +386,15 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 % x
 \node[rectnode,on chain,join](x){$\vect{x}=\vect{x}_0$};
 % начало цикла
-\node[startloopnode,on chain,join](loop){$i=1,2,3,\ldots$};
-% фиксирование переменных
-\node[rectnode,on chain,join]
-{$x_j=\const,
-\quad\forall j \ne i,
-\quad j=1,2,\ldots,n$};
+\node[startloopnode,on chain,join](loop){$i=1,2,3,\ldots,n$};
 % min
-\node[rectnode,on chain,join](min)
-{$x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$};
+\node[srectnode,rectangle split parts=2,on chain,join](min)
+{
+\nodepart{one}
+$x_j=\const, \quad\forall j \ne i, \quad j=1,2,\ldots,n$
+\nodepart{two}
+$x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$
+};
 % конец цикла
 \node[endloopnode,on chain,join]{$i=n$};
 % f(x)<f(x0)
@@ -502,10 +415,11 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 % выход
 \draw (compare.south) node[below left]{да};
 \begin{scope}[node distance=12mm]
-\node[rrectnode,on chain,join](stop){стоп};
-% выход f
-\draw[->](compare-f.west) -- ([xshift=-15mm]compare-f.west) |- (stop.west);
+\node[rectnode,on chain,join](min){$\vect{x}_{\min}=\vect{x}$};
 \end{scope}
+% выход f
+\draw[->](compare-f.west) -- ([xshift=-15mm]compare-f.west) |- (min.west);
+\node[rrectnode,on chain,join](stop){стоп};
 \end{tikzpicture}
 % *******************************************
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
@@ -674,8 +588,9 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 % выход
 \draw (compare.south) node[below left]{да};
 \begin{scope}[node distance=12mm]
-\node[rrectnode,on chain,join]{стоп};
+\node[rectnode,on chain,join]{$\vect{x}_{\min}=\vect{x}_1$};
 \end{scope}
+\node[rrectnode,on chain,join]{стоп};
 \end{tikzpicture}
 % *******************************************
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
