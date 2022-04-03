@@ -96,6 +96,89 @@ ball darkgreen/.style={
 %	% plot should be drawn on
 %	on layer=foreground,
 %	] {x};
+
+\pgfdeclarelayer{pre main}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,pre main,main,foreground} 
+% Декорация линий
+\tikzset{
+	% стрелки
+	FARROW/.style={
+		arrows={-Straight Barb[angle=45:1.5mm 1]	},
+		shorten >= 0pt,
+	},
+	% декорация линий
+	curve line/.style={
+		decoration={
+			snake,
+			amplitude=1.5mm,%0.75mm,
+			segment length=7.5mm,
+			post length=0mm,
+			pre length=0mm,
+		},
+	},
+	pointnode/.style={
+		join=by -,
+		circle,
+		fill=red,
+		minimum size=3pt,
+		inner sep=0pt,
+	},
+	circlenode/.style={
+		draw,thick,fill=blue!10,line width=0.25mm,
+		shape=circle,
+		inner sep=4pt,
+	},
+	rectnode/.style={
+		draw,line width=0.25mm,
+		shape=rectangle,
+%		rounded corners=2pt, 
+		inner sep=8pt,
+	},
+	rrectnode/.style={
+		draw,line width=0.25mm,
+		shape=rounded rectangle,
+%		rounded corners=2pt, 
+		inner sep=8pt,
+	},
+	datanode/.style={
+		draw,line width=0.25mm,
+		shape=	trapezium,
+		trapezium left angle=70,
+		trapezium right angle=110, 
+		text centered,
+		inner sep=8pt,
+	},
+	ifthenelsenode/.style={
+		draw,line width=0.25mm,
+		shape=diamond,
+		aspect=2,
+		text centered,
+		inner sep=4pt,
+	},
+	startloopnode/.style={
+		draw,text width=4cm,align=center,line width=0.25mm,
+		shape=chamfered rectangle,
+		chamfered rectangle corners={north west,north east},
+		minimum height=2em,
+		minimum width=3.5cm,
+	},
+	endloopnode/.style={
+		draw,text width=4cm,align=center,line width=0.25mm,
+		shape=chamfered rectangle,
+		chamfered rectangle corners={south west,south east},
+		minimum height=2em,
+		minimum width=3.5cm,
+	},
+	signalnode/.style={
+		draw,line width=0.25mm,
+		shape=chamfered rectangle,
+		chamfered rectangle angle=45,
+		chamfered rectangle xsep=1cm,
+		inner sep=8pt,
+	},
+}
             
 \begin{document}
 % колонтитулы
@@ -149,9 +232,9 @@ ball darkgreen/.style={
 % Численное интегрирование
 %\input{chapter/5 - Numerical_Integration}
 % Нелинейные уравнения
-%\input{chapter/6 - Nonlinear_Equations}
+\input{chapter/6 - Nonlinear_Equations}
 % Поиск экстремума функций многих переменных
-\input{chapter/7 - Gradient_Descent}
+%\input{chapter/7 - Minimum}
 % Задача Коши для систем обыкновенных дифференциальных уравнений
 %\input{chapter/8 - ODE_IC}
 % Краевые задачи для обыкновенных дифференциальных уравнений

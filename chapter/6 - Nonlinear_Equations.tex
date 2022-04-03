@@ -1,11 +1,3 @@
-% Required Package and Librarie
-%\pgfplotsset{compat=1.18}
-%\usepgfplotslibrary{fillbetween}
-\pgfdeclarelayer{pre main}
-\pgfdeclarelayer{background}
-\pgfdeclarelayer{foreground}
-\pgfsetlayers{background,pre main,main,foreground} 
-%\usetikzlibrary{backgrounds}
 %
 %	Нелинейные уравнения
 %
@@ -100,9 +92,9 @@ x_{i}=a,\quad x_{i+1}=b
 \end{gather*}
 и с помощью аналогичной процедуры (1) процесс происка корня уравнения $f(x)=0$ 
 повторяют до тех пор пока, область поиска не станет меньше заранее заданной величины
-$\varepsilon$ (погрешности поиска корня уравнения):
+$\epsilon$ (погрешности поиска корня уравнения):
 \begin{gather*}
-|a,b|<\varepsilon
+(b-a)<\epsilon
 \end{gather*}
 \end{enumerate}
 
@@ -200,10 +192,11 @@ $f(x)=0$ находится внутри отрезка $[c,b]$,
 Таким образом, область поиска корня уравнения $f(x)=0$ ``сужается наполовину``.
 \item
 Процесс вычислений (1)--(3) повторятся до тех пока, 
-длина вновь полученного интервала $[a,b]$ станет меньше заранее заданного числа
-$\varepsilon$ (погрешности поиска корня уравнения):
+длина вновь полученного интервала $[a,b]$ станет меньше 
+заранее заданного числа $\epsilon$ 
+(погрешности поиска корня уравнения):
 \begin{gather*}
-|a,b|<\varepsilon
+(b-a)<\epsilon
 \end{gather*}
 \end{enumerate}
 
@@ -250,6 +243,49 @@ $f(a)\cdot f(c)>0$, поэтому новая область поиска кор
 имеется несколько корней, то указанный итерационный процесс 
 сойдется к одному из корней, 
 но \emph{заранее неизвестно, к какому именно}.
+
+
+% *** Алгоритм поиска минимума методом градиентного спуска
+% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,every join/.style=->,%
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% соединитель
+\node[rrectnode,on chain,join]{старт};
+% данные
+\node[datanode,on chain,join]
+{$a, b, \epsilon$};
+% grad(f)
+\node[rectnode,on chain,join](c)
+{$c=\dfrac{a+b}{2}$};
+% f(xa)*f(c)
+\node[ifthenelsenode,on chain,join](compare)
+{$f(a) \cdot f(c)$};
+% ошибка
+\node[ifthenelsenode,on chain,join](error)
+{$(b-a)\leqslant\epsilon$};
+% нет
+\begin{scope}[start branch=b,node distance=15mm]
+\node[rectnode,on chain=going right,join](no)
+{$\vect{x}_0=\vect{x}_1$};
+\draw(error.east) node[above right]{нет};
+\draw[->,thick] (no.north) |- (c.east);
+\end{scope}
+% выход
+\draw (error.south) node[below left]{да};
+\begin{scope}[node distance=12mm]
+\node[rrectnode,on chain,join]{стоп};
+\end{scope}
+\end{tikzpicture}
+% *******************************************
+\caption{Блок-схема алгоритма нахождения минимума\linebreak 
+функции $f(\vect{x})$ многих переменных 
+методом градиентного спуска}
+\label{fig:GD:scheme gradf(x)->min}
+\end{figure}
 
 %
 %	Метод выделения корней
