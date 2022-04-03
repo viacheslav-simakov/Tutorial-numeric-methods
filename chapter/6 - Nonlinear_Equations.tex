@@ -116,11 +116,12 @@ ymin=-2, ymax=3, ytick={0}, yticklabels={$f(x)=0$},
 \addplot[only marks,ball darkred] coordinates {(0,2) (0.25,1.640625) (0.5,1.125) (0.75,0.546875)};
 \draw[darkred] (axis cs:0.75,0.55) node[above right] {$f(x_i)>0$};
 \addplot[only marks,ball darkblue] coordinates {(1.25,-0.421875) (1.5,-0.625) (1.75,-0.515625)};
-\draw[darkblue] (axis cs:1.2,-0.5) node[below left] {$f(x_{i+1})<0$};
+\draw[darkblue] (axis cs:1.2,-0.5) node[below left] {$0>f(x_{i+1})$};
 %
 \path [name path=B] (axis cs: 0,-2) -- (axis cs: 1.75,-2);
-\addplot[gray!15] fill between [of=A and B, soft clip={domain=0:1.75}];
-\addplot[lime!20] fill between [of=A and B, soft clip={domain=0.75:1.25},];
+%\addplot[gray!15] fill between [of=A and B, soft clip={domain=0:1.75}];
+%\addplot[lime!20] fill between [of=A and B, soft clip={domain=0.75:1.25},];
+\addplot[orange!15] fill between [of=A and B, soft clip={domain=0.75:1.25},];
 \end{axis}
 \end{tikzpicture}
 \caption{Иллюстрация итервального метода поиска корня уравнения}
@@ -245,7 +246,7 @@ $f(a)\cdot f(c)>0$, поэтому новая область поиска кор
 но \emph{заранее неизвестно, к какому именно}.
 
 
-% *** Алгоритм поиска минимума методом градиентного спуска
+% *** Алгоритм поиска нуля функции одной переменной f(x)=0
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
@@ -258,35 +259,48 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 % данные
 \node[datanode,on chain,join]
 {$a, b, \epsilon$};
-% grad(f)
-\node[rectnode,on chain,join](c)
+% x1, x2
+\node[rectnode,on chain,join](x1x2)
 {$c=\dfrac{a+b}{2}$};
-% f(xa)*f(c)
+% f(a)*f(c)>0
 \node[ifthenelsenode,on chain,join](compare)
-{$f(a) \cdot f(c)$};
-% ошибка
-\node[ifthenelsenode,on chain,join](error)
-{$(b-a)\leqslant\epsilon$};
+{$f(a) \cdot f(c) > 0$};
+% да
+\begin{scope}[start branch=a,node distance=15mm]
+\node[rectnode,on chain=going left,join](a)
+{$a=c$};
+\draw(compare.west) node[above left]{да};
+\end{scope}
 % нет
 \begin{scope}[start branch=b,node distance=15mm]
-\node[rectnode,on chain=going right,join](no)
-{$\vect{x}_0=\vect{x}_1$};
-\draw(error.east) node[above right]{нет};
-\draw[->,thick] (no.north) |- (c.east);
+\node[rectnode,on chain=going right,join](b)
+{$b=c$};
+\draw(compare.east) node[above right]{нет};
 \end{scope}
-% выход
-\draw (error.south) node[below left]{да};
+% ошибка
+\node[rectnode,on chain](error)
+{$\Delta=b-a$};
+% связи
+\draw[->] (a.south) |- (error.west);
+\draw[->] (b.south) |- (error.east);
+% выход?
+\node[ifthenelsenode,on chain,join](exit)
+{$\Delta<\epsilon$};
+\draw (exit.east) node[above right]{нет};
+\draw[->,thick] (exit.east) -- ([xshift=5cm]exit.east) |- (x1x2.east);
+% соединитель
+\draw (exit.south) node[below left]{да};
+% решение
 \begin{scope}[node distance=12mm]
-\node[rrectnode,on chain,join]{стоп};
+\node[rectnode,on chain,join]{$x_0=\dfrac{a+b}{2}$};
 \end{scope}
+\node[rrectnode,on chain,join]{стоп};
 \end{tikzpicture}
 % *******************************************
-\caption{Блок-схема алгоритма нахождения минимума\linebreak 
-функции $f(\vect{x})$ многих переменных 
-методом градиентного спуска}
-\label{fig:GD:scheme gradf(x)->min}
+\caption{Блок-схема алгоритма поиска решения $x_0$\linebreak
+нелинейного уравнения $f(x)=0$}
+\label{fig:NLE:scheme f(x)->min}
 \end{figure}
-
 %
 %	Метод выделения корней
 %
