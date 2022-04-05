@@ -606,18 +606,18 @@ $\tilde{u}_1(t_i)$&$1$&$0.4$&$-2.4$&$-4.2$&$-2.4$&$6.2$\\
 $\tilde{u}_2(t_i)$&$0$&$-1$&$-1.4$&$0$&$3.2$&$4.6$\\
 \midrule
 \multicolumn{7}{l}{Абсолютная погрешность 
-$\vect{\varepsilon}=|\tilde{\vect{u}}-\vect{u}|$}\\
+$\vect{\epsilon}=|\tilde{\vect{u}}-\vect{u}|$}\\
 \midmidrule
-$\varepsilon_1$&$0$&$0.6$&$2.2$&$1.6$&$1.4$&$5.2$\\
-$\varepsilon_2$&$0$&$0$&$0.6$&$1.8$&$2.4$&$0$\\
+$\epsilon_1$&$0$&$0.6$&$2.2$&$1.6$&$1.4$&$5.2$\\
+$\epsilon_2$&$0$&$0$&$0.6$&$1.8$&$2.4$&$0$\\
 \bottomrule
 \end{tabular*}
 \end{table}
 
 Из рисунка \ref{fig:error} видно, что максимальная 
 предельная абсолютная погрешность для $u_1(t)$ 
-составляет $\varepsilon_1=5.2$, 
-а для функции $u_2(t)$ -- $\varepsilon_2=2.4$.
+составляет $\epsilon_1=5.2$, 
+а для функции $u_2(t)$ -- $\epsilon_2=2.4$.
 
 % *******************************
 %	График погрешности
@@ -629,17 +629,17 @@ $\varepsilon_2$&$0$&$0$&$0.6$&$1.8$&$2.4$&$0$\\
 ybar,bar width=18pt,
 nodes near coords,
 xlabel = {Время, $t$},
-ylabel = {Абсолютная погрешность, $\varepsilon$},	% подпись оси y
+ylabel = {Абсолютная погрешность, $\epsilon$},	% подпись оси y
 xmin=1, xmax=11, xtick={0,2,4,6,8,10},
 ymin=-0.5, ymax=6, ytick={0,2,4,6},
 legend pos={north west},
 xtick align=inside,ytick align=inside,]
 \addplot[thin, blue, fill=blue!35]
 coordinates{(2,0.6) (4,2.2) (6,1.6) (8,1.4) (10,5.2)};
-\addlegendentry{$\varepsilon_1$};
+\addlegendentry{$\epsilon_1$};
 \addplot[thin, red, fill=red!35]
 coordinates{(2,0) (4,0.6) (6,1.8) (8,2.4) (10,0)};
-\addlegendentry{$\varepsilon_2$};
+\addlegendentry{$\epsilon_2$};
 \end{axis}
 \end{tikzpicture}
 \caption{Предельная абсолютная погрешность приближенного решения задачи Коши \eqref{eq:ODE_MY}}
