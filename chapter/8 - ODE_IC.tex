@@ -75,12 +75,12 @@ $(t=0)$.
 рассматривать изменения неизвестных функций 
 только в заданные моменты времени:
 \begin{gather*}
-\{t_j\},\quad j=1,2,\dots N,
+\{t_j\},\quad j=1,2,\dots,m,
 \end{gather*}
 где $j$ -- номер временного интервала;
 $\Delta t_{j+1} = (t_{j+1}-t_j)$ -- шаг сетки, т.е. временной интервал 
 между двумя последовательными моментами времени;
-$N$ -- количество узлов временной сетки.
+$m$ -- количество узлов временной сетки.
 
 Основная идея метода Эйлера заключается в предположении, 
 о том что неизвестные функции $\vect{u}(t)$ изменяются линейно
@@ -105,7 +105,7 @@ $N$ -- количество узлов временной сетки.
 \eqref{eq:ODE_SYS} приближенно можно записать в виде:
 \begin{gather}\label{eq:ODE_NUM}
 \dfrac{\vect{u}(t_{j+1})-\vect{u}(t_{j})}{\Delta t_{j+1}}\approx
-\vect{f}\left(t_j, \vect{u}(t_{j})\right)
+\vect{f}\left(t_j, \vect{u}(t_{j})\right).
 \end{gather}
 
 Относительно неизвестных $\vect{u}(t_{j+1})$ 
@@ -149,7 +149,9 @@ ymin=-0.25,ymax=3,ytick={0,1,2.08,2.59},yticklabels={$y(0)$,$y(t_1)$,$y(t_j)$,$y
 \end{axis}
 %\draw[thick,red] ($(GRAPH.south)-(0,2em)$) node {a};
 \end{tikzpicture}
-\caption{Ломаная Эйлера}
+\caption{Иллюстрация метода Эйлера:\linebreak
+неизвестная кривая выделена красным цветом, 
+а ее полигональная аппроксимация (ломаная Эйлера) -- синим}
 \label{fig:EULER}
 \end{figure}
 % *******************************
@@ -233,6 +235,53 @@ ${\vect{u}}(t_{j})$, рассчитанные по методу Эйлера
 \end{gather*}
 
 %
+% *** Алгоритм поиска нуля функции одной переменной f(x)=0
+% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+%
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% соединитель
+\node[rrectnode,on chain,join]{старт};
+% начальное условие
+\node[datanode,on chain,join]
+{$\vect{t}=\left\{0,t_1,t_2,\ldots,t_m\right\}$};
+\node[datanode,on chain,join]
+{$\vect{u}(0)=\left\{u_1(0),u_2(0),\ldots,u_n(0)\right\}$};
+% начало цикла
+\node[startloopnode,on chain,join]{$j=0,1,2,3,\ldots$};
+% интервал времени
+\node[rectnode,on chain,join]{$\Delta{t}_{j+1}=t_{j+1}-t_j$};
+\node[rectnode,on chain,join]
+{$\vect{u}(t_{j+1})=\vect{u}(t_j)+
+\Delta t_{j+1}\cdot\vect{f}\left(t_j, \vect{u}(t_{j})\right)$};
+%\node[srectnode,rectangle split parts=2,on chain,join]
+%{
+%\nodepart{one}
+%$\Delta{t}_{j+1}=t_{j+1}-t_j$
+%\nodepart{two}
+%$\vect{u}(t_{j+1})=\vect{u}(t_j)+
+%\Delta t_{j+1}\cdot\vect{f}\left(t_j, \vect{u}(t_{j})\right)$
+%};
+% конец цикла
+\node[endloopnode,on chain,join]{$j=m-1$};
+% решение
+%\begin{scope}[node distance=12mm]
+\node[rectnode,on chain,join]
+{$\vect{u}(\vect{t})=\{u_1(\vect{t}),u_2(\vect{t}),\ldots,u_n(\vect{t})\}$};
+%\end{scope}
+\node[rrectnode,on chain,join]{стоп};
+\end{tikzpicture}
+% *******************************************
+\caption{Блок-схема алгоритма численного решения
+системы дифференциальных уравнений методом Эйлера}
+\label{fig:ODE_IC:scheme Euler}
+\end{figure}
+
+%
 %	Численное решение задачи Коши методом Эйлера
 %
 \subsection{Численное решение задачи Коши методом Эйлера}
@@ -268,7 +317,7 @@ u_2(t_{j+1})&=&u_2(t_{j})+\tau\cdot f_2(t_j),&u_2(0)&=&0
 т.е. интервал между двумя последовательными моментами времени
 
 Решение системы интегральных уравнений \eqref{eq:ODE_SYS_INT} 
-определяется рекурретными соотношениями:
+определяется рекуррентными соотношениями:
 \begin{gather}\label{eq:ODE_SYS_INT_RR}
 \left\{\begin{matrix}
 \tilde{u}_1(t_{j+1})&=&\tilde{u}_1(t_{j})+\dfrac{f_1(t_{j})+f_1(t_{j+1})}{2}\cdot\tau,&\tilde{u}_1(0)&=&1\\[1em]
@@ -279,8 +328,8 @@ u_2(t_{j+1})&=&u_2(t_{j})+\tau\cdot f_2(t_j),&u_2(0)&=&0
 Определим временной шаг метода Эйлера, зная длину временного отрезка (``время наблюдения``) 
 и количество интервалов:
 \begin{gather*}
-\tau=\dfrac{T-t_0}{n} = \dfrac{10-0}{5}=2
-,\end{gather*}
+\tau=\dfrac{T-t_0}{n} = \dfrac{10-0}{5}=2,
+\end{gather*}
 где $t_0=0$ -- начальный момент времени;
 $T=10$ -- максимальное время (``время наблюдения``).
 
