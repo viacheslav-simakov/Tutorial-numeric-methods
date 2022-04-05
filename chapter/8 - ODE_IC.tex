@@ -75,7 +75,7 @@ $(t=0)$.
 рассматривать изменения неизвестных функций 
 только в заданные моменты времени:
 \begin{gather*}
-\{t_j\},\quad j=1,2,\dots,m,
+\vect{t}=\{t_j\},\quad j=0,1,2,\dots,m,
 \end{gather*}
 где $j$ -- номер временного интервала;
 $\Delta t_{j+1} = (t_{j+1}-t_j)$ -- шаг сетки, т.е. временной интервал 
@@ -119,8 +119,10 @@ $m$ -- количество узлов временной сетки.
 \end{gather}
 
 Метод Эйлера является простейшим численным методом 
-решения задачи Коши. К недостаткам метода можно отнести
-малую точность и систематическое накопление ошибок.
+решения задачи Коши. Блок-схема алгоритма метода Эйлера
+представлена на рисунке \ref{fig:ODE_IC:scheme Euler}. 
+К недостаткам метода можно отнести малую точность и 
+систематическое накопление ошибок.
 
 Для простоты рассмотрим только одно дифференциальное уравнение 
 с единственным начальным условием:
@@ -154,7 +156,43 @@ ymin=-0.25,ymax=3,ytick={0,1,2.08,2.59},yticklabels={$y(0)$,$y(t_1)$,$y(t_j)$,$y
 а ее полигональная аппроксимация (ломаная Эйлера) -- синим}
 \label{fig:EULER}
 \end{figure}
-% *******************************
+
+%
+% *** Алгоритм метода Эйлера
+%
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% соединитель
+\node[rrectnode,on chain,join]{старт};
+% начальное условие
+\node[datanode,on chain,join]
+{$\vect{t}=\left\{0,t_1,t_2,\ldots,t_m\right\}$};
+\node[datanode,on chain,join]
+{$\vect{u}(0)=\left\{u_1(0),u_2(0),\ldots,u_n(0)\right\}$};
+% начало цикла
+\node[startloopnode,on chain,join]{$j=0,1,2,3,\ldots$};
+% интервал времени
+\node[rectnode,on chain,join]{$\Delta{t}_{j+1}=t_{j+1}-t_j$};
+% решение дифференциального уравнения
+\node[rectnode,on chain,join]
+{$\vect{u}(t_{j+1})=\vect{u}(t_j)+
+\Delta t_{j+1}\cdot\vect{f}\left(t_j, \vect{u}(t_{j})\right)$};
+% конец цикла
+\node[endloopnode,on chain,join]{$j=m-1$};
+% решение
+\node[rectnode,on chain,join]
+{$\vect{u}(\vect{t})=\{u_1(\vect{t}),u_2(\vect{t}),\ldots,u_n(\vect{t})\}$};
+% стоп
+\node[rrectnode,on chain,join]{стоп};
+\end{tikzpicture}
+\caption{Блок-схема алгоритма численного решения
+системы дифференциальных уравнений методом Эйлера}
+\label{fig:ODE_IC:scheme Euler}
+\end{figure}
 
 %
 %	Оценка погрешности решения задачи Коши
@@ -177,7 +215,7 @@ ymin=-0.25,ymax=3,ytick={0,1,2.08,2.59},yticklabels={$y(0)$,$y(t_1)$,$y(t_j)$,$y
 \eqref{eq:ODE_SYS_INT} приближенно вычисляется по 
 \emph{формуле трапеций}:
 \begin{gather}\label{eq:ODE_SYS_INT_TRAP}
-\int\limits_{0}^{t_{j+1}}\vect{f}(\xi, \vec{v})\,\mathrm{d}\xi
+\int\limits_{0}^{t_{j+1}}\vect{f}(\xi, \vect{v})\,\mathrm{d}\xi
 \approx\sum\limits_{k=0}^{j}
 \dfrac{
 \vect{f}\left(t_{k+1},\vect{v}(t_{k+1})\right)+
@@ -215,28 +253,27 @@ ${\vect{u}}(t_{j})$, рассчитанные по методу Эйлера
 задачи Коши \eqref{eq:ODE_SYS} можно принять 
 какую-либо норму:
 \begin{gather}
-\vect{\varepsilon}(t_j)=\vect{v}(t_j) - \vect{u}(t_j)
+\vect{\epsilon}(t_j)=\vect{v}(t_j) - \vect{u}(t_j)
 \end{gather}
 
 Контроль точности приближенного решения 
 может вестись покомпонентно или по норме.
-Для различных компонент решения задачи $u_i(t_j)$ 
+Для различных компонент решения задачи $\vect{u}(t_j)$ 
 могут использоваться различные допустимые значения 
 погрешности.
-
 Контроль точности по норме означает, что контролируется 
-некоторая определенная норма оценки погрешности:
+некоторая определенная норма оценки погрешности
+(рисунок \ref{fig:ODE_IC:scheme error Euler}):
 \begin{gather*}
-\norma{\,\vect{\varepsilon}\,}_{\infty}=\max_{i=1..n} \varepsilon_i
+\norma{\,\vect{\epsilon}\,}_{\infty}=\max_{i=1..n} \abs{\epsilon_i}
 \quad
-\norma{\,\vect{\varepsilon}\,}_1=\sum\limits_{i=1}^n \varepsilon_i,
+\norma{\,\vect{\epsilon}\,}_1=\sum\limits_{i=1}^n \abs{\epsilon_i},
 \quad
-\norma{\,\vect{\varepsilon}\,}_2=\sqrt{\sum\limits_{i=1}^n \varepsilon_i^2}
+\norma{\,\vect{\epsilon}\,}_2=\sqrt{\sum\limits_{i=1}^n \epsilon_i^2}
 \end{gather*}
 
 %
-% *** Алгоритм поиска нуля функции одной переменной f(x)=0
-% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+% *** Алгоритм оценки погрешности метода Эйлера
 %
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
@@ -250,35 +287,33 @@ start chain=going below,node distance=10mm,
 \node[datanode,on chain,join]
 {$\vect{t}=\left\{0,t_1,t_2,\ldots,t_m\right\}$};
 \node[datanode,on chain,join]
-{$\vect{u}(0)=\left\{u_1(0),u_2(0),\ldots,u_n(0)\right\}$};
+{$\vect{u}(\vect{t})=\left\{u_1(\vect{t}),u_2(\vect{t}),\ldots,u_n(\vect{t})\right\}$};
 % начало цикла
 \node[startloopnode,on chain,join]{$j=0,1,2,3,\ldots$};
 % интервал времени
 \node[rectnode,on chain,join]{$\Delta{t}_{j+1}=t_{j+1}-t_j$};
+% решение интегрального уравнения
 \node[rectnode,on chain,join]
-{$\vect{u}(t_{j+1})=\vect{u}(t_j)+
-\Delta t_{j+1}\cdot\vect{f}\left(t_j, \vect{u}(t_{j})\right)$};
-%\node[srectnode,rectangle split parts=2,on chain,join]
-%{
-%\nodepart{one}
-%$\Delta{t}_{j+1}=t_{j+1}-t_j$
-%\nodepart{two}
-%$\vect{u}(t_{j+1})=\vect{u}(t_j)+
-%\Delta t_{j+1}\cdot\vect{f}\left(t_j, \vect{u}(t_{j})\right)$
-%};
+{$\vect{v}(t_{j+1})\approx\vect{v}(t_{j})+
+\dfrac{
+\vect{f}\left(t_{j+1},{\vect{u}}(t_{j+1})\right)+
+\vect{f}\left(t_{j},{\vect{u}}(t_{j})\right)
+}{2}\cdot\Delta t_{j+1}$};
+% погрешность
+\node[rectnode,on chain,join]
+{$\vect{\epsilon}(t_j)=\vect{v}(t_j) - \vect{u}(t_j)$};
 % конец цикла
 \node[endloopnode,on chain,join]{$j=m-1$};
 % решение
-%\begin{scope}[node distance=12mm]
 \node[rectnode,on chain,join]
-{$\vect{u}(\vect{t})=\{u_1(\vect{t}),u_2(\vect{t}),\ldots,u_n(\vect{t})\}$};
-%\end{scope}
+{$\vect{\epsilon}(\vect{t})=\left\{
+\epsilon_1(\vect{t}),\epsilon_2(\vect{t}),\ldots,\epsilon_n(\vect{t})
+\right\}$};
+% стоп
 \node[rrectnode,on chain,join]{стоп};
 \end{tikzpicture}
-% *******************************************
-\caption{Блок-схема алгоритма численного решения
-системы дифференциальных уравнений методом Эйлера}
-\label{fig:ODE_IC:scheme Euler}
+\caption{Блок-схема для вычисления погрешности метода Эйлера}
+\label{fig:ODE_IC:scheme error Euler}
 \end{figure}
 
 %
@@ -335,7 +370,7 @@ $T=10$ -- максимальное время (``время наблюдения
 
 Введем по переменной $t$ равномерную сетку с шагом $\tau=2$:
 \begin{gather*}
-\{t_j\}=\{0,2,4,6,8,10\}
+\vect{t}=\{t_j\}=\{0,2,4,6,8,10\}
 \end{gather*}
 
 Последовательно определяем приближенное решение 
@@ -590,13 +625,15 @@ $\varepsilon_2$&$0$&$0$&$0.6$&$1.8$&$2.4$&$0$\\
 \begin{figure}[H]\centering
 \begin{tikzpicture}
 \begin{axis}[
+%enlargelimits=true,
 ybar,bar width=18pt,
 nodes near coords,
 xlabel = {Время, $t$},
 ylabel = {Абсолютная погрешность, $\varepsilon$},	% подпись оси y
-xmin=1, xmax=11, xtick={0,2,4,6,8,10}, %xticklabels={$0$,$t_1$,,$t_j$,,$t_N$},
-ymin=-0.5, ymax=6, ytick={0,2,4,6}, %yticklabels={$y^{(0)}$,$y^{(1)}$,,$y^{(j)}$,,$y^{(N)}$},
-legend pos={north west}]
+xmin=1, xmax=11, xtick={0,2,4,6,8,10},
+ymin=-0.5, ymax=6, ytick={0,2,4,6},
+legend pos={north west},
+xtick align=inside,ytick align=inside,]
 \addplot[thin, blue, fill=blue!35]
 coordinates{(2,0.6) (4,2.2) (6,1.6) (8,1.4) (10,5.2)};
 \addlegendentry{$\varepsilon_1$};
