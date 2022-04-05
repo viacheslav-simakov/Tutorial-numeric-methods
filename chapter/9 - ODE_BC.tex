@@ -1,53 +1,53 @@
 % Декорация линий
-\tikzset{
-	% декорация линий
-	curve line/.style={
-		decoration={
-			snake,
-			amplitude=1.5mm,%0.75mm,
-			segment length=7.5mm,
-			post length=0mm,
-			pre length=0mm,
-		},
-	},
-	pointnode/.style={
-		join=by -,
-		circle,
-		fill=red,
-		minimum size=3pt,
-		inner sep=0pt,
-	},
-	circlenode/.style={
-		draw,thick,fill=blue!10,line width=0.25mm,
-		shape=circle,
-		inner sep=4pt,
-	},
-	rectnode/.style={
-		draw,line width=0.25mm,
-		shape=rectangle,
-%		rounded corners=2pt, 
-		inner sep=8pt,
-	},
-	startcyclenode/.style={
-		draw,text width=4cm,align=center,line width=0.25mm,
-		shape=chamfered rectangle,
-		chamfered rectangle corners={north west,north east},
-		minimum height=3em,minimum width=5cm,
-	},
-	endcyclenode/.style={
-		draw,text width=4cm,align=center,line width=0.25mm,
-		shape=chamfered rectangle,
-		chamfered rectangle corners={south west,south east},
-		minimum height=3em,minimum width=5cm,
-	},
-	signalnode/.style={
-		draw,line width=0.25mm,
-		shape=chamfered rectangle,
-		chamfered rectangle angle=45,
-		chamfered rectangle xsep=1cm,
-		inner sep=8pt,
-	},
-}
+%\tikzset{
+%	% декорация линий
+%	curve line/.style={
+%		decoration={
+%			snake,
+%			amplitude=1.5mm,%0.75mm,
+%			segment length=7.5mm,
+%			post length=0mm,
+%			pre length=0mm,
+%		},
+%	},
+%	pointnode/.style={
+%		join=by -,
+%		circle,
+%		fill=red,
+%		minimum size=3pt,
+%		inner sep=0pt,
+%	},
+%	circlenode/.style={
+%		draw,thick,fill=blue!10,line width=0.25mm,
+%		shape=circle,
+%		inner sep=4pt,
+%	},
+%	rectnode/.style={
+%		draw,line width=0.25mm,
+%		shape=rectangle,
+%%		rounded corners=2pt, 
+%		inner sep=8pt,
+%	},
+%	startcyclenode/.style={
+%		draw,text width=4cm,align=center,line width=0.25mm,
+%		shape=chamfered rectangle,
+%		chamfered rectangle corners={north west,north east},
+%		minimum height=3em,minimum width=5cm,
+%	},
+%	endcyclenode/.style={
+%		draw,text width=4cm,align=center,line width=0.25mm,
+%		shape=chamfered rectangle,
+%		chamfered rectangle corners={south west,south east},
+%		minimum height=3em,minimum width=5cm,
+%	},
+%	signalnode/.style={
+%		draw,line width=0.25mm,
+%		shape=chamfered rectangle,
+%		chamfered rectangle angle=45,
+%		chamfered rectangle xsep=1cm,
+%		inner sep=8pt,
+%	},
+%}
 %
 % Интегралы
 %
@@ -1378,7 +1378,7 @@ $r(x)$ имеет \emph{точки разрыва только в узлах р�
 \end{split}
 \end{gather}
 
-Таким образом, баланс тепловой энергии в контрольной области
+Таким образом, баланс тепловой энергии в контрольной области\linebreak
 $[x_{i-1/2}$, $x_{i+1/2}]$ с учетом соотношений
 для переноса тепла за счет теплопроводности материала среды
 \eqref{eq:ODE+BC:thermal conduction}, конвекционного теплообмена с окружающей средой
@@ -1810,44 +1810,84 @@ w_n=w_{n-1/2}-\mathring{\sigma}(x_n)\cdot u_n + \varepsilon(x_n)\\
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
 font=\small,
-start chain=going below,node distance=10mm,every join/.style=->,%
+start chain=going below,node distance=10mm,
 >={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
 ]
-% соединитель
-\node[circlenode,on chain,join]{1};
-% alpha[1]
-\node[rectnode,on chain,join]
-{$\alpha_{1}=\dfrac{b_0}{c_0}$};
-% beta[1]
-\node[rectnode,on chain,join]
-{$\beta_{1}=\dfrac{y_0}{c_0}$};
+% старт
+\node[rrectnode,on chain,join]{старт};
+% входные данные
+%\node[datanode,on chain,join]{
+\node[datanode,on chain,join]{%
+$\vect{a}, \vect{b}, \vect{c}, \vect{y}$};%\allowbreak
+
+% alpha[1], beta[1]
+\node[rectnode,on chain,join]{$
+\alpha_{1}=\dfrac{b_0}{c_0},\quad
+\beta_{1}=\dfrac{y_0}{c_0}
+$};
 % начало цикла
-\begin{scope}[every node/.style={fill=gray!10}]
-\node[startcyclenode,on chain,join,text width=4cm]
-{
-расчёт $\{\alpha_i\}$ и $\{\beta_i\}$\\
-$i=1,2,\ldots,(n-1)$
-};
+\node[startloopnode,on chain,join]{$i=1,2,\ldots,(n-1)$};
 % alpha[i] и beta[i]
-\node[rectnode,on chain,join]
-{$\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_i}$};
-\node[rectnode,on chain,join]
-{$\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_i}$};
+\node[rectnode,on chain,join]{$
+\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_i},
+\quad
+\beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_i}
+$};
 % конец цикла
-\node[endcyclenode,on chain,join]
-{
-\phantom{$i=1,2,\ldots,(n-1)$}\\
-расчёт $\{\alpha_i\}$ и $\{\beta_i\}$
-};
-\end{scope}
-% соединитель
-\node[circlenode,on chain,join,fill=red!10]{2};
+\node[endloopnode,on chain,join]{$i=(n-1)$};
+% выходные данные
+\node[rectnode,on chain,join]
+{$\vect{\alpha}, \vect{\beta}$};
+% стоп
+\node[rrectnode,on chain,join]{стоп};
 \end{tikzpicture}
-% *******************************************
 \caption{Блок-схема алгоритма вычислений\linebreak 
-коэффициентов прогонки $\alpha$ и $\beta$}
+коэффициентов прогонки 
+$\vect{\alpha}=(\alpha_1,\alpha_2,\ldots,\alpha_n)$ и
+$\vect{\beta}=(\beta_1,\beta_2,\ldots,\beta_n)$}
 \label{fig:ODE+BC:scheme shuttle:alpha+beta}
 \end{figure}
+
+
+
+% *** Алгоритм вычислений значений целевой функции u[i]***
+% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% старт
+\node[rrectnode,on chain,join]{старт};
+% входные данные
+\node[datanode,on chain,join]{%
+$\vect{\alpha}, \vect{\beta}, \vect{y}$};%\allowbreak
+% u[n]
+\node[rectnode,on chain,join]{$
+u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}
+$};
+% начало цикла
+\node[startloopnode,on chain,join]{$i=(n-1),\ldots,1,0$};
+% alpha[i] и beta[i]
+\node[rectnode,on chain,join]{$
+u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
+% конец цикла
+\node[endloopnode,on chain,join]{$i=0$};
+% выходные данные
+\node[rectnode,on chain,join]
+{$\vect{u}$};
+% стоп
+\node[rrectnode,on chain,join]{стоп};
+\end{tikzpicture}
+\caption{Блок-схема алгоритма вычислений
+значений неизвестной функции $\vect{u}=(u_0,u_1,\ldots,u_n)$
+в узлах расчетной сетки}
+\label{fig:ODE+BC:scheme shuttle:alpha+beta}
+\end{figure}
+
+% ***********
+\end{document}
 
 % *************************************************************
 %
