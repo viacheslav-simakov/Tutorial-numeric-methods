@@ -1535,6 +1535,10 @@ w_n-w_{n-1/2}+\mathring{\sigma}(x_n)\cdot u_n=\varepsilon(x_n)\\
 \end{cases}.
 \end{gather}
 
+Блок-схема алгоритма вычислений коэффициентов разностной
+аппроксимации краевой задачи представлена на рисунке
+\ref{fig:ODE+BC:lambda+sigma+varepsilon}.
+
 Структура системы линейных уравнений \eqref{eq:ODE+BC:SLE}
 относительно неизвестных \eqref{eq:ODE+BC:unknown}
 позволяет сформулировать систему уравнений только для 
@@ -1667,8 +1671,8 @@ $};
 % lambda[i] - теплоперенос
 \node[rectnode,on chain,join]
 {$\lambda_i=
-2\cdot\dfrac{k_i\cdot k_{i+1}}{k_i+k_{i+1}}\cdot
-\dfrac{1}{x_{i+1}-x_i}
+\dfrac{k_i\cdot k_{i+1}}{k_i+k_{i+1}}\cdot
+\dfrac{2}{x_{i+1}-x_i}
 $};
 % sigma[i] - конвекция
 \node[rectnode,on chain,join]
@@ -1697,10 +1701,12 @@ $};
 \node[rrectnode,on chain,join]{стоп};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений\linebreak
-коэффициентов разностной схемы
-$\vect{\lambda}=\{\lambda_0,\lambda_1,\ldots,\lambda_{n-1}\}$,
-$\vect{\sigma}=\{\sigma_0,\sigma_1,\ldots,\sigma_n\}$,
-$\vect{\theta}=\{\theta_0,\theta_1,\ldots,\theta_n\}$}
+коэффициентов разностной схемы 
+$\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\}$
+%$\vect{\lambda}=\{\lambda_0,\lambda_1,\ldots,\lambda_{n-1}\}$,
+%$\vect{\sigma}=\{\sigma_0,\sigma_1,\ldots,\sigma_n\}$,
+%$\vect{\theta}=\{\theta_0,\theta_1,\ldots,\theta_n\}$
+}
 \label{fig:ODE+BC:lambda+sigma+varepsilon}
 \end{figure}
 
@@ -1907,7 +1913,7 @@ w_n=w_{n-1/2}-\mathring{\sigma}(x_n)\cdot u_n + \varepsilon(x_n)\\
 $\{x_i\}$ в пределах области поиска решений краевой задачи.
 \item
 Вычислить все коэффициенты разностной схемы 
-$\{\sigma_i\}$, $\{\varepsilon_i\}$ 
+$\{\lambda_i\}$, $\{\sigma_i\}$, $\{\varepsilon_i\}$ 
 краевой задачи во всех узлах сетки $\{x_i\}$.
 \item
 Определить коэффициенты системы линейной уравнений
