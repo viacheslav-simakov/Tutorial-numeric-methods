@@ -1659,7 +1659,13 @@ start chain=going below,node distance=10mm,
 \varepsilon_0=q_0\cdot\dfrac{x_1-x_0}{2}
 $};
 % c[0]
-\node[rectnode,on chain,join]{$c_0=b_0+\mathring{\sigma}(x_0)+p_0$};
+\node[rectnode,on chain,join]{$
+b_0=\sigma_0,
+\quad
+c_0=b_0+\mathring{\sigma}_0+p_0,
+\quad
+y_0=\varepsilon_0+s_0
+$};
 
 % начало цикла
 \node[startloopnode,on chain,join]{$i=(n-1),\ldots,1,0$};
