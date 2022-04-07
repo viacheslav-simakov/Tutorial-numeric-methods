@@ -776,7 +776,7 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 \quad i=0,1,\ldots,n,
 \end{equation*}
 
-% *** Алгоритм равномерной сетки x[i]***
+% *** Алгоритм равномерной сетки {xi}***
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
 font=\small,
@@ -801,7 +801,7 @@ start chain=going below,node distance=10mm,
 \caption{Блок-схема алгоритма построения
 равномерной расчетной сетки $\{x_i\}=(0,x_1,x_2,\ldots,x_{n-1},\ell)$ 
 с заданным количеством интервалов $n$}
-\label{fig:ODE+BC:scheme shuttle:alpha+beta}
+\label{fig:ODE+BC:scheme grid}
 \end{figure}
 
 
@@ -1909,8 +1909,52 @@ u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
 значений неизвестной функции 
 $\{u_i\}=(u_0,u_1,\ldots,u_n)$ в узлах расчетной сетки
 $\{x_i\}=(x_0,x_1,\ldots,x_n)$}
-\label{fig:ODE+BC:scheme shuttle:alpha+beta}
+\label{fig:ODE+BC:scheme shuttle:u(x)}
 \end{figure}
+
+
+% *** Алгоритм вычисления потока w[i]***
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% старт
+\node[rrectnode,on chain,join]{старт};
+% входные данные
+\node[datanode,on chain,join]{%
+$s_0,p_0,\{\mathring{\sigma}_i\},\{\varepsilon_i\},\{u_i\},$};
+% w[0]
+\node[rectnode,on chain,join]{$
+w_0=s_0-p_0\cdot u_0
+$};
+% w[1/2]
+\node[rectnode,on chain,join]{$
+w_{1/2}=w_0-\mathring{\sigma}_0\cdot u_0+\varepsilon_0
+$};
+% начало цикла
+\node[startloopnode,on chain,join]{$i=1,2,\ldots,(n-1)$};
+% w[i+1/2]
+\node[rectnode,on chain,join]{$
+w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}_i\cdot u_i + \varepsilon_i$};
+% конец цикла
+\node[endloopnode,on chain,join]{$i=(n-1)$};
+% w[n]
+\node[rectnode,on chain,join]{$
+w_n=w_{n-1/2}-\mathring{\sigma}_n\cdot u_n + \varepsilon_n$};
+% выходные данные
+\node[datanode,on chain,join]{$\{w_i\}$};
+% стоп
+\node[rrectnode,on chain,join]{стоп};
+\end{tikzpicture}
+\caption{Блок-схема вычислений потока неизвестной функции
+$\{w_i\}=(w_0,w_{1/2},w_{3/2},\ldots,w_{n-1/2},w_n)$ 
+в промежуточных узлах 
+расчетной сетки $\{x_{i\pm1/2}\}=(x_0,x_{1/2},x_{3/2},\ldots,x_{n-1/2},x_n)$}
+\label{fig:ODE+BC:scheme flow}
+\end{figure}
+
 
 % *************************************************************
 %
