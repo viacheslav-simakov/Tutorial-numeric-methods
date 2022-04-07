@@ -1611,7 +1611,7 @@ $\{u_0,u_1,\ldots,u_n\}$  краевой задачи
 $\vect{u}=\transpose{(u_0,u_1,\ldots,u_n)}$ -- вектор неизвестных,
 $\vect{y}=\transpose{(y_0,y_1,\ldots,y_n)}$ -- вектор правых частей системы,
 $\mathbf{M}$ -- матрица системы линейных уравнений:
-\begin{equation}
+\begin{equation}\label{eq:ODE_BC:matrix SLE}
 \mathbf{M}=
 \begin{pmatrix}
 c_0&-b_0&0\\
@@ -1638,6 +1638,42 @@ c_0&-b_0&0\\
 разрушает специальную структуру матрицы.
 Кроме того, в матрицах с симметричной структурой
 недопустим выбор главного элемента матрицы.
+
+%%	Алгоритм вычислений коэффициентов матрицы 
+%% a, c, b, y
+%% системы линейных уравнений
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% старт
+\node[rrectnode,on chain,join]{старт};
+% входные данные
+\node[datanode,on chain,join]{$\{x_i\},p_0,s_0,p_{\ell},s_{\ell}$};
+% u[n]
+\node[rectnode,on chain,join]{$
+u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}
+$};
+% начало цикла
+\node[startloopnode,on chain,join]{$i=(n-1),\ldots,1,0$};
+% alpha[i] и beta[i]
+\node[rectnode,on chain,join]{$
+u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
+% конец цикла
+\node[endloopnode,on chain,join]{$i=0$};
+% выходные данные
+\node[datanode,on chain,join]
+{$\{u_i\}$};
+% стоп
+\node[rrectnode,on chain,join]{стоп};
+\end{tikzpicture}
+\caption{Блок-схема алгоритма вычислений\linebreak
+коэффициентов системы линейных уравнений}
+\label{fig:ODE+BC:a+b+c+y}
+\end{figure}
+
 
 %Аналогично построим независимую систему для неизвестных 
 %$w_{i+1/2}$\linebreak ($i=0,1,\ldots,n-1$).
@@ -1902,7 +1938,6 @@ $\{\beta_1,\beta_2,\ldots,\beta_n\}$}
 
 
 % *** Алгоритм вычислений значений целевой функции u[i]***
-% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
 font=\small,
