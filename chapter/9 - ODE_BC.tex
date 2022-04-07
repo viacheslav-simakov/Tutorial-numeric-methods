@@ -1841,16 +1841,22 @@ w_n=w_{n-1/2}-\mathring{\sigma}(x_n)\cdot u_n + \varepsilon(x_n)\\
 $\{x_i\}$ в пределах области поиска решений краевой задачи.
 \item
 Вычислить все коэффициенты разностной схемы 
-$\sigma_i$, $\varepsilon_i$, $y_i$
+$\{\sigma_i\}$, $\{\varepsilon_i\}$ 
 краевой задачи во всех узлах сетки $\{x_i\}$.
 \item
 Определить коэффициенты системы линейной уравнений
-$a_i$, $b_i$, $c_i$ и $y_i$,
-полученной разностной схемы.
+разностной схемы $\{a_i\}$, $\{b_i\}$, $\{c_i\}$ и $\{y_i\}$.
 \item
-Найти решение полученной системы линейных алгебраических уравнений
-$\{u_i\}$ методом прогонки:
-
+Вычислить коэффициенты прогонки $\{\alpha_i\}$ и $\{\beta_i\}$
+(рисунок \ref{fig:ODE+BC:scheme shuttle:alpha+beta})
+\item
+Найти решение полученной системы линейных 
+алгебраических уравнений $\{u_0,u_1,\ldots,u_{n}\}$
+методом прогонки (рисунок \ref{fig:ODE+BC:scheme shuttle:u(x)}).
+\item
+Вычислить поток неизвестной функции $\{w_0,w_{i\pm1/2},w_n\}$ 
+во всех промежуточных узлах расчётной сетки
+(рисунок \ref{fig:ODE+BC:scheme flow}).
 
 \end{enumerate}
 
@@ -1889,8 +1895,8 @@ $};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений\linebreak 
 коэффициентов прогонки 
-$\{\alpha_i\}=(\alpha_1,\alpha_2,\ldots,\alpha_n)$ и
-$\{\beta_i\}=(\beta_1,\beta_2,\ldots,\beta_n)$}
+$\{\alpha_1,\alpha_2,\ldots,\alpha_n\}$ и
+$\{\beta_1,\beta_2,\ldots,\beta_n\}$}
 \label{fig:ODE+BC:scheme shuttle:alpha+beta}
 \end{figure}
 
@@ -1927,8 +1933,8 @@ u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений
 значений неизвестной функции 
-$\{u_i\}=(u_0,u_1,\ldots,u_n)$ в узлах расчетной сетки
-$\{x_i\}=(x_0,x_1,\ldots,x_n)$}
+$\{u_0,u_1,\ldots,u_n\}$ в узлах расчетной сетки
+$\{x_0,x_1,\ldots,x_n\}$}
 \label{fig:ODE+BC:scheme shuttle:u(x)}
 \end{figure}
 
@@ -1964,14 +1970,14 @@ w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}_i\cdot u_i + \varepsilon_i$};
 \node[rectnode,on chain,join]{$
 w_n=w_{n-1/2}-\mathring{\sigma}_n\cdot u_n + \varepsilon_n$};
 % выходные данные
-\node[datanode,on chain,join]{$\{w_i\}$};
+\node[datanode,on chain,join]{$\{w_0,w_{i+1/2},w_n\}$};
 % стоп
 \node[rrectnode,on chain,join]{стоп};
 \end{tikzpicture}
 \caption{Блок-схема вычислений потока неизвестной функции
-$\{w_i\}=(w_0,w_{1/2},w_{3/2},\ldots,w_{n-1/2},w_n)$ 
+$\{w_0,w_{1/2},w_{3/2},\ldots,w_{n-1/2},w_n\}$ 
 в промежуточных узлах 
-расчетной сетки $\{x_{i\pm1/2}\}=(x_0,x_{1/2},x_{3/2},\ldots,x_{n-1/2},x_n)$}
+расчетной сетки $\{x_0,x_{1/2},x_{3/2},\ldots,x_{n-1/2},x_n\}$}
 \label{fig:ODE+BC:scheme flow}
 \end{figure}
 
