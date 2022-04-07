@@ -1650,22 +1650,18 @@ start chain=going below,node distance=10mm,
 % старт
 \node[rrectnode,on chain,join]{старт};
 % входные данные
-\node[datanode,on chain,join]{$\{x_i\},p_0,s_0,p_{\ell},s_{\ell}$};
-% sigma[0] и varepsoln[0]
+\node[datanode,on chain,join]
+{$\{x_i\},\{k_i\},\{r_i\},\{q_i\}$};
+% lambda[0], sigma[0] varepsoln[0]
 \node[rectnode,on chain,join]{$
-\mathring{\sigma}_0=r_0\cdot\dfrac{x_1-x_0}{2},
+\lambda_0=
+\dfrac{k_0\cdot k_1}{k_0+k_1}\cdot
+\dfrac{2}{x_1-x_0},
+\quad
+\sigma_0=r_0\cdot\dfrac{x_1-x_0}{2},
 \quad
 \varepsilon_0=q_0\cdot\dfrac{x_1-x_0}{2}
 $};
-% c[0]
-\node[rectnode,on chain,join]{$
-b_0=\sigma_0,\lambda_0
-\quad
-c_0=b_0+\mathring{\sigma}_0+p_0,
-\quad
-y_0=\varepsilon_0+s_0
-$};
-
 % начало цикла
 \node[startloopnode,on chain,join]{$i=1,2,\ldots,(n-1)$};
 % lambda[i] - теплоперенос
@@ -1683,20 +1679,29 @@ $};
 % varepsilon[i] - тепловыделение
 \node[rectnode,on chain,join]
 {$\varepsilon_i=
-q(x_i)\cdot\dfrac{x_i-x_{i-1}}{2}+
-q(x_{i+1})\cdot\dfrac{x_{i+1}-x_i}{2}
+q_i\cdot\dfrac{x_i-x_{i-1}}{2}+
+q_{i+1}\cdot\dfrac{x_{i+1}-x_i}{2}
 $};
 % конец цикла
-\node[endloopnode,on chain,join]{$i=0$};
+\node[endloopnode,on chain,join]{$i=(n-1)$};
+% lambda[n], sigma[n] varepsoln[n]
+\node[rectnode,on chain,join]{$
+\sigma_n=r_n\cdot\dfrac{x_n-x_{n-1}}{2},
+\quad
+\varepsilon_n=q_n\cdot\dfrac{x_n-x_{n-1}}{2}
+$};
 % выходные данные
-\node[datanode,on chain,join]{$\{a_i\},\{c_i\},\{b_i\},\{y_i\}$};
+\node[datanode,on chain,join]
+{$\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\}$};
 % стоп
 \node[rrectnode,on chain,join]{стоп};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений\linebreak
-коэффициентов $\{a_i\},\{c_i\},\{b_i\},\{y_i\}$
-системы линейных уравнений}
-\label{fig:ODE+BC:a+b+c+y}
+коэффициентов разностной схемы
+$\vect{\lambda}=\{\lambda_0,\lambda_1,\ldots,\lambda_{n-1}\}$,
+$\vect{\sigma}=\{\sigma_0,\sigma_1,\ldots,\sigma_n\}$,
+$\vect{\theta}=\{\theta_0,\theta_1,\ldots,\theta_n\}$}
+\label{fig:ODE+BC:lambda+sigma+varepsilon}
 \end{figure}
 
 
