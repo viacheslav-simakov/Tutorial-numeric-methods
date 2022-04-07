@@ -1353,7 +1353,7 @@ $u_{i+1}$ и $u_i$ -- значение температуры в узлах
 $\sigma$ -- параметр, имеющий смысл тепловой проводимости
 среды на участке $x_i\leqslant x < x_{i+1}$:
 \begin{equation*}
-\sigma(x_i)=\dfrac{2k(x_i)\cdot k(x_{i+1})}{k(x_i)+k(x_{i+1})}
+\sigma(x_i)=\dfrac{2\cdot k(x_i)\,k(x_{i+1})}{k(x_i)+k(x_{i+1})}
 \cdot\dfrac{1}{x_{i+1}-x_i}
 \end{equation*} 
 
@@ -1402,7 +1402,6 @@ $r(x)$ имеет \emph{точки разрыва только в узлах р�
 \begin{gather}\label{eq:ODE+BC:epsilon source}
 \begin{split}
 \varepsilon(x_i)&=\intfcenter{q(x)}=\intflefthalf{q(x)}+\intfrighthalf{q(x)}\approx\\[1ex]
-%&\approx\dfrac{q(x_i)\cdot(x_i-x_{i-1})+q(x_{i+1})\cdot(x_{i+1}-x_i)}{2}.
 &\approx q(x_i)\cdot\dfrac{x_i-x_{i-1}}{2}+q(x_{i+1})\cdot\dfrac{x_{i+1}-x_i}{2}.
 \end{split}
 \end{gather}
@@ -1660,7 +1659,7 @@ start chain=going below,node distance=10mm,
 $};
 % c[0]
 \node[rectnode,on chain,join]{$
-b_0=\sigma_0,
+b_0=\sigma_0,\lambda_0
 \quad
 c_0=b_0+\mathring{\sigma}_0+p_0,
 \quad
@@ -1668,10 +1667,25 @@ y_0=\varepsilon_0+s_0
 $};
 
 % начало цикла
-\node[startloopnode,on chain,join]{$i=(n-1),\ldots,1,0$};
-% alpha[i] и beta[i]
-\node[rectnode,on chain,join]{$
-u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
+\node[startloopnode,on chain,join]{$i=1,2,\ldots,(n-1)$};
+% lambda[i] - теплоперенос
+\node[rectnode,on chain,join]
+{$\lambda_i=
+2\cdot\dfrac{k_i\cdot k_{i+1}}{k_i+k_{i+1}}\cdot
+\dfrac{1}{x_{i+1}-x_i}
+$};
+% sigma[i] - конвекция
+\node[rectnode,on chain,join]
+{$\sigma_i=
+r_i\cdot\dfrac{x_i-x_{i-1}}{2}+
+r_{i+1}\cdot\dfrac{x_{i+1}-x_i}{2}
+$};
+% varepsilon[i] - тепловыделение
+\node[rectnode,on chain,join]
+{$\varepsilon_i=
+q(x_i)\cdot\dfrac{x_i-x_{i-1}}{2}+
+q(x_{i+1})\cdot\dfrac{x_{i+1}-x_i}{2}
+$};
 % конец цикла
 \node[endloopnode,on chain,join]{$i=0$};
 % выходные данные
