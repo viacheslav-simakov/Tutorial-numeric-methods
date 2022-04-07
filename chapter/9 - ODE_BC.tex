@@ -1343,25 +1343,25 @@ u(x_{i+1})-u(x_{i})\approx
 найдем поток тепла в промежуточных узлах сетки 
 $w(x_{i+1/2})$:
 \begin{gather}\label{eq:ODE+BC:thermal conduction}
-w_{i+1/2}=-\sigma(x_{i})\cdot(u_{i+1}-u_{i})
+w_{i+1/2}=-\lambda_i\cdot(u_{i+1}-u_i)
 \end{gather}
 где 
 $w_{i+1/2}$ -- величина теплового потока в узле
 вспомогательной сетки $x_{i+1/2}$;
 $u_{i+1}$ и $u_i$ -- значение температуры в узлах
 расчётной сетки $x_{i+1}$ и $x_i$, соответственно;
-$\sigma$ -- параметр, имеющий смысл тепловой проводимости
+$\lambda$ -- параметр, имеющий смысл тепловой проводимости
 среды на участке $x_i\leqslant x < x_{i+1}$:
 \begin{equation*}
-\sigma(x_i)=\dfrac{2\cdot k(x_i)\,k(x_{i+1})}{k(x_i)+k(x_{i+1})}
-\cdot\dfrac{1}{x_{i+1}-x_i}
+\lambda_i=\dfrac{k_i\cdot k_{i+1}}{k_i+k_{i+1}}
+\cdot\dfrac{2}{x_{i+1}-x_i}
 \end{equation*} 
 
 Аналогично, рассматривая участок $[x_{i-1},x_i)$, 
 можно получить выражение для теплового потока
 во вспомогательном узле $x_{i-1/2}$:
 \begin{gather}
-w_{i-1/2}=-\sigma(x_{i-1})\cdot(u_{i}-u_{i-1})
+w_{i-1/2}=-\lambda_{i-1}\cdot(u_i-u_{i-1})
 \end{gather}
 
 % Конвекционный теплообмен
@@ -1372,25 +1372,25 @@ $[x_{i-1/2},x_{i+1/2}]$:
 \begin{gather*}
 \intfcenter{ r(x)\cdot u(x) }\approx
 u(x_i)\intfcenter{ r(x)}=
-\mathring{\sigma}(x_i)\cdot u_i,
+\sigma_i\cdot u_i,
 \end{gather*}
-где $\mathring{\sigma}$ -- параметр имеющий смысл
+где $\sigma$ -- параметр имеющий смысл
 проводимости контактной области между средой и окружением:
 \begin{gather*}
-\mathring{\sigma}(x_i)=\intfcenter{r(x)}.
+\sigma_i=\intfcenter{r(x)}.
 \end{gather*}
 
 Для определения контактной проводимости среды
-$\mathring{\sigma}$  используем кусочную аппроксимацию
+$\sigma_i$  используем кусочную аппроксимацию
 (рисунок \ref{fig:ODE+BC:approx integral}), 
 а также условие расположения узлов сетки $\{x_i\}$,
 таких что коэффициент конвекционного теплообмена
 $r(x)$ имеет \emph{точки разрыва только в узлах расчётной сетки}:
 \begin{equation}\label{eq:ODE+BC:sigma convection}
 \begin{split}
-\mathring{\sigma}(x_i)&=\intflefthalf{r(x)}+\intfrighthalf{r(x)}\approx\\[1ex]
+\sigma_i&=\intflefthalf{r(x)}+\intfrighthalf{r(x)}\approx\\[1ex]
 &\approx r(x_i)\cdot(x_i-x_{i-1/2})+r(x_{i+1})\cdot(x_{i+1/2}-x_i)=\\[1em]
-&=r(x_i)\cdot\dfrac{x_i-x_{i-1}}{2}+r(x_{i+1})\cdot\dfrac{x_{i+1}-x_i}{2}.
+&=r_i\cdot\dfrac{x_i-x_{i-1}}{2}+r_{i+1}\cdot\dfrac{x_{i+1}-x_i}{2}.
 \end{split}
 \end{equation}
 
@@ -1402,7 +1402,7 @@ $r(x)$ имеет \emph{точки разрыва только в узлах р�
 \begin{gather}\label{eq:ODE+BC:epsilon source}
 \begin{split}
 \varepsilon(x_i)&=\intfcenter{q(x)}=\intflefthalf{q(x)}+\intfrighthalf{q(x)}\approx\\[1ex]
-&\approx q(x_i)\cdot\dfrac{x_i-x_{i-1}}{2}+q(x_{i+1})\cdot\dfrac{x_{i+1}-x_i}{2}.
+&\approx q_i\cdot\dfrac{x_i-x_{i-1}}{2}+q_{i+1}\cdot\dfrac{x_{i+1}-x_i}{2}.
 \end{split}
 \end{gather}
 
@@ -1414,9 +1414,9 @@ $[x_{i-1/2}$, $x_{i+1/2}]$ с учетом соотношений
 \eqref{eq:ODE+BC:epsilon source}, можно записать в виде системы разностных уравнений: 
 \begin{gather}\label{eq:ODE+BC:mesh element}
 \begin{cases}
-w_{i+1/2} - w_{i-1/2} + \mathring{\sigma}(x_i)\cdot u_i = \varepsilon(x_i)\\
-w_{i+1/2}=-\sigma(x_{i})\cdot(u_{i+1}-u_i)\\
-w_{i-1/2}=-\sigma(x_{i-1})\cdot(u_i-u_{i-1})
+w_{i+1/2} - w_{i-1/2} + \sigma_i\cdot u_i = \varepsilon_i\\
+w_{i+1/2}=-\lambda_i\cdot(u_{i+1}-u_i)\\
+w_{i-1/2}=-\lambda_{i-1}\cdot(u_i-u_{i-1})
 \end{cases}
 \end{gather} 
 
@@ -1454,36 +1454,36 @@ u_0,&&u_1,&\ldots&&u_i,&&\ldots&&u_n,\\
 Уравнение теплового баланса вблизи левой 
 границы области $x=x_0$:
 \begin{gather}\label{eq:ODE+BC:LEFT}
-w_{1/2}-w_0+\mathring{\sigma}(x_0)\cdot u_0=\varepsilon(x_0),
+w_{1/2}-w_0+\sigma_0\cdot u_0=\varepsilon_0,
 \end{gather}
 где
 $w_{1/2}$ -- тепловой поток в первом промежуточном 
 узле $x_{1/2}$:
 \begin{equation}\label{eq:ODE+BC:w(1/2)} 
-w_{1/2} = -\sigma(x_0)\cdot(u_1-u_0);
+w_{1/2} = -\lambda_0\cdot(u_1-u_0);
 \end{equation}
 $w_0$ -- тепловой поток на левой границе области
 \eqref{eq:HT+BC:1D}:
 \begin{equation}\label{eq:ODE+BC:w(0)}
 w_0\equiv w(0)=s_0-p_0\cdot u(0)=s_0-p_0\cdot u_0;
 \end{equation}
-$\mathring{\sigma}(x_0)$ и $\varepsilon(x_0)$ -- 
+$\sigma_0$ и $\varepsilon_0$ -- 
 контактная проводимость и 
 количество тепла выделяемое распределенными источникам 
 на левой границе:
 \begin{gather*}%\label{eq:ODE+BC:LEFT:convection conduction}
-\mathring{\sigma}(x_0)=\intf{x_0}{ x_{1/2} }{ r(x) }
-\approx r(x_0)\cdot(x_{1/2}-x_0)=r(x_0)\cdot\dfrac{x_1-x_0}{2},
+\sigma_0=\intf{x_0}{ x_{1/2} }{ r(x) }
+\approx r(x_0)\cdot(x_{1/2}-x_0)=r_0\cdot\dfrac{x_1-x_0}{2},
 \end{gather*}
 \begin{gather*}%\label{eq:ODE+BC:LEFT:heat source}
-\varepsilon(x_0)=\intf{x_0}{ x_{1/2} }{ q(x) }
-\approx q(x_0)\cdot(x_{1/2}-x_0)=q(x_0)\cdot\dfrac{x_1-x_0}{2}
+\varepsilon_0=\intf{x_0}{ x_{1/2} }{ q(x) }
+\approx q(x_0)\cdot(x_{1/2}-x_0)=q_0\cdot\dfrac{x_1-x_0}{2}
 \end{gather*}
 
 Аналогично рассматривая правую границу области $x=\ell$,
 уравнение теплового баланса можно записать в виде:
 \begin{gather}\label{eq:ODE+BC:RIGHT}
-w_n-w_{n-1/2}+\mathring{\sigma}(x_n)\cdot u_n=\varepsilon(x_n),
+w_n-w_{n-1/2}+\sigma_n\cdot u_n=\varepsilon_n,
 \end{gather}
 где
 $w_n$ -- тепловой поток на правой границе области
@@ -1495,21 +1495,21 @@ w_n\equiv w(\ell)=p_{\ell}\cdot u(\ell)-s_{\ell}
 $w_{n-1/2}$ -- тепловой поток в последнем 
 промежуточном узле $x_{n-1/2}$:
 \begin{equation}
-w_{n-1/2}=-\sigma(x_{n-1})\cdot(u_n-u_{n-1});
+w_{n-1/2}=-\lambda_{n-1}\cdot(u_n-u_{n-1});
 \end{equation}
-$\mathring{\sigma}(x_n)$ и $\varepsilon(x_n)$ -- 
+$\sigma_n$ и $\varepsilon_n$ -- 
 контактная проводимость и 
 количество тепла выделяемое распределенными источникам 
 на правой границе $x=\ell$:
 \begin{gather*}%\label{eq:ODE+BC:RIGHT:convection conduction}
-\mathring{\sigma}(x_n)=\intf{x_{n-1/2}}{x_n}{ r(x) }
+\sigma_n=\intf{x_{n-1/2}}{x_n}{ r(x) }
 \approx r(x_n)\cdot(x_n-x_{n-1/2})=
-r(x_n)\cdot\dfrac{x_n-x_{n-1}}{2},
+r_n\cdot\dfrac{x_n-x_{n-1}}{2},
 \end{gather*}
 \begin{gather*}%\label{eq:ODE+BC:RIGHT:heat source}
-\varepsilon(x_n)=\intf{x_{n-1/2}}{x_n}{ q(x) }
+\varepsilon_n=\intf{x_{n-1/2}}{x_n}{ q(x) }
 \approx q(x_n)\cdot(x_n-x_{n-1/2})=
-q(x_n)\cdot\dfrac{x_n-x_{n-1}}{2}.
+q_n\cdot\dfrac{x_n-x_{n-1}}{2}.
 \end{gather*}
 
 %
@@ -1527,11 +1527,11 @@ q(x_n)\cdot\dfrac{x_n-x_{n-1}}{2}.
 получаем следующую разностную схему для граничной задачи:
 \begin{gather}\label{eq:ODE+BC:SLE}
 \begin{cases}
-w_{1/2}-w_0+\mathring{\sigma}(x_0)\cdot u_0=\varepsilon(x_0)\\
-w_{i+1/2} - w_{i-1/2} + \mathring{\sigma}(x_i)\cdot u_i = \varepsilon(x_i)\\
-w_{i+1/2}=-\sigma(x_{i})\cdot(u_{i+1}-u_i)\\
-w_{i-1/2}=-\sigma(x_{i-1})\cdot(u_i-u_{i-1})\\
-w_n-w_{n-1/2}+\mathring{\sigma}(x_n)\cdot u_n=\varepsilon(x_n)\\
+w_{1/2}-w_0+\sigma_0\cdot u_0=\varepsilon_0\\
+w_{i+1/2} - w_{i-1/2} + \sigma_i\cdot u_i = \varepsilon_i\\
+w_{i+1/2}=-\lambda_i\cdot(u_{i+1}-u_i)\\
+w_{i-1/2}=-\lambda_{i-1}\cdot(u_i-u_{i-1})\\
+w_n-w_{n-1/2}+\sigma_n\cdot u_n=\varepsilon_n\\
 \end{cases}.
 \end{gather}
 
@@ -1547,31 +1547,31 @@ w_n-w_{n-1/2}+\mathring{\sigma}(x_n)\cdot u_n=\varepsilon(x_n)\\
 Подставим выражение для потоков в узлах вспомогательной сетки
 \begin{equation*}
 \left\{\begin{matrix}
-w_{i+1/2}&=&-\sigma(x_{i})\cdot(u_{i+1}-u_i)\\
-w_{i-1/2}&=&-\sigma(x_{i-1})\cdot(u_i-u_{i-1})\\
+w_{i+1/2}&=&-\lambda_i\cdot(u_{i+1}-u_i)\\
+w_{i-1/2}&=&-\lambda_{i-1}\cdot(u_i-u_{i-1})\\
 \end{matrix}\right.
 \end{equation*}
 в уравнение теплового баланса для каждого контрольного объема
 \begin{equation*}
-w_{i+1/2} - w_{i-1/2} + \mathring{\sigma}(x_i)\cdot u_i = \varepsilon(x_i),
+w_{i+1/2} - w_{i-1/2} + \sigma_i\cdot u_i = \varepsilon_i,
 \quad
-i=1,2,\ldots,n-1
+i=1,2,\ldots,(n-1)
 \end{equation*}
 и в результате с учетом
 \eqref{eq:ODE+BC:w(0)} и \eqref{eq:ODE+BC:w(n)}
 получим:
 \begin{equation*}
 \left\{\begin{matrix}[rcl]
--\sigma(x_0)\cdot(u_1-u_0)-(s_0-p_0\cdot u_0)
-+\mathring{\sigma}(x_0)\cdot u_0
-&=&\varepsilon(x_0)\\
--\sigma(x_{i})\cdot(u_{i+1}-u_i) + 
-\sigma(x_{i-1})\cdot(u_i-u_{i-1})
-+ \mathring{\sigma}(x_i)\cdot u_i
-&=&\varepsilon(x_i)\\
-(p_{\ell}\cdot u_n-s_{\ell})+\sigma(x_{n-1})\cdot(u_n-u_{n-1})+
-\mathring{\sigma}(x_n)\cdot u_n
-&=&\varepsilon(x_n)\\
+-\lambda_0\cdot(u_1-u_0)-(s_0-p_0\cdot u_0)
++\sigma_0\cdot u_0
+&=&\varepsilon_0\\
+-\lambda_i\cdot(u_{i+1}-u_i) + 
+\lambda_{i-1}\cdot(u_i-u_{i-1})
++ \sigma_i\cdot u_i
+&=&\varepsilon_i\\
+(p_{\ell}\cdot u_n-s_{\ell})+\lambda_{n-1}\cdot(u_n-u_{n-1})+
+\sigma_n\cdot u_n
+&=&\varepsilon_n\\
 \end{matrix}\right.
 \end{equation*}
 
@@ -1588,17 +1588,17 @@ c_0\cdot u_0-b_0\cdot u_1=y_0\\
 \begin{equation*}
 \left\{\begin{matrix}[llll]
 &
-b_0=\sigma(x_0),&
-c_0=b_0+\mathring{\sigma}(x_0)+p_0,&
-y_0=\varepsilon(x_0)+s_0\\
-a_i=\sigma(x_{i-1}),&
-b_i=\sigma(x_i),&
-c_i=a_i+b_i+\mathring{\sigma}(x_i),&
-y_i=\varepsilon(x_i)\\
-a_n=\sigma(x_{n-1}),&
+b_0=\lambda_0,&
+c_0=b_0+\sigma_0+p_0,&
+y_0=\varepsilon_0+s_0\\
+a_i=\lambda_{i-1},&
+b_i=\lambda_i,&
+c_i=a_i+b_i+\sigma_i,&
+y_i=\varepsilon_i\\
+a_n=\lambda_{n-1},&
 &
-c_n=a_n+\mathring{\sigma}(x_n)+p_{\ell},&
-y_n=\varepsilon(x_n)+s_{\ell}\\
+c_n=a_n+\sigma_n+p_{\ell},&
+y_n=\varepsilon_n+s_{\ell}\\
 \end{matrix}\right.
 \end{equation*}
 
@@ -1642,8 +1642,8 @@ c_0&-b_0&0\\
 Кроме того, в матрицах с симметричной структурой
 недопустим выбор главного элемента матрицы.
 
-%%	Алгоритм вычислений коэффициентов матрицы 
-%% a, c, b, y
+%%	Алгоритм вычислений коэффициентов разностной схемы
+%% lambda, sigma, varepsilon
 %% системы линейных уравнений
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
@@ -1702,13 +1702,63 @@ $};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений\linebreak
 коэффициентов разностной схемы 
-$\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\}$
-%$\vect{\lambda}=\{\lambda_0,\lambda_1,\ldots,\lambda_{n-1}\}$,
-%$\vect{\sigma}=\{\sigma_0,\sigma_1,\ldots,\sigma_n\}$,
-%$\vect{\theta}=\{\theta_0,\theta_1,\ldots,\theta_n\}$
-}
+$\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\}$}
 \label{fig:ODE+BC:lambda+sigma+varepsilon}
 \end{figure}
+
+
+
+%%	Алгоритм вычислений коэффициентов матрицы 
+%% a, c, b, y
+%% системы линейных уравнений
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% старт
+\node[rrectnode,on chain,join]{старт};
+% входные данные
+\node[datanode,on chain,join]
+{$\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\},\{p_0,s_0\},\{p_{\ell},s_{\ell}\}$};
+% b[0], c[0], y[0]
+\node[rectnode,on chain,join]{$
+b_0=\lambda_0,\quad
+c_0=b_0+\sigma_0+p_0,\quad
+y_0=\varepsilon_0+s_0
+$};
+% начало цикла
+\node[startloopnode,on chain,join]{$i=1,2,\ldots,(n-1)$};
+% lambda[i] - теплоперенос
+\node[rectnode,on chain,join]
+{$
+a_i=\lambda_{i-1},\quad
+b_i=\lambda_i,\quad
+c_i=a_i+b_i+\sigma_i,\quad
+y_i=\varepsilon_i
+$};
+% конец цикла
+\node[endloopnode,on chain,join]{$i=(n-1)$};
+% lambda[n], sigma[n] varepsoln[n]
+\node[rectnode,on chain,join]{$
+a_n=\lambda_{n-1},\quad
+c_n=a_n+\sigma_n+p_{\ell},\quad
+y_n=\varepsilon_n+s_{\ell}
+$};
+% выходные данные
+\node[datanode,on chain,join]
+{$\{a_i\},\{b_i\},\{c_i\},\{y_i\}$};
+% стоп
+\node[rrectnode,on chain,join]{стоп};
+\end{tikzpicture}
+\caption{Блок-схема алгоритма вычислений\linebreak
+коэффициентов $\{a_i\},\{b_i\},\{c_i\}$ и $\{y_i\}$
+системы линейных уравнений}
+\label{fig:ODE+BC:a+c+b+y}
+\end{figure}
+
+
 
 
 %Аналогично построим независимую систему для неизвестных 
@@ -1899,9 +1949,9 @@ i=(n-1),\ldots,1,0
 \begin{gather}
 \begin{cases}
 w_0=s_0-p_0\cdot u_0\\
-w_{1/2}=w_0-\mathring{\sigma}(x_0)\cdot u_0+\varepsilon(x_0)\\
-w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}(x_i)\cdot u_i + \varepsilon(x_i),&i=1,2,\ldots,(n-1)\\
-w_n=w_{n-1/2}-\mathring{\sigma}(x_n)\cdot u_n + \varepsilon(x_n)\\
+w_{1/2}=w_0-\sigma_0\cdot u_0+\varepsilon_0\\
+w_{i+1/2}=w_{i-1/2} - \sigma_i\cdot u_i + \varepsilon_i,&i=1,2,\ldots,(n-1)\\
+w_n=w_{n-1/2}-\sigma_n\cdot u_n + \varepsilon_n\\
 \end{cases}
 \end{gather}
 
@@ -1912,19 +1962,19 @@ w_n=w_{n-1/2}-\mathring{\sigma}(x_n)\cdot u_n + \varepsilon(x_n)\\
 Сформировать локально однородную расчётную сетку
 $\{x_i\}$ в пределах области поиска решений краевой задачи.
 \item
-Вычислить все коэффициенты разностной схемы 
+Вычислить коэффициенты разностной схемы 
 $\{\lambda_i\}$, $\{\sigma_i\}$, $\{\varepsilon_i\}$ 
-краевой задачи во всех узлах сетки $\{x_i\}$.
+(рисунок \ref{fig:ODE+BC:lambda+sigma+varepsilon}).
 \item
-Определить коэффициенты системы линейной уравнений
-разностной схемы $\{a_i\}$, $\{b_i\}$, $\{c_i\}$ и $\{y_i\}$.
+Определить коэффициенты $\{a_i\}$, $\{b_i\}$, $\{c_i\}$ и $\{y_i\}$
+системы линейной уравнений (рисунок \ref{fig:ODE+BC:a+c+b+y}).
 \item
 Вычислить коэффициенты прогонки $\{\alpha_i\}$ и $\{\beta_i\}$
 (рисунок \ref{fig:ODE+BC:scheme shuttle:alpha+beta})
 \item
 Найти решение полученной системы линейных 
 алгебраических уравнений $\{u_0,u_1,\ldots,u_{n}\}$
-методом прогонки (рисунок \ref{fig:ODE+BC:scheme shuttle:u(x)}).
+(рисунок \ref{fig:ODE+BC:scheme shuttle:u(x)}).
 \item
 Вычислить поток неизвестной функции $\{w_0,w_{i\pm1/2},w_n\}$ 
 во всех промежуточных узлах расчётной сетки
@@ -1984,14 +2034,14 @@ start chain=going below,node distance=10mm,
 \node[rrectnode,on chain,join]{старт};
 % входные данные
 \node[datanode,on chain,join]{%
-$a_n,b_n,c_n,y_n,\{\alpha_i\},\{\beta_i\},$};%\allowbreak
+$\{a_n,b_n,c_n,y_n\},\{\alpha_i\},\{\beta_i\},$};%\allowbreak
 % u[n]
 \node[rectnode,on chain,join]{$
 u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}
 $};
 % начало цикла
 \node[startloopnode,on chain,join]{$i=(n-1),\ldots,1,0$};
-% alpha[i] и beta[i]
+% u[i]
 \node[rectnode,on chain,join]{$
 u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
 % конец цикла
@@ -2021,25 +2071,25 @@ start chain=going below,node distance=10mm,
 \node[rrectnode,on chain,join]{старт};
 % входные данные
 \node[datanode,on chain,join]{%
-$s_0,p_0,\{\mathring{\sigma}_i\},\{\varepsilon_i\},\{u_i\},$};
+$\{s_0,p_0\},\{\sigma_i\},\{\varepsilon_i\},\{u_i\},$};
 % w[0]
 \node[rectnode,on chain,join]{$
 w_0=s_0-p_0\cdot u_0
 $};
 % w[1/2]
 \node[rectnode,on chain,join]{$
-w_{1/2}=w_0-\mathring{\sigma}_0\cdot u_0+\varepsilon_0
+w_{1/2}=w_0-\sigma_0\cdot u_0+\varepsilon_0
 $};
 % начало цикла
 \node[startloopnode,on chain,join]{$i=1,2,\ldots,(n-1)$};
 % w[i+1/2]
 \node[rectnode,on chain,join]{$
-w_{i+1/2}=w_{i-1/2} - \mathring{\sigma}_i\cdot u_i + \varepsilon_i$};
+w_{i+1/2}=w_{i-1/2} - \sigma_i\cdot u_i + \varepsilon_i$};
 % конец цикла
 \node[endloopnode,on chain,join]{$i=(n-1)$};
 % w[n]
 \node[rectnode,on chain,join]{$
-w_n=w_{n-1/2}-\mathring{\sigma}_n\cdot u_n + \varepsilon_n$};
+w_n=w_{n-1/2}-\sigma_n\cdot u_n + \varepsilon_n$};
 % выходные данные
 \node[datanode,on chain,join]{$\{w_0,w_{i+1/2},w_n\}$};
 % стоп
@@ -2088,7 +2138,7 @@ $\{w_0,w_{1/2},w_{3/2},\ldots,w_{n-1/2},w_n\}$
 $w_{i+1/2}$ и $u_i$, используя линейную связь между ними:
 \begin{equation*}
 \left\{\begin{matrix}[rcl]
-w_{i+1/2}&=&-\sigma(x_i)\cdot(u_{i+1}-u_i)\\
+w_{i+1/2}&=&-\lambda_i\cdot(u_{i+1}-u_i)\\
 u_i&=&\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}\\
 \end{matrix}\right.
 \end{equation*}
@@ -2104,7 +2154,7 @@ u_i&=&\bar{\alpha}_{i+1}\cdot w_{i+1/2} + \bar{\beta}_{i+1}\\
 где $\bar{\alpha}_{i+1}$ и $\bar{\beta}_{i+1}$ --
 коэффициенты потоковой прогонки:
 \begin{equation}
-\bar{\alpha}_{i+1}=\dfrac{\alpha_{i+1}}{\alpha_{i+1}-1}\cdot\sigma^{-1}(x_i),
+\bar{\alpha}_{i+1}=\dfrac{\alpha_{i+1}}{\alpha_{i+1}-1}\cdot\lambda^{-1}_i,
 \quad
 \bar{\beta}_{i+1}=\dfrac{\beta_{i+1}}{1-\alpha_{i+1}}
 \end{equation}
@@ -2113,7 +2163,7 @@ u_i&=&\bar{\alpha}_{i+1}\cdot w_{i+1/2} + \bar{\beta}_{i+1}\\
 с учетом \eqref{eq:ODE+BC:shuttle flow} запишется в виде:
 \begin{equation*}
 w_{i+1/2} - w_{i-1/2} 
-+ \mathring{\sigma}(x_i)\cdot
++\sigma_i\cdot
 \left(\bar{\alpha}_{i+1}\cdot w_{i+1/2} + \bar{\beta}_{i+1}\right)
 = \varepsilon(x_i),
 \end{equation*}
@@ -2121,17 +2171,76 @@ w_{i+1/2} - w_{i-1/2}
 Из последнего выражения можно найти рекуррентные соотношение 
 для определения неизвестных:
 \begin{equation}
-w_{i-1/2}=\left(1+\bar{\alpha}_{i+1}\cdot\mathring{\sigma}(x_i)\right)
+w_{i-1/2}=\left(1+\bar{\alpha}_{i+1}\cdot\sigma_i\right)
 \cdot w_{i+1/2}
-+ \bar{\beta}_{i+1}\cdot\mathring{\sigma}(x_i)
-- \varepsilon(x_i)\\
++ \bar{\beta}_{i+1}\cdot\sigma_i - \varepsilon_i\\
 \end{equation}
 
 Таким образом, при обратном ходе потоковой прогонки вычисляются
 все неизвестные задачи:
 \begin{equation}
-1
+\left\{\begin{matrix}[lcl]
+w_n&=&p_{\ell}\cdot u_n - s_{\ell}\\
+w_{n-1/2}&=&w_n + \sigma_n\cdot u_n - \varepsilon_n\\
+w_{i-1/2}&=&\left(1+\bar{\alpha}_{i+1}\cdot\sigma_i\right)
+\cdot w_{i+1/2}
++ \bar{\beta}_{i+1}\cdot\sigma_i - \varepsilon_i\\
+w_0&=&w_{1/2}+\sigma_0\cdot u_0-\varepsilon_0\\
+\end{matrix}\right.
 \end{equation}
+
+
+% *** Алгоритм вычисления потока w[i]***
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+font=\small,
+start chain=going below,node distance=10mm,
+>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% старт
+\node[rrectnode,on chain,join]{старт};
+% входные данные
+\node[datanode,on chain,join]{$
+\{\sigma_i\},\{\varepsilon_i\},
+\{s_{\ell},p_{\ell}\},
+\{a_n,b_n,c_n,y_n\},
+\{\alpha_i\},\{\beta_i\},
+$};
+% u[n]
+\node[rectnode,on chain,join]{$
+u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}
+$};
+% w[n]
+\node[rectnode,on chain,join]{$w_n=p_{\ell}\cdot u_n - s_{\ell}$};
+% w[n-1/2]
+\node[rectnode,on chain,join]{$
+w_{n-1/2}=w_n + \sigma_n\cdot u_n - \varepsilon_n
+$};
+% начало цикла
+\node[startloopnode,on chain,join]{$i=(n-1),\ldots,2,1$};
+% u[i]
+\node[rectnode,on chain,join]{$
+u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
+% w[i+1/2]
+\node[rectnode,on chain,join]{$
+w_{i+1/2}=w_{i-1/2} - \sigma_i\cdot u_i + \varepsilon_i$};
+% конец цикла
+\node[endloopnode,on chain,join]{$i=1$};
+% w[n]
+\node[rectnode,on chain,join]{$
+w_n=w_{n-1/2}-\sigma_n\cdot u_n + \varepsilon_n$};
+% выходные данные
+\node[datanode,on chain,join]{$\{w_0,w_{i+1/2},w_n\}$};
+% стоп
+\node[rrectnode,on chain,join]{стоп};
+\end{tikzpicture}
+\caption{Блок-схема вычислений потокового варианта
+метода прогонки
+$\{w_0,w_{1/2},w_{3/2},\ldots,w_{n-1/2},w_n\}$ 
+в промежуточных узлах 
+расчетной сетки $\{x_0,x_{1/2},x_{3/2},\ldots,x_{n-1/2},x_n\}$}
+\label{fig:ODE+BC:scheme flow u+w}
+\end{figure}
 
 
 % ***********
