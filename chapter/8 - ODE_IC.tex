@@ -166,15 +166,16 @@ font=\small,
 start chain=going below,node distance=10mm,
 >={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
 ]
-% соединитель
-\node[rrectnode,on chain,join]{старт};
+% начало
+\node[beginendnode,on chain,join]{начало};
 % начальное условие
-\node[datanode,on chain,join]
+\node[IOnode,on chain,join]
 {$\vect{t}=\left\{0,t_1,t_2,\ldots,t_m\right\}$};
-\node[datanode,on chain,join]
+\node[IOnode,on chain,join]
 {$\vect{u}(0)=\left\{u_1(0),u_2(0),\ldots,u_n(0)\right\}$};
 % начало цикла
-\node[startloopnode,on chain,join]{$j=0,1,2,3,\ldots$};
+%\node[startloopnode,on chain,join]{$j=0,1,2,3,\ldots$};
+\node[signalnode,on chain,join](forloop){$j=0,1,\ldots,(m-1)$};
 % интервал времени
 \node[rectnode,on chain,join]{$\Delta{t}_{j+1}=t_{j+1}-t_j$};
 % решение дифференциального уравнения
@@ -182,12 +183,14 @@ start chain=going below,node distance=10mm,
 {$\vect{u}(t_{j+1})=\vect{u}(t_j)+
 \Delta t_{j+1}\cdot\vect{f}\left(t_j, \vect{u}(t_{j})\right)$};
 % конец цикла
-\node[endloopnode,on chain,join]{$j=m-1$};
+\node[rectnode,on chain,join](jloop){$j=j+1$};
+\draw[<-,thick](forloop.west) -- ([xshift=-30mm]forloop.west) |- (jloop.west);
 % решение
-\node[rectnode,on chain,join]
+\node[IOnode,on chain](output)
 {$\vect{u}(\vect{t})=\{u_1(\vect{t}),u_2(\vect{t}),\ldots,u_n(\vect{t})\}$};
-% стоп
-\node[rrectnode,on chain,join]{стоп};
+\draw[->,thick](forloop.east) -- ([xshift=+30mm]forloop.east) |- (output.east);
+% конец
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма численного решения
 системы дифференциальных уравнений методом Эйлера}
