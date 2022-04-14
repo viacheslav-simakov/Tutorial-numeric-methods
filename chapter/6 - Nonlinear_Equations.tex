@@ -250,15 +250,15 @@ $f(a)\cdot f(c)>0$, поэтому новая область поиска кор
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
-font=\small,
-start chain=going below,node distance=10mm,every join/.style=->,%
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+font=\small,%
+start chain=going below,%
+node distance=10mm,%
+>={Straight Barb[angle=45:1.5mm 1]},%
 ]
-% соединитель
-\node[rrectnode,on chain,join]{старт};
-% данные
-\node[datanode,on chain,join]
-{$a, b, \epsilon$};
+% начало
+\node[beginendnode,on chain]{начало};
+% входные данные
+\node[IOnode,on chain,join]{$a, b, \epsilon$};
 % x1, x2
 \node[rectnode,on chain,join](x1x2)
 {$c=\dfrac{a+b}{2}$};
@@ -281,8 +281,8 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \node[rectnode,on chain](error)
 {$\Delta=b-a$};
 % связи
-\draw[->] (a.south) |- (error.west);
-\draw[->] (b.south) |- (error.east);
+\draw[->,thick] (a.south) |- (error.west);
+\draw[->,thick] (b.south) |- (error.east);
 % выход?
 \node[ifthenelsenode,on chain,join](exit)
 {$\Delta<\epsilon$};
@@ -290,11 +290,12 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \draw[->,thick] (exit.east) -- ([xshift=5cm]exit.east) |- (x1x2.east);
 % соединитель
 \draw (exit.south) node[below left]{да};
-% решение
+% выходные данные = решение
 \begin{scope}[node distance=12mm]
-\node[rectnode,on chain,join]{$x_0=\dfrac{a+b}{2}$};
+\node[IOnode,on chain,join]{$x_0=\dfrac{a+b}{2}$};
 \end{scope}
-\node[rrectnode,on chain,join]{стоп};
+% конец
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 % *******************************************
 \caption{Блок-схема алгоритма поиска решения $x_0$\linebreak

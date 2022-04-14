@@ -1779,9 +1779,9 @@ $};
 %i=1,2,\ldots,n-1
 %\end{equation*}
 
-\emptyline
-\subsection{Метод решения систем линейных уравнений 
-с матрицами специального вида}
+%\emptyline
+%\subsection{Метод решения систем линейных уравнений 
+%с матрицами специального вида}
 
 %В многомерном случае не существует столь же удобного 
 %и экономичного способа решения разностных уравнений, как метод 
@@ -1810,7 +1810,8 @@ $};
 %
 % *************************************************************
 \emptyline
-\subsubsection{Метод прогонки}
+\subsubsection{Метод прогонки для
+решения систем линейных уравнений с матрицами специального вида}
 \label{subsec:shuttle method}
 Система уравнений \eqref{eq:ODE+BC:SLE(u)} представляет собой 
 частный случай систем линейных алгебраических уравнений
@@ -2102,203 +2103,203 @@ $\{w_0,w_{1/2},w_{3/2},\ldots,w_{n-1/2},w_n\}$
 \label{fig:ODE+BC:scheme flow}
 \end{figure}
 
-% ***********
-\end{document}
-
-
-% *************************************************************
+%% ***********
+%\end{document}
 %
-%	МЕТОД ПОТОКОВОЙ ПРОГОНКИ
 %
-% *************************************************************
-\newpage
-\subsubsection{Потоковый вариант метода прогонки}
-Потоковый вариант метода прогонки применяется при решении задач 
-с сильно меняющимися коэффициентами в выражениях для потоков
-неизвестных величин (элактрического заряда, количества тепла, количества жидкости и т.д.).
-Например, в задачах гидродинамики с теплопроводностью и магнитной гидродинамики, 
-коэффициенты теплопроводности и электропроводности могут сильно зависят 
-от термодинамических параметров среды.
-В случае тепловых задач в пределах рассматриваемых областей 
-могут иметь место адиабатические участки, где теплопроводность отсутствует, а также 
-изотермические участки с бесконечно высоким коэффициентом теплопроводности.
-В задачах магнитной гидродинамики могут рассматриваться области 
-с идеально проводящими и изолирующими участками.
-
-Часто в таких задачах, помимо неизвестной функции (решения задачи), 
-требуется найти еще и ее поток (например, электричества, тепла, жидкости и т.д.).
-При решении разностных уравнений второго порядка, 
-к которым сводятся разностные схемы для этих задач, 
-с помощью метода обычной прогонки часто происходит значительная потеря точности. 
-Последующее использование численного дифференцирования для вычисления потока 
-приводит к неудовлетворительному результату. 
-Избавиться от этого недостатка удается путем перехода к так называемому 
-\alert{потоковому варианту метода прогонки}.
-
-Основная идея метода потоковой прогонки заключается в 
-организации метода прогонки (раздел \ref{subsec:shuttle method})
-для одновременного расчёта неизвестных функций 
-$w_{i+1/2}$ и $u_i$, используя линейную связь между ними:
-\begin{equation*}
-\left\{\begin{matrix}[rcl]
-w_{i+1/2}&=&-\lambda_i\cdot(u_{i+1}-u_i)\\
-u_i&=&\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}\\
-\end{matrix}\right.
-\end{equation*}
-
-Из последнего соотношения можно определить в явном виде 
-линейную связь между неизвестными $u_{i}$ и $w_{i+1/2}$:
-\begin{equation}\label{eq:ODE+BC:shuttle flow}
-\left\{\begin{matrix}[rcl]
-(u_{i+1}-u_i)&=&(\alpha^{-1}_{i+1}-1)\cdot u_i - \alpha^{-1}_{i+1}\cdot\beta_{i+1}\\
-u_i&=&\bar{\alpha}_{i+1}\cdot w_{i+1/2} + \bar{\beta}_{i+1}\\
-\end{matrix}\right.,
-\end{equation}
-где $\bar{\alpha}_{i+1}$ и $\bar{\beta}_{i+1}$ --
-коэффициенты потоковой прогонки:
-\begin{equation}
-\bar{\alpha}_{i+1}=\dfrac{\alpha_{i+1}}{\alpha_{i+1}-1}\cdot\lambda^{-1}_i,
-\quad
-\bar{\beta}_{i+1}=\dfrac{\beta_{i+1}}{1-\alpha_{i+1}}
-\end{equation}
-
-Баланс тепловой энергии \eqref{eq:ODE+BC:mesh element}
-с учетом \eqref{eq:ODE+BC:shuttle flow} запишется в виде:
-\begin{equation*}
-w_{i+1/2} - w_{i-1/2} 
-+\sigma_i\cdot
-\left(\bar{\alpha}_{i+1}\cdot w_{i+1/2} + \bar{\beta}_{i+1}\right)
-= \varepsilon(x_i),
-\end{equation*}
-
-Из последнего выражения можно найти рекуррентные соотношение 
-для определения неизвестных:
-\begin{equation}
-w_{i-1/2}=\left(1+\bar{\alpha}_{i+1}\cdot\sigma_i\right)
-\cdot w_{i+1/2}
-+ \bar{\beta}_{i+1}\cdot\sigma_i - \varepsilon_i\\
-\end{equation}
-
-Таким образом, при обратном ходе потоковой прогонки вычисляются
-все неизвестные задачи:
-\begin{equation}
-\left\{\begin{matrix}[lcl]
-w_n&=&p_{\ell}\cdot u_n - s_{\ell}\\
-w_{n-1/2}&=&w_n + \sigma_n\cdot u_n - \varepsilon_n\\
-w_{i-1/2}&=&\left(1+\bar{\alpha}_{i+1}\cdot\sigma_i\right)
-\cdot w_{i+1/2}
-+ \bar{\beta}_{i+1}\cdot\sigma_i - \varepsilon_i\\
-w_0&=&w_{1/2}+\sigma_0\cdot u_0-\varepsilon_0\\
-\end{matrix}\right.
-\end{equation}
-
-
-% *** Алгоритм вычисления потока w[i]***
-\begin{figure}[H]\centering
-\begin{tikzpicture}[
-font=\small,
-start chain=going below,node distance=10mm,
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
-]
-% старт
-\node[rrectnode,on chain,join]{старт};
-% входные данные
-\node[datanode,on chain,join]{$
-\{\sigma_i\},\{\varepsilon_i\},
-\{s_{\ell},p_{\ell}\},
-\{a_n,b_n,c_n,y_n\},
-\{\alpha_i\},\{\beta_i\},
-$};
-% u[n]
-\node[rectnode,on chain,join]{$
-u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}
-$};
-% w[n]
-\node[rectnode,on chain,join]{$w_n=p_{\ell}\cdot u_n - s_{\ell}$};
-% w[n-1/2]
-\node[rectnode,on chain,join]{$
-w_{n-1/2}=w_n + \sigma_n\cdot u_n - \varepsilon_n
-$};
-% начало цикла
-\node[startloopnode,on chain,join]{$i=(n-1),\ldots,2,1$};
-% u[i]
-\node[rectnode,on chain,join]{$
-u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
-% w[i+1/2]
-\node[rectnode,on chain,join]{$
-w_{i-1/2}=\left(1+\bar{\alpha}_{i+1}\cdot\sigma_i\right)
-\cdot w_{i+1/2} + \bar{\beta}_{i+1}\cdot\sigma_i - \varepsilon_i
-$};
-% конец цикла
-\node[endloopnode,on chain,join]{$i=1$};
-% w[n]
-\node[rectnode,on chain,join]{$
-w_n=w_{n-1/2}-\sigma_n\cdot u_n + \varepsilon_n$};
-% выходные данные
-\node[datanode,on chain,join]{$\{w_0,w_{i+1/2},w_n\}$};
-% стоп
-\node[rrectnode,on chain,join]{стоп};
-\end{tikzpicture}
-\caption{Блок-схема вычислений потокового варианта
-метода прогонки
-$\{w_0,w_{1/2},w_{3/2},\ldots,w_{n-1/2},w_n\}$ 
-в промежуточных узлах 
-расчетной сетки $\{x_0,x_{1/2},x_{3/2},\ldots,x_{n-1/2},x_n\}$}
-\label{fig:ODE+BC:scheme flow u+w}
-\end{figure}
-
-
-
-
-
-
-\begin{tcolorbox}
-Алгоритм метода прогонки:
-\begin{enumerate}
-\item
-Составить однородную разностную схему 
-для решения исходной краевой задачи методом баланса 
-(интегро-интерполяционным методом)
-\item
-На неравномерной сетке определить шаг $h_i$ сетки для каждого 
-элементарного отрезка $[x_{i-1},x_{i}]$
-\item
-Вычислить все коэффициенты разностной схемы 
-$\overline{k}_i$, $\overline{q}_i$, $\overline{f}_i$
-краевой задачи во всех узлах сетки $\{x_i\}$ $(i=0,1,2,\dots,N)$
-\item
-Определить коэффициенты линейной системы уравнений
-$a_i$, $b_i$, $c_i$ и $f_i$ $(i=0,1,2,\dots,N)$
-полученной разностной схемы.
-\item
-Найти решение полученной системы линейных алгебраических уравнений
-$\{u_i\}$ методом прогонки:
-\begin{enumerate}[label=(\roman*)]
-\item
-Из краевого условия на левой границе области $x=0$
-вычислить коэффициенты \eqref{eq:ODE_ALPHA1_BETA1}:
-\begin{gather*}
-\alpha_{1}=\dfrac{b_0}{c_0},\quad \beta_{1}=\dfrac{f_0}{c_0}
-\end{gather*}
-\item
-Пользуясь рекуррентными соотношениями \eqref{eq:ODE_ALPHA_BETA},
-определить значения неизвестных коэффициентов для $i=2,3,\dots,N-1$:
-\begin{gather*}
-\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}},\quad
-\beta_{i+1}=\dfrac{a_i\cdot\beta_i+f_i}{c_i-a_i\cdot\alpha_{i}}
-\end{gather*}
-\item
-Из краевого условия на правой границе области $x=\ell$ определить
-значение неизвестной функции $u_N$ из соотношения \eqref{eq:ODE_uN}:
-\begin{gather*}
-u_N=\dfrac{a_N\cdot\beta_N+f_N}{c_N-a_N\cdot\alpha_N}
-\end{gather*}
-\item
-Определить значения неизвестной функции в узлах сетки
-пользуясь рекуррентными соотношениями \eqref{eq:ODE_ALPHA}:
-\begin{gather*}
-u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}
-\end{gather*}
-\end{enumerate}
-\end{enumerate}
-\end{tcolorbox}
+%% *************************************************************
+%%
+%%	МЕТОД ПОТОКОВОЙ ПРОГОНКИ
+%%
+%% *************************************************************
+%\newpage
+%\subsubsection{Потоковый вариант метода прогонки}
+%Потоковый вариант метода прогонки применяется при решении задач 
+%с сильно меняющимися коэффициентами в выражениях для потоков
+%неизвестных величин (элактрического заряда, количества тепла, количества жидкости и т.д.).
+%Например, в задачах гидродинамики с теплопроводностью и магнитной гидродинамики, 
+%коэффициенты теплопроводности и электропроводности могут сильно зависят 
+%от термодинамических параметров среды.
+%В случае тепловых задач в пределах рассматриваемых областей 
+%могут иметь место адиабатические участки, где теплопроводность отсутствует, а также 
+%изотермические участки с бесконечно высоким коэффициентом теплопроводности.
+%В задачах магнитной гидродинамики могут рассматриваться области 
+%с идеально проводящими и изолирующими участками.
+%
+%Часто в таких задачах, помимо неизвестной функции (решения задачи), 
+%требуется найти еще и ее поток (например, электричества, тепла, жидкости и т.д.).
+%При решении разностных уравнений второго порядка, 
+%к которым сводятся разностные схемы для этих задач, 
+%с помощью метода обычной прогонки часто происходит значительная потеря точности. 
+%Последующее использование численного дифференцирования для вычисления потока 
+%приводит к неудовлетворительному результату. 
+%Избавиться от этого недостатка удается путем перехода к так называемому 
+%\alert{потоковому варианту метода прогонки}.
+%
+%Основная идея метода потоковой прогонки заключается в 
+%организации метода прогонки (раздел \ref{subsec:shuttle method})
+%для одновременного расчёта неизвестных функций 
+%$w_{i+1/2}$ и $u_i$, используя линейную связь между ними:
+%\begin{equation*}
+%\left\{\begin{matrix}[rcl]
+%w_{i+1/2}&=&-\lambda_i\cdot(u_{i+1}-u_i)\\
+%u_i&=&\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}\\
+%\end{matrix}\right.
+%\end{equation*}
+%
+%Из последнего соотношения можно определить в явном виде 
+%линейную связь между неизвестными $u_{i}$ и $w_{i+1/2}$:
+%\begin{equation}\label{eq:ODE+BC:shuttle flow}
+%\left\{\begin{matrix}[rcl]
+%(u_{i+1}-u_i)&=&(\alpha^{-1}_{i+1}-1)\cdot u_i - \alpha^{-1}_{i+1}\cdot\beta_{i+1}\\
+%u_i&=&\bar{\alpha}_{i+1}\cdot w_{i+1/2} + \bar{\beta}_{i+1}\\
+%\end{matrix}\right.,
+%\end{equation}
+%где $\bar{\alpha}_{i+1}$ и $\bar{\beta}_{i+1}$ --
+%коэффициенты потоковой прогонки:
+%\begin{equation}
+%\bar{\alpha}_{i+1}=\dfrac{\alpha_{i+1}}{\alpha_{i+1}-1}\cdot\lambda^{-1}_i,
+%\quad
+%\bar{\beta}_{i+1}=\dfrac{\beta_{i+1}}{1-\alpha_{i+1}}
+%\end{equation}
+%
+%Баланс тепловой энергии \eqref{eq:ODE+BC:mesh element}
+%с учетом \eqref{eq:ODE+BC:shuttle flow} запишется в виде:
+%\begin{equation*}
+%w_{i+1/2} - w_{i-1/2} 
+%+\sigma_i\cdot
+%\left(\bar{\alpha}_{i+1}\cdot w_{i+1/2} + \bar{\beta}_{i+1}\right)
+%= \varepsilon(x_i),
+%\end{equation*}
+%
+%Из последнего выражения можно найти рекуррентные соотношение 
+%для определения неизвестных:
+%\begin{equation}
+%w_{i-1/2}=\left(1+\bar{\alpha}_{i+1}\cdot\sigma_i\right)
+%\cdot w_{i+1/2}
+%+ \bar{\beta}_{i+1}\cdot\sigma_i - \varepsilon_i\\
+%\end{equation}
+%
+%Таким образом, при обратном ходе потоковой прогонки вычисляются
+%все неизвестные задачи:
+%\begin{equation}
+%\left\{\begin{matrix}[lcl]
+%w_n&=&p_{\ell}\cdot u_n - s_{\ell}\\
+%w_{n-1/2}&=&w_n + \sigma_n\cdot u_n - \varepsilon_n\\
+%w_{i-1/2}&=&\left(1+\bar{\alpha}_{i+1}\cdot\sigma_i\right)
+%\cdot w_{i+1/2}
+%+ \bar{\beta}_{i+1}\cdot\sigma_i - \varepsilon_i\\
+%w_0&=&w_{1/2}+\sigma_0\cdot u_0-\varepsilon_0\\
+%\end{matrix}\right.
+%\end{equation}
+%
+%
+%% *** Алгоритм вычисления потока w[i]***
+%\begin{figure}[H]\centering
+%\begin{tikzpicture}[
+%font=\small,
+%start chain=going below,node distance=10mm,
+%>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+%]
+%% старт
+%\node[rrectnode,on chain,join]{старт};
+%% входные данные
+%\node[datanode,on chain,join]{$
+%\{\sigma_i\},\{\varepsilon_i\},
+%\{s_{\ell},p_{\ell}\},
+%\{a_n,b_n,c_n,y_n\},
+%\{\alpha_i\},\{\beta_i\},
+%$};
+%% u[n]
+%\node[rectnode,on chain,join]{$
+%u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}
+%$};
+%% w[n]
+%\node[rectnode,on chain,join]{$w_n=p_{\ell}\cdot u_n - s_{\ell}$};
+%% w[n-1/2]
+%\node[rectnode,on chain,join]{$
+%w_{n-1/2}=w_n + \sigma_n\cdot u_n - \varepsilon_n
+%$};
+%% начало цикла
+%\node[startloopnode,on chain,join]{$i=(n-1),\ldots,2,1$};
+%% u[i]
+%\node[rectnode,on chain,join]{$
+%u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
+%% w[i+1/2]
+%\node[rectnode,on chain,join]{$
+%w_{i-1/2}=\left(1+\bar{\alpha}_{i+1}\cdot\sigma_i\right)
+%\cdot w_{i+1/2} + \bar{\beta}_{i+1}\cdot\sigma_i - \varepsilon_i
+%$};
+%% конец цикла
+%\node[endloopnode,on chain,join]{$i=1$};
+%% w[n]
+%\node[rectnode,on chain,join]{$
+%w_n=w_{n-1/2}-\sigma_n\cdot u_n + \varepsilon_n$};
+%% выходные данные
+%\node[datanode,on chain,join]{$\{w_0,w_{i+1/2},w_n\}$};
+%% стоп
+%\node[rrectnode,on chain,join]{стоп};
+%\end{tikzpicture}
+%\caption{Блок-схема вычислений потокового варианта
+%метода прогонки
+%$\{w_0,w_{1/2},w_{3/2},\ldots,w_{n-1/2},w_n\}$ 
+%в промежуточных узлах 
+%расчетной сетки $\{x_0,x_{1/2},x_{3/2},\ldots,x_{n-1/2},x_n\}$}
+%\label{fig:ODE+BC:scheme flow u+w}
+%\end{figure}
+%
+%
+%
+%
+%
+%
+%\begin{tcolorbox}
+%Алгоритм метода прогонки:
+%\begin{enumerate}
+%\item
+%Составить однородную разностную схему 
+%для решения исходной краевой задачи методом баланса 
+%(интегро-интерполяционным методом)
+%\item
+%На неравномерной сетке определить шаг $h_i$ сетки для каждого 
+%элементарного отрезка $[x_{i-1},x_{i}]$
+%\item
+%Вычислить все коэффициенты разностной схемы 
+%$\overline{k}_i$, $\overline{q}_i$, $\overline{f}_i$
+%краевой задачи во всех узлах сетки $\{x_i\}$ $(i=0,1,2,\dots,N)$
+%\item
+%Определить коэффициенты линейной системы уравнений
+%$a_i$, $b_i$, $c_i$ и $f_i$ $(i=0,1,2,\dots,N)$
+%полученной разностной схемы.
+%\item
+%Найти решение полученной системы линейных алгебраических уравнений
+%$\{u_i\}$ методом прогонки:
+%\begin{enumerate}[label=(\roman*)]
+%\item
+%Из краевого условия на левой границе области $x=0$
+%вычислить коэффициенты \eqref{eq:ODE_ALPHA1_BETA1}:
+%\begin{gather*}
+%\alpha_{1}=\dfrac{b_0}{c_0},\quad \beta_{1}=\dfrac{f_0}{c_0}
+%\end{gather*}
+%\item
+%Пользуясь рекуррентными соотношениями \eqref{eq:ODE_ALPHA_BETA},
+%определить значения неизвестных коэффициентов для $i=2,3,\dots,N-1$:
+%\begin{gather*}
+%\alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_{i}},\quad
+%\beta_{i+1}=\dfrac{a_i\cdot\beta_i+f_i}{c_i-a_i\cdot\alpha_{i}}
+%\end{gather*}
+%\item
+%Из краевого условия на правой границе области $x=\ell$ определить
+%значение неизвестной функции $u_N$ из соотношения \eqref{eq:ODE_uN}:
+%\begin{gather*}
+%u_N=\dfrac{a_N\cdot\beta_N+f_N}{c_N-a_N\cdot\alpha_N}
+%\end{gather*}
+%\item
+%Определить значения неизвестной функции в узлах сетки
+%пользуясь рекуррентными соотношениями \eqref{eq:ODE_ALPHA}:
+%\begin{gather*}
+%u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}
+%\end{gather*}
+%\end{enumerate}
+%\end{enumerate}
+%\end{tcolorbox}

@@ -200,14 +200,15 @@ k=\left\lceil\dfrac{\ln(b-a)-\ln(\epsilon)}{\ln(3)-\ln(2)}\right\rceil
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
-font=\small,
-start chain=going below,node distance=10mm,every join/.style=->,%
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+font=\small,%
+start chain=going below,%
+node distance=10mm,%
+>={Straight Barb[angle=45:1.5mm 1]},%
 ]
 % соединитель
-\node[rrectnode,on chain,join]{старт};
-% данные
-\node[datanode,on chain,join]
+\node[beginendnode,on chain,join]{начало};
+% входные данные
+\node[IOnode,on chain,join]
 {$a, b, \epsilon$};
 % x1, x2
 \node[rectnode,on chain,join](x1x2)
@@ -231,8 +232,8 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \node[rectnode,on chain](error)
 {$\Delta=b-a$};
 % связи
-\draw[->] (a.south) |- (error.west);
-\draw[->] (b.south) |- (error.east);
+\draw[->,thick] (a.south) |- (error.west);
+\draw[->,thick] (b.south) |- (error.east);
 % выход?
 \node[ifthenelsenode,on chain,join](exit)
 {$\Delta<\epsilon$};
@@ -241,9 +242,10 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 % соединитель
 \draw (exit.south) node[below left]{да};
 \begin{scope}[node distance=12mm]
-\node[rectnode,on chain,join]{$x_{\min}=\dfrac{a+b}{2}$};
+\node[IOnode,on chain,join]{$x_{\min}=\dfrac{a+b}{2}$};
 \end{scope}
-\node[rrectnode,on chain,join]{стоп};
+% конец
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 % *******************************************
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
@@ -369,19 +371,20 @@ f(m_1,x_{20},\ldots,x_{n0})>f(m_1,m_2,\ldots,x_{n0})
 \norma{f(\vect{x}_k)-f(\vect{x}_{k-1})} < \epsilon_2
 \end{equation}
 
-% *** Алгоритм поиска минимума функции 
+% Алгоритм поиска минимума функции многих переменных f(x1,x2,...,xn)
 % методом по координатного спуска
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
-font=\small,
-start chain=going below,node distance=10mm,every join/.style=->,%
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+font=\small,%
+start chain=going below,%
+node distance=10mm,%
+>={Straight Barb[angle=45:1.5mm 1]},%
 ]
 % соединитель
-\node[rrectnode,on chain,join]{старт};
-% данные
-\node[datanode,on chain,join]
+\node[beginendnode,on chain,join]{начало};
+% входные данные
+\node[IOnode,on chain,join]
 {$\vect{x}_0, \mathcal{D}, \epsilon_1$};
 % x
 \node[rectnode,on chain,join](x){$\vect{x}=\vect{x}_0$};
@@ -415,11 +418,12 @@ $x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$
 % выход
 \draw (compare.south) node[below left]{да};
 \begin{scope}[node distance=12mm]
-\node[rectnode,on chain,join](min){$\vect{x}_{\min}=\vect{x}$};
+\node[IOnode,on chain,join](min){$\vect{x}_{\min}=\vect{x}$};
 \end{scope}
 % выход f
-\draw[->](compare-f.west) -- ([xshift=-15mm]compare-f.west) |- (min.west);
-\node[rrectnode,on chain,join](stop){стоп};
+\draw[->,thick](compare-f.west) -- ([xshift=-15mm]compare-f.west) |- (min.west);
+% конец
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 % *******************************************
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
@@ -556,18 +560,18 @@ $-\nabla{f}(\vect{x})$.
 %\end{enumerate}
 
 
-% *** Алгоритм поиска минимума методом градиентного спуска
-% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+% Алгоритм поиска минимума методом градиентного спуска
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
-font=\small,
-start chain=going below,node distance=10mm,every join/.style=->,%
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+font=\small,%
+start chain=going below,%
+node distance=10mm,%
+>={Straight Barb[angle=45:1.5mm 1]},%
 ]
 % соединитель
-\node[rrectnode,on chain,join]{старт};
-% данные
-\node[datanode,on chain,join]
+\node[beginendnode,on chain,join]{начало};
+% входные данные
+\node[IOnode,on chain,join]
 {$\vect{x}_0, \lambda, \epsilon_1$};
 % grad(f)
 \node[rectnode,on chain,join](grad0)
@@ -585,12 +589,13 @@ start chain=going below,node distance=10mm,every join/.style=->,%
 \draw(compare.east) node[above right]{нет};
 \draw[->,thick] (no.north) |- (grad0.east);
 \end{scope}
-% выход
 \draw (compare.south) node[below left]{да};
 \begin{scope}[node distance=12mm]
-\node[rectnode,on chain,join]{$\vect{x}_{\min}=\vect{x}_1$};
+% выходные данные
+\node[IOnode,on chain,join]{$\vect{x}_{\min}=\vect{x}_1$};
 \end{scope}
-\node[rrectnode,on chain,join]{стоп};
+% конец
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 % *******************************************
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
