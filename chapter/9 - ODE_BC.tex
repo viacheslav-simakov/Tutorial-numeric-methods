@@ -218,28 +218,31 @@ u^{\prime}(x)&=&f_2(x)\cdot w(x)
 \begin{figure}[H]\centering
 \begin{tikzpicture}[font=\small]
 % контрольная область
-\draw[
-chamfered rectangle,
-chamfered rectangle xsep=4pt,
-chamfered rectangle angle=60,
+\draw
+[
+%chamfered rectangle,
+%chamfered rectangle xsep=4pt,
+%chamfered rectangle angle=60,
+shape=rectangle,
 minimum height=3em,
 minimum width=10em
-] (0,0) node[thick,color=black,draw,color=black,fill=lime!10,] (G)
+]
+(0,0) node[draw] (G)
 {$a_0\cdot w(0)+b_0\cdot u(0)=c_0$};
 \node[above] at (G.north) {Смешанная задача};
 % Задача Дирихле
 \draw[shape=rectangle,minimum height=3em, minimum width=5em]
 ($(G.south west)+(-3em,-5em)$)
-node[thick,red,draw=red,fill=red!10] (D) {$u(0)=u_0\equiv\dfrac{c_0}{b_0}$};
+node[draw](D) {$u(0)=u_0\equiv\dfrac{c_0}{b_0}$};
 \node[below] at (D.south) {Задача Дирихле};
 % Задача Неймана
 \draw[shape=rectangle, minimum height=3em, minimum width=5em]
 ($(G.south east)+(3em,-5em)$)
-node[thick,blue,draw=blue,fill=blue!10] (N) {$w(0)=w_0\equiv\dfrac{c_0}{a_0}$};
+node[draw](N) {$w(0)=w_0\equiv\dfrac{c_0}{a_0}$};
 \node[below] at (N.south) {Задача Неймана};
 % стрелки
-\draw[-latex,very thick,red] (G.west) -| (D.north) node[left,midway] {$a_0\equiv0$};
-\draw[-latex,very thick,blue] (G.east) -| (N.north) node[right,midway] {$b_0\equiv0$};
+\draw[-latex,thick] (G.west) -| (D.north) node[left,midway] {$a_0\equiv0$};
+\draw[-latex,thick] (G.east) -| (N.north) node[right,midway] {$b_0\equiv0$};
 \end{tikzpicture}
 % *******************************************
 \caption{Виды краевых задач для систем обыкновенных
@@ -779,24 +782,35 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 % *** Алгоритм равномерной сетки {xi}***
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
-font=\small,
-start chain=going below,node distance=10mm,
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+font=\small,%
+start chain=going below,%
+node distance=10mm,%
+>={Straight Barb[angle=45:1.5mm 1]},%
 ]
 % старт
-\node[rrectnode,on chain,join]{старт};
+\node[beginendnode,on chain,join]{начало};
 % входные данные
-\node[datanode,on chain,join]{$\ell, n$};
+\node[IOnode,on chain,join]{$\ell, n$};
 % начало цикла
-\node[startloopnode,on chain,join]{$i=0,1,\ldots,n$};
-% alpha[i] и beta[i]
-\node[rectnode,on chain,join]{$x_i=\dfrac{i}{n}\cdot\ell$};
+\node[rectnode,on chain,join]{$i=0$};
+% x[i]
+\node[rectnode,on chain,join](loop)
+{$x_i=\dfrac{i}{n}\cdot\ell$};
 % конец цикла
-\node[endloopnode,on chain,join]{$i=n$};
+\node[ifthenelsenode,on chain,join](if){$i<n$};
+\draw(if.east) node[above right]{да};
+\draw(if.south) node[below right]{нет};
+% инкремент
+\begin{scope}[start branch=b,node distance=15mm]
+\node[rectnode,on chain,join](increment){$i=i+1$};
+\draw[->,thick] (increment.north) |- (loop.east);
+\end{scope}
 % выходные данные
-\node[datanode,on chain,join]{$\{x_i\}$};
+\begin{scope}[node distance=15mm]
+\node[IOnode,on chain,join]{$\{x_i\}$};
+\end{scope}
 % стоп
-\node[rrectnode,on chain,join]{стоп};
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма построения
 равномерной расчетной сетки $\{x_i\}=(0,x_1,x_2,\ldots,x_{n-1},\ell)$ 
