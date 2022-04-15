@@ -624,14 +624,14 @@ $\vect{F}(\vect{x})=-\nabla{f(\vect{x})}$,
 и частица перемещается в пространстве $\vect{x}$ 
 минимизируя свою энергию, то уравнение движения 
 этой частицы можно записать в виде:
-\begin{equation}
+\begin{equation*}
 \left\{
 \begin{matrix}[rcl]
 \diff{\vect{x}}{t}&=&\vect{v}\\[1em]
 m\,\diff{\vect{v}}{t}&=&\vect{F} - \alpha\cdot\vect{v}
 \end{matrix}
 \right.
-\end{equation}
+\end{equation*}
 где 
 $\vect{x}$ -- положение частицы в выбранной системе координат;
 $\vect{v}$ и $\alpha$ -- 
@@ -645,12 +645,12 @@ $\vect{v}$ и $\alpha$ --
 Поиск минимума данным методом начинается 
 с задания начальных условий, которые, как правило,
 формулируются в виде:
-\begin{equation}
+\begin{equation*}
 \begin{cases}
 \vect{x}(0)=&\vect{x}_0\\
 \vect{v}(0)=&\vect{v}_0\\
 \end{cases},
-\end{equation}
+\end{equation*}
 где $\vect{x}_0$ -- начальное приближения для поиска
 минимума функции;
 $\vect{v}_0$ -- ``начальная скорость`` в пространстве неизвестных.
@@ -975,6 +975,7 @@ d_{AB}=\mathcal{R}\cdot\arccos\left(
 \begin{table}[H]
 \caption{Географические координаты магазинов торговой сети}
 \label{tab:cities}
+\small
 \begin{tabular*}{\textwidth}{%
 @{\extracolsep{\fill}}p{7cm} p{3cm} p{3cm}}
 \toprule
@@ -1235,12 +1236,11 @@ coordinates{(\phiStart,\lambdaStart) (\phiMin,\lambdaMin)}
 node[sloped,pos=0.5,above]{$\xi$};
 \end{axis}
 \end{tikzpicture}
-\caption{``Рельеф`` целевой функции $f(\phi,\lambda)$ и 
-``траектория`` поиска местоположения склада $(\phi,\lambda)$
+\caption{Рельеф целевой функции $f(\phi,\lambda)$ и 
+траектория поиска местоположения склада $(\phi,\lambda)$
 торговой сети (маркерами обозначены города)}
 \label{fig:min1}
 \end{figure}
-
 
 %
 % новое положение склада
@@ -1399,8 +1399,8 @@ node[below]{$(\phi_{\min},\lambda_{\min})$};
 node[sloped,pos=0.5,below]{$\xi$};
 \end{axis}
 \end{tikzpicture}
-\caption{``Рельеф`` целевой функции $f(\phi,\lambda)$ и 
-``траектория`` поиска местоположения склада $(\phi,\lambda)$
+\caption{Рельеф целевой функции $f(\phi,\lambda)$ и 
+траектория поиска местоположения склада $(\phi,\lambda)$
 торговой сети (маркерами обозначены города)}
 \label{fig:min2}
 \end{figure}
@@ -1545,8 +1545,8 @@ node[below,xshift=+10pt]{склад};
 \end{scope}
 \end{axis}
 \end{tikzpicture}
-\caption{``Рельеф`` целевой функции $f(\phi,\lambda)$ и 
-``траектория`` поиска местоположения склада $(\phi,\lambda)$
+\caption{Рельеф целевой функции $f(\phi,\lambda)$ и 
+траектория поиска местоположения склада $(\phi,\lambda)$
 торговой сети (маркерами обозначены города)}
 \label{fig:min3}
 \end{figure}
@@ -1560,9 +1560,9 @@ node[below,xshift=+10pt]{склад};
 % Таблица: траектория поиска минимума
 %
 \begin{table}[H]
-\caption{``Траектория`` поиска местоположения
-склада торговой сети}
+\caption{Траектория поиска местоположения склада торговой сети}
 \label{tab:r(iteration)}
+\small
 \begin{tabular*}{\textwidth}{%
 @{\extracolsep{\fill}}p{2cm} p{2.5cm} p{2.5cm} p{2cm} p{5cm}}
 \toprule

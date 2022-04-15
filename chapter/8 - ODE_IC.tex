@@ -387,26 +387,26 @@ f_2(t)&=&-\dfrac{u_1(t)}{2}
 для решения задачи Коши \eqref{eq:ODE_MY} методом Эйлера:
 \begin{gather}\label{eq:ODE_SYS_RR}
 \left\{\begin{matrix}
-u_1(t_{j+1})&=&u_1(t_{j})+\tau\cdot f_1(t_j),&u_1(0)&=&1\\
-u_2(t_{j+1})&=&u_2(t_{j})+\tau\cdot f_2(t_j),&u_2(0)&=&0
+u_1(t_{j+1})&=&u_1(t_{j})+\Delta{t}\cdot f_1(t_j),&u_1(0)&=&1\\
+u_2(t_{j+1})&=&u_2(t_{j})+\Delta{t}\cdot f_2(t_j),&u_2(0)&=&0
 \end{matrix}\right.,
 \end{gather}
-где $\tau=(t_{j+1}-t_j)$ -- временной шаг метода Эйлера, 
+где $\Delta{t}=(t_{j+1}-t_j)$ -- временной шаг метода Эйлера, 
 т.е. интервал между двумя последовательными моментами времени
 
 Решение системы интегральных уравнений \eqref{eq:ODE_SYS_INT} 
 определяется рекуррентными соотношениями:
 \begin{gather}\label{eq:ODE_SYS_INT_RR}
 \left\{\begin{matrix}
-\tilde{u}_1(t_{j+1})&=&\tilde{u}_1(t_{j})+\dfrac{f_1(t_{j})+f_1(t_{j+1})}{2}\cdot\tau,&\tilde{u}_1(0)&=&1\\[1em]
-\tilde{u}_2(t_{j+1})&=&\tilde{u}_2(t_{j})+\dfrac{f_2(t_{j})+f_2(t_{j+1})}{2}\cdot\tau,&\tilde{u}_2(0)&=&0
+\tilde{u}_1(t_{j+1})&=&\tilde{u}_1(t_{j})+\dfrac{f_1(t_{j})+f_1(t_{j+1})}{2}\cdot\Delta{t},&\tilde{u}_1(0)&=&1\\[1em]
+\tilde{u}_2(t_{j+1})&=&\tilde{u}_2(t_{j})+\dfrac{f_2(t_{j})+f_2(t_{j+1})}{2}\cdot\Delta{t},&\tilde{u}_2(0)&=&0
 \end{matrix}\right.
 .\end{gather}
 
 Определим временной шаг метода Эйлера, зная длину временного отрезка (``время наблюдения``) 
 и количество интервалов:
 \begin{gather*}
-\tau=\dfrac{T-t_0}{n} = \dfrac{10-0}{5}=2,
+\Delta{t}=\dfrac{T-t_0}{n} = \dfrac{10-0}{5}=2,
 \end{gather*}
 где $t_0=0$ -- начальный момент времени;
 $T=10$ -- максимальное время (``время наблюдения``).
@@ -631,6 +631,7 @@ coordinates{(0,0) (2,-1) (4,-1.4) (6,0) (8,3.2) (10,4.6)};
 \caption{Предельная абсолютная погрешность 
 приближенного решения задачи Коши \eqref{eq:ODE_MY}}
 \label{tab:error}
+\small
 \begin{tabular*}{\textwidth}
 {@{\extracolsep{\fill}}*{7}{p{1.5cm}}}
 %\begin{tabular*}{\\textwidth}{p{8cm}p{5cm}r}
