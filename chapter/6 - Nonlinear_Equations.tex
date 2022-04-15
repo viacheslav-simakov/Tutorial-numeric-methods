@@ -119,14 +119,10 @@ ymin=-2, ymax=3, ytick={0}, yticklabels={$f(x)=0$},
 \draw[darkblue] (axis cs:1.2,-0.5) node[below left] {$0>f(x_{i+1})$};
 %
 \path [name path=B] (axis cs: 0,-2) -- (axis cs: 1.75,-2);
-%\addplot[gray!15] fill between [of=A and B, soft clip={domain=0:1.75}];
-%\addplot[lime!20] fill between [of=A and B, soft clip={domain=0.75:1.25},];
 \addplot[orange!15] fill between [of=A and B, soft clip={domain=0.75:1.25},];
 \end{axis}
 \end{tikzpicture}
 \caption{Иллюстрация итервального метода поиска корня уравнения}
-%$[a,b]$ -- начальная область поиска корня уравнения $f(x)=0$;\\
-%$[x_i,x_{i+1}]$ -- интервал, содержащий корень уравнения.
 \end{figure}
 
 %
@@ -223,16 +219,12 @@ $f(x)=0$ находится внутри отрезка $[c,b]$,
 % f(a)
 \addplot[only marks,ball darkred] coordinates {(0,20)};
 \draw[red] (axis cs:0,22) node[right] {$f(a)>0$};
-%\addplot[thin,dashed,color=black] coordinates {(0,-15) (0,20)};
 % f(c)
 \addplot[only marks,ball darkred] coordinates {(1.5,6.125)};
 \draw[red] (axis cs:1.5,8) node[right] {$f(c)>0$};
-%\addplot[thin,dashed,color=black] coordinates {(1.5,-15) (1.5,6.125)};
 % f(b)
 \addplot[only marks,ball darkblue] coordinates {(3,-10)};
 \draw[blue] (axis cs:3,-12) node[left] {$f(b)<0$};
-%\addplot[thin,dashed,color=black] coordinates {(3,-15) (3,-10)};
-%\addplot [olive!10] fill between [of=A and B, soft clip={domain=0:1.5},];
 \end{axis}
 \end{tikzpicture}
 \caption{Иллюстрация метода бисекции (деления отрезка пополам):
