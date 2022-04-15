@@ -51,7 +51,7 @@
 %
 % Интегралы
 %
-\newcommand\intf[4][x]{ \int\limits_{#2}^{#3}{#4}\,\mathrm{d}#1 }
+%\newcommand\intf[4][x]{ \int\limits_{#2}^{#3}{#4}\,\mathrm{d}#1 }
 \newcommand\intfcenter[1]{ \intf{ x_{i-1/2} }{ x_{i+1/2} }{#1} }
 \newcommand\intfleft[1]{ \intf{ x_{i-1} }{ x_{i} }{#1} }
 \newcommand\intfright[1]{ \intf{ x_{i} }{ x_{i+1} }{#1} }
@@ -2017,7 +2017,7 @@ start chain=going below,node distance=10mm,
 % старт
 \node[beginendnode,on chain,join]{начало};
 % входные данные
-\node[datanode,on chain,join]{$\{a_i\},\{b_i\},\{c_i\},\{y_i\}$};
+\node[IOnode,on chain,join]{$\{a_i\},\{b_i\},\{c_i\},\{y_i\}$};
 % alpha[1], beta[1]
 \node[rectnode,on chain,join]{$
 \alpha_{1}=\dfrac{b_0}{c_0},\quad
@@ -2101,14 +2101,15 @@ $\{x_0,x_1,\ldots,x_n\}$}
 % *** Алгоритм вычисления потока w[i]***
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
-font=\small,
-start chain=going below,node distance=7mm,%10mm
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+font=\small,%
+start chain=going below,%
+node distance=10mm,%10mm
+>={Straight Barb[angle=45:1.5mm 1]},%
 ]
 % старт
-\node[rrectnode,on chain,join]{старт};
+\node[beginendnode,on chain,join]{начало};
 % входные данные
-\node[datanode,on chain,join]{%
+\node[IOnode,on chain,join]{%
 $\{s_0,p_0\},\{\sigma_i\},\{\varepsilon_i\},\{u_i\},$};
 % w[0]
 \node[rectnode,on chain,join]{$
@@ -2119,19 +2120,28 @@ $};
 w_{1/2}=w_0-\sigma_0\cdot u_0+\varepsilon_0
 $};
 % начало цикла
-\node[startloopnode,on chain,join]{$i=1,2,\ldots,(n-1)$};
+\node[rectnode,on chain,join]{$i=1$};
 % w[i+1/2]
-\node[rectnode,on chain,join]{$
+\node[rectnode,on chain,join](loop){$
 w_{i+1/2}=w_{i-1/2} - \sigma_i\cdot u_i + \varepsilon_i$};
 % конец цикла
-\node[endloopnode,on chain,join]{$i=(n-1)$};
+%\node[endloopnode,on chain,join]{$i=(n-1)$};
+% конец цикла
+\node[ifthenelsenode,on chain,join](if){$i>n$};
+\draw(if.east) node[above right]{да};
+\draw(if.south) node[below right]{нет};
+% инкремент
+\begin{scope}[start branch=b,node distance=21mm]
+\node[rectnode,on chain=going right,join](increment){$i=i+1$};
+\draw[->,thick] (increment.north) |- (loop.east);
+\end{scope}
 % w[n]
 \node[rectnode,on chain,join]{$
 w_n=w_{n-1/2}-\sigma_n\cdot u_n + \varepsilon_n$};
 % выходные данные
-\node[datanode,on chain,join]{$\{w_0,w_{i+1/2},w_n\}$};
+\node[IOnode,on chain,join]{$\{w_0,w_{i+1/2},w_n\}$};
 % стоп
-\node[rrectnode,on chain,join]{стоп};
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 \caption{Блок-схема вычислений потока неизвестной функции
 $\{w_0,w_{1/2},w_{3/2},\ldots,w_{n-1/2},w_n\}$ 

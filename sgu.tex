@@ -688,6 +688,8 @@ arrow-min-length .code:n =
 \newcommand\onehalf{ \nicefrac{1}{2} }
 % Случайное число \RandInt{min}{max}
 \newcommand{\RandInt}[2]{\pgfmathrandominteger{\rndint}{#1}{#2}\rndint}
+% Интеграл
+\newcommand\intf[4][x]{ \int\limits_{#2}^{#3}{#4}\,\mathrm{d}#1 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % ТИТУЛЬНЫЙ ЛИСТ

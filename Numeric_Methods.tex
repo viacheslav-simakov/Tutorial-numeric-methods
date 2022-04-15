@@ -144,24 +144,10 @@ ball darkgreen/.style={
 %		rounded corners=2pt, 
 		inner sep=8pt,
 	},
-	rrectnode/.style={
-		draw,line width=0.25mm,
-		shape=rounded rectangle,
-%		rounded corners=2pt, 
-		inner sep=8pt,
-	},
 	beginendnode/.style={
 		draw,line width=0.25mm,
 		shape=rounded rectangle,
 %		rounded corners=2pt, 
-		inner sep=8pt,
-	},
-	datanode/.style={
-		draw,line width=0.25mm,
-		shape=	trapezium,
-		trapezium left angle=70,
-		trapezium right angle=110, 
-		text centered,
 		inner sep=8pt,
 	},
 	% входные/выходные данные
@@ -238,11 +224,13 @@ ball darkgreen/.style={
 % добавляет заполняющее вертикальное пространство
 \vfill
 }\par% окончание центрирования
+%
 % авторы
+%
 \newpage
 \cfoot{} %
 {\centering{Авторы}\par}
-
+\emptyline
 \textbf{Синёв Илья Владимирович} -- к.ф.-м.н., доцент, 
 доцент кафедры материаловедения, технологии и управления качеством,
 Саратовский национальный исследовательский
@@ -252,20 +240,6 @@ ball darkgreen/.style={
 профессор кафедры материаловедения, технологии и управления качеством,
 Саратовский национальный исследовательский
 государственный университет имени Н.Г. Чернышевского.
-
-%\emptyline
-%В учебном пособии рассматриваются основные методы решения 
-%систем линейных алгебраических уравнений (прямые и итерационные), 
-%нелинейных уравнений, построения полиномов Лагранжа и Ньютона, 
-%определения собственных чисел и векторов, 
-%численного интегрирования и дифференцирования. 
-%Строятся решения задачи Коши методами Эйлера
-%, Рунге-Кутты, Адамса; изучаются методы Ритца, моментов, 
-%наименьших квадратов решения обыкновенных  дифференциальных  
-%уравнений  с  граничными  условиями.  
-%Излагаются алгоритмы  решения  прикладных  инженерных  задач  
-%с  использованием  вычислительной техники, описываются способы 
-%оценки погрешностей получаемых решений.
 
 %
 % колонтитулы
@@ -326,21 +300,21 @@ ball darkgreen/.style={
 %\end{document}
 
 % Метод Гаусса
-%\input{chapter/1 - Gauss}
+\input{chapter/1 - Gauss}
 % Интерполяция полиномом Лагранжа
-%\input{chapter/2 - Interpolation}
+\input{chapter/2 - Interpolation}
 % Численное дифференцирование
-%\input{chapter/4 - Numerical_Differentiation}
+\input{chapter/4 - Numerical_Differentiation}
 % Численное интегрирование
-%\input{chapter/5 - Numerical_Integration}
+\input{chapter/5 - Numerical_Integration}
 % Нелинейные уравнения
-%\input{chapter/6 - Nonlinear_Equations}
+\input{chapter/6 - Nonlinear_Equations}
 % Поиск экстремума функций многих переменных
-%\input{chapter/7 - Minimum}
+\input{chapter/7 - Minimum}
 % Аппроксимация
-%\input{chapter/3 - Approximation}
+\input{chapter/3 - Approximation}
 % Задача Коши для систем обыкновенных дифференциальных уравнений
-%\input{chapter/8 - ODE_IC}
+\input{chapter/8 - ODE_IC}
 % Краевые задачи для обыкновенных дифференциальных уравнений
 \input{chapter/9 - ODE_BC}
 
