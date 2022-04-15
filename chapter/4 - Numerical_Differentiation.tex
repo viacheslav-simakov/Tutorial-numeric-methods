@@ -33,7 +33,7 @@
 $x_{i-1} < x_{i} < x_{i+1}$ полиномом Лагранжа второго
 порядка $L_2(x)$, приближенно полагая $y(x)\approx L_{2}(x)$
 для $x\in[x_{i-1},x_{i+1}]$:
-% *******************************
+%
 %	График функций
 %
 \begin{figure}[H]\centering
@@ -45,15 +45,16 @@ ymin=-0.5,ymax=3,
 xtick={-0.5,0,1.75},xticklabels={$x_{i-1}$,$x_i$,$x_{i+1}$},
 ytick={2.25,1,0.5625},yticklabels={$y_{i-1}$,$y_i$,$y_{i+1}$},
 ]
-\addplot [only marks,mark=ball,ball color=darkred!75,
-mark size=4pt,mark options={draw=darkred,thin}]
+\addplot [only marks,ball darkred]
 coordinates {(-0.5,2.25) (0,1) (1.75,0.5625)};
 \addplot [color=darkred, thick, domain=-0.5:1.75] 
 {(x-1)^2} node[pos=0.75,above] {$L_2(x)$};
 \end{axis}
 \end{tikzpicture}
+\caption{График интерполяционного полинома Лагранжа $L_2(x)$\linebreak
+в пределах отрезка $x\in[x_{i-1},x_{i+1}]$}
 \end{figure}
-% *******************************
+
 \begin{equation*}
 \label{approx2}
 \begin{matrix}
@@ -201,6 +202,7 @@ coordinates {#1};
 \caption{Таблично заданная функциональная зависимость
 $y_i=f(x_i)$}
 \label{tab:Num_Diff}
+\small
 \begin{tabular*}{\textwidth}{%
 ll@{\extracolsep{\fill}}*{9}{r}}
 \toprule
@@ -216,7 +218,7 @@ $y_i$&&$3.78$&$4.11$&$4.83$&$5.13$&$5.01$&$5.13$&$5.73$&$6.11$&$5.92$\\
 \begin{enumerate}
 \item
 Построим график функции $y(x)$, используя данные таблицы \ref{tab:Num_Diff}.
-% *******************************
+%
 %	График функций
 %
 \begin{figure}[H]\centering
@@ -234,7 +236,6 @@ coordinates
 \end{axis}
 \end{tikzpicture}
 \end{figure}
-% *******************************
 % x1
 \item
 Аппроксимируем функцию $y(x)$ в узлах $\{x_{0},x_{1},x_{2}\}$
@@ -499,6 +500,7 @@ L_2^{\prime\prime}(0.55)=-11.62243558
 \begin{table}[H]
 \caption{Значения первой и второй производных функции 
 $y(x)$ во внутренних узлах сетки $\{x_i\}$}
+\small
 \begin{tabular*}{\textwidth}{%
 ll@{\extracolsep{\fill}}*{7}{r}}
 \toprule
