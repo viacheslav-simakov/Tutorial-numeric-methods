@@ -189,11 +189,10 @@ u^{\prime}(x)&=&f_2(x)\cdot w(x)
 % Основные виды краевых условий
 %
 \begin{table}[H]
-\caption{Основные виды краевых условий
-для системы обыкновенных дифференциальных уравнений 
-\eqref{eq:ODE(BC):1D}
-}
+\caption{Основные виды краевых условий для системы обыкновенных
+дифференциальных уравнений \eqref{eq:ODE(BC):1D}}
 \label{tab:ODE(BC)-type}
+\small
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}*4{l}}
 \toprule
 №&Краевое условие&Граница $x=0$&Граница $x=\ell$\\
@@ -1298,7 +1297,7 @@ coordinates{(44,0)(44,70)(100,70)(100,0)}\closedcycle;
 \begin{scope}[>={Straight Barb[angle=45:1.5mm 1]},
 shorten >=0pt,shorten <=3pt]
 \addplot[->,draw=darkgreen,thick]coordinates{(0,30)(44,30)};
-\addplot[<-,draw=darkgreen,thick]coordinates{(44,70)(100,70)};
+\addplot[->,draw=darkgreen,thick]coordinates{(44,70)(100,70)};
 \end{scope}
 % маркеры
 \addplot[ball darkgreen,thick,only marks]coordinates{(0,30)(44,70)};
@@ -1324,7 +1323,7 @@ coordinates{(22,0)(22,50)(44,50)(44,70)(72,70)(72,0)}\closedcycle;
 \begin{scope}[>={Straight Barb[angle=45:1.5mm 1]},
 shorten >=0pt,shorten <=3pt]
 \addplot[->,draw=darkblue,thick]coordinates{(0,50)(44,50)};
-\addplot[<-,draw=darkblue,thick]coordinates{(44,70)(100,70)};
+\addplot[->,draw=darkblue,thick]coordinates{(44,70)(100,70)};
 \end{scope}
 % маркеры
 \addplot[ball darkblue,thick,only marks]coordinates{(0,50)(44,70)};
@@ -1367,8 +1366,8 @@ $u_{i+1}$ и $u_i$ -- значение температуры в узлах
 $\lambda$ -- параметр, имеющий смысл тепловой проводимости
 среды на участке $x_i\leqslant x < x_{i+1}$:
 \begin{equation*}
-\lambda_i=\dfrac{k_i\cdot k_{i+1}}{k_i+k_{i+1}}
-\cdot\dfrac{2}{x_{i+1}-x_i}
+%\lambda_i=\dfrac{k_i\cdot k_{i+1}}{k_i+k_{i+1}}
+\lambda_i=\dfrac{k_i}{x_{i+1}-x_i}
 \end{equation*} 
 
 Аналогично, рассматривая участок $[x_{i-1},x_i)$, 
@@ -1403,8 +1402,10 @@ $r(x)$ имеет \emph{точки разрыва только в узлах р�
 \begin{equation}\label{eq:ODE+BC:sigma convection}
 \begin{split}
 \sigma_i&=\intflefthalf{r(x)}+\intfrighthalf{r(x)}\approx\\[1ex]
-&\approx r(x_i)\cdot(x_i-x_{i-1/2})+r(x_{i+1})\cdot(x_{i+1/2}-x_i)=\\[1em]
-&=r_i\cdot\dfrac{x_i-x_{i-1}}{2}+r_{i+1}\cdot\dfrac{x_{i+1}-x_i}{2}.
+%&\approx r(x_i)\cdot(x_i-x_{i-1/2})+r(x_{i+1})\cdot(x_{i+1/2}-x_i)=\\[1em]
+%&=r_i\cdot\dfrac{x_i-x_{i-1}}{2}+r_{i+1}\cdot\dfrac{x_{i+1}-x_i}{2}.
+&\approx r(x_{i-1})\cdot(x_i-x_{i-1/2})+r(x_i)\cdot(x_{i+1/2}-x_i)=\\[1em]
+&=r_{i-1}\cdot\dfrac{x_i-x_{i-1}}{2}+r_i\cdot\dfrac{x_{i+1}-x_i}{2}.
 \end{split}
 \end{equation}
 
@@ -1416,7 +1417,8 @@ $r(x)$ имеет \emph{точки разрыва только в узлах р�
 \begin{gather}\label{eq:ODE+BC:epsilon source}
 \begin{split}
 \varepsilon(x_i)&=\intfcenter{q(x)}=\intflefthalf{q(x)}+\intfrighthalf{q(x)}\approx\\[1ex]
-&\approx q_i\cdot\dfrac{x_i-x_{i-1}}{2}+q_{i+1}\cdot\dfrac{x_{i+1}-x_i}{2}.
+%&\approx q_i\cdot\dfrac{x_i-x_{i-1}}{2}+q_{i+1}\cdot\dfrac{x_{i+1}-x_i}{2}.
+&\approx q_{i-1}\cdot\dfrac{x_i-x_{i-1}}{2}+q_i\cdot\dfrac{x_{i+1}-x_i}{2}.
 \end{split}
 \end{gather}
 
@@ -1517,13 +1519,13 @@ $\sigma_n$ и $\varepsilon_n$ --
 на правой границе $x=\ell$:
 \begin{gather*}%\label{eq:ODE+BC:RIGHT:convection conduction}
 \sigma_n=\intf{x_{n-1/2}}{x_n}{ r(x) }
-\approx r(x_n)\cdot(x_n-x_{n-1/2})=
-r_n\cdot\dfrac{x_n-x_{n-1}}{2},
+\approx r(x_{n-1})\cdot(x_n-x_{n-1/2})=
+r_{n-1}\cdot\dfrac{x_n-x_{n-1}}{2},
 \end{gather*}
 \begin{gather*}%\label{eq:ODE+BC:RIGHT:heat source}
 \varepsilon_n=\intf{x_{n-1/2}}{x_n}{ q(x) }
-\approx q(x_n)\cdot(x_n-x_{n-1/2})=
-q_n\cdot\dfrac{x_n-x_{n-1}}{2}.
+\approx q(x_{n-1})\cdot(x_n-x_{n-1/2})=
+q_{n-1}\cdot\dfrac{x_n-x_{n-1}}{2}.
 \end{gather*}
 
 %
@@ -1656,63 +1658,63 @@ c_0&-b_0&0\\
 Кроме того, в матрицах с симметричной структурой
 недопустим выбор главного элемента матрицы.
 
-%%	Алгоритм вычислений коэффициентов разностной схемы
+%% Алгоритм вычислений коэффициентов разностной схемы
 %% lambda, sigma, varepsilon
 %% системы линейных уравнений
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
-font=\small,
-start chain=going below,node distance=10mm,
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+font=\small,%
+start chain=going below,%
+node distance=10mm,%
+>={Straight Barb[angle=45:1.5mm 1]},%
 ]
-% старт
-\node[rrectnode,on chain,join]{старт};
+% начало
+\node[beginendnode,on chain,join]{начало};
 % входные данные
-\node[datanode,on chain,join]
+\node[IOnode,on chain,join]
 {$\{x_i\},\{k_i\},\{r_i\},\{q_i\}$};
 % lambda[0], sigma[0] varepsoln[0]
 \node[rectnode,on chain,join]{$
-\lambda_0=
-\dfrac{k_0\cdot k_1}{k_0+k_1}\cdot
-\dfrac{2}{x_1-x_0},
+\lambda_0=\dfrac{k_0}{x_1-x_0},
 \quad
 \sigma_0=r_0\cdot\dfrac{x_1-x_0}{2},
 \quad
 \varepsilon_0=q_0\cdot\dfrac{x_1-x_0}{2}
 $};
-% начало цикла
-\node[startloopnode,on chain,join]{$i=1,2,\ldots,(n-1)$};
+% i = 1
+\node[rectnode,on chain,join]{$i=1$};
 % lambda[i] - теплоперенос
-\node[rectnode,on chain,join]
-{$\lambda_i=
-\dfrac{k_i\cdot k_{i+1}}{k_i+k_{i+1}}\cdot
-\dfrac{2}{x_{i+1}-x_i}
-$};
+\node[rectnode,on chain,join](loop)
+{$\lambda_i=\dfrac{k_i}{x_{i+1}-x_i}$};
 % sigma[i] - конвекция
 \node[rectnode,on chain,join]
 {$\sigma_i=
-r_i\cdot\dfrac{x_i-x_{i-1}}{2}+
-r_{i+1}\cdot\dfrac{x_{i+1}-x_i}{2}
+r_{i-1}\cdot\dfrac{x_i-x_{i-1}}{2}+r_i\cdot\dfrac{x_{i+1}-x_i}{2}
 $};
 % varepsilon[i] - тепловыделение
 \node[rectnode,on chain,join]
 {$\varepsilon_i=
-q_i\cdot\dfrac{x_i-x_{i-1}}{2}+
-q_{i+1}\cdot\dfrac{x_{i+1}-x_i}{2}
+q_{i-1}\cdot\dfrac{x_i-x_{i-1}}{2}+q_i\cdot\dfrac{x_{i+1}-x_i}{2}
 $};
 % конец цикла
-\node[endloopnode,on chain,join]{$i=(n-1)$};
+\node[ifthenelsenode,on chain,join](if){$i<(n-1)$};
+\draw(if.east) node[above right]{да};
+\draw(if.south) node[below right]{нет};
+% инкремент
+\begin{scope}[start branch=b,node distance=21mm]
+\node[rectnode,on chain=going right,join](increment){$i=i+1$};
+\draw[->,thick] (increment.north) |- (loop.east);
+\end{scope}
 % lambda[n], sigma[n] varepsoln[n]
 \node[rectnode,on chain,join]{$
-\sigma_n=r_n\cdot\dfrac{x_n-x_{n-1}}{2},
+\sigma_n=r_{n-1}\cdot\dfrac{x_n-x_{n-1}}{2},
 \quad
-\varepsilon_n=q_n\cdot\dfrac{x_n-x_{n-1}}{2}
-$};
+\varepsilon_n=q_{n-1}\cdot\dfrac{x_n-x_{n-1}}{2}$};
 % выходные данные
-\node[datanode,on chain,join]
+\node[IOnode,on chain,join]
 {$\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\}$};
-% стоп
-\node[rrectnode,on chain,join]{стоп};
+% конец
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений\linebreak
 коэффициентов разностной схемы 
@@ -1720,51 +1722,58 @@ $\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\}$}
 \label{fig:ODE+BC:lambda+sigma+varepsilon}
 \end{figure}
 
-
-
 %%	Алгоритм вычислений коэффициентов матрицы 
 %% a, c, b, y
 %% системы линейных уравнений
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
-font=\small,
-start chain=going below,node distance=10mm,
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+font=\small,%
+start chain=going below,%
+node distance=10mm,%
+>={Straight Barb[angle=45:1.5mm 1]},%
 ]
 % старт
-\node[rrectnode,on chain,join]{старт};
+\node[beginendnode,on chain,join]{начало};
 % входные данные
-\node[datanode,on chain,join]
+\node[IOnode,on chain,join]
 {$\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\},\{p_0,s_0\},\{p_{\ell},s_{\ell}\}$};
 % b[0], c[0], y[0]
 \node[rectnode,on chain,join]{$
-b_0=\lambda_0,\quad
-c_0=b_0+\sigma_0+p_0,\quad
-y_0=\varepsilon_0+s_0
+b_0=\lambda_0,\quad c_0=b_0+\sigma_0+p_0
 $};
+%
+\node[rectnode,on chain,join]{$y_0=\varepsilon_0+s_0$};
 % начало цикла
-\node[startloopnode,on chain,join]{$i=1,2,\ldots,(n-1)$};
+\node[rectnode,on chain,join]{$i=1$};
 % lambda[i] - теплоперенос
-\node[rectnode,on chain,join]
+\node[rectnode,on chain,join](loop)
 {$
 a_i=\lambda_{i-1},\quad
 b_i=\lambda_i,\quad
-c_i=a_i+b_i+\sigma_i,\quad
-y_i=\varepsilon_i
+c_i=a_i+b_i+\sigma_i
 $};
+%
+\node[rectnode,on chain,join]{$y_i=\varepsilon_i$};
 % конец цикла
-\node[endloopnode,on chain,join]{$i=(n-1)$};
+\node[ifthenelsenode,on chain,join](if){$i<(n-1)$};
+\draw(if.east) node[above right]{да};
+\draw(if.south) node[below right]{нет};
+% инкремент
+\begin{scope}[start branch=b,node distance=28mm]
+\node[rectnode,on chain=going right,join](increment){$i=i+1$};
+\draw[->,thick] (increment.north) |- (loop.east);
+\end{scope}
 % lambda[n], sigma[n] varepsoln[n]
 \node[rectnode,on chain,join]{$
 a_n=\lambda_{n-1},\quad
-c_n=a_n+\sigma_n+p_{\ell},\quad
-y_n=\varepsilon_n+s_{\ell}
-$};
+c_n=a_n+\sigma_n+p_{\ell}$};
+%
+\node[rectnode,on chain,join]{$y_n=\varepsilon_n+s_{\ell}$};
 % выходные данные
-\node[datanode,on chain,join]
+\node[IOnode,on chain,join]
 {$\{a_i\},\{b_i\},\{c_i\},\{y_i\}$};
 % стоп
-\node[rrectnode,on chain,join]{стоп};
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений\linebreak
 коэффициентов $\{a_i\},\{b_i\},\{c_i\}$ и $\{y_i\}$
@@ -2006,7 +2015,7 @@ start chain=going below,node distance=10mm,
 >={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
 ]
 % старт
-\node[rrectnode,on chain,join]{старт};
+\node[beginendnode,on chain,join]{начало};
 % входные данные
 \node[datanode,on chain,join]{$\{a_i\},\{b_i\},\{c_i\},\{y_i\}$};
 % alpha[1], beta[1]
@@ -2015,20 +2024,26 @@ start chain=going below,node distance=10mm,
 \beta_{1}=\dfrac{y_0}{c_0}
 $};
 % начало цикла
-\node[startloopnode,on chain,join]{$i=1,2,\ldots,(n-1)$};
+\node[rectnode,on chain,join]{$i=1$};
 % alpha[i] и beta[i]
-\node[rectnode,on chain,join]{$
+\node[rectnode,on chain,join](loop){$
 \alpha_{i+1}=\dfrac{b_i}{c_i-a_i\cdot\alpha_i},
 \quad
 \beta_{i+1}=\dfrac{a_i\cdot\beta_i+y_i}{c_i-a_i\cdot\alpha_i}
 $};
 % конец цикла
-\node[endloopnode,on chain,join]{$i=(n-1)$};
+\node[ifthenelsenode,on chain,join](if){$i<(n-1)$};
+\draw(if.east) node[above right]{да};
+\draw(if.south) node[below right]{нет};
+% инкремент
+\begin{scope}[start branch=b,node distance=28mm]
+\node[rectnode,on chain=going right,join](increment){$i=i+1$};
+\draw[->,thick] (increment.north) |- (loop.east);
+\end{scope}
 % выходные данные
-\node[datanode,on chain,join]
-{$\{\alpha_i\}, \{\beta_i\}$};
+\node[IOnode,on chain,join]{$\{\alpha_i\}, \{\beta_i\}$};
 % стоп
-\node[rrectnode,on chain,join]{стоп};
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений\linebreak 
 коэффициентов прогонки 
@@ -2041,31 +2056,39 @@ $\{\beta_1,\beta_2,\ldots,\beta_n\}$}
 % *** Алгоритм вычислений значений целевой функции u[i]***
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
-font=\small,
-start chain=going below,node distance=10mm,
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+font=\small,%
+start chain=going below,%
+node distance=10mm,%
+>={Straight Barb[angle=45:1.5mm 1]},%
 ]
 % старт
-\node[rrectnode,on chain,join]{старт};
+\node[beginendnode,on chain,join]{начало};
 % входные данные
-\node[datanode,on chain,join]{%
+\node[IOnode,on chain,join]{%
 $\{a_n,b_n,c_n,y_n\},\{\alpha_i\},\{\beta_i\},$};%\allowbreak
 % u[n]
 \node[rectnode,on chain,join]{$
 u_n=\dfrac{a_n\cdot\beta_n+y_n}{c_n-a_n\cdot\alpha_n}
 $};
 % начало цикла
-\node[startloopnode,on chain,join]{$i=(n-1),\ldots,1,0$};
+\node[rectnode,on chain,join]{$i=(n-1)$};
 % u[i]
-\node[rectnode,on chain,join]{$
+\node[rectnode,on chain,join](loop){$
 u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
 % конец цикла
-\node[endloopnode,on chain,join]{$i=0$};
+\node[ifthenelsenode,on chain,join](if){$i>0$};
+\draw(if.east) node[above right]{да};
+\draw(if.south) node[below right]{нет};
+% инкремент
+\begin{scope}[start branch=b,node distance=16mm]
+\node[rectnode,on chain=going right,join](increment){$i=i-1$};
+\draw[->,thick] (increment.north) |- (loop.east);
+\end{scope}
 % выходные данные
-\node[datanode,on chain,join]
+\node[IOnode,on chain,join]
 {$\{u_i\}$};
 % стоп
-\node[rrectnode,on chain,join]{стоп};
+\node[beginendnode,on chain,join]{конец};
 \end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений
 значений неизвестной функции 
