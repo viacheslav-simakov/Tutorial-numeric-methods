@@ -1,3 +1,6 @@
+%
+% Методы локальной оптимизации
+%
 \newpage
 \section{Методы локальной оптимизации}
 Оптимизация -- это задача нахождения экстремума 
@@ -199,14 +202,7 @@ k=\left\lceil\dfrac{\ln(b-a)-\ln(\epsilon)}{\ln(3)-\ln(2)}\right\rceil
 % *** Алгоритм поиска минимума функции одной переменной
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
-\begin{tikzpicture}[
-font=\small,%
-start chain=going below,%
-node distance=10mm,%
->={Straight Barb[angle=45:1.5mm 1]},%
-]
-% соединитель
-\node[beginendnode,on chain,join]{начало};
+\begin{scheme}
 % входные данные
 \node[IOnode,on chain,join]
 {$a, b, \epsilon$};
@@ -244,10 +240,7 @@ node distance=10mm,%
 \begin{scope}[node distance=12mm]
 \node[IOnode,on chain,join]{$x_{\min}=\dfrac{a+b}{2}$};
 \end{scope}
-% конец
-\node[beginendnode,on chain,join]{конец};
-\end{tikzpicture}
-% *******************************************
+\end{scheme}
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
 функции одного переменного
 $x_{\min}=\arg\left(\min\limits_{a\leqslant x \leqslant b} f(x)\right)$ }
@@ -371,18 +364,12 @@ f(m_1,x_{20},\ldots,x_{n0})>f(m_1,m_2,\ldots,x_{n0})
 \norma{f(\vect{x}_k)-f(\vect{x}_{k-1})} < \epsilon_2
 \end{equation}
 
+%
 % Алгоритм поиска минимума функции многих переменных f(x1,x2,...,xn)
 % методом по координатного спуска
-% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+%
 \begin{figure}[H]\centering
-\begin{tikzpicture}[
-font=\small,%
-start chain=going below,%
-node distance=10mm,%
->={Straight Barb[angle=45:1.5mm 1]},%
-]
-% соединитель
-\node[beginendnode,on chain,join]{начало};
+\begin{scheme}
 % входные данные
 \node[IOnode,on chain,join]
 {$\vect{x}_0, \mathcal{D}, \epsilon_1$};
@@ -403,37 +390,35 @@ $x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$
 % f(x)<f(x0)
 \node[ifthenelsenode,on chain,join](compare-f)
 {$f(\vect{x})<f(\vect{x}_0)$};
-\draw(compare-f.south) node[below left]{да};
+\draw(compare-f.south) node[below right]{да};
 \draw(compare-f.west) node[above left]{нет};
 % сравнение
 \node[ifthenelsenode,on chain,join](compare)
-{$\norma{\vect{x}-\vect{x}_0}\leqslant\varepsilon_1$};
+{$\norma{\vect{x}-\vect{x}_0}\leqslant\epsilon_1$};
 % нет
 \begin{scope}[start branch=b,node distance=15mm]
 \node[rectnode,on chain=going right,join](no)
 {$\vect{x}_0=\vect{x}$};
+\draw (compare.south) node[below right]{да};
 \draw(compare.east) node[above right]{нет};
 \draw[->,thick] (no.north) |- (loop.east);
 \end{scope}
 % выход
-\draw (compare.south) node[below left]{да};
 \begin{scope}[node distance=12mm]
 \node[IOnode,on chain,join](min){$\vect{x}_{\min}=\vect{x}$};
 \end{scope}
 % выход f
 \draw[->,thick](compare-f.west) -- ([xshift=-15mm]compare-f.west) |- (min.west);
-% конец
-\node[beginendnode,on chain,join]{конец};
-\end{tikzpicture}
-% *******************************************
+\end{scheme}
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
 функции $f(\vect{x})$ многих переменных 
 методом по координатного спуска}
 \label{fig:min:scheme coordinates}
 \end{figure}
 
-
+%
 % Метод градиентного спуска
+%
 \emptyline
 \subsubsection{Метод градиентного спуска}
 Градиентный спуск -- метод нахождения локального экстремума 
@@ -525,51 +510,11 @@ $\norma{\nabla{f}(\vect{x}_k)}\geqslant0$ --
 уменьшения целевой функции, которое задаётся антиградиентом 
 $-\nabla{f}(\vect{x})$.
 
-% Алгоритм метода градиентного спуска
-%\textbf{Алгоритм метода градиентного спуска}
-%\begin{enumerate}
-%\item 
-%Задают начальное приближение ${(x_0,y_0)}$, 
-%скорость градиентного спуска $\lambda$, 
-%а также точность расчёта $\varepsilon$.
-%\item
-%Рассчитывают градиент целевой функции
-%в текущей точке $\nabla_0=\nabla f(x_0,y_0)$.
-%\item
-%Определяют новый вектор неизвестных 
-%в соответствии с соотношением \eqref{eq:GD:x(k+1)}:
-%\begin{gather*}
-%\left\{\begin{matrix}
-%x_1&=&x_0 - \lambda\cdot{\nabla_0}_x\\
-%y_1&=&y_0 - \lambda\cdot{\nabla_0}_y\\
-%\end{matrix}\right.,
-%\end{gather*}
-%где ${\nabla_0}_x$ и ${\nabla_0}_y$ --
-%компоненты вектора градиента в выбранной системе координат.
-%\item
-%Рассчитывают величину расстояния между двумя точками:
-%\begin{gather*}
-%r=\sqrt{(x_0-x_1)^2+(y_0-y_1)^2}
-%\end{gather*}
-%\item
-%Проверяют условие остановки итерационного процесса:
-%если $r<\varepsilon$, то итерационный процесс останавливается;
-%иначе текущую точку считают начальной 
-%$x_0=x_1$ и $y_0=y_1$ и переходят к шагу (2) 
-%итерационного процесса.
-%\end{enumerate}
-
-
+%
 % Алгоритм поиска минимума методом градиентного спуска
+%
 \begin{figure}[H]\centering
-\begin{tikzpicture}[
-font=\small,%
-start chain=going below,%
-node distance=10mm,%
->={Straight Barb[angle=45:1.5mm 1]},%
-]
-% соединитель
-\node[beginendnode,on chain,join]{начало};
+\begin{scheme}
 % входные данные
 \node[IOnode,on chain,join]
 {$\vect{x}_0, \lambda, \epsilon_1$};
@@ -594,10 +539,7 @@ node distance=10mm,%
 % выходные данные
 \node[IOnode,on chain,join]{$\vect{x}_{\min}=\vect{x}_1$};
 \end{scope}
-% конец
-\node[beginendnode,on chain,join]{конец};
-\end{tikzpicture}
-% *******************************************
+\end{scheme}
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
 функции $f(\vect{x})$ многих переменных 
 методом градиентного спуска}

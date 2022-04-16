@@ -241,14 +241,7 @@ $f(a)\cdot f(c)>0$, поэтому новая область поиска кор
 % Алгоритм поиска нуля функции одной переменной f(x)=0
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
-\begin{tikzpicture}[
-font=\small,%
-start chain=going below,%
-node distance=10mm,%
->={Straight Barb[angle=45:1.5mm 1]},%
-]
-% начало
-\node[beginendnode,on chain]{начало};
+\begin{scheme}
 % входные данные
 \node[IOnode,on chain,join]{$a, b, \epsilon$};
 % x1, x2
@@ -286,9 +279,7 @@ node distance=10mm,%
 \begin{scope}[node distance=12mm]
 \node[IOnode,on chain,join]{$x_0=\dfrac{a+b}{2}$};
 \end{scope}
-% конец
-\node[beginendnode,on chain,join]{конец};
-\end{tikzpicture}
+\end{scheme}
 % *******************************************
 \caption{Блок-схема алгоритма поиска решения $x_0$\linebreak
 нелинейного уравнения $f(x)=0$}
