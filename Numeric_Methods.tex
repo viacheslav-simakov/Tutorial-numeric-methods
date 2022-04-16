@@ -107,15 +107,13 @@
 	every join/.style={->,black,thick},
 	pointnode/.style={
 %		join=by -,
-		circle,
-		thick,
-		draw=black,fill=white,%black,
+		circle,thick,draw=black,fill=white,
 		minimum size=4pt,
 		inner sep=0pt,
 	},
 	circlenode/.style={
-		draw,thick,fill=blue!10,line width=0.25mm,
 		shape=circle,
+		draw,thick,fill=blue!10,line width=0.25mm,
 		inner sep=4pt,
 	},
 	rectnode/.style={
@@ -128,6 +126,17 @@
 		draw,line width=0.25mm,
 		inner sep=8pt,
 	},
+	% блок вызова процедуры
+	subnode/.style={
+		shape=rectangle split,
+		draw,line width=0.25mm,
+		rectangle split horizontal,
+		rectangle split parts=3,
+		rectangle split empty part width=-18pt,
+		rectangle split part align={center},
+		inner sep=8pt,
+	},
+	% начало и конец алгоритма
 	beginendnode/.style={
 		shape=rounded rectangle,
 		draw,line width=0.25mm,
@@ -142,6 +151,7 @@
 		text centered,
 		inner sep=8pt,
 	},
+	% блок выбора
 	ifthenelsenode/.style={
 		shape=diamond,
 		draw,line width=0.25mm,

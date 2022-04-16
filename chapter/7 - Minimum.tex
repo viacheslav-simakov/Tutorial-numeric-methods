@@ -370,18 +370,20 @@ f(m_1,x_{20},\ldots,x_{n0})>f(m_1,m_2,\ldots,x_{n0})
 % входные данные
 \node[IOnode,on chain,join]
 {$\vect{x}_0, \mathcal{D}, \epsilon_1$};
-% x
+% начальное приближение
 \node[rectnode,on chain,join](x){$\vect{x}=\vect{x}_0$};
 % начало цикла
 \node[startloopnode,on chain,join](loop){$i=1,2,3,\ldots,n$};
 % min
-\node[srectnode,rectangle split parts=2,on chain,join](min)
-{
-\nodepart{one}
-$x_j=\const, \quad\forall j \ne i, \quad j=1,2,\ldots,n$
-\nodepart{two}
-$x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$
-};
+%\node[srectnode,rectangle split parts=2,on chain,join](min)
+%{
+%\nodepart{one}
+%$x_j=\const, \quad\forall j \ne i, \quad j=1,2,\ldots,n$
+%\nodepart{two}
+%$x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$
+%};
+\node[subnode,on chain,join]{\nodepart{two}
+$x_i=\arg\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)$};
 % конец цикла
 \node[endloopnode,on chain,join]{$i=n$};
 % f(x)<f(x0)
@@ -522,18 +524,17 @@ $-\nabla{f}(\vect{x})$.
 % сравнение
 \node[ifthenelsenode,on chain,join](compare)
 {$\norma{\vect{x}_1-\vect{x}_0}\leqslant\epsilon_1$};
+\draw(compare.east) node[above right]{нет};
+\draw (compare.south) node[below right]{да};
 % нет
-\begin{scope}[start branch=b,node distance=15mm]
+\begin{scope}[start branch=b]
 \node[rectnode,on chain=going right,join](no)
 {$\vect{x}_0=\vect{x}_1$};
-\draw(compare.east) node[above right]{нет};
-\draw[->,thick] (no.north) |- (grad0.east);
 \end{scope}
-\draw (compare.south) node[below left]{да};
-\begin{scope}[node distance=12mm]
+% связи
+\draw[->,thick] (no.north) |- (grad0.east);
 % выходные данные
 \node[IOnode,on chain,join]{$\vect{x}_{\min}=\vect{x}_1$};
-\end{scope}
 \end{scheme}
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
 функции $f(\vect{x})$ многих переменных 
@@ -1474,7 +1475,7 @@ node[above]{$(\phi_0,\lambda_0)$};
 \addplot[gray,thin,dashed,opacity=0.5]coordinates{(52.00000,44.00000)(54.66658,44.00000)(54.66658,39.49103)(55.94734,39.49103)(55.94734,38.88818)(55.88973,38.88818)(55.890,38.839)};
 %%
 \draw[darkred,->,shorten >= 3pt] (axis cs:52.0,44.0) -- (axis cs:54.66658,39.49103);
-\draw[darkred,->,shorten >= 3pt] (axis cs:54.66658,39.49103) -- (\phiMin,\lambdaMin);
+\draw[darkred,->,shorten >= 3pt] (axis cs:54.66658,39.49103) -- (axis cs:\phiMin,\lambdaMin);
 %% конечное положение
 \addplot[ball darkred]coordinates{(54.66658,39.49103)};
 \addplot[ball darkred]coordinates{(\phiMin,\lambdaMin)}
@@ -1527,7 +1528,7 @@ $3$&$55.88973$&$38.83941$&$0.07548$&$845.314$\\
 \begin{axis}[enlargelimits=0.2,
 xtick={0,1,2,3},ytick={800,1000,1200,1400},
 xlabel={Номер итерации $k$},
-ylabel={$f(\phi,\lambda)$, км},
+ylabel={$f(\phi,\lambda)$, км},ylabel style={yshift=+1ex},
 y tick label style={/pgf/number format/.cd,set thousands separator={}},
 ]
 \addplot[darkred,mark=*,mark size=3pt,mark options={fill=white}]coordinates{(0,1338.696)(1,944.004)(2,845.572)(3,845.314)};
