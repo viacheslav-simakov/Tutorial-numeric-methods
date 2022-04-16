@@ -101,6 +101,54 @@ $\vect{c}$ и $\vect{y}$ --
 не гарантирует малость величины
 $\norma{f(x)-p_n(x)}$ на отрезке $[x_i,x_{i+1}]$.
 
+
+% Алгоритм интерполяции функции обобщенным линейным полиномом
+% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+\begin{figure}[H]\centering
+%\begin{tikzpicture}[font=\small]%,start chain=going below]
+\begin{scheme}
+% входные данные
+\node[IOnode,on chain,join]{$a, b, \epsilon$};
+% x1, x2
+\node[rectnode,on chain,join](x1x2)
+{$c=\dfrac{a+b}{2}$};
+% f(a)*f(c)>0
+\node[ifthenelsenode,on chain,join](compare)
+{$f(a) \cdot f(c) > 0$};
+\draw(compare.west) node[above left]{да};
+\draw(compare.east) node[above right]{нет};
+% да
+\begin{scope}[start branch=a]
+\node[rectnode,on chain=going left,join](a){$a=c$};
+\end{scope}
+% нет
+\begin{scope}[start branch=b]
+\node[rectnode,on chain=going right,join](b){$b=c$};
+\end{scope}
+% ошибка
+\node[rectnode,on chain](error){$\Delta=b-a$};
+% связи
+\draw[->,thick] (a.south) |- (error.west);
+\draw[->,thick] (b.south) |- (error.east);
+% выход?
+\node[ifthenelsenode,on chain,join](exit){$\Delta<\epsilon$};
+\draw (exit.east) node[above right]{нет};
+\draw (exit.south) node[below right]{да};
+% соединитель
+\draw[->,thick] (exit.east) -- ([xshift=5cm]exit.east) |- (x1x2.east);
+% выходные данные = решение
+\begin{scope}[node distance=12mm]
+\node[IOnode,on chain,join]{$x_0=\dfrac{a+b}{2}$};
+\end{scope}
+%\node[beginendnode,on chain,join]{конец};
+%\end{tikzpicture}
+\end{scheme}
+% *******************************************
+\caption{Блок-схема алгоритма поиска решения $x_0$\linebreak
+нелинейного уравнения $f(x)=0$}
+\label{fig:NLE:scheme f(x)->min}
+\end{figure}
+
 %
 % Интерполирование алгебраическими полиномами
 %

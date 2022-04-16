@@ -6,6 +6,8 @@
 %
 % Номерация подрисунков
 %https://tex.stackexchange.com/questions/123019/subfigure-numbering-%in-subfigure-environment-subcaption-package
+% Размер шрифта в таблицах
+% https://tex.stackexchange.com/questions/20207/change-font-size-in-tables-document-wide
 % Преамбула
 %
 \input{sgu.tex}
@@ -85,6 +87,12 @@
 \pgfsetlayers{background,pre main,main,foreground} 
 % Декорация линий
 \tikzset{
+	% расстояние между узлами
+	node distance=10mm and 15mm,
+	% расположение узлов
+	start chain=going below,
+	% вид стрелок
+	>={Straight Barb[angle=45:1.5mm 1]},
 	% стрелки
 	FARROW/.style={
 		arrows={-Straight Barb[angle=45:1.5mm 1]},
@@ -166,6 +174,16 @@
 		chamfered rectangle xsep=1cm,
 		inner sep=4pt,
 	},
+}
+%
+%	Новое окружение СХЕМА
+%
+\newenvironment{scheme}{% environment name
+\begin{tikzpicture}[font=\small]%,start chain=going below]
+\node[beginendnode,on chain]{начало};
+}{%
+\node[beginendnode,on chain,join]{конец};
+\end{tikzpicture}%
 }
             
 \begin{document}
@@ -275,24 +293,24 @@
 владеют навыками программирования.
 \end{Introduction}
 
-% Метод Гаусса
-\input{chapter/1 - Gauss}
+%% Метод Гаусса
+%\input{chapter/1 - Gauss}
 % Интерполяция полиномом Лагранжа
 \input{chapter/2 - Interpolation}
-% Численное дифференцирование
-\input{chapter/4 - Numerical_Differentiation}
-% Численное интегрирование
-\input{chapter/5 - Numerical_Integration}
-% Нелинейные уравнения
-\input{chapter/6 - Nonlinear_Equations}
-% Поиск экстремума функций многих переменных
-\input{chapter/7 - Minimum}
-% Аппроксимация
-\input{chapter/3 - Approximation}
-% Задача Коши для систем обыкновенных дифференциальных уравнений
-\input{chapter/8 - ODE_IC}
-% Краевые задачи для обыкновенных дифференциальных уравнений
-\input{chapter/9 - ODE_BC}
+%% Численное дифференцирование
+%\input{chapter/4 - Numerical_Differentiation}
+%% Численное интегрирование
+%\input{chapter/5 - Numerical_Integration}
+%% Нелинейные уравнения
+%\input{chapter/6 - Nonlinear_Equations}
+%% Поиск экстремума функций многих переменных
+%\input{chapter/7 - Minimum}
+%% Аппроксимация
+%\input{chapter/3 - Approximation}
+%% Задача Коши для систем обыкновенных дифференциальных уравнений
+%\input{chapter/8 - ODE_IC}
+%% Краевые задачи для обыкновенных дифференциальных уравнений
+%\input{chapter/9 - ODE_BC}
 
 %
 % ЗАКЛЮЧЕНИЕ
