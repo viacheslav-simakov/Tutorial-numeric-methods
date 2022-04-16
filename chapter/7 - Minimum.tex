@@ -373,7 +373,8 @@ f(m_1,x_{20},\ldots,x_{n0})>f(m_1,m_2,\ldots,x_{n0})
 % начальное приближение
 \node[rectnode,on chain,join](x){$\vect{x}=\vect{x}_0$};
 % начало цикла
-\node[startloopnode,on chain,join](loop){$i=1,2,3,\ldots,n$};
+%\node[startloopnode,on chain,join](loop){$i=1,2,3,\ldots,n$};
+\node[rectnode,on chain,join](loop){$i=1$};
 % min
 %\node[srectnode,rectangle split parts=2,on chain,join](min)
 %{
@@ -383,9 +384,15 @@ f(m_1,x_{20},\ldots,x_{n0})>f(m_1,m_2,\ldots,x_{n0})
 %$x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$
 %};
 \node[subnode,on chain,join]{\nodepart{two}
-$x_i=\arg\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)$};
+$x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$};
 % конец цикла
-\node[endloopnode,on chain,join]{$i=n$};
+\node[ifthenelsenode,on chain,join](endloop){$i>n$};
+\draw(endloop.east) node[above right]{нет};
+\draw(endloop.south) node[below right]{да};
+% инкремент
+\begin{scope}[start branch=loop]
+\node[rectnode,on chain=going right,join]{$i=i+1$};
+\end{scope}
 % f(x)<f(x0)
 \node[ifthenelsenode,on chain,join](compare-f)
 {$f(\vect{x})<f(\vect{x}_0)$};
