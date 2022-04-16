@@ -17,86 +17,68 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Стиль графиков
 \pgfplotsset{
-width=9cm,% размер графиков
-xlabel=$x$,ylabel=$f(x)$,
-every axis/.style={% оси координат
-	font=\small,% размер шрифта
-	color=black,solid,thick,
-	xtick style={semithick,black},
-	ytick style={semithick,black},
-	grid=major,% сетка
-	major grid style={thin,dashed,color=gray!25,},
-},
-every node near coord/.append style={
-font=\footnotesize,%
-%font=\small,%
-color=black,%
-%fill=olive!10,%
-above,
-yshift=+2pt,%
-/pgf/number format/fixed,%
-/pgf/number format/fixed zerofill,%
-/pgf/number format/precision=1,%
-},
+	% размер графиков
+	width=9cm,
+	% подпись осей координат
+	xlabel=$x$,ylabel=$f(x)$,
+	% стиль осей координат
+	every axis/.style={
+		font=\small,% размер шрифта
+		color=black,solid,thick,
+		xtick style={semithick,black},
+		ytick style={semithick,black},
+		grid=major,% сетка
+		major grid style={thin,dashed,color=gray!25,},
+	},
+	% стиль узлов на графике
+	every node near coord/.append style={
+		font=\footnotesize,%
+		color=black,%
+		%fill=olive!10,%
+		above,
+		yshift=+2pt,%
+		/pgf/number format/fixed,%
+		/pgf/number format/fixed zerofill,%
+		/pgf/number format/precision=1,%
+	},
+	%
+	% стиль маркеров
+	%
+	ball darkred/.style={% темнокрасный
+		thick,
+		mark=ball,
+		color=darkred,
+		mark size=3pt,
+		mark options={% маркеры
+			thin,
+			draw=darkred,
+			ball color=darkred!50,
+		},
+	},
+	ball darkblue/.style={% темносиний
+		thick,
+		mark=ball,
+		color=darkblue,
+		mark size=3pt,
+		mark options={% маркеры
+			thin,
+			draw=darkblue,
+			ball color=darkblue!50,
+		},
+	},
+	ball darkgreen/.style={% темнозеленый
+		thick,
+		mark=ball,
+		color=darkgreen,
+		mark size=3pt,
+		mark options={% маркеры
+			thin,
+			draw=darkgreen,
+			ball color=darkgreen!50,
+		},
+	},
 }
-% стиль графиков
-\pgfplotsset{
-compat=1.15,
-ball darkred/.style={
-	thick,
-	mark=ball,
-	color=darkred,
-	mark size=3pt,
-	mark options={% маркеры
-		thin,
-		draw=darkred,
-		ball color=darkred!50,
-	},
-},
-ball darkblue/.style={
-	thick,
-	mark=ball,
-	color=darkblue,
-	mark size=3pt,
-	mark options={% маркеры
-		thin,
-		draw=darkblue,
-		ball color=darkblue!50,
-	},
-},
-ball darkgreen/.style={
-	thick,
-	mark=ball,
-	color=darkgreen,
-	mark size=3pt,
-	mark options={% маркеры
-		thin,
-		draw=darkgreen,
-		ball color=darkgreen!50,
-	},
-},
-}
-\pgfplotsset{
-% define the layers you need.
-% (Don't forget to add `main' somewhere in that list!!)
-	layers/my layer set/.define layer set={
-		background,
-		main,
-		foreground
-	}{
-		% you could state styles here which should be moved to
-		% corresponding layers, but that is not necessary here.
-		% That is why we don't state anything here
-	},
-        % activate the newly created layer set
-        set layers=my layer set,
-}
-%\addplot [red,
-%	% and with `on layer' you can state the layer where the
-%	% plot should be drawn on
-%	on layer=foreground,
-%	] {x};
-
+% слои на графике
 \pgfdeclarelayer{pre main}
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
@@ -105,7 +87,7 @@ ball darkgreen/.style={
 \tikzset{
 	% стрелки
 	FARROW/.style={
-		arrows={-Straight Barb[angle=45:1.5mm 1]	},
+		arrows={-Straight Barb[angle=45:1.5mm 1]},
 		shorten >= 0pt,
 	},
 	% декорация линий
@@ -133,35 +115,32 @@ ball darkgreen/.style={
 		inner sep=4pt,
 	},
 	rectnode/.style={
-		draw,line width=0.25mm,
 		shape=rectangle,
-%		rounded corners=2pt, 
+		draw,line width=0.25mm,
 		inner sep=8pt,
 	},
 	srectnode/.style={
-		draw,line width=0.25mm,
 		shape=rectangle split,
-%		rounded corners=2pt, 
+		draw,line width=0.25mm,
 		inner sep=8pt,
 	},
 	beginendnode/.style={
-		draw,line width=0.25mm,
 		shape=rounded rectangle,
-%		rounded corners=2pt, 
+		draw,line width=0.25mm,
 		inner sep=8pt,
 	},
 	% входные/выходные данные
 	IOnode/.style={
 		draw,line width=0.25mm,
-		shape=	trapezium,
+		shape=trapezium,
 		trapezium left angle=70,
 		trapezium right angle=110, 
 		text centered,
 		inner sep=8pt,
 	},
 	ifthenelsenode/.style={
-		draw,line width=0.25mm,
 		shape=diamond,
+		draw,line width=0.25mm,
 		aspect=2,
 		text centered,
 		inner sep=4pt,
@@ -242,9 +221,10 @@ ball darkgreen/.style={
 государственный университет имени Н.Г. Чернышевского.
 
 %
-% колонтитулы
+% основная часть
 %
 \newpage
+% колонтитулы
 \pagestyle{bodypages}
 \newpage
 \setcounter{page}{2}
@@ -255,7 +235,6 @@ ball darkgreen/.style={
 % ВВЕДЕНИЕ
 %
 \begin{Introduction}
-
 Численные методы являются основой решения комплексных задач, 
 возникающих в ходе развития материаловедения и новейших 
 областей техники и технологии.
@@ -294,10 +273,7 @@ ball darkgreen/.style={
 Предполагается, что при изучении данного курса
 студенты знакомы с основами высшей математики и 
 владеют навыками программирования.
-
 \end{Introduction}
-
-%\end{document}
 
 % Метод Гаусса
 \input{chapter/1 - Gauss}
