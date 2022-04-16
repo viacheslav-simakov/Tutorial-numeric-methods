@@ -210,36 +210,33 @@ k=\left\lceil\dfrac{\ln(b-a)-\ln(\epsilon)}{\ln(3)-\ln(2)}\right\rceil
 \node[rectnode,on chain,join](x1x2)
 {$x_1=\dfrac{2a+b}{3},\;x_2=\dfrac{a+2b}{3}$};
 % f(x1) < f(x2)
-\node[ifthenelsenode,on chain,join](compare)
-{$f(x_1)>f(x_2)$};
-% да
-\begin{scope}[start branch=a,node distance=15mm]
-\node[rectnode,on chain=going left,join](a)
-{$a=x_1$};
+\node[ifthenelsenode,on chain,join](compare){$f(x_1)>f(x_2)$};
 \draw(compare.west) node[above left]{да};
+\draw(compare.east) node[above right]{нет};
+% да
+\begin{scope}[start branch=a]
+\node[rectnode,on chain=going left,join](a){$a=x_1$};
 \end{scope}
 % нет
-\begin{scope}[start branch=b,node distance=15mm]
-\node[rectnode,on chain=going right,join](b)
-{$b=x_2$};
-\draw(compare.east) node[above right]{нет};
+\begin{scope}[start branch=b]
+\node[rectnode,on chain=going right,join](b){$b=x_2$};
 \end{scope}
 % ошибка
-\node[rectnode,on chain](error)
-{$\Delta=b-a$};
+%\node[rectnode,on chain](error){$\Delta=b-a$};
+%\begin{scope}[start branch=p]
+\node[pointnode,on chain](error){};%{$\Delta=b-a$};
+%\end{scope}
+% ошибка
+\node[ifthenelsenode,on chain,join](exit)
+{$(b-a)<\epsilon$};
+\draw (exit.east) node[above right]{нет};
+\draw (exit.south) node[below right]{да};
 % связи
 \draw[->,thick] (a.south) |- (error.west);
 \draw[->,thick] (b.south) |- (error.east);
-% выход?
-\node[ifthenelsenode,on chain,join](exit)
-{$\Delta<\epsilon$};
-\draw (exit.east) node[above right]{нет};
 \draw[->,thick] (exit.east) -- ([xshift=5cm]exit.east) |- (x1x2.east);
-% соединитель
-\draw (exit.south) node[below left]{да};
-\begin{scope}[node distance=12mm]
+% результат
 \node[IOnode,on chain,join]{$x_{\min}=\dfrac{a+b}{2}$};
-\end{scope}
 \end{scheme}
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
 функции одного переменного
@@ -392,22 +389,20 @@ $x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$
 {$f(\vect{x})<f(\vect{x}_0)$};
 \draw(compare-f.south) node[below right]{да};
 \draw(compare-f.west) node[above left]{нет};
-% сравнение
+% ошибка
 \node[ifthenelsenode,on chain,join](compare)
 {$\norma{\vect{x}-\vect{x}_0}\leqslant\epsilon_1$};
-% нет
-\begin{scope}[start branch=b,node distance=15mm]
-\node[rectnode,on chain=going right,join](no)
-{$\vect{x}_0=\vect{x}$};
 \draw (compare.south) node[below right]{да};
 \draw(compare.east) node[above right]{нет};
-\draw[->,thick] (no.north) |- (loop.east);
+% нет
+\begin{scope}[start branch=b]
+\node[rectnode,on chain=going right,join](no)
+{$\vect{x}_0=\vect{x}$};
 \end{scope}
-% выход
-\begin{scope}[node distance=12mm]
+% минимум
 \node[IOnode,on chain,join](min){$\vect{x}_{\min}=\vect{x}$};
-\end{scope}
-% выход f
+% связи
+\draw[->,thick] (no.north) |- (loop.east);
 \draw[->,thick](compare-f.west) -- ([xshift=-15mm]compare-f.west) |- (min.west);
 \end{scheme}
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 

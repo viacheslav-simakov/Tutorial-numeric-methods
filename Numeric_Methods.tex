@@ -93,11 +93,6 @@
 	start chain=going below,
 	% вид стрелок
 	>={Straight Barb[angle=45:1.5mm 1]},
-	% стрелки
-	FARROW/.style={
-		arrows={-Straight Barb[angle=45:1.5mm 1]},
-		shorten >= 0pt,
-	},
 	% декорация линий
 	curve line/.style={
 		decoration={
@@ -111,10 +106,11 @@
 	% соединительные стрелки
 	every join/.style={->,black,thick},
 	pointnode/.style={
-		join=by -,
+%		join=by -,
 		circle,
-		fill=red,
-		minimum size=3pt,
+		thick,
+		draw=black,fill=white,%black,
+		minimum size=4pt,
 		inner sep=0pt,
 	},
 	circlenode/.style={
@@ -176,7 +172,7 @@
 	},
 }
 %
-%	Новое окружение СХЕМА
+% новое окружение СХЕМА
 %
 \newenvironment{scheme}{% environment name
 \begin{tikzpicture}[font=\small]%,start chain=going below]
