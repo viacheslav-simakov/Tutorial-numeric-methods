@@ -184,28 +184,27 @@ ymin=-0.25,ymax=3,ytick={0,1,2.08,2.59},yticklabels={$y(0)$,$y(t_1)$,$y(t_j)$,$y
 % *** Алгоритм метода Эйлера
 %
 \begin{figure}[H]\centering
-\begin{tikzpicture}[
-font=\small,%
-start chain=going below,%
-node distance=10mm,%
->={Straight Barb[angle=45:1.5mm 1]},%
-]
-% начало
-\node[beginendnode,on chain,join]{начало};
+\begin{scheme}
 % начальное условие
 \node[IOnode,on chain,join]
-{$\vect{t}=\left\{0,t_1,t_2,\ldots,t_m\right\}$};
-\node[IOnode,on chain,join]
-{$\vect{u}(0)=\left\{u_1(0),u_2(0),\ldots,u_n(0)\right\}$};
+{$\{t_j\}, \{u_i(0)\}$};
 % начало цикла
 \node[rectnode,on chain,join]{$j=0$};
 % интервал времени
 \node[rectnode,on chain,join](loop)
 {$\Delta{t}_{j+1}=t_{j+1}-t_j$};
 % решение дифференциального уравнения
-\node[rectnode,on chain,join]
-{$\vect{u}(t_{j+1})=\vect{u}(t_j)+
-\Delta t_{j+1}\cdot\vect{f}\left(t_j, \vect{u}(t_{j})\right)$};
+\node[rectnode,on chain,join](i-loop){$i=0$};
+\node[rectnode,on chain,join](euler)
+{$u_i(t_{j+1})=u_i(t_j)+
+\Delta t_{j+1}\cdot f_i\left(t_j, u_i(t_{j})\right)$};
+% конец цикла
+\node[ifthenelsenode,on chain,join](i-end){$i<n$};
+\draw(i-end.west) node[above left]{да};
+\draw(i-end.south) node[below left]{нет};
+\begin{scope}[start branch=i,node distance=25mm]
+\node[rectnode,on chain=going left,join](i++){$i=i+1$};
+\end{scope}
 % условие
 \node[ifthenelsenode,on chain,join](compare){$j<m$};
 \draw(compare.east) node[above right]{да};
@@ -218,11 +217,11 @@ node distance=10mm,%
 % решение
 \begin{scope}[node distance=12mm]
 \node[IOnode,on chain,join](output)
-{$\vect{u}(\vect{t})=\{u_1(\vect{t}),u_2(\vect{t}),\ldots,u_n(\vect{t})\}$};
+{$\{u_i\left(\{t_j\}\right)\}$};
 \end{scope}
-% конец
-\node[beginendnode,on chain,join]{конец};
-\end{tikzpicture}
+% связи
+\draw[->,thick](i++.north) |- (euler.west);
+\end{scheme}
 \caption{Блок-схема алгоритма численного решения
 системы дифференциальных уравнений методом Эйлера}
 \label{fig:ODE_IC:scheme Euler}
@@ -312,12 +311,12 @@ ${\vect{u}}(t_{j})$, рассчитанные по методу Эйлера
 \begin{figure}[H]\centering
 \begin{tikzpicture}[
 font=\small,%
-start chain=going below,%
-node distance=10mm,%
->={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+%start chain=going below,%
+%node distance=10mm,%
+%>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
 ]
 % соединитель
-\node[beginendnode,on chain,join]{начало};
+%\node[beginendnode,on chain,join]{начало};
 % начальное условие
 \node[IOnode,on chain,join]
 {$\vect{t}=\left\{0,t_1,t_2,\ldots,t_m\right\}$};
