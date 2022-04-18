@@ -222,13 +222,13 @@ k=\left\lceil\dfrac{\ln(b-a)-\ln(\epsilon)}{\ln(3)-\ln(2)}\right\rceil
 \node[rectnode,on chain=going right,join](b){$b=x_2$};
 \end{scope}
 % ошибка
-%\node[rectnode,on chain](error){$\Delta=b-a$};
+\node[rectnode,on chain](error){$\Delta=b-a$};
 %\begin{scope}[start branch=p]
-\node[pointnode,on chain](error){};%{$\Delta=b-a$};
+%\node[pointnode,on chain](error){};%{$\Delta=b-a$};
 %\end{scope}
 % ошибка
 \node[ifthenelsenode,on chain,join](exit)
-{$(b-a)<\epsilon$};
+{$\Delta<\epsilon$};
 \draw (exit.east) node[above right]{нет};
 \draw (exit.south) node[below right]{да};
 % связи
@@ -383,21 +383,24 @@ f(m_1,x_{20},\ldots,x_{n0})>f(m_1,m_2,\ldots,x_{n0})
 %\nodepart{two}
 %$x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$
 %};
-\node[subnode,on chain,join]{\nodepart{two}
+\node[subnode,on chain,join](sub){\nodepart{two}
 $x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$};
+% смещение
+%\node[rectnode,on chain,join]
+%{$\vect{x}=(x_1,\ldots,m_i,\ldots,x_n)$};
 % конец цикла
 \node[ifthenelsenode,on chain,join](endloop){$i>n$};
-\draw(endloop.east) node[above right]{нет};
+\draw(endloop.west) node[above left]{нет};
 \draw(endloop.south) node[below right]{да};
 % инкремент
 \begin{scope}[start branch=loop]
-\node[rectnode,on chain=going right,join]{$i=i+1$};
+\node[rectnode,on chain=going left,join](increment){$i=i+1$};
 \end{scope}
 % f(x)<f(x0)
-\node[ifthenelsenode,on chain,join](compare-f)
-{$f(\vect{x})<f(\vect{x}_0)$};
-\draw(compare-f.south) node[below right]{да};
-\draw(compare-f.west) node[above left]{нет};
+%\node[ifthenelsenode,on chain,join](compare-f)
+%{$f(\vect{x})<f(\vect{x}_0)$};
+%\draw(compare-f.south) node[below right]{да};
+%\draw(compare-f.west) node[above left]{нет};
 % ошибка
 \node[ifthenelsenode,on chain,join](compare)
 {$\norma{\vect{x}-\vect{x}_0}\leqslant\epsilon_1$};
@@ -405,18 +408,18 @@ $x_i=\arg\left(\min\limits_{a_i \leqslant x_i \leqslant b_i}f(x_i)\right)$};
 \draw(compare.east) node[above right]{нет};
 % нет
 \begin{scope}[start branch=b]
-\node[rectnode,on chain=going right,join](no)
+\node[rectnode,on chain=going right,join](next)
 {$\vect{x}_0=\vect{x}$};
 \end{scope}
 % минимум
 \node[IOnode,on chain,join](min){$\vect{x}_{\min}=\vect{x}$};
 % связи
-\draw[->,thick] (no.north) |- (loop.east);
-\draw[->,thick](compare-f.west) -- ([xshift=-15mm]compare-f.west) |- (min.west);
+\draw[->,thick](increment.north) |- (sub.west);
+\draw[->,thick](next.north) |- (loop.east);
 \end{scheme}
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
-функции $f(\vect{x})$ многих переменных 
-методом по координатного спуска}
+функции $f(\vect{x})$ многих переменных методом 
+спуска по координатам}
 \label{fig:min:scheme coordinates}
 \end{figure}
 
@@ -527,21 +530,21 @@ $-\nabla{f}(\vect{x})$.
 {$\nabla_0=\nabla{f(\vect{x}_0})$};
 % x1
 \node[rectnode,on chain,join](x1)
-{$\vect{x}_1=\vect{x}_0-\lambda\cdot\nabla_0$};
+{$\vect{x}=\vect{x}_0-\lambda\cdot\nabla_0$};
 % сравнение
 \node[ifthenelsenode,on chain,join](compare)
-{$\norma{\vect{x}_1-\vect{x}_0}\leqslant\epsilon_1$};
+{$\norma{\vect{x}-\vect{x}_0}\leqslant\epsilon_1$};
 \draw(compare.east) node[above right]{нет};
 \draw (compare.south) node[below right]{да};
 % нет
 \begin{scope}[start branch=b]
 \node[rectnode,on chain=going right,join](no)
-{$\vect{x}_0=\vect{x}_1$};
+{$\vect{x}_0=\vect{x}$};
 \end{scope}
 % связи
 \draw[->,thick] (no.north) |- (grad0.east);
 % выходные данные
-\node[IOnode,on chain,join]{$\vect{x}_{\min}=\vect{x}_1$};
+\node[IOnode,on chain,join]{$\vect{x}_{\min}=\vect{x}$};
 \end{scheme}
 \caption{Блок-схема алгоритма нахождения минимума\linebreak 
 функции $f(\vect{x})$ многих переменных 
@@ -615,7 +618,7 @@ $\vect{v}_0$ -- ``начальная скорость`` в пространст�
 таких чтобы суммарное расстояние от склада до потребителей продукции
 (магазинов торговой сети) было минимальным. 
 
-\subsubsection{Метод по координатного спуска}
+\subsubsection{Метод спуска по координатам}
 Будем полагать, что магазины торговой сети находятся в городах,
 которые имеют определенные местоположения
 заданные их географическими координатами.
