@@ -101,51 +101,50 @@ $\vect{c}$ и $\vect{y}$ --
 не гарантирует малость величины
 $\norma{f(x)-p_n(x)}$ на отрезке $[x_i,x_{i+1}]$.
 
-
+%
 % Алгоритм интерполяции функции обобщенным линейным полиномом
-% https://tex.stackexchange.com/questions/370704/drawing-a-scheme
+%
 \begin{figure}[H]\centering
-%\begin{tikzpicture}[font=\small]%,start chain=going below]
 \begin{scheme}
 % входные данные
-\node[IOnode,on chain,join]{$a, b, \epsilon$};
-% x1, x2
-\node[rectnode,on chain,join](x1x2)
-{$c=\dfrac{a+b}{2}$};
-% f(a)*f(c)>0
-\node[ifthenelsenode,on chain,join](compare)
-{$f(a) \cdot f(c) > 0$};
-\draw(compare.west) node[above left]{да};
-\draw(compare.east) node[above right]{нет};
-% да
+\node[IOnode,on chain,join]{$\{x_i\}, \{y_i\}, \{\phi_i(x)\}$};
+% начало цикла по строкам
+\node[rectnode,on chain,join](loop rows){$i=0$};
+% начало цикла по столбцам
+\node[rectnode,on chain,join](loop cols){$j=0$};
+% элемент матрицы
+\node[rectnode,on chain,join](matrix){$a_{ij}=\phi_j(x_i)$};
+% j < n
+\node[ifthenelsenode,on chain,join](compare cols){$j < n$};
+\draw(compare cols.west) node[above left]{да};
+\draw(compare cols.south) node[below right]{нет};
+% j = j + 1
 \begin{scope}[start branch=a]
-\node[rectnode,on chain=going left,join](a){$a=c$};
+\node[rectnode,on chain=going left,join](j){$j=j+1$};
 \end{scope}
-% нет
+% i < n
+\node[ifthenelsenode,on chain,join](compare rows){$i < n$};
+\draw(compare rows.east) node[above right]{да};
+\draw(compare rows.south) node[below right]{нет};
+% i = i + 1
 \begin{scope}[start branch=b]
-\node[rectnode,on chain=going right,join](b){$b=c$};
+\node[rectnode,on chain=going right,join](i){$i=i+1$};
 \end{scope}
-% ошибка
-\node[rectnode,on chain](error){$\Delta=b-a$};
-% связи
-\draw[->,thick] (a.south) |- (error.west);
-\draw[->,thick] (b.south) |- (error.east);
-% выход?
-\node[ifthenelsenode,on chain,join](exit){$\Delta<\epsilon$};
-\draw (exit.east) node[above right]{нет};
-\draw (exit.south) node[below right]{да};
-% соединитель
-\draw[->,thick] (exit.east) -- ([xshift=5cm]exit.east) |- (x1x2.east);
+% решение системы линейных уравнений
+\node[subnode,on chain,join](solve)
+{\nodepart{two}$\mathbf{A}\cdot\vect{c}=\vect{y}$};
 % выходные данные = решение
 \begin{scope}[node distance=12mm]
-\node[IOnode,on chain,join]{$x_0=\dfrac{a+b}{2}$};
+\node[IOnode,on chain,join]{$\{c_0,c_1,\ldots,c_n\}$};
 \end{scope}
-%\node[beginendnode,on chain,join]{конец};
-%\end{tikzpicture}
+% связи
+\draw[->,thick] (j.north) |- (matrix.west);
+\draw[->,thick] (i.north) |- (loop cols.east);
 \end{scheme}
 % *******************************************
-\caption{Блок-схема алгоритма поиска решения $x_0$\linebreak
-нелинейного уравнения $f(x)=0$}
+\caption{Блок-схема алгоритма нахождения коэффициентов
+$\{c_i\}$\linebreak обобщенного полинома 
+$p_n(x)=\sum\limits_{i=0}^n c_i\cdot\phi_i(x)$}
 \label{fig:NLE:scheme f(x)->min}
 \end{figure}
 
