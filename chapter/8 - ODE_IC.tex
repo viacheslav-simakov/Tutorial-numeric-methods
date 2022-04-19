@@ -309,14 +309,7 @@ ${\vect{u}}(t_{j})$, рассчитанные по методу Эйлера
 % *** Алгоритм оценки погрешности метода Эйлера
 %
 \begin{figure}[H]\centering
-\begin{tikzpicture}[
-font=\small,%
-%start chain=going below,%
-%node distance=10mm,%
-%>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
-]
-% соединитель
-%\node[beginendnode,on chain,join]{начало};
+\begin{scheme}
 % начальное условие
 \node[IOnode,on chain,join]
 {$\vect{t}=\left\{0,t_1,t_2,\ldots,t_m\right\}$};
@@ -351,9 +344,7 @@ font=\small,%
 \epsilon_1(\vect{t}),\epsilon_2(\vect{t}),\ldots,\epsilon_n(\vect{t})
 \right\}$};
 \end{scope}
-% конец
-\node[beginendnode,on chain,join]{конец};
-\end{tikzpicture}
+\end{scheme}
 \caption{Блок-схема для вычисления погрешности метода Эйлера}
 \label{fig:ODE_IC:scheme error Euler}
 \end{figure}
