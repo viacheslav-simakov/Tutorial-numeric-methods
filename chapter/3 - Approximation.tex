@@ -160,6 +160,57 @@ $\rho_{\min}$.
 отличающаяся коэффициентами. 
 
 %
+% Алгоритм апроксимации функции обобщенным линейным полиномом
+%
+\begin{figure}[H]\centering
+\begin{scheme}
+% входные данные
+\node[IOnode,on chain,join]{$\{x_i\}, \{y_i\}, \{\phi_{\ell}(x)\}$};
+% начало цикла по строкам
+\node[rectnode,on chain,join](loop rows){$k=0$};
+% начало цикла по столбцам
+\node[rectnode,on chain,join](loop cols){$\ell=0$};
+% элемент матрицы
+\node[subnode,on chain,join](matrix){\nodepart{two}
+$a_{k\ell}=\sum\limits_{i=0}^{n}\phi_{k}(x_i)\cdot\phi_{\ell}(x_i)$};
+% j < n
+\node[ifthenelsenode,on chain,join](compare cols){$\ell < m$};
+\draw(compare cols.west) node[above left]{да};
+\draw(compare cols.south) node[below right]{нет};
+% j = j + 1
+\begin{scope}[start branch=a]
+\node[rectnode,on chain=going left,join](j){$\ell=\ell+1$};
+\end{scope}
+% правые части системы уравнений
+\node[subnode,on chain,join](b)
+{\nodepart{two}$b_{k}=\sum\limits_{i=0}^n \phi_k(x_i)\cdot y_i$};
+% i < n
+\node[ifthenelsenode,on chain,join](compare rows){$k < m$};
+\draw(compare rows.east) node[above right]{да};
+\draw(compare rows.south) node[below right]{нет};
+% k = k + 1
+\begin{scope}[start branch=b]
+\node[rectnode,on chain=going right,join](i){$k=k+1$};
+\end{scope}
+% решение системы линейных уравнений
+\node[subnode,on chain,join](solve)
+{\nodepart{two}$\mathbf{A}\cdot\vect{c}=\vect{y}$};
+% выходные данные = решение
+\begin{scope}[node distance=12mm]
+\node[IOnode,on chain,join]{$\{c_0,c_1,\ldots,c_n\}$};
+\end{scope}
+% связи
+\draw[->,thick] (j.north) |- (matrix.west);
+\draw[->,thick] (i.north) |- (loop cols.east);
+\end{scheme}
+\caption{Блок-схема алгоритма нахождения коэффициентов
+$\{c_i\}$\linebreak аппроксимирующего 
+обобщенного линейного полинома $p_m(x)$}
+\label{fig:APPROX:general scheme}
+\end{figure}
+
+
+%
 % Аппроксимирование функций алгебраическими полиномами
 %
 \emptyline
