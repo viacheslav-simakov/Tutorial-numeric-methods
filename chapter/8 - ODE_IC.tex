@@ -186,8 +186,7 @@ ymin=-0.25,ymax=3,ytick={0,1,2.08,2.59},yticklabels={$y(0)$,$y(t_1)$,$y(t_j)$,$y
 \begin{figure}[H]\centering
 \begin{scheme}
 % начальное условие
-\node[IOnode,on chain,join]
-{$\{t_j\}, \{u_i(0)\}$};
+\node[IOnode,on chain,join]{$\{t_j\}, \{u_i(0)\}, \{f_i(t,\{u_i(t)\})\}$};
 % начало цикла
 \node[rectnode,on chain,join]{$j=0$};
 % интервал времени
@@ -195,9 +194,12 @@ ymin=-0.25,ymax=3,ytick={0,1,2.08,2.59},yticklabels={$y(0)$,$y(t_1)$,$y(t_j)$,$y
 {$\Delta{t}_{j+1}=t_{j+1}-t_j$};
 % решение дифференциального уравнения
 \node[rectnode,on chain,join](i-loop){$i=0$};
+% правая часть системы уравнений
 \node[rectnode,on chain,join](euler)
-{$u_i(t_{j+1})=u_i(t_j)+
-\Delta t_{j+1}\cdot f_i\left(t_j, u_i(t_{j})\right)$};
+{$F_i=f_i\left(t_j, u_0(t_{j}), u_1(t_{j}), \ldots, u_n(t_{j})\right)$};
+% приращение функции
+\node[rectnode,on chain,join]
+{$u_i(t_{j+1})=u_i(t_j)+\Delta t_{j+1}\cdot F_i$};
 % конец цикла
 \node[ifthenelsenode,on chain,join](i-end){$i<n$};
 \draw(i-end.west) node[above left]{да};
@@ -215,10 +217,7 @@ ymin=-0.25,ymax=3,ytick={0,1,2.08,2.59},yticklabels={$y(0)$,$y(t_1)$,$y(t_j)$,$y
 \draw[->,thick](jloop.north) |- (loop.east);
 \end{scope}
 % решение
-\begin{scope}[node distance=12mm]
-\node[IOnode,on chain,join](output)
-{$\{u_i\left(\{t_j\}\right)\}$};
-\end{scope}
+\node[IOnode,on chain,join](output){$\{u_i\left(\{t_j\}\right)\}$};
 % связи
 \draw[->,thick](i++.north) |- (euler.west);
 \end{scheme}
@@ -311,14 +310,17 @@ ${\vect{u}}(t_{j})$, рассчитанные по методу Эйлера
 \begin{figure}[H]\centering
 \begin{scheme}
 % начальное условие
-\node[IOnode,on chain,join]
-{$\vect{t}=\left\{0,t_1,t_2,\ldots,t_m\right\}$};
-\node[IOnode,on chain,join]
-{$\vect{u}(\vect{t})=\left\{u_1(\vect{t}),u_2(\vect{t}),\ldots,u_n(\vect{t})\right\}$};
+\node[IOnode,on chain,join]{$\{t_j\}, \{u_i\left(\{t_j\}\right)\}$};
+%\node[IOnode,on chain,join]
+%{$\vect{t}=\left\{0,t_1,t_2,\ldots,t_m\right\}$};
+%\node[IOnode,on chain,join]
+%{$\vect{u}(\vect{t})=\left\{u_1(\vect{t}),u_2(\vect{t}),\ldots,u_n(\vect{t})\right\}$};
 % начало цикла
 \node[rectnode,on chain,join]{$j=0$};
 % интервал времени
 \node[rectnode,on chain,join](loop){$\Delta{t}_{j+1}=t_{j+1}-t_j$};
+% решение интегрального уравнения
+\node[rectnode,on chain,join](i-loop){$i=0$};
 % решение интегрального уравнения
 \node[rectnode,on chain,join]
 {$\vect{v}(t_{j+1})=\vect{v}(t_{j})+
@@ -326,10 +328,22 @@ ${\vect{u}}(t_{j})$, рассчитанные по методу Эйлера
 \vect{f}\left(t_{j+1},{\vect{u}}(t_{j+1})\right)+
 \vect{f}\left(t_{j},{\vect{u}}(t_{j})\right)
 }{2}\cdot\Delta t_{j+1}$};
-% погрешность
+% F1
 \node[rectnode,on chain,join]
-{$\vect{\epsilon}(t_j)=\vect{v}(t_j) - \vect{u}(t_j)$};
-% конец цикла
+{$F_i=f_i\left(t_j, u_0(t_{j}), u_1(t_{j}), \ldots, u_n(t_{j})\right)$};
+% F2
+\node[rectnode,on chain,join]
+{$F_{i+1}=f_i\left(t_j, u_0(t_{j}), u_1(t_{j}), \ldots, u_n(t_{j})\right)$};
+% погрешность
+\node[rectnode,on chain,join]{$\epsilon_i(t_j)=v_i(t_j) - u_i(t_j)$};
+% конец i-цикла
+\node[ifthenelsenode,on chain,join](i-end){$i<n$};
+\draw(i-end.west) node[above left]{да};
+\draw(i-end.south) node[below left]{нет};
+\begin{scope}[start branch=i,node distance=25mm]
+\node[rectnode,on chain=going left,join](i++){$i=i+1$};
+\end{scope}
+% конец j-цикла
 \node[ifthenelsenode,on chain,join](compare){$j<m$};
 \draw(compare.east) node[above right]{да};
 \draw(compare.south) node[below right]{нет};
