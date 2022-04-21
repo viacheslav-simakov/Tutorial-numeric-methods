@@ -330,10 +330,10 @@ ${\vect{u}}(t_{j})$, рассчитанные по методу Эйлера
 }{2}\cdot\Delta t_{j+1}$};
 % F1
 \node[rectnode,on chain,join]
-{$F_i=f_i\left(t_j, u_0(t_{j}), u_1(t_{j}), \ldots, u_n(t_{j})\right)$};
+{$F_j=f_i\left(t_j, u_0(t_{j}), u_1(t_{j}), \ldots, u_n(t_{j})\right)$};
 % F2
 \node[rectnode,on chain,join]
-{$F_{i+1}=f_i\left(t_j, u_0(t_{j}), u_1(t_{j}), \ldots, u_n(t_{j})\right)$};
+{$F_{j+1}=f_i\left(t_{j+1}, u_0(t_{j+1}), u_1(t_{j+1}), \ldots, u_n(t_{j+1})\right)$};
 % погрешность
 \node[rectnode,on chain,join]{$\epsilon_i(t_j)=v_i(t_j) - u_i(t_j)$};
 % конец i-цикла
