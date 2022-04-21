@@ -159,6 +159,73 @@ $\rho_{\min}$.
 получится другая аппроксимирующая функция, 
 отличающаяся коэффициентами. 
 
+
+%
+% Алгоритм апроксимации функции обобщенным линейным полиномом
+%
+\begin{figure}[H]\centering
+\begin{scheme}
+% входные данные
+\node[IOnode,on chain,join]{$\{x_i\}, \phi_{k}(x), \phi_{\ell}(x)$};
+% начальное значение элемента матрицы
+\node[rectnode,on chain,join]{$a_{k\ell}=0$};
+% начало цикла по узлам апроксимации
+\node[rectnode,on chain,join](i-loop){$i=0$};
+% элемент матрицы
+\node[rectnode,on chain,join](a)
+{$a_{k\ell}=a_{k\ell}+\phi_{k}(x_i)\cdot\phi_{\ell}(x_i)$};
+% i < n
+\node[ifthenelsenode,on chain,join](i-compare){$i < n$};
+\draw(i-compare.west) node[above left]{да};
+\draw(i-compare.south) node[below right]{нет};
+% i = i + 1
+\begin{scope}[start branch=a]
+\node[rectnode,on chain=going left,join](i){$i=i+1$};
+\end{scope}
+% выходные данные = решение
+\node[IOnode,on chain,join]{$a_{k\ell}$};
+% связи
+\draw[->,thick] (i.north) |- (a.west);
+\end{scheme}
+\caption{Блок-схема алгоритма нахождения элементов
+матрицы $\mathbf{A}$\linebreak
+$a_{k\ell}=\sum\limits_{i=0}^{n}\phi_{k}(x_i)\cdot\phi_{\ell}(x_i)$}
+\label{fig:scheme solve = a(k,l)}
+\end{figure}
+
+%
+% Алгоритм апроксимации функции обобщенным линейным полиномом
+%
+\begin{figure}[H]\centering
+\begin{scheme}
+% входные данные
+\node[IOnode,on chain,join]{$\{x_i\}, \{y_i\}, \phi_{k}(x)$};
+% начальное значение элемента матрицы
+\node[rectnode,on chain,join]{$b_{k}=0$};
+% начало цикла по узлам апроксимации
+\node[rectnode,on chain,join](i-loop){$i=0$};
+% элемент матрицы
+\node[rectnode,on chain,join](a)
+{$b_{k}=b_{k}+\phi_{k}(x_i)\cdot y_i$};
+% i < n
+\node[ifthenelsenode,on chain,join](i-compare){$i < n$};
+\draw(i-compare.west) node[above left]{да};
+\draw(i-compare.south) node[below right]{нет};
+% i = i + 1
+\begin{scope}[start branch=a]
+\node[rectnode,on chain=going left,join](i){$i=i+1$};
+\end{scope}
+% выходные данные = решение
+\node[IOnode,on chain,join]{$b_{k}$};
+% связи
+\draw[->,thick] (i.north) |- (a.west);
+\end{scheme}
+\caption{Блок-схема алгоритма нахождения 
+компонентов вектора правых частей системы уравнений 
+$b_{k}=\sum\limits_{i=0}^n \phi_k(x_i)\cdot y_i$}
+\label{fig:scheme solve = b(k)}
+\end{figure}
+
 %
 % Алгоритм апроксимации функции обобщенным линейным полиномом
 %
@@ -196,9 +263,7 @@ $a_{k\ell}=\sum\limits_{i=0}^{n}\phi_{k}(x_i)\cdot\phi_{\ell}(x_i)$};
 \node[subnode,on chain,join](solve)
 {\nodepart{two}$\mathbf{A}\cdot\vect{c}=\vect{y}$};
 % выходные данные = решение
-\begin{scope}[node distance=12mm]
 \node[IOnode,on chain,join]{$\{c_0,c_1,\ldots,c_n\}$};
-\end{scope}
 % связи
 \draw[->,thick] (j.north) |- (matrix.west);
 \draw[->,thick] (i.north) |- (loop cols.east);
