@@ -320,27 +320,30 @@ ${\vect{u}}(t_{j})$, рассчитанные по методу Эйлера
 % интервал времени
 \node[rectnode,on chain,join](loop){$\Delta{t}_{j+1}=t_{j+1}-t_j$};
 % решение интегрального уравнения
-\node[rectnode,on chain,join](i-loop){$i=0$};
+\node[rectnode,on chain,join]{$i=0$};
+% F
+\node[rectnode,on chain,join](i-loop){$
+F_j=f_i\left(t_j, \{u_i(t_{j})\}\right),\quad
+F_{j+1}=f_i\left(t_{j+1}, \{u_i(t_{j+1})\}\right)$};
+% F1
+%\node[rectnode,on chain,join,text width=10cm]{
+%$F_j=f_i\left(t_j, u_0(t_{j}), u_1(t_{j}), \ldots, u_n(t_{j})\right)$\\
+%$F_{j+1}=f_i\left(t_{j+1}, u_0(t_{j+1}), u_1(t_{j+1}), \ldots, u_n(t_{j+1})\right)$
+%};
+%% F2
+%\node[rectnode,on chain,join]
+%{$F_{j+1}=f_i\left(t_{j+1}, u_0(t_{j+1}), u_1(t_{j+1}), \ldots, u_n(t_{j+1})\right)$};
 % решение интегрального уравнения
 \node[rectnode,on chain,join]
-{$\vect{v}(t_{j+1})=\vect{v}(t_{j})+
-\dfrac{
-\vect{f}\left(t_{j+1},{\vect{u}}(t_{j+1})\right)+
-\vect{f}\left(t_{j},{\vect{u}}(t_{j})\right)
-}{2}\cdot\Delta t_{j+1}$};
-% F1
-\node[rectnode,on chain,join]
-{$F_j=f_i\left(t_j, u_0(t_{j}), u_1(t_{j}), \ldots, u_n(t_{j})\right)$};
-% F2
-\node[rectnode,on chain,join]
-{$F_{j+1}=f_i\left(t_{j+1}, u_0(t_{j+1}), u_1(t_{j+1}), \ldots, u_n(t_{j+1})\right)$};
+{$v_i(t_{j+1})=v_i(t_{j})+
+\dfrac{F_{j+1} + F_{j}}{2}\cdot\Delta t_{j+1}$};
 % погрешность
 \node[rectnode,on chain,join]{$\epsilon_i(t_j)=v_i(t_j) - u_i(t_j)$};
 % конец i-цикла
 \node[ifthenelsenode,on chain,join](i-end){$i<n$};
 \draw(i-end.west) node[above left]{да};
-\draw(i-end.south) node[below left]{нет};
-\begin{scope}[start branch=i,node distance=25mm]
+\draw(i-end.south) node[below right]{нет};
+\begin{scope}[start branch=i,node distance=40mm]
 \node[rectnode,on chain=going left,join](i++){$i=i+1$};
 \end{scope}
 % конец j-цикла
@@ -348,16 +351,14 @@ ${\vect{u}}(t_{j})$, рассчитанные по методу Эйлера
 \draw(compare.east) node[above right]{да};
 \draw(compare.south) node[below right]{нет};
 \begin{scope}[start branch=b,node distance=40mm]
-\node[rectnode,on chain,join](increment){$j=j+1$};
-\draw[->,thick] (increment.north) |- (loop.east);
+\node[rectnode,on chain,join](j++){$j=j+1$};
 \end{scope}
 % решение
-\begin{scope}[node distance=15mm]
 \node[IOnode,on chain,join]
-{$\vect{\epsilon}(\vect{t})=\left\{
-\epsilon_1(\vect{t}),\epsilon_2(\vect{t}),\ldots,\epsilon_n(\vect{t})
-\right\}$};
-\end{scope}
+{$\{\epsilon_i\left(\{t_j\}\right)\}$};
+% связи
+\draw[->,thick] (i++.north) |- (i-loop.west);
+\draw[->,thick] (j++.north) |- (loop.east);
 \end{scheme}
 \caption{Блок-схема для вычисления погрешности метода Эйлера}
 \label{fig:ODE_IC:scheme error Euler}
