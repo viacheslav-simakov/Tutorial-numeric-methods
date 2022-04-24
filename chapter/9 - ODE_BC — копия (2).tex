@@ -1,3 +1,53 @@
+% Декорация линий
+%\tikzset{
+%	% декорация линий
+%	curve line/.style={
+%		decoration={
+%			snake,
+%			amplitude=1.5mm,%0.75mm,
+%			segment length=7.5mm,
+%			post length=0mm,
+%			pre length=0mm,
+%		},
+%	},
+%	pointnode/.style={
+%		join=by -,
+%		circle,
+%		fill=red,
+%		minimum size=3pt,
+%		inner sep=0pt,
+%	},
+%	circlenode/.style={
+%		draw,thick,fill=blue!10,line width=0.25mm,
+%		shape=circle,
+%		inner sep=4pt,
+%	},
+%	rectnode/.style={
+%		draw,line width=0.25mm,
+%		shape=rectangle,
+%%		rounded corners=2pt, 
+%		inner sep=8pt,
+%	},
+%	startcyclenode/.style={
+%		draw,text width=4cm,align=center,line width=0.25mm,
+%		shape=chamfered rectangle,
+%		chamfered rectangle corners={north west,north east},
+%		minimum height=3em,minimum width=5cm,
+%	},
+%	endcyclenode/.style={
+%		draw,text width=4cm,align=center,line width=0.25mm,
+%		shape=chamfered rectangle,
+%		chamfered rectangle corners={south west,south east},
+%		minimum height=3em,minimum width=5cm,
+%	},
+%	signalnode/.style={
+%		draw,line width=0.25mm,
+%		shape=chamfered rectangle,
+%		chamfered rectangle angle=45,
+%		chamfered rectangle xsep=1cm,
+%		inner sep=8pt,
+%	},
+%}
 %
 % Интегралы
 %
@@ -728,11 +778,16 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 \quad i=0,1,\ldots,n,
 \end{equation*}
 
-%
-% Алгоритм равномерной сетки {xi}
-%
+% *** Алгоритм равномерной сетки {xi}***
 \begin{figure}[H]\centering
-\begin{scheme}
+\begin{tikzpicture}[
+font=\small,%
+%start chain=going below,%
+%node distance=10mm,%
+%>={Straight Barb[angle=45:1.5mm 1]},%
+]
+% старт
+\node[beginendnode,on chain,join]{начало};
 % входные данные
 \node[IOnode,on chain,join]{$\ell, n$};
 % начало цикла
@@ -745,13 +800,17 @@ node[midway,sloped,below,color=darkgreen]{разрыв};
 \draw(if.east) node[above right]{да};
 \draw(if.south) node[below right]{нет};
 % инкремент
-\begin{scope}[start branch=b]
+\begin{scope}[start branch=b,node distance=15mm]
 \node[rectnode,on chain,join](increment){$i=i+1$};
 \draw[->,thick] (increment.north) |- (loop.east);
 \end{scope}
 % выходные данные
+\begin{scope}[node distance=15mm]
 \node[IOnode,on chain,join]{$\{x_i\}$};
-\end{scheme}
+\end{scope}
+% стоп
+\node[beginendnode,on chain,join]{конец};
+\end{tikzpicture}
 \caption{Блок-схема алгоритма построения
 равномерной расчетной сетки $\{x_i\}=(0,x_1,x_2,\ldots,x_{n-1},\ell)$ 
 с заданным количеством интервалов $n$}
@@ -1603,7 +1662,14 @@ c_0&-b_0&0\\
 %% lambda, sigma, varepsilon
 %% системы линейных уравнений
 \begin{figure}[H]\centering
-\begin{scheme}
+\begin{tikzpicture}[
+font=\small,%
+%start chain=going below,%
+%node distance=10mm,%
+%>={Straight Barb[angle=45:1.5mm 1]},%
+]
+% начало
+\node[beginendnode,on chain,join]{начало};
 % входные данные
 \node[IOnode,on chain,join]
 {$\{x_i\},\{k_i\},\{r_i\},\{q_i\}$};
@@ -1647,7 +1713,9 @@ $};
 % выходные данные
 \node[IOnode,on chain,join]
 {$\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\}$};
-\end{scheme}
+% конец
+\node[beginendnode,on chain,join]{конец};
+\end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений\linebreak
 коэффициентов разностной схемы 
 $\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\}$}
@@ -1658,7 +1726,14 @@ $\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\}$}
 %% a, c, b, y
 %% системы линейных уравнений
 \begin{figure}[H]\centering
-\begin{scheme}
+\begin{tikzpicture}[
+font=\small,%
+%start chain=going below,%
+%node distance=10mm,%
+%>={Straight Barb[angle=45:1.5mm 1]},%
+]
+% старт
+\node[beginendnode,on chain,join]{начало};
 % входные данные
 \node[IOnode,on chain,join]
 {$\{\lambda_i\},\{\sigma_i\},\{\varepsilon_i\},\{p_0,s_0\},\{p_{\ell},s_{\ell}\}$};
@@ -1684,7 +1759,7 @@ $};
 \draw(if.east) node[above right]{да};
 \draw(if.south) node[below right]{нет};
 % инкремент
-\begin{scope}[start branch=b,node distance=25mm]
+\begin{scope}[start branch=b,node distance=28mm]
 \node[rectnode,on chain=going right,join](increment){$i=i+1$};
 \draw[->,thick] (increment.north) |- (loop.east);
 \end{scope}
@@ -1695,8 +1770,11 @@ c_n=a_n+\sigma_n+p_{\ell}$};
 %
 \node[rectnode,on chain,join]{$y_n=\varepsilon_n+s_{\ell}$};
 % выходные данные
-\node[IOnode,on chain,join]{$\{a_i\},\{b_i\},\{c_i\},\{y_i\}$};
-\end{scheme}
+\node[IOnode,on chain,join]
+{$\{a_i\},\{b_i\},\{c_i\},\{y_i\}$};
+% стоп
+\node[beginendnode,on chain,join]{конец};
+\end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений\linebreak
 коэффициентов $\{a_i\},\{b_i\},\{c_i\}$ и $\{y_i\}$
 системы линейных уравнений}
@@ -1928,11 +2006,16 @@ $\{\lambda_i\}$, $\{\sigma_i\}$, $\{\varepsilon_i\}$
 
 \end{enumerate}
 
-%
 % *** Алгоритм вычислений коэффициентов прогонки alpha и beta ***
 % https://tex.stackexchange.com/questions/370704/drawing-a-scheme
 \begin{figure}[H]\centering
-\begin{scheme}
+\begin{tikzpicture}[
+font=\small,
+%start chain=going below,node distance=10mm,
+%>={Straight Barb[angle=45:1.5mm 1]},shorten >=0.5pt,%
+]
+% старт
+\node[beginendnode,on chain,join]{начало};
 % входные данные
 \node[IOnode,on chain,join]{$\{a_i\},\{b_i\},\{c_i\},\{y_i\}$};
 % alpha[1], beta[1]
@@ -1953,13 +2036,15 @@ $};
 \draw(if.east) node[above right]{да};
 \draw(if.south) node[below right]{нет};
 % инкремент
-\begin{scope}[start branch=b,node distance=25mm]
+\begin{scope}[start branch=b,node distance=28mm]
 \node[rectnode,on chain=going right,join](increment){$i=i+1$};
 \draw[->,thick] (increment.north) |- (loop.east);
 \end{scope}
 % выходные данные
 \node[IOnode,on chain,join]{$\{\alpha_i\}, \{\beta_i\}$};
-\end{scheme}
+% стоп
+\node[beginendnode,on chain,join]{конец};
+\end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений\linebreak 
 коэффициентов прогонки 
 $\{\alpha_1,\alpha_2,\ldots,\alpha_n\}$ и
@@ -1971,7 +2056,14 @@ $\{\beta_1,\beta_2,\ldots,\beta_n\}$}
 % *** Алгоритм вычислений значений целевой функции u[i]***
 %
 \begin{figure}[H]\centering
-\begin{scheme}
+\begin{tikzpicture}[
+font=\small,%
+%start chain=going below,%
+%node distance=10mm,%
+%>={Straight Barb[angle=45:1.5mm 1]},%
+]
+% старт
+\node[beginendnode,on chain,join]{начало};
 % входные данные
 \node[IOnode,on chain,join]{%
 $\{a_n,b_n,c_n,y_n\},\{\alpha_i\},\{\beta_i\},$};%\allowbreak
@@ -1996,7 +2088,9 @@ u_i=\alpha_{i+1}\cdot u_{i+1} + \beta_{i+1}$};
 % выходные данные
 \node[IOnode,on chain,join]
 {$\{u_i\}$};
-\end{scheme}
+% стоп
+\node[beginendnode,on chain,join]{конец};
+\end{tikzpicture}
 \caption{Блок-схема алгоритма вычислений
 значений неизвестной функции 
 $\{u_0,u_1,\ldots,u_n\}$ в узлах расчетной сетки
@@ -2008,7 +2102,14 @@ $\{x_0,x_1,\ldots,x_n\}$}
 % *** Алгоритм вычисления потока w[i]***
 %
 \begin{figure}[H]\centering
-\begin{scheme}
+\begin{tikzpicture}[
+font=\small,%
+%start chain=going below,%
+%node distance=10mm,%10mm
+%>={Straight Barb[angle=45:1.5mm 1]},%
+]
+% старт
+\node[beginendnode,on chain,join]{начало};
 % входные данные
 \node[IOnode,on chain,join]{%
 $\{s_0,p_0\},\{\sigma_i\},\{\varepsilon_i\},\{u_i\},$};
@@ -2032,7 +2133,7 @@ w_{i+1/2}=w_{i-1/2} - \sigma_i\cdot u_i + \varepsilon_i$};
 \draw(if.east) node[above right]{да};
 \draw(if.south) node[below right]{нет};
 % инкремент
-\begin{scope}[start branch=b,node distance=20mm]
+\begin{scope}[start branch=b,node distance=21mm]
 \node[rectnode,on chain=going right,join](increment){$i=i+1$};
 \draw[->,thick] (increment.north) |- (loop.east);
 \end{scope}
@@ -2041,7 +2142,9 @@ w_{i+1/2}=w_{i-1/2} - \sigma_i\cdot u_i + \varepsilon_i$};
 w_n=w_{n-1/2}-\sigma_n\cdot u_n + \varepsilon_n$};
 % выходные данные
 \node[IOnode,on chain,join]{$\{w_0,w_{i+1/2},w_n\}$};
-\end{scheme}
+% стоп
+\node[beginendnode,on chain,join]{конец};
+\end{tikzpicture}
 \caption{Блок-схема вычислений потока неизвестной функции
 $\{w_0,w_{1/2},w_{3/2},\ldots,w_{n-1/2},w_n\}$ 
 в промежуточных узлах 
